@@ -12,10 +12,7 @@ public class ArchetypeMove : MonoBehaviour
 
 	public bool moveEnabled = true;
 
-	public float MoveSpeed {
-		get { return _MoveSpeed; }
-		set { _MoveSpeed = value; }
-	}
+	public float moveSpeed;
 
 	[HideInInspector]
 	public int _spawnTypeIndex = 0;
@@ -32,9 +29,6 @@ public class ArchetypeMove : MonoBehaviour
 	[HideInInspector]
 	public float currentPathPercent = 0.0f; //min 0, max 1
 
-//	[HideInInspector]
-	public float _MoveSpeed;
-	
 	[Range(0, 10f)]
 	public float localMoveDuration = 1f;
 	
@@ -54,23 +48,32 @@ public class ArchetypeMove : MonoBehaviour
 	public void OnDrawGizmosSelected()
 	{
 
-		Waypoint[] waypointChildren = gameObject.GetComponentsInChildren<Waypoint>();
+		List<Transform> waypointChildren = new List<Transform>();
 
-		if(waypointChildren.Length > 0)
+		foreach(Transform t in transform)
 		{
+			if(t.tag == "Waypoint")
+				waypointChildren.Add(t);
+			
+		}
+		
+		if(waypointChildren.Count > 0)
+		{
+			
 			if(Selection.activeGameObject == gameObject)
 				Gizmos.color = Color.yellow;
 			else
 				Gizmos.color = Color.cyan;
 			
 			Gizmos.DrawLine(transform.position, waypointChildren[0].transform.position);
+			
 		}
 			
-		if(waypointChildren.Length > 1)
+		if(waypointChildren.Count > 1)
 		{
-			for(int i = 0; i < waypointChildren.Length; i++)
+			for(int i = 0; i < waypointChildren.Count; i++)
 			{
-				if(waypointChildren.Length - 1 > i)
+				if(waypointChildren.Count - 1 > i)
 				{
 					if(Selection.activeGameObject == waypointChildren[i].gameObject)
 						Gizmos.color = Color.yellow;
@@ -96,16 +99,16 @@ public class ArchetypeMove : MonoBehaviour
 		waypoint.name = "Waypoint_" + waypointChildren.Length;
 
 		if(waypointChildren.Length > 1)
-			waypoint.transform.position = waypointChildren[waypointChildren.Length-2].transform.position;
-
+			waypoint.transform.position = waypointChildren[waypointChildren.Length - 2].transform.position;
+		else
+			waypoint.transform.position = transform.position;
+		
 		Selection.activeGameObject = waypoint;
 
 	}
 
-	public void Awake()
+	public void SetupWaypoints()
 	{
-
-		if(!moveEnabled) return;
 
 		waypoints = new List<Vector3>();
 
@@ -119,6 +122,16 @@ public class ArchetypeMove : MonoBehaviour
 
 		if(waypoints.Count > 0)
 			iTween.MoveTo(gameObject, iTween.Hash("path", waypoints.ToArray(), "islocal", true, "time", localMoveDuration, "looptype", iTween.LoopType.pingPong, "easetype", iTween.EaseType.linear));
+
+	}
+
+	public void Awake()
+	{
+			
+		if(!moveEnabled) return;
+		
+		if(GetType().Name != "ArchetypeSpawner")
+			SetupWaypoints();
 	
 	}
 	
@@ -131,24 +144,19 @@ public class ArchetypeMove : MonoBehaviour
 	// Update is called once per frame
 	public void Update () {
 
-		if(!moveEnabled || waypoints.Count > 0)
-			return;
-
-		if(_MoveSpeed == 0)
+		if(!moveEnabled || moveSpeed == 0)
 			return;
 		
-		float speed = _MoveSpeed;
-
 		Vector3 target = transform.position;
 		
 		if(movementDir == "up")
-			target.y += speed;
+			target.y += moveSpeed;
 		else if(movementDir == "right")
-			target.x += speed;
+			target.x += moveSpeed;
 		else if(movementDir == "left")
-			target.x -= speed;
+			target.x -= moveSpeed;
 		else
-			target.y -= speed;
+			target.y -= moveSpeed;
 
 		transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime);
 		

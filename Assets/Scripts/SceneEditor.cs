@@ -18,6 +18,7 @@ public class SceneEditor : MonoBehaviour {
 	
 	void OnDrawGizmos()
 	{
+		if(Application.isPlaying) return;
 		
 		Transform[] transforms = GameObject.FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).OrderBy(t => t.position.y).ToArray();
 		

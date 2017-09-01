@@ -43,6 +43,8 @@ public class WaypointGUI : Editor
 			Vector3.zero, 
 			Handles.CylinderHandleCap);
 		
+		Undo.RecordObject(_waypoint.transform, "Waypoint Position");
+		
 	}
     
 }

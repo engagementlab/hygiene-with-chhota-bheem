@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(ArchetypeMove), true)]
@@ -38,8 +39,14 @@ public class ArchetypeMoveGUI : Editor
 	
 	public virtual void OnSceneGUI()
 	{
-	
-		Waypoint[] waypointChildren = ((ArchetypeMove)target).GetComponentsInChildren<Waypoint>();
+		
+		List<Transform> waypointChildren = new List<Transform>();
+
+		foreach(Transform t in ((ArchetypeMove)target).transform)
+		{
+			if(t.tag == "Waypoint")
+				waypointChildren.Add(t);
+		}
 
 		Handles.color = Color.cyan;
 		foreach(var waypoint in waypointChildren)
@@ -49,6 +56,8 @@ public class ArchetypeMoveGUI : Editor
 				0.1f,
 				Vector3.zero, 
 				Handles.CylinderHandleCap);
+		
+			Undo.RecordObject(waypoint.transform, "Waypoint Position");
 		}
 
 	}
