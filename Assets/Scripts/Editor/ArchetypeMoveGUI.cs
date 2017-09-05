@@ -24,10 +24,10 @@ public class ArchetypeMoveGUI : Editor
     
 		GUILayout.Label ("Movement Direction:");
 
-		_archetype._direction = EditorGUILayout.Popup(_archetype._direction, movementDirections);
+		_archetype.Direction = EditorGUILayout.Popup(_archetype.Direction, movementDirections);
     
 		// Update the selected choice in the underlying object
-		_archetype.movementDir = movementDirections[_archetype._direction].ToLower();
+		_archetype.MovementDir = movementDirections[_archetype.Direction].ToLower();
 		
 		if(GUILayout.Button("Add Waypoint"))
 			_archetype.AddWaypoint();
@@ -53,7 +53,7 @@ public class ArchetypeMoveGUI : Editor
 		{
 			waypoint.transform.position = Handles.FreeMoveHandle(waypoint.transform.position,
 				Quaternion.identity,
-				0.1f,
+				0.2f,
 				Vector3.zero, 
 				Handles.CylinderHandleCap);
 		

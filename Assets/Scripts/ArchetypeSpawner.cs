@@ -19,7 +19,7 @@ public class ArchetypeSpawner : ArchetypeMove
 	// Update is called once per frame
 	void Update () {
 		
-		if(!moveEnabled || !wait)
+		if(!MoveEnabled || !wait)
 			return;
 		
 		if(mainCamera.WorldToViewportPoint(transform.position).y < 1) {
