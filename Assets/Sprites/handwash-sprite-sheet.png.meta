@@ -1,0 +1,860 @@
+fileFormatVersion: 2
+guid: 909f49b028eaf42d386ebf5a26ce39c7
+timeCreated: 1504714754
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: handwash-sprite-sheet_0
+    21300002: handwash-sprite-sheet_1
+    21300004: handwash-sprite-sheet_2
+    21300006: handwash-sprite-sheet_3
+    21300008: handwash-sprite-sheet_4
+    21300010: handwash-sprite-sheet_5
+    21300012: handwash-sprite-sheet_6
+    21300014: handwash-sprite-sheet_7
+    21300016: handwash-sprite-sheet_8
+    21300018: handwash-sprite-sheet_9
+    21300020: handwash-sprite-sheet_10
+    21300022: handwash-sprite-sheet_11
+    21300024: handwash-sprite-sheet_12
+    21300026: handwash-sprite-sheet_13
+    21300028: handwash-sprite-sheet_14
+    21300030: handwash-sprite-sheet_15
+    21300032: handwash-sprite-sheet_16
+    21300034: handwash-sprite-sheet_17
+    21300036: handwash-sprite-sheet_18
+    21300038: handwash-sprite-sheet_19
+    21300040: handwash-sprite-sheet_20
+    21300042: handwash-sprite-sheet_21
+    21300044: handwash-sprite-sheet_22
+    21300046: handwash-sprite-sheet_23
+    21300048: handwash-sprite-sheet_24
+    21300050: handwash-sprite-sheet_25
+    21300052: handwash-sprite-sheet_26
+    21300054: handwash-sprite-sheet_27
+    21300056: handwash-sprite-sheet_28
+    21300058: handwash-sprite-sheet_29
+    21300060: handwash-sprite-sheet_30
+    21300062: handwash-sprite-sheet_31
+    21300064: handwash-sprite-sheet_32
+    21300066: handwash-sprite-sheet_33
+    21300068: handwash-sprite-sheet_34
+    21300070: handwash-sprite-sheet_35
+    21300072: handwash-sprite-sheet_36
+    21300074: handwash-sprite-sheet_37
+    21300076: handwash-sprite-sheet_38
+    21300078: handwash-sprite-sheet_39
+    21300080: handwash-sprite-sheet_40
+    21300082: handwash-sprite-sheet_41
+    21300084: handwash-sprite-sheet_42
+    21300086: handwash-sprite-sheet_43
+    21300088: handwash-sprite-sheet_44
+    21300090: handwash-sprite-sheet_45
+    21300092: handwash-sprite-sheet_46
+    21300094: handwash-sprite-sheet_47
+    21300096: handwash-sprite-sheet_48
+    21300098: handwash-sprite-sheet_49
+    21300100: handwash-sprite-sheet_50
+    21300102: handwash-sprite-sheet_51
+    21300104: handwash-sprite-sheet_52
+    21300106: handwash-sprite-sheet_53
+    21300108: handwash-sprite-sheet_54
+    21300110: handwash-sprite-sheet_55
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 795
+        width: 88
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 794
+        width: 90
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 794
+        width: 91
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 793
+        width: 93
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 793
+        width: 94
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 793
+        width: 93
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 793
+        width: 94
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 793
+        width: 92
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_8
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 663
+        width: 89
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_9
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 664
+        width: 86
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_10
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 665
+        width: 86
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_11
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 666
+        width: 88
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_12
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 667
+        width: 88
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_13
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 667
+        width: 88
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_14
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 667
+        width: 85
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_15
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 667
+        width: 84
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_16
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 536
+        width: 84
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_17
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 536
+        width: 84
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_18
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 536
+        width: 84
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_19
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 535
+        width: 85
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_20
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 534
+        width: 85
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_21
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 533
+        width: 85
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_22
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 533
+        width: 86
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_23
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 532
+        width: 89
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_24
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 401
+        width: 90
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_25
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 401
+        width: 89
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_26
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 401
+        width: 90
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_27
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 401
+        width: 89
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_28
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 402
+        width: 87
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_29
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 404
+        width: 86
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_30
+      rect:
+        serializedVersion: 2
+        x: 817
+        y: 405
+        width: 86
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_31
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 405
+        width: 85
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_32
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 274
+        width: 85
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_33
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 274
+        width: 86
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_34
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 274
+        width: 87
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_35
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 274
+        width: 88
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_36
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 274
+        width: 88
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_37
+      rect:
+        serializedVersion: 2
+        x: 678
+        y: 274
+        width: 92
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_38
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 274
+        width: 92
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_39
+      rect:
+        serializedVersion: 2
+        x: 940
+        y: 274
+        width: 92
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_40
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 142
+        width: 89
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_41
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 142
+        width: 89
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_42
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 142
+        width: 89
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_43
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 142
+        width: 87
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_44
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 143
+        width: 86
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_45
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 143
+        width: 85
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_46
+      rect:
+        serializedVersion: 2
+        x: 817
+        y: 143
+        width: 84
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_47
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 142
+        width: 84
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_48
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 11
+        width: 84
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_49
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 11
+        width: 84
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_50
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 10
+        width: 88
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_51
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 10
+        width: 88
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_52
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 9
+        width: 88
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_53
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 9
+        width: 86
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_54
+      rect:
+        serializedVersion: 2
+        x: 822
+        y: 8
+        width: 86
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: handwash-sprite-sheet_55
+      rect:
+        serializedVersion: 2
+        x: 953
+        y: 8
+        width: 86
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
