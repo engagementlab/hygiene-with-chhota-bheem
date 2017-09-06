@@ -32,6 +32,8 @@ public class WaypointGUI : Editor
 
 	public virtual void OnSceneGUI()
 	{
+		
+		if(Application.isPlaying) return;
 	
 		Waypoint _waypoint= (Waypoint)target;	
 		

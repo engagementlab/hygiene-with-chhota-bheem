@@ -7,11 +7,11 @@ public class Waypoint : MonoBehaviour {
 
 	public void AddWaypoint()
 	{
-		
 		ArchetypeMove parent = transform.parent.GetComponent<ArchetypeMove>();
 		
 		if(parent != null)
 			parent.AddWaypoint();
+		
 	}
 
 #if UNITY_EDITOR

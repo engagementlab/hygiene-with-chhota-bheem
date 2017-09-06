@@ -5,8 +5,7 @@ using UnityEditor;
 [CustomEditor(typeof(ArchetypeMove), true)]
 public class ArchetypeMoveGUI : Editor
 {
-	
-	string[] movementDirections = new string[]
+	private readonly string[] _movementDirections = new string[]
 	{
 		"Down",
 		"Up",
@@ -16,22 +15,38 @@ public class ArchetypeMoveGUI : Editor
 
 	public override void OnInspectorGUI()
 	{
+		if(Application.isPlaying) return;
   
-		ArchetypeMove _archetype = (ArchetypeMove)target;
+		var _archetype = (ArchetypeMove)target;
     
 		// Draw the default inspector
 		DrawDefaultInspector();
-    
-		GUILayout.Label ("Movement Direction:");
 
-		_archetype.Direction = EditorGUILayout.Popup(_archetype.Direction, movementDirections);
-    
-		// Update the selected choice in the underlying object
-		_archetype.MovementDir = movementDirections[_archetype.Direction].ToLower();
+		if(_archetype.transform.parent != null)
+			_archetype.UseParentSpeed = EditorGUILayout.Toggle("Use Parent's Speed", _archetype.UseParentSpeed);
 		
-		if(GUILayout.Button("Add Waypoint"))
-			_archetype.AddWaypoint();
+		if(!_archetype.UseParentSpeed)
+			_archetype.MoveSpeed = EditorGUILayout.Slider("Movement Speed", _archetype.MoveSpeed, 1, 10);
+
+		if(_archetype.HasWaypoints() && _archetype.transform.parent != null)
+			EditorGUILayout.HelpBox("Archetypes with parent and waypoints inherit movement direction of parent.", MessageType.Info);
+		else
+		{
     
+			GUILayout.Label ("Movement Direction:");
+	
+			_archetype.Direction = EditorGUILayout.Popup(_archetype.Direction, _movementDirections);
+			
+			// Update the selected choice in the underlying object
+			_archetype.MovementDir = _movementDirections[_archetype.Direction].ToLower();
+			
+		}
+
+		if(GUILayout.Button("Add Waypoint"))
+		{
+			_archetype.AddWaypoint();
+		}
+
 		// Save the changes back to the object
 		EditorUtility.SetDirty(target);
 
@@ -40,7 +55,9 @@ public class ArchetypeMoveGUI : Editor
 	public virtual void OnSceneGUI()
 	{
 		
-		List<Transform> waypointChildren = new List<Transform>();
+		if(Application.isPlaying) return;
+		
+		var waypointChildren = new List<Transform>();
 
 		foreach(Transform t in ((ArchetypeMove)target).transform)
 		{
