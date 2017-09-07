@@ -23,7 +23,6 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	public bool inBossBattle;
 	public bool hasBubbles;
-	public bool shootingMode;
 	public bool shootingStaticMode;
 	
   GameObject lastBubble;
@@ -40,7 +39,8 @@ public class ArchetypePlayer : MonoBehaviour {
   bool moveLeft = false;
   bool moveRight = false;
   bool moveDelta = false;
-	private bool wonGame;
+
+	public bool wonGame;
 
 	Vector3 velocity = Vector3.zero;
   Vector3 deltaMovement;
@@ -89,17 +89,13 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	void BubbleHitEvent(HitEvent e) {
 
+		Debug.Log(e);
+
 		if(e.eventType == HitEvent.Type.Spawn) {
 			SpawnHit(e.collider, e.bubble);
 		} else {
 
 			currentBubbles.Remove(e.bubble);
-  		// currentBubbleConfigs.Remove(e.bubble.GetComponent<ArchetypeBubble>());
-
-			// for(int i = 0; i < currentBubbleConfigs.Count; i++) {
-			// 	Transform target = (i > 0) ? currentBubbles[i-1].transform : transform;
-			// 	currentBubbleConfigs[i].target = target;
-			// }
 
 			Destroy(e.bubble);
 
@@ -112,8 +108,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	  	if(collider.gameObject.GetComponent<VillagerObject>() != null)
 	  		return;
 
-	  	if(collider.gameObject.GetComponent<ArchetypeSpawner>() != null &&
-	  		 collider.gameObject.GetComponent<ArchetypeSpawner>().isEnemy) {
+	  	if(collider.gameObject.GetComponent<ArchetypeSpawner>() != null) {
 
 	  		if(currentBubbles.Count == 0 && !wonGame) {
 	  			gameObject.SetActive(false);
@@ -153,16 +148,10 @@ public class ArchetypePlayer : MonoBehaviour {
 				}
 				else {
 
-					if(currentBubbles.Count > 3 || shootingMode) {
+					if(currentBubbles.Count > 3) {
 						
 						List<GameObject> bubblesRemove;
-						
-						if(!shootingMode) {
-				  		int indBubble = currentBubbles.IndexOf(bubble.gameObject);
-				  		bubblesRemove = currentBubbles.GetRange(currentBubbles.Count-4, 4);
-			  		}
-			  		else
-			  			bubblesRemove = new List<GameObject>(new GameObject[] {bubble.gameObject});
+		  			bubblesRemove = new List<GameObject>(new GameObject[] {bubble.gameObject});
 
 				  	foreach(GameObject thisBubble in bubblesRemove) {
 				  		currentBubbles.Remove(thisBubble);
@@ -302,15 +291,9 @@ public class ArchetypePlayer : MonoBehaviour {
 
   	Vector3 targetPosition;
 
-  	if(shootingMode) {
-  		if(shootingStaticMode) return;
-
 	  	targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, Camera.main.nearClipPlane);
 			transform.position = ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime));
-		}
-  	else
-	  	targetPosition = transform.TransformPoint(new Vector3((moveLeft ? -movementSpeed : movementSpeed), 0, 0));
-
+		
 		if(moveLeft || moveRight) {
 			transform.position = ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime));
 			deltaMovement = transform.position;
@@ -347,9 +330,6 @@ public class ArchetypePlayer : MonoBehaviour {
   }
 
 	void OnMouseDrag() {
-  	
-		if(shootingMode)
-			return;
 
 		Vector3 cursorPoint = new Vector3(Input.mousePosition.x, freeMovement ? Input.mousePosition.y - 50 : 250, 0);
 		Vector3 cursorPosition = mainCamera.ScreenToWorldPoint(cursorPoint);
@@ -361,41 +341,24 @@ public class ArchetypePlayer : MonoBehaviour {
 	void OnTriggerEnter(Collider collider)
   {
 
-	  if (shootingMode)
-	  {
-		  bool die = (collider.gameObject.GetComponent<ArchetypeSpawner>() != null && collider.gameObject.GetComponent<ArchetypeSpawner>().isFly)
-		             || collider.tag == "Poop";
-		  if (die && !wonGame)
-		  {
-				  gameObject.SetActive(false);
-				  gameOverText.SetActive(true); 
-		  }
-	  }
-
-	  if(collider.gameObject.tag == "PowerUp") {
-
-	  	GameConfig.numBubblesInterval -= GameConfig.numBubblesSpeedGained;
-	  	Destroy(collider.gameObject);
 	  
-	  	return;
-	  }
 
-	  if(collider.gameObject.tag == "Spawner" && hasBubbles) {
-	  	bossSpawnDelta = 0;
+	  // if(collider.gameObject.tag == "Spawner" && hasBubbles) {
+	  // 	bossSpawnDelta = 0;
 
-			for(int i = 0; i < GameConfig.numBubblesGained; i++)
-				AddBubble();
+			// for(int i = 0; i < GameConfig.numBubblesGained; i++)
+			// 	AddBubble();
 
-	  	return;
-	  }
+	  // 	return;
+	  // }
 
-  	if(collider.gameObject.tag != "Spawn" || collider.gameObject.tag != "Wizards")
-  		return;
+  	// if(collider.gameObject.tag != "Spawn" || collider.gameObject.tag != "Wizards")
+  	// 	return;
 
-  	if(currentBubbles.Count > 0)
-	  	SpawnHit(collider, currentBubbles[currentBubbles.Count-1]);
-  	else
-	  	SpawnHit(collider);
+  	// if(currentBubbles.Count > 0)
+	  // 	SpawnHit(collider, currentBubbles[currentBubbles.Count-1]);
+  	// else
+	  // 	SpawnHit(collider);
 
   }
 

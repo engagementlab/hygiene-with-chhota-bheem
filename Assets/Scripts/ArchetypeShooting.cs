@@ -91,8 +91,7 @@ public class ArchetypeShooting : MonoBehaviour {
   {
 
 	  if(other.gameObject.tag == "Spawner") {
-	  	if(meterImage.fillAmount < 1)
-	  		reloading = true;
+	  	
 	  }
 
   }

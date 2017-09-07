@@ -11,8 +11,8 @@ public class VillagerObject : ArchetypeSpawner {
 	public RawImage healthBg;
 	public RawImage healthFill;
 
-	int placeholderIndex = 0;
-	float health = 2;
+	public int placeholderIndex = 0;
+	public float health = 2;
 
 	Vector3[] movements = new Vector3[4];
 
@@ -56,7 +56,6 @@ public class VillagerObject : ArchetypeSpawner {
 			return;
 
   	if(collider.gameObject.GetComponent<ArchetypeSpawner>() != null) {
-  		if(collider.gameObject.GetComponent<ArchetypeSpawner>().isFly) {
 	
 				if(health < 5) {
 					Vector2 bgSize = healthBg.rectTransform.sizeDelta;
@@ -65,7 +64,6 @@ public class VillagerObject : ArchetypeSpawner {
 					healthBg.rectTransform.sizeDelta = bgSize;
 				}
 
-	  	}
   		return;
   	}
 		

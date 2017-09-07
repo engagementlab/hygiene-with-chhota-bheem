@@ -10,13 +10,7 @@ public class ArchetypeSpawner : ArchetypeMove
 
 	private Camera mainCamera;
 	private bool wait = true;
-
-	public bool isEnemy {
-		get { return spawnType == "enemy"; }
-	}
-	public bool isFly {
-		get { return spawnType == "fly"; }
-	}
+	
 	public bool moveEnabled = true;
 	public bool isDestroyed;
 

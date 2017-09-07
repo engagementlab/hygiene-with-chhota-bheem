@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -50,6 +51,75 @@ public class ArchetypeMove : MonoBehaviour
 
   	return pos;
 
+  }
+
+  IEnumerator RemoveVillager()
+  {
+      yield return new WaitForSeconds(1);
+      Destroy(gameObject);
+  }
+
+  public void OnTriggerEnter(Collider collider) {
+  	if(collider.gameObject.GetComponent<ArchetypeMove>() != null) {
+
+  		if (gameObject.tag == "Player") {
+  			// Check if player hit a fly, poop, or villager. 
+  			bool die = collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager";
+
+			  if (die && !gameObject.GetComponent<ArchetypePlayer>().wonGame)
+			  {
+			  	Debug.Log("Game Over, you died.");
+					  // gameObject.SetActive(false);
+					  // gameOverText.SetActive(true); 
+			  }
+
+			  if(collider.gameObject.tag == "PowerUp") {
+
+			  	GameConfig.numBubblesInterval -= GameConfig.numBubblesSpeedGained;
+			  	Destroy(collider.gameObject);
+			  
+			  	return;
+			  }
+
+  		} else if (gameObject.tag == "Bubble") {
+				Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
+
+  			if (collider.gameObject.tag == "Fly") {
+	  			Debug.Log("The Player shot a Fly! It should die!");
+	  			Destroy(collider.gameObject);
+
+	  		}
+	  		if (collider.gameObject.tag == "Villager") {
+	  			Debug.Log("The Player shot a Villager! It should lose life!");
+
+	  			var villager = collider.gameObject.GetComponent<VillagerObject>();
+
+	  			villager.placeholderIndex++;
+
+					// Events.instance.Raise (new HitEvent(HitEvent.Type.PowerUp, collider, collider.gameObject));
+
+					Vector2 v = villager.healthFill.rectTransform.sizeDelta;
+					v.x += .5f;
+					villager.healthFill.rectTransform.sizeDelta = v;
+
+					if(v.x == villager.health) {
+
+						iTween.ScaleTo(collider.gameObject, Vector3.zero, 1.0f);
+						Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));	
+						StartCoroutine(RemoveVillager());
+
+						villager.isDestroyed = true;
+						GameConfig.peopleSaved++;
+					}
+
+	  		}
+	  		if (collider.gameObject.tag == "Poop") {
+	  			Debug.Log("The Player shot a Poop! Nothing happens.");
+
+	  		}
+  		}
+
+  	}
   }
 
 	public void AddWaypoint()

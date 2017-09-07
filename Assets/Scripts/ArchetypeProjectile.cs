@@ -27,4 +27,18 @@ public class ArchetypeProjectile : MonoBehaviour {
 			Destroy(gameObject);
 		
 	}
+
+	void OnTriggerEnter(Collider other)
+  {
+
+  	Debug.Log(other);
+
+	  if(other.gameObject.tag == "Spawner") {
+
+	  	Destroy(other.gameObject);
+	  	Destroy(gameObject);
+	  	
+	  }
+	}
+
 }
