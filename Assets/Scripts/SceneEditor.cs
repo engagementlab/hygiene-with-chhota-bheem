@@ -1,48 +1,51 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿/* 
+
+Hygiene With Chhota Bheem
+Created by Engagement Lab @ Emerson College, 2017
+
+==============
+	SceneEditor.cs
+	Custom gizmos for editor scene view.
+	https://github.com/engagementgamelab/hygiene-with-chhota-bheem/blob/master/Assets/Scripts/SceneEditor.cs
+
+	Created by Johnny Richardson.
+==============
+
+*/
+
 using System.Linq;
 using UnityEngine;
 
 public class SceneEditor : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 	
 	void OnDrawGizmos()
 	{
 		if(Application.isPlaying) return;
 		
-		Transform[] transforms = GameObject.FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).OrderBy(t => t.position.y).ToArray();
+		/*
+		 Draw outline around all current ArchetypeMove objects, allowing easy tracking of how many moving objects are in scene.
+		*/
 		
-		Vector3 topLeftPos = new Vector3(-3, transforms.Last().position.y, 0);
-		Vector3 topRightPos = new Vector3(3, transforms.Last().position.y, 0);
-		Vector3 bottomLeftPos = new Vector3(-3, transforms.First().position.y, 0);
-		Vector3 bottomRightPos = new Vector3(3, transforms.First().position.y, 0);
-	
+		// Get lists of ArchetypeMove transforms ordered by x/y pos
+		var transformsY = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).OrderBy(t => t.position.y).ToArray();
+		var transformsX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).OrderBy(t => t.position.x).ToArray();
 		
+		var xPosFirst = transformsX.First().position;
+		var xPosLast = transformsX.Last().position;
+		var yPosFirst = transformsY.First().position;
+		var yPosLast = transformsY.Last().position;
+		
+		var topLeftPos = new Vector3(xPosFirst.x, yPosLast.y);
+		var topRightPos = new Vector3(xPosLast.x, yPosLast.y);
+		var bottomLeftPos = new Vector3(xPosFirst.x, yPosFirst.y);
+		var bottomRightPos = new Vector3(xPosLast.x, yPosFirst.y);
+			
+		// Draw outline
 		Gizmos.color = Color.green;
 		Gizmos.DrawLine(topLeftPos, topRightPos);
 		Gizmos.DrawLine(topLeftPos, bottomLeftPos);
 		Gizmos.DrawLine(bottomLeftPos, bottomRightPos);
 		Gizmos.DrawLine(bottomRightPos, topRightPos);
-//		Gizmos.DrawLine(transforms[0].transform.position, transforms[1].transform.position);
-		
-		if (!mat) {
-			Debug.LogError("Please Assign a material on the inspector");
-			return;
-		}
-	}
-	
-	public Material mat;
-	void OnPostRender() {
 		
 	}
 	

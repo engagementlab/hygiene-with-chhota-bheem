@@ -1,4 +1,19 @@
-﻿using System.Collections.Generic;
+﻿/* 
+
+Hygiene With Chhota Bheem
+Created by Engagement Lab @ Emerson College, 2017
+
+==============
+	ArchetypeMove.cs
+	Archetype class for which all moving non-player objects use or inherit.
+	https://github.com/engagementgamelab/hygiene-with-chhota-bheem/blob/master/Assets/Scripts/ArchetypeMove.cs
+
+	Created by Johnny Richardson, Erica Salling.
+==============
+
+*/
+
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -26,8 +41,15 @@ public class ArchetypeMove : MonoBehaviour
 	[CanBeNull] [HideInInspector]
 	public string SpawnType;
 	
-	[CanBeNull] [HideInInspector]
-	public string MovementDir;
+	public enum Dirs
+	{
+		Left,
+		Right,
+		Up,
+		Down
+	}
+	[HideInInspector]
+	public Dirs MovementDir = Dirs.Down;
 	
 	[HideInInspector]
 	public float CurrentPathPercent;
@@ -138,6 +160,37 @@ public class ArchetypeMove : MonoBehaviour
 	public void OnDrawGizmosSelected()
 	{
 		if(Application.isPlaying) return;
+		if(transform.parent == null)
+		{
+			Vector3 lineDir = transform.position;
+			Quaternion lookDir = transform.rotation;
+			Handles.color = new Color(.81176f, .4352f, 1);
+
+			if(MovementDir == Dirs.Left)
+			{
+				lineDir += new Vector3(3, 0, 0);
+				lookDir *= Quaternion.LookRotation(Vector3.right);
+			}
+			else if(MovementDir == Dirs.Right)
+			{
+				lineDir += new Vector3(-3, 0, 0);
+				lookDir *= Quaternion.LookRotation(Vector3.left);
+			}
+			else if(MovementDir == Dirs.Up)
+			{
+				lineDir += new Vector3(0, 3, 0);
+				lookDir *= Quaternion.LookRotation(Vector3.up);
+			}
+			else
+			{
+				lineDir += new Vector3(0, -3, 0);
+				lookDir *= Quaternion.LookRotation(Vector3.down);
+			}
+
+			Handles.DrawDottedLine(transform.position, lineDir, 5);
+			Handles.ArrowHandleCap(0, lineDir, lookDir, 5, EventType.Repaint);
+			
+		}
 		
 		var waypointChildren = new List<Transform>();
 
@@ -185,17 +238,17 @@ public class ArchetypeMove : MonoBehaviour
 		var target = _localParent != null ? _localParent.transform.position : transform.position;
 		Vector3 deltaPos = Vector3.zero;
 
-		if(MovementDir == "up")
+		if(MovementDir == Dirs.Up)
 		{
 			target.y += MoveSpeed;
 			deltaPos.y += MoveSpeed;
 		}
-		else if(MovementDir == "right")
+		else if(MovementDir == Dirs.Right)
 		{
 			target.x += MoveSpeed;
 			deltaPos.x += MoveSpeed;
 		} 
-		else if(MovementDir == "left")
+		else if(MovementDir == Dirs.Left)
 		{
 			target.x -= MoveSpeed;
 			deltaPos.x -= MoveSpeed;

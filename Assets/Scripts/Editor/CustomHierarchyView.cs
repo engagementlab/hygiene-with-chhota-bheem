@@ -3,29 +3,31 @@ using UnityEditor;
 using System.Text;
 
 [InitializeOnLoad]
-public class CustomHierarchyView  {
-
-	/*private static StringBuilder sb = new StringBuilder ();
+public class CustomHierarchyView
+{
+	private static readonly Texture2D WaypointIcon;
 
 	static CustomHierarchyView() {
-		EditorApplication.hierarchyWindowItemOnGUI += HierarchyWindowItemOnGUI;
+	  WaypointIcon = AssetDatabase.LoadAssetAtPath ("Assets/Editor/waypoint-icon.png", typeof(Texture2D)) as Texture2D;
+		EditorApplication.hierarchyWindowItemOnGUI += HierarchyWindowItemOnGui;
 	}
 
-	static void HierarchyWindowItemOnGUI (int instanceID, Rect selectionRect) {			
-		GameObject gameObject = EditorUtility.InstanceIDToObject (instanceID) as GameObject;
-		DisplayActiveAndPassiveCardCount (selectionRect, gameObject);
+	private static void HierarchyWindowItemOnGui(int instanceID, Rect selectionRect) {			
+		var gameObject = EditorUtility.InstanceIDToObject (instanceID) as GameObject;
+		
+		if(gameObject != null)
+			DisplayItemGui(selectionRect, gameObject);
 	}
 
-	static void DisplayActiveAndPassiveCardCount (Rect selectionRect, GameObject gameObject)
+	private static void DisplayItemGui(Rect selectionRect, GameObject gameObject)
 	{
-		Waypoint[] cards = gameObject.GetComponentsInChildren<Waypoint>(true);
-		int total = cards.Length;
-		if (total > 0 && gameObject.GetComponent<Waypoint> () == null) {
-			Rect r = new Rect (selectionRect);
-			r.x += r.width - 65;
-			sb.Length = 0;
-			sb.Append (total).Append ("()");
-			GUI.Label (r, sb.ToString ());
-		}
-	}*/
+		
+		var waypoint = gameObject.GetComponent<Waypoint>();
+		if(waypoint == null) return;
+		
+		var r = new Rect (selectionRect);
+		r.x += r.width - 15;
+		GUI.Label(r, WaypointIcon);
+		
+	}
 }

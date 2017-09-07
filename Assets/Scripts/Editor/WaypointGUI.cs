@@ -1,7 +1,19 @@
-﻿
+﻿/* 
+
+Hygiene With Chhota Bheem
+Created by Engagement Lab @ Emerson College, 2017
+
+==============
+	Waypoint.cs
+	Draw gizmo for Waypoint object.
+	https://github.com/engagementgamelab/hygiene-with-chhota-bheem/blob/master/Assets/Scripts/Waypoint.cs
+
+	Created by Johnny Richardson.
+==============
+
+*/
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.Networking;
 
 [CustomEditor(typeof(Waypoint), true)]
 public class WaypointGUI : Editor
