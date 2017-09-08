@@ -26,7 +26,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public bool shootingStaticMode;
 	
   GameObject lastBubble;
-	GameObject gameOverText;
+	public GameObject gameOverText;
 
 	Camera mainCamera;
 
@@ -67,29 +67,8 @@ public class ArchetypePlayer : MonoBehaviour {
 
   }
 
-  void AddBubble() {
-
-  // 	if(!hasBubbles)
-  // 		return;
-		
-		// // Transform target = (currentBubbleConfigs.Count > 0) ? currentBubbleConfigs[currentBubbleConfigs.Count-1].transform : transform;
-		
-		// lastBubble = Instantiate(bubblePrefab, new Vector3(0, -Screen.height/2, 0), Quaternion.identity);
-		// // lastBubble.GetComponent<ArchetypeBubble>().target = target;
-
-		// currentBubbles.Add(lastBubble);
-		// // currentBubbleConfigs.Add(lastBubble.GetComponent<ArchetypeBubble>());
-
-		// // bubbleFollowSpeed = Mathf.Clamp(bubbleFollowSpeed-.05f, .1f, .5f);
-
-		// // foreach(ArchetypeBubble config in currentBubbleConfigs) 
-		// // 	config.speed = bubbleFollowSpeed;
-
-  }
 
 	void BubbleHitEvent(HitEvent e) {
-
-		Debug.Log(e);
 
 		if(e.eventType == HitEvent.Type.Spawn) {
 			SpawnHit(e.collider, e.bubble);
@@ -105,92 +84,6 @@ public class ArchetypePlayer : MonoBehaviour {
 
   void SpawnHit(Collider collider, GameObject bubble=null) {
 
-	  	if(collider.gameObject.GetComponent<VillagerObject>() != null)
-	  		return;
-
-	  	if(collider.gameObject.GetComponent<ArchetypeSpawner>() != null) {
-
-	  		if(currentBubbles.Count == 0 && !wonGame) {
-	  			gameObject.SetActive(false);
-	  			gameOverText.SetActive(true);;
-
-	  			// countText.text = "Power-ups captured: " + GameConfig.powerUpsCount;
-
-	  			return;
-	  		}
-
-	  		if(bubble != null) {
-
-		  		int indBubble = currentBubbles.IndexOf(bubble.gameObject);
-		  		List<GameObject> bubblesRemove = currentBubbles.GetRange(indBubble, currentBubbles.Count-indBubble);
-
-			  	foreach(GameObject thisBubble in bubblesRemove) {
-			  		currentBubbles.Remove(thisBubble);
-			  		// currentBubbleConfigs.Remove(thisBubble.GetComponent<ArchetypeBubble>());
-
-						if(!inBossBattle)
-				  		Destroy(thisBubble);
-			  	}
-
-		  		if(currentBubbles.Count > 0)
-			  		lastBubble = currentBubbles[currentBubbles.Count-1];
-			  	
-			  	if(bubbleFollowSpeed+.05f <= 1)
-						bubbleFollowSpeed += .05f;
-				
-				}
-	  	
-	  	}
-			else {
-
-				if(hasBubbles) {
-					AddBubble();
-				}
-				else {
-
-					if(currentBubbles.Count > 3) {
-						
-						List<GameObject> bubblesRemove;
-		  			bubblesRemove = new List<GameObject>(new GameObject[] {bubble.gameObject});
-
-				  	foreach(GameObject thisBubble in bubblesRemove) {
-				  		currentBubbles.Remove(thisBubble);
-				  		// currentBubbleConfigs.Remove(thisBubble.GetComponent<ArchetypeBubble>());
-
-				  		Destroy(thisBubble);
-				  	}
-
-				  	Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));	
-			  		Destroy(collider.gameObject);
-			  		GameConfig.fliesCaught++;
-
-				  }
-				  else {
-
-				  	Hashtable fadeOut = new Hashtable();
-				  	Hashtable fadeIn = new Hashtable();
-
-		        fadeOut.Add("amount", 0);
-		        fadeOut.Add("time", .5f);
-		        
-		        fadeIn.Add("amount", 1);
-		        fadeIn.Add("time", .5f);
-		        fadeIn.Add("delay", .7f);
-
-				  	iTween.ShakePosition(collider.gameObject, new Vector3(.1f, .1f, .1f), 1.5f);
-				  	iTween.FadeTo(collider.gameObject, fadeOut);
-				  	iTween.FadeTo(collider.gameObject, fadeIn);
-
-				  }
-
-				}
-
-			}
-
-		if(!inBossBattle)
-			Destroy(collider.gameObject);
-	
-
   }
 
   void MovementToggle(bool value) {
@@ -203,15 +96,6 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	    transform.position = lockedPos;
 	  }
-
-  }
-
-  void TrailToggle(bool value) {
-
-  	trailEnabled = value;
-
-  	foreach(GameObject bubble in currentBubbles)
-  		bubble.SetActive(!trailEnabled);
 
   }
 
@@ -271,16 +155,11 @@ public class ArchetypePlayer : MonoBehaviour {
 		currentBubbles = new List<GameObject>();
 		// currentBubbleConfigs = new List<ArchetypeBubble>();
 
-		// gameOverText = GameObject.Find("GameOver");
+		gameOverText = GameObject.FindGameObjectWithTag("Game Over");
 		// badScoreText = GameObject.Find("Bad Score").GetComponent<Text>();
 		// goodScoreText = GameObject.Find("Good Score").GetComponent<Text>();
-		// gameOverText.SetActive(false);
+		gameOverText.SetActive(false);
 
-		if(hasBubbles)
-		{
-			for(int i = 0; i < GameConfig.numBubblesToStart; i++)
-				AddBubble();
-		}
 		
 		// goodScoreText.gameObject.SetActive(false);
 		// badScoreText.gameObject.SetActive(false);
@@ -337,42 +216,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		transform.position = ClampToScreen(cursorPosition);
 
 	}
-
-	void OnTriggerEnter(Collider collider)
-  {
-
-	  
-
-	  // if(collider.gameObject.tag == "Spawner" && hasBubbles) {
-	  // 	bossSpawnDelta = 0;
-
-			// for(int i = 0; i < GameConfig.numBubblesGained; i++)
-			// 	AddBubble();
-
-	  // 	return;
-	  // }
-
-  	// if(collider.gameObject.tag != "Spawn" || collider.gameObject.tag != "Wizards")
-  	// 	return;
-
-  	// if(currentBubbles.Count > 0)
-	  // 	SpawnHit(collider, currentBubbles[currentBubbles.Count-1]);
-  	// else
-	  // 	SpawnHit(collider);
-
-  }
-
-  void OnTriggerExit(Collider collider)
-  {		
-
-	  if(collider.gameObject.tag == "Spawner" && hasBubbles) {
-	  	
-			for(int i = 0; i < GameConfig.numBubblesGained; i++)
-				AddBubble();
-		  
-	  }
-
-  }
 
 	void OnTriggerStay(Collider other)
   {
