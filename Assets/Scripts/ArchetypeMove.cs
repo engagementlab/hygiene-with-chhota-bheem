@@ -29,15 +29,26 @@ public class ArchetypeMove : MonoBehaviour
 
 	[HideInInspector]
 	public float MoveSpeed = 1;
+	[HideInInspector]
+	public Dirs MovementDir = Dirs.Down;
 	
 	[HideInInspector]
-	public bool UseParentSpeed = false;
-
+	public float AnimationDuration = 1;
+	[HideInInspector]
+	public float AnimationForwardSpeed = 1;	
+	[HideInInspector]
+	public float AnimationReverseSpeed = 1;	
+	[HideInInspector]
+	public AnimType AnimationType = AnimType.PingPong;
+	
+	[HideInInspector]
+	public bool UseParentSpeed;
 	[HideInInspector]
 	public int SpawnTypeIndex;
-	
 	[HideInInspector]
 	public int Direction;
+	[HideInInspector]
+	public float CurrentPathPercent;
 	
 	[CanBeNull] [HideInInspector]
 	public string SpawnType;
@@ -49,14 +60,13 @@ public class ArchetypeMove : MonoBehaviour
 		Up,
 		Down
 	}
-	[HideInInspector]
-	public Dirs MovementDir = Dirs.Down;
 	
-	[HideInInspector]
-	public float CurrentPathPercent;
-	
-	[Range(1, 10)]
-	public float AnimationDuration = 1f;
+	public enum AnimType
+	{
+		Once,
+		LoopFromStart,
+		PingPong
+	}
 
 	[CanBeNull] private List<Vector3> _waypoints;
 	[CanBeNull] private GameObject _localParent;
@@ -65,23 +75,74 @@ public class ArchetypeMove : MonoBehaviour
 	private float _runningTime;
 	private bool _reverseAnim;
 	private ArchetypeMove _parentMove;
+
+	/**************
+		UNITY METHODS
+	***************/
+
+	public void Awake()
+	{
+		if(transform.parent != null)
+			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
+		
+		if(GetType().Name != "ArchetypeSpawner")
+			SetupWaypoints();
 	
-  public Vector3 ClampToScreen(Vector3 vector) {
+	}
+	
+	public void Update () {
+		
+		// Find target for movement and change target vector based on direction
+		var target = _localParent != null ? _localParent.transform.position : transform.position;
+		var deltaPos = Vector3.zero;
 
-  	var pos = Camera.main.ScreenToWorldPoint(vector);
-		pos.z = 0;
+		switch(MovementDir)
+		{
+			case Dirs.Up:
+				target.y += MoveSpeed;
+				deltaPos.y += MoveSpeed;
+				break;
+			case Dirs.Right:
+				target.x += MoveSpeed;
+				deltaPos.x += MoveSpeed;
+				break;
+			case Dirs.Left:
+				target.x -= MoveSpeed;
+				deltaPos.x -= MoveSpeed;
+				break;
+			default:
+				target.y -= MoveSpeed;
+				deltaPos.y -= MoveSpeed;
+				break;
+		}
 
-  	return pos;
+		// Move to target via lerp if movement allowed
+		if(MoveEnabled && MoveSpeed > 0)
+		{
+			if(_localParent != null)
+				_localParent.transform.position = Vector3.Lerp(_localParent.transform.position, target, Time.deltaTime);
+			else
+				transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime);
+		}
 
-  }
+		if(_waypoints == null || _waypoints.Count <= 0) return;
 
-  IEnumerator RemoveVillager()
-  {
-      yield return new WaitForSeconds(1);
-      Destroy(gameObject);
-  }
-
+		// Translate waypoints
+		if(MoveEnabled)
+		{
+			for(var w = 0; w < _waypoints.Count; w++)
+			{
+				var v = Vector3.Lerp(_waypoints[w], _waypoints[w] + deltaPos, Time.deltaTime);
+				_waypoints[w] = v;
+			}
+		}
+		
+		Animate();
+		
+	}
+	
   public void OnTriggerEnter(Collider collider) {
+	  
   	if(collider.gameObject.GetComponent<ArchetypeMove>() != null) {
 
   		if (gameObject.tag == "Player") {
@@ -152,93 +213,11 @@ public class ArchetypeMove : MonoBehaviour
 
   	}
   }
-
-	public void AddWaypoint()
-	{
-		
-		var waypointPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Waypoint.prefab");
-		var waypoint = Instantiate(waypointPrefab, Vector3.zero, Quaternion.identity);
-
-		waypoint.transform.parent = transform;
-		
-		var localWaypoints = (from Transform tr in transform where tr.tag == "Waypoint" select tr.position).ToList();
-
-		waypoint.name = "Waypoint_" + localWaypoints.Count;
-		waypoint.transform.position = localWaypoints.Count > 1 ? localWaypoints[localWaypoints.Count - 2] : transform.position;
-		
-		Selection.activeGameObject = waypoint;
-		
-		Undo.RegisterCreatedObjectUndo(waypoint, "Waypoint Added");
-
-	}
-
-	public bool HasWaypoints()
-	{
-		var length = transform.Cast<Transform>().Count(tr => tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy);
-
-		return length > 0;
-	}
-
-	protected void SetupWaypoints()
-	{
-
-		_waypoints = new List<Vector3>();
-
-		// Iterate through all transform children and pull out any waypoints
-		foreach(Transform tr in transform)
-		{
-			if(tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy)
-				_waypoints.Add(tr.position);
-		}
-
-		if(_waypoints.Count <= 0) return;
-		
-		// Make this object child of runtime-only parent to allow local path animation along with other x/y movement
-		_localParent = new GameObject("Parent-"+gameObject.name);
-		_localParent.transform.position = transform.position;
-
-		// If archetype has parent, make runtime-only parent a child of it
-		if(transform.parent != null)
-		{
-			_localParent.transform.parent = transform.parent;
-			
-			// Inherit parent's movement dir and, if enabled, speed
-			if(_parentMove != null)
-			{
-				MovementDir = _parentMove.MovementDir;
-				if(UseParentSpeed)
-					MoveSpeed = _parentMove.MoveSpeed;
-			}
-		}
-
-		transform.SetParent(_localParent.transform);
-		transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
-		
-	}
-
-	public void Awake()
-	{
-		if(transform.parent != null)
-			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
-		
-		if(GetType().Name != "ArchetypeSpawner")
-			SetupWaypoints();
 	
-	}
-	
-	void OnDrawGizmos() {
-
-			Gizmos.color = Color.cyan;
-			Gizmos.DrawCube(transform.position, Vector3.one);
-		
-			if(_waypoints != null && _waypoints.Count > 0)
-				iTween.DrawPath(_waypoints.ToArray());
-	
-	}
-
 	public void OnDrawGizmosSelected()
 	{
 		if(Application.isPlaying) return;
+		
 		if(transform.parent == null)
 		{
 			Vector3 lineDir = transform.position;
@@ -310,57 +289,107 @@ public class ArchetypeMove : MonoBehaviour
 		}
 		
 	}
-	
-	// Update is called once per frame
-	public void Update () {
+
+	private void OnDrawGizmos() {
+
+		Gizmos.color = Color.cyan;
 		
-		var target = _localParent != null ? _localParent.transform.position : transform.position;
-		Vector3 deltaPos = Vector3.zero;
+		if(GetComponent<ArchetypeSpawner>() != null)
+			Gizmos.DrawSphere(transform.position, .5f);
+		else
+			Gizmos.DrawCube(transform.position, Vector3.one);
+	
+			if(_waypoints != null && _waypoints.Count > 0)
+				iTween.DrawPath(_waypoints.ToArray());
+	
+	}
 
-		if(MovementDir == Dirs.Up)
+	/**************
+		CUSTOM METHODS
+	***************/
+	
+	// Add gameobject of type Waypoint as child of this archetype
+	public void AddWaypoint()
+	{
+		
+		var waypointPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Waypoint.prefab");
+		var waypoint = Instantiate(waypointPrefab, Vector3.zero, Quaternion.identity);
+
+		waypoint.transform.parent = transform;
+		
+		// Find any current waypoint children
+		var localWaypoints = (from Transform tr in transform where tr.tag == "Waypoint" select tr.position).ToList();
+
+		waypoint.name = "Waypoint_" + localWaypoints.Count;
+		waypoint.transform.position = localWaypoints.Count > 1 ? localWaypoints[localWaypoints.Count - 2] : transform.position;
+		
+		Selection.activeGameObject = waypoint;
+		
+		Undo.RegisterCreatedObjectUndo(waypoint, "Waypoint Added");
+
+	}
+
+	// Does this object have any waypoints attached?
+	public bool HasWaypoints()
+	{
+		var length = transform.Cast<Transform>().Count(tr => tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy);
+
+		return length > 0;
+	}
+
+	// Setup waypoints for use of animation at runtime
+	protected void SetupWaypoints()
+	{
+
+		_waypoints = new List<Vector3>();
+
+		// Iterate through all transform children and pull out any waypoints
+		foreach(Transform tr in transform)
 		{
-			target.y += MoveSpeed;
-			deltaPos.y += MoveSpeed;
+			if(tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy)
+				_waypoints.Add(tr.position);
 		}
-		else if(MovementDir == Dirs.Right)
-		{
-			target.x += MoveSpeed;
-			deltaPos.x += MoveSpeed;
-		} 
-		else if(MovementDir == Dirs.Left)
-		{
-			target.x -= MoveSpeed;
-			deltaPos.x -= MoveSpeed;
-		} else
-		{
-			target.y -= MoveSpeed;
-			deltaPos.y -= MoveSpeed;
-		}
 
+		if(_waypoints.Count <= 0) return;
+		
+		// Make this object child of runtime-only parent to allow local path animation along with other x/y movement
+		_localParent = new GameObject("Parent-"+gameObject.name);
+		_localParent.transform.position = transform.position;
 
-		if(MoveEnabled && MoveSpeed > 0)
+		// If archetype has parent, make runtime-only parent a child of it
+		if(transform.parent != null)
 		{
-			if(_localParent != null)
-				_localParent.transform.position = Vector3.Lerp(_localParent.transform.position, target, Time.deltaTime);
-			else
-				transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime);
-		}
-
-		if(_waypoints == null || _waypoints.Count <= 0) return;
-
-		// Translate waypoints
-		if(MoveEnabled)
-		{
-			for(var w = 0; w < _waypoints.Count; w++)
+			_localParent.transform.parent = transform.parent;
+			
+			// Inherit parent's movement dir and, if enabled, speed
+			if(_parentMove != null)
 			{
-				var v = Vector3.Lerp(_waypoints[w], _waypoints[w] + deltaPos, Time.deltaTime);
-				_waypoints[w] = v;
+				MovementDir = _parentMove.MovementDir;
+				if(UseParentSpeed)
+					MoveSpeed = _parentMove.MoveSpeed;
 			}
 		}
 
+		transform.SetParent(_localParent.transform);
+		transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
+		
+	}
+	
+	public Vector3 ClampToScreen(Vector3 vector) {
+
+		var pos = Camera.main.ScreenToWorldPoint(vector);
+		pos.z = 0;
+
+		return pos;
+
+	}
+
+	private void Animate()
+	{
+	
 		// Calculate current percentage on waypoints path (basically ping pong but time, not frame, based)
-		_runningTime += Time.deltaTime;
-		var perClamp = Mathf.Clamp(_runningTime / AnimationDuration, 0, 1f);
+		_runningTime += Time.deltaTime * (_reverseAnim ? AnimationReverseSpeed : AnimationForwardSpeed);
+		var perClamp = Mathf.Clamp(_runningTime / AnimationDuration, 0, 1);
 		
 		//- Forward motion?
 		if(!_reverseAnim)
@@ -368,10 +397,20 @@ public class ArchetypeMove : MonoBehaviour
 			_currentPathPercent = perClamp;
 			if(_currentPathPercent >= 1)
 			{
-				_runningTime = 0;
-				_reverseAnim = true;
+				// Reset if not animating once
+				if(AnimationType != AnimType.Once)
+				{
+					_runningTime = 0;
+
+					// Go into reverse if ping ponging
+					if(AnimationType == AnimType.PingPong)
+						_reverseAnim = true;
+					else
+						_currentPathPercent = 0;
+				}
 			}
 		} 
+		//- Reverse motion?
 		else
 		{
 			_currentPathPercent = 1 - perClamp;
@@ -385,6 +424,12 @@ public class ArchetypeMove : MonoBehaviour
 		// Place object at current %
 		iTween.PutOnPath(gameObject, _waypoints.ToArray(), _currentPathPercent);
 		
+	}
+
+	private IEnumerator RemoveVillager()
+	{
+		yield return new WaitForSeconds(1);
+		Destroy(gameObject);
 	}
 
 }

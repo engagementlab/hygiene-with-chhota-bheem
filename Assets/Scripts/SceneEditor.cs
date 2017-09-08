@@ -14,6 +14,7 @@ Created by Engagement Lab @ Emerson College, 2017
 */
 
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class SceneEditor : MonoBehaviour {
@@ -46,8 +47,13 @@ public class SceneEditor : MonoBehaviour {
 		Gizmos.DrawLine(topLeftPos, bottomLeftPos);
 		Gizmos.DrawLine(bottomLeftPos, bottomRightPos);
 		Gizmos.DrawLine(bottomRightPos, topRightPos);
+
+		var topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
+		var topLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.nearClipPlane));
+		
+		Handles.color = Color.white;
+		Handles.DrawDottedLine(topRight, topRight + new Vector3(0, 600), 5);
+		Handles.DrawDottedLine(topLeft, topLeft + new Vector3(0, 600), 5);
 		
 	}
-	
-	
 }
