@@ -1,4 +1,4 @@
-/* 
+﻿/*
 
 Hygiene With Chhota Bheem
 Created by Engagement Lab @ Emerson College, 2017
@@ -147,13 +147,15 @@ public class ArchetypeMove : MonoBehaviour
 
   		if (gameObject.tag == "Player") {
   			// Check if player hit a fly, poop, or villager. 
+
   			bool die = collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager";
 
 			  if (die && !gameObject.GetComponent<ArchetypePlayer>().wonGame)
 			  {
 			  	Debug.Log("Game Over, you died.");
-					  // gameObject.SetActive(false);
-					  // gameOverText.SetActive(true); 
+				  gameObject.SetActive(false);
+
+				  gameObject.GetComponent<ArchetypePlayer>().gameOverText.SetActive(true);
 			  }
 
 			  if(collider.gameObject.tag == "PowerUp") {
@@ -165,11 +167,17 @@ public class ArchetypeMove : MonoBehaviour
 			  }
 
   		} else if (gameObject.tag == "Bubble") {
-				Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
+	  		// if(!inBossBattle)
+					// Destroy(gameObject);
+
+				// Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
 
   			if (collider.gameObject.tag == "Fly") {
 	  			Debug.Log("The Player shot a Fly! It should die!");
-	  			Destroy(collider.gameObject);
+
+	  			Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));	
+		  		Destroy(collider.gameObject);
+		  		GameConfig.fliesCaught++;
 
 	  		}
 	  		if (collider.gameObject.tag == "Villager") {
@@ -179,7 +187,7 @@ public class ArchetypeMove : MonoBehaviour
 
 	  			villager.placeholderIndex++;
 
-					// Events.instance.Raise (new HitEvent(HitEvent.Type.PowerUp, collider, collider.gameObject));
+					Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
 
 					Vector2 v = villager.healthFill.rectTransform.sizeDelta;
 					v.x += .5f;
@@ -201,6 +209,7 @@ public class ArchetypeMove : MonoBehaviour
 
 	  		}
   		}
+
 
   	}
   }
