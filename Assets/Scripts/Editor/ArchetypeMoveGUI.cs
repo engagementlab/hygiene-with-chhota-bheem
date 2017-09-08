@@ -27,6 +27,16 @@ public class ArchetypeMoveGUI : Editor
 		if(Application.isPlaying) return;
   
 		var _archetype = (ArchetypeMove)target;
+
+		if(_archetype.transform.parent != null)
+		{
+			string helpTxt = "This archetype has a parent and will be affected by the parent's speed.";
+
+			if(_archetype.HasWaypoints())
+				helpTxt += "\nIt also has animation waypoints, and so will use movement direction of parent.";
+			
+			EditorGUILayout.HelpBox(helpTxt, MessageType.Info);
+		}
     
 		// Draw the default inspector
 		DrawDefaultInspector();
@@ -34,13 +44,29 @@ public class ArchetypeMoveGUI : Editor
 		if(_archetype.transform.parent != null)
 			_archetype.UseParentSpeed = EditorGUILayout.Toggle("Use Parent's Speed", _archetype.UseParentSpeed);
 		
-		if(!_archetype.UseParentSpeed)
+		if(!_archetype.UseParentSpeed || _archetype.transform.parent == null)
 			_archetype.MoveSpeed = EditorGUILayout.Slider("Movement Speed", _archetype.MoveSpeed, 1, 10);
+		
+		// Animation
+		if(_archetype.HasWaypoints()) {
+			GUILayout.BeginVertical("box");
+			
+			EditorGUILayout.HelpBox("This sets the duration of the journey between start and end waypoints, the type of animation, and speed scaling for forward/backward tween.", MessageType.None);
+			_archetype.AnimationDuration = EditorGUILayout.Slider("Animation Duration", _archetype.AnimationDuration, 1, 10);
+			_archetype.AnimationType = (ArchetypeMove.AnimType) EditorGUILayout.EnumPopup("Animation Type", _archetype.AnimationType);
 
-		if(_archetype.HasWaypoints() && _archetype.transform.parent != null)
-			EditorGUILayout.HelpBox("Archetypes with parent and waypoints inherit movement direction of parent.", MessageType.Info);
+			// Animation speed controls
+			_archetype.AnimationForwardSpeed = EditorGUILayout.Slider("Forward Speed", _archetype.AnimationDuration, 0, 2);
+			_archetype.AnimationReverseSpeed = EditorGUILayout.Slider("Backward Speed", _archetype.AnimationReverseSpeed, 0, 2);
+			
+			GUILayout.EndVertical();
+		}
+		
+		// Movement Direction
+		if(_archetype.transform.parent == null || !_archetype.HasWaypoints())
+			_archetype.MovementDir = (ArchetypeMove.Dirs) EditorGUILayout.EnumPopup("Movement Direction", _archetype.MovementDir);
 		else
-			_archetype.MovementDir = (ArchetypeMove.Dirs) EditorGUILayout.EnumPopup("Dir", _archetype.MovementDir);
+			EditorGUILayout.HelpBox("This object has a parent and waypoints; movement direction is not editable.", MessageType.Warning);
 
 		if(GUILayout.Button("Add Waypoint"))
 			_archetype.AddWaypoint();

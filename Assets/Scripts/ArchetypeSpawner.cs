@@ -6,16 +6,18 @@ using UnityEngine;
 public class ArchetypeSpawner : ArchetypeMove
 {
 
-	public bool moveWithParent = true;
+	public GameObject prefabToSpawn;
+	
+	[Tooltip("Should spawner object continue to move after spawning prefab?")]
+	public bool moveAfterSpawn;
+	
+	[HideInInspector]
+	public bool isDestroyed;
+	[HideInInspector]
+	public string spawnType;
 
 	private Camera mainCamera;
 	private bool wait = true;
-	
-	public bool moveEnabled = true;
-	public bool isDestroyed;
-
-	[HideInInspector]
-	public string spawnType;
 
 	void Start()
 	{
@@ -28,13 +30,15 @@ public class ArchetypeSpawner : ArchetypeMove
 		if(!MoveEnabled || !wait)
 			return;
 		
-		if(mainCamera.WorldToViewportPoint(transform.position).y < 1) {
-//			GameObject spawn = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
+		base.Update();
+		
+		if(mainCamera.WorldToViewportPoint(transform.position).y < 1 && prefabToSpawn != null) {
+			GameObject spawn = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
 
-//			gameObject.SetActive(true);
+			spawn.SetActive(true);
 			wait = false;
 
-			if(!moveWithParent)
+			if(!moveAfterSpawn)
 			{
 				Vector3 globalPos = mainCamera.transform.InverseTransformPoint(transform.position);
 				transform.parent = null;
@@ -42,7 +46,7 @@ public class ArchetypeSpawner : ArchetypeMove
 				SetupWaypoints();
 			}
 			
-//			Destroy(gameObject);
+			Destroy(gameObject);
 		}
 		
 	}
