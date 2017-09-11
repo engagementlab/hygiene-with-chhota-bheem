@@ -12,7 +12,7 @@ Created by Engagement Lab @ Emerson College, 2017
 ==============
 
 */
-
+#if UNITY_EDITOR
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -57,3 +57,4 @@ public class SceneEditor : MonoBehaviour {
 		
 	}
 }
+#endif

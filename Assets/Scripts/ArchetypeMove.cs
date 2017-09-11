@@ -92,6 +92,10 @@ public class ArchetypeMove : MonoBehaviour
 	
 	public void Update () {
 		
+		#if IS_DEBUG
+		if(!Input.GetMouseButton(0)) return;
+		#endif
+		
 		// Find target for movement and change target vector based on direction
 		var target = _localParent != null ? _localParent.transform.position : transform.position;
 		var deltaPos = Vector3.zero;
@@ -213,7 +217,8 @@ public class ArchetypeMove : MonoBehaviour
 
   	}
   }
-	
+	 
+	#if UNITY_EDITOR
 	public void OnDrawGizmosSelected()
 	{
 		if(Application.isPlaying) return;
@@ -303,14 +308,17 @@ public class ArchetypeMove : MonoBehaviour
 				iTween.DrawPath(_waypoints.ToArray());
 	
 	}
+	#endif
 
 	/**************
 		CUSTOM METHODS
 	***************/
 	
-	// Add gameobject of type Waypoint as child of this archetype
+	// Add gameobject of type Waypoint as child of this archetype; used in editor only
 	public void AddWaypoint()
 	{
+		
+		#if UNITY_EDITOR
 		
 		var waypointPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Waypoint.prefab");
 		var waypoint = Instantiate(waypointPrefab, Vector3.zero, Quaternion.identity);
@@ -326,6 +334,8 @@ public class ArchetypeMove : MonoBehaviour
 		Selection.activeGameObject = waypoint;
 		
 		Undo.RegisterCreatedObjectUndo(waypoint, "Waypoint Added");
+		
+		#endif
 
 	}
 
