@@ -48,6 +48,7 @@ public class SceneEditor : MonoBehaviour {
 		Gizmos.DrawLine(bottomLeftPos, bottomRightPos);
 		Gizmos.DrawLine(bottomRightPos, topRightPos);
 
+		// Draw L/R game boundaries
 		var topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
 		var topLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.nearClipPlane));
 		
