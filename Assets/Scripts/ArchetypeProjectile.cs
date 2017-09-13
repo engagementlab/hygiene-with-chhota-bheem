@@ -14,7 +14,7 @@ public class ArchetypeProjectile : MonoBehaviour {
 
 		mainCamera = Camera.main;
 
-		GetComponent<SpriteRenderer>().sprite = bubbleSprites[Random.Range(0, 3)];
+		GetComponent<SpriteRenderer>().sprite = bubbleSprites[Random.Range(0, 2)];
 		iTween.ScaleFrom(gameObject, iTween.Hash("time", .3f, "scale", Vector3.zero, "easetype", iTween.EaseType.easeOutElastic));
 		
 	}

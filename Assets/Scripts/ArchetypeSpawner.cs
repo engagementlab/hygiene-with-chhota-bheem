@@ -23,8 +23,6 @@ public class ArchetypeSpawner : ArchetypeMove
 	public bool moveAfterSpawn;
 	
 	[HideInInspector]
-	public bool isDestroyed;
-	[HideInInspector]
 	public string spawnType;
 
 	private Camera mainCamera;

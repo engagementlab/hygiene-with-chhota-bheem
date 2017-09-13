@@ -1,57 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class ArchetypePlayer : MonoBehaviour {
 
-	public GameObject bubblePrefab;
-	public Toggle toggleMovement;
-	public Toggle toggleTrail;
-
-	public Text badScoreText;
-	public Text goodScoreText;
-
 	public Image meterImage; 
-
-	public float startingLifeAmount = 100.0f;
-	public float movementSpeed = 5;
+	
 	public float smoothTime = 0.1f;
-	public float bubbleFollowSpeed = .5f;
 	public float fillTime = 2; 
 
 	public bool inBossBattle;
-	public bool hasBubbles;
-	public bool shootingStaticMode;
 	
-  GameObject lastBubble;
+	public GameObject bubble;
+	public float bubbleSpeed;
+	
+	private float intervalTime = 0;
+
+	private GameObject lastBubble;
 	public GameObject gameOverText;
 
-	Camera mainCamera;
+	private Camera mainCamera;
 
-  List<GameObject> currentBubbles;
+	private List<GameObject> currentBubbles;
   // List<ArchetypeBubble> currentBubbleConfigs;
 
-  bool freeMovement = true;
-  bool trailEnabled = true;
-  bool mouseDrag = false;
-  bool moveLeft = false;
-  bool moveRight = false;
-  bool moveDelta = false;
+	private bool freeMovement = true;
+	private bool trailEnabled = true;
+	private bool mouseDrag = false;
+	private bool moveLeft = false;
+	private bool moveRight = false;
+	private bool moveDelta = false;
 
 	public bool wonGame;
 
-	Vector3 velocity = Vector3.zero;
-  Vector3 deltaMovement;
+	private Vector3 velocity = Vector3.zero;
+	private Vector3 deltaMovement;
 
-  float currentBadScore;
-  float currentGoodScore;
-  float targetScore;
+	private float currentBadScore;
+	private float targetScore;
 
-  float bossSpawnDelta = 0;
+	private float bossSpawnDelta = 0;
 
-  Vector3 ClampToScreen(Vector3 vector) {
+	private PowerUps powerUpType;
+
+	private Vector3 ClampToScreen(Vector3 vector) {
 
   	Vector3 pos = mainCamera.WorldToViewportPoint(vector);
 		pos.x = Mathf.Clamp01(pos.x);
@@ -67,8 +62,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
   }
 
-
-	void BubbleHitEvent(HitEvent e) {
+	private void BubbleHitEvent(HitEvent e) {
 
 		if(e.eventType == HitEvent.Type.Spawn) {
 			SpawnHit(e.collider, e.bubble);
@@ -82,33 +76,31 @@ public class ArchetypePlayer : MonoBehaviour {
 
   }
 
-  void PowerUpEvent(PowerEvent e) {
-  	Debug.Log("POWERED UP");
+	private void OnPowerUpEvent(PowerUpEvent e)
+	{
+		powerUpType = e.powerType;
+		
+  	 // What kinda power up? 
+		switch(powerUpType)
+		{
+			case PowerUps.Matrix:
+				// Slow down the whole world except the player
+				break;
+			case PowerUps.SpeedShoot:
+				// Speed up bubble rate
+				StartCoroutine(PowerUpBubbleSpeed());
+				break;
+			case PowerUps.ScatterShoot:
+				// Make those bubbles scatter
+				break;
+		}
+	}
 
-  	// powerUpType = collider.gameObject.name;
-  	// // What kinda power up? 
-  	// if (powerUpType == "PowerUpMatrix") {
-  	// 	// Slow down the whole world except the player
-
-		// } else if (powerUpType == "PowerUpSpeedShoot") {
-		// 	// Speed up bubble rate
-		// 	gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed = gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed * 2;
-
-		// } else if (powerUpType == "PowerUpScatterShoot") {
-		// 	// Make those bubbles scatter
-
-		// }
-
-  	// StartCoroutine(collider.gameObject.GetComponent<ArchetypePowerUp>().Timer(10, powerUpType));
-
-  	// Destroy(collider.gameObject);
-  }	
-
-  void SpawnHit(Collider collider, GameObject bubble=null) {
+	private static void SpawnHit(Collider collider, GameObject bubble=null) {
 
   }
 
-  void MovementToggle(bool value) {
+	private void MovementToggle(bool value) {
 
   	freeMovement = value;
 
@@ -121,7 +113,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
   }
 
-	void OnMovementEvent (MovementEvent e) {
+	private void OnMovementEvent (MovementEvent e) {
 
   	mouseDrag = false;
 
@@ -132,44 +124,34 @@ public class ArchetypePlayer : MonoBehaviour {
 	
 	}
 
-	void OnScoreEvent (ScoreEvent e) {
-
-		// targetScore += e.scoreAmount;
-
-		// GameConfig.powerUpsCount++;
-
-		if(e.eventType == ScoreEvent.Type.Good) {
-			currentGoodScore += e.scoreAmount;
-//			goodScoreText.text = "Good Wizard: " + currentGoodScore;
-		}
-		else {
-			currentBadScore += e.scoreAmount;
-//			badScoreText.text = "Bad Wizard: " + currentBadScore;
-		}
-
-
-	}
-	
-	void OnDeathEvent(DeathEvent e)
+	private void OnDeathEvent(DeathEvent e)
 	{
 		wonGame = e.wonGame;
 		
 	}
 
-	void Awake () {
+	private IEnumerator PowerUpBubbleSpeed()
+	{
+		GameConfig.numBubblesInterval /= 2;
+		
+		yield return new WaitForSeconds(5);
+		
+		GameConfig.numBubblesInterval *= 2;
+	}
+
+	private void Awake () {
 
 		deltaMovement = transform.position;
 		mainCamera = Camera.main;
 
 		Events.instance.AddListener<MovementEvent> (OnMovementEvent);
-		Events.instance.AddListener<PowerEvent> (PowerUpEvent);
+		Events.instance.AddListener<PowerUpEvent> (OnPowerUpEvent);
 		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
-		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 
 	}
 
 	// Use this for initialization
-	void Start ()
+	private void Start ()
 	{
 
 //		Camera.main.orthographicSize = Screen.height / 2;
@@ -188,13 +170,13 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 	}
 
-	void Update() {
+	private void Update() {
 
   	Vector3 targetPosition;
 
-	  	targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, Camera.main.nearClipPlane);
-			transform.position = ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime));
-		
+		targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, Camera.main.nearClipPlane);
+		transform.position = ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime));
+	
 		if(moveLeft || moveRight) {
 			transform.position = ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime));
 			deltaMovement = transform.position;
@@ -205,32 +187,47 @@ public class ArchetypePlayer : MonoBehaviour {
 	  if(currentBadScore < targetScore) {
 	  	currentBadScore += targetScore/20;
 	  }
+		
+		if(intervalTime >= GameConfig.numBubblesInterval) {
+
+
+			intervalTime = 0;
+			Vector2 dir = new Vector2(0, 1);
+			
+			dir.Normalize();
+			
+			GameObject projectile = Instantiate (bubble, transform.position, Quaternion.identity) as GameObject;
+			projectile.GetComponent<Rigidbody> ().velocity = dir * bubbleSpeed; 
+			
+		}
+		else
+			intervalTime += Time.deltaTime;
 	  
 	}
 
-	void OnDestroy() {
+	private void OnDestroy() {
 
 		Events.instance.RemoveListener<MovementEvent> (OnMovementEvent);
 		Events.instance.RemoveListener<HitEvent> (BubbleHitEvent);
-		Events.instance.RemoveListener<ScoreEvent> (OnScoreEvent);
 		Events.instance.RemoveListener<DeathEvent> (OnDeathEvent);
+		Events.instance.RemoveListener<PowerUpEvent> (OnPowerUpEvent);
 
 	}
-	
-  void OnMouseDown() {
+
+	private void OnMouseDown() {
 
 		Behaviour h = (Behaviour)GetComponent("Halo");
 		h.enabled = true;
   }
-	
-  void OnMouseUp() {
+
+	private void OnMouseUp() {
 
 		Behaviour h = (Behaviour)GetComponent("Halo");
 		h.enabled = false;
 
   }
 
-	void OnMouseDrag() {
+	private void OnMouseDrag() {
 
 		Vector3 cursorPoint = new Vector3(Input.mousePosition.x, freeMovement ? Input.mousePosition.y - 50 : 250, 0);
 		Vector3 cursorPosition = mainCamera.ScreenToWorldPoint(cursorPoint);
@@ -239,7 +236,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	}
 
-	void OnTriggerStay(Collider other)
+	private void OnTriggerStay(Collider other)
   {
 
 	  if(other.gameObject.tag == "Spawner" && inBossBattle && meterImage != null) {
