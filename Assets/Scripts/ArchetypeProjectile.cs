@@ -31,14 +31,14 @@ public class ArchetypeProjectile : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
   {
 
-  	Debug.Log(other);
+  	// Debug.Log(other);
 
-	  if(other.gameObject.tag == "Spawner") {
+	  // if(other.gameObject.tag == "Spawner") {
 
-	  	Destroy(other.gameObject);
-	  	Destroy(gameObject);
+	  // 	Destroy(other.gameObject);
+	  // 	Destroy(gameObject);
 	  	
-	  }
+	  // }
 	}
 
 }
