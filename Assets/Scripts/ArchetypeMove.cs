@@ -16,6 +16,7 @@ Created by Engagement Lab @ Emerson College, 2017
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using JetBrains.Annotations;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -93,6 +94,10 @@ public class ArchetypeMove : MonoBehaviour
 	}
 	
 	public void Update () {
+		
+		#if IS_DEBUG
+		if(!Input.GetMouseButton(0)) return;
+		#endif
 		
 		// Find target for movement and change target vector based on direction
 		var target = _localParent != null ? _localParent.transform.position : transform.position;
@@ -220,7 +225,8 @@ public class ArchetypeMove : MonoBehaviour
 
   	}
   }
-	
+	 
+	#if UNITY_EDITOR
 	public void OnDrawGizmosSelected()
 	{
 		if(Application.isPlaying) return;
@@ -234,12 +240,12 @@ public class ArchetypeMove : MonoBehaviour
 			if(MovementDir == Dirs.Left)
 			{
 				lineDir += new Vector3(3, 0, 0);
-				lookDir *= Quaternion.LookRotation(Vector3.right);
+				lookDir *= Quaternion.LookRotation(Vector3.left);
 			}
 			else if(MovementDir == Dirs.Right)
 			{
 				lineDir += new Vector3(-3, 0, 0);
-				lookDir *= Quaternion.LookRotation(Vector3.left);
+				lookDir *= Quaternion.LookRotation(Vector3.right);
 			}
 			else if(MovementDir == Dirs.Up)
 			{
@@ -258,13 +264,18 @@ public class ArchetypeMove : MonoBehaviour
 		}
 		
 		var waypointChildren = new List<Transform>();
-
-		foreach(Transform t in transform)
+		
+		foreach(Transform tr in transform)
 		{
-			if(t.tag == "Waypoint")
-				waypointChildren.Add(t);
-			
+			if(tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy)
+			{
+				foreach(Transform wp in tr)
+					waypointChildren.Add(wp);
+			}
+			else if(tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy)
+				waypointChildren.Add(tr);
 		}
+
 		
 		if(waypointChildren.Count > 0)
 		{
@@ -310,14 +321,17 @@ public class ArchetypeMove : MonoBehaviour
 				iTween.DrawPath(_waypoints.ToArray());
 	
 	}
+	#endif
 
 	/**************
 		CUSTOM METHODS
 	***************/
 	
-	// Add gameobject of type Waypoint as child of this archetype
+	// Add gameobject of type Waypoint as child of this archetype; used in editor only
 	public void AddWaypoint()
 	{
+		
+		#if UNITY_EDITOR
 		
 		var waypointPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Waypoint.prefab");
 		var waypoint = Instantiate(waypointPrefab, Vector3.zero, Quaternion.identity);
@@ -333,6 +347,8 @@ public class ArchetypeMove : MonoBehaviour
 		Selection.activeGameObject = waypoint;
 		
 		Undo.RegisterCreatedObjectUndo(waypoint, "Waypoint Added");
+		
+		#endif
 
 	}
 
@@ -350,11 +366,26 @@ public class ArchetypeMove : MonoBehaviour
 
 		_waypoints = new List<Vector3>();
 
-		// Iterate through all transform children and pull out any waypoints
+		// Iterate through all transform children or waypoint prefab patterns and pull out any waypoints
 		foreach(Transform tr in transform)
 		{
+/*			if(tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy)
+			{
+				
+				foreach(Transform wp in tr)
+				
+//				StartCoroutine(RemovePatternParent(tr));
+//				Destroy(tr.gameObject);
+			}
+			else */
+
 			if(tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy)
+			{
+				if(tr.parent.tag == "WaypointsPattern")
+					tr.SetParent(transform);
+				
 				_waypoints.Add(tr.position);
+			}
 		}
 
 		if(_waypoints.Count <= 0) return;
@@ -380,6 +411,14 @@ public class ArchetypeMove : MonoBehaviour
 		transform.SetParent(_localParent.transform);
 		transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
 		
+	}
+
+	private IEnumerator RemovePatternParent(Transform tr)
+	{
+		foreach(Transform wp in tr)
+			wp.SetParent(transform);
+
+		yield return null;
 	}
 	
 	public Vector3 ClampToScreen(Vector3 vector) {

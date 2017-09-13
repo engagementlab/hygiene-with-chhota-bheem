@@ -1,6 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Microsoft.Win32;
+﻿/* 
+
+Hygiene With Chhota Bheem
+Created by Engagement Lab @ Emerson College, 2017
+
+==============
+	ArchetypeSpawner.cs
+	Archetype object that spawns other archetype once entering camera; inherits ArchetypeMove.
+	https://github.com/engagementgamelab/hygiene-with-chhota-bheem/blob/master/Assets/Scripts/Editor/ArchetypeSpawner.cs
+
+	Created by Johnny Richardson.
+==============
+
+*/
 using UnityEngine;
 
 public class ArchetypeSpawner : ArchetypeMove
@@ -31,23 +42,21 @@ public class ArchetypeSpawner : ArchetypeMove
 			return;
 		
 		base.Update();
-		
-		if(mainCamera.WorldToViewportPoint(transform.position).y < 1 && prefabToSpawn != null) {
-			GameObject spawn = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
 
-			spawn.SetActive(true);
-			wait = false;
+		if(!(mainCamera.WorldToViewportPoint(transform.position).y < 1) || prefabToSpawn == null) return;
+		var spawn = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
 
-			if(!moveAfterSpawn)
-			{
-				Vector3 globalPos = mainCamera.transform.InverseTransformPoint(transform.position);
-				transform.parent = null;
-				transform.position = globalPos;
-				SetupWaypoints();
-			}
-			
-			Destroy(gameObject);
+		spawn.SetActive(true);
+		wait = false;
+
+		if(!moveAfterSpawn)
+		{
+			Vector3 globalPos = mainCamera.transform.InverseTransformPoint(transform.position);
+			transform.parent = null;
+			transform.position = globalPos;
+			SetupWaypoints();
 		}
-		
+			
+		Destroy(gameObject);
 	}
 }

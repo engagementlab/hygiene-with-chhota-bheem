@@ -18,22 +18,29 @@ public class Waypoint : MonoBehaviour {
 
 	public void AddWaypoint()
 	{
-		ArchetypeMove parent = transform.parent.GetComponent<ArchetypeMove>();
+		
+		var parent = transform.parent.GetComponent<ArchetypeMove>();
 		
 		if(parent != null)
 			parent.AddWaypoint();
 		
 	}
 
-#if UNITY_EDITOR
- 
-	void OnDrawGizmosSelected()
+	#if UNITY_EDITOR
+	private void OnDrawGizmosSelected()
 	{
-		ArchetypeMove parent = transform.parent.GetComponent<ArchetypeMove>();
 		
+		var parent = transform.parent.GetComponent<ArchetypeMove>();
+
 		if(parent != null)
 			parent.OnDrawGizmosSelected();
+		else
+		{
+			if(transform.parent.parent.GetComponent<ArchetypeMove>() != null)
+				transform.parent.parent.GetComponent<ArchetypeMove>().OnDrawGizmosSelected();
+		}
 		
 	}
-#endif
+	#endif
+	
 }

@@ -30,7 +30,7 @@ public class WaypointGUI : Editor
 	
 	public override void OnInspectorGUI()
 	{
-  
+		
 		Waypoint _waypoint= (Waypoint)target;
     
 		if(GUILayout.Button("Add Another Waypoint"))
@@ -45,7 +45,7 @@ public class WaypointGUI : Editor
 	public virtual void OnSceneGUI()
 	{
 		
-		if(Application.isPlaying) return;
+//		if(Application.isPlaying) return;
 	
 		Waypoint _waypoint= (Waypoint)target;	
 		
