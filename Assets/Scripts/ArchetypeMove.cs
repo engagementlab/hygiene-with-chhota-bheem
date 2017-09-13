@@ -348,7 +348,8 @@ public class ArchetypeMove : MonoBehaviour
 	// Does this object have any waypoints attached?
 	public bool HasWaypoints()
 	{
-		var length = transform.Cast<Transform>().Count(tr => tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy);
+		var length = transform.Cast<Transform>().Count(tr => tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy) + 
+		             (from Transform tr in transform where tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy from Transform wp in tr select wp).Count();
 
 		return length > 0;
 	}
@@ -358,27 +359,25 @@ public class ArchetypeMove : MonoBehaviour
 	{
 
 		_waypoints = new List<Vector3>();
-
-		// Iterate through all transform children or waypoint prefab patterns and pull out any waypoints
+		var waypointTransforms = new List<Transform>();
+		
 		foreach(Transform tr in transform)
 		{
-/*			if(tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy)
+			if(tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy)
 			{
-				
-				foreach(Transform wp in tr)
-				
-//				StartCoroutine(RemovePatternParent(tr));
-//				Destroy(tr.gameObject);
-			}
-			else */
+				foreach(Transform wp in tr) 
+					waypointTransforms.Add(wp);
 
-			if(tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy)
-			{
-				if(tr.parent.tag == "WaypointsPattern")
-					tr.SetParent(transform);
-				
-				_waypoints.Add(tr.position);
-			}
+			} 
+			else
+				waypointTransforms.Add(tr);
+		}
+
+		// Iterate through all transform children or waypoint prefab patterns and pull out any waypoints
+		foreach(var tr in waypointTransforms)
+		{
+			if(tr.tag != "Waypoint" || !tr.gameObject.activeInHierarchy) continue;
+			_waypoints.Add(tr.position);
 		}
 
 		if(_waypoints.Count <= 0) return;
@@ -404,14 +403,6 @@ public class ArchetypeMove : MonoBehaviour
 		transform.SetParent(_localParent.transform);
 		transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
 		
-	}
-
-	private IEnumerator RemovePatternParent(Transform tr)
-	{
-		foreach(Transform wp in tr)
-			wp.SetParent(transform);
-
-		yield return null;
 	}
 	
 	public Vector3 ClampToScreen(Vector3 vector) {

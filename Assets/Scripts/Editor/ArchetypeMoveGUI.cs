@@ -57,7 +57,7 @@ public class ArchetypeMoveGUI : Editor
 			_archetype.AnimationType = (ArchetypeMove.AnimType) EditorGUILayout.EnumPopup("Animation Type", _archetype.AnimationType);
 
 			// Animation speed controls
-			_archetype.AnimationForwardSpeed = EditorGUILayout.Slider("Forward Speed", _archetype.AnimationDuration, 0, 2);
+			_archetype.AnimationForwardSpeed = EditorGUILayout.Slider("Forward Speed", _archetype.AnimationForwardSpeed, 0, 2);
 			_archetype.AnimationReverseSpeed = EditorGUILayout.Slider("Backward Speed", _archetype.AnimationReverseSpeed, 0, 2);
 			
 			GUILayout.EndVertical();
