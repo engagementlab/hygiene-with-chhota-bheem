@@ -16,7 +16,7 @@ public class ArchetypePowerUp : ArchetypeMove {
     currentSpell = spells[index];
 
     gameObject.GetComponent<SpriteRenderer>().sprite = currentSpell;
-    Debug.Log(currentSpell);
+    
 		
 	}
 	
@@ -26,6 +26,34 @@ public class ArchetypePowerUp : ArchetypeMove {
 
 		
 		
+	}
+
+	public IEnumerator Timer(int time, string power) {
+
+		while(time>0){
+        Debug.Log(time--);
+        yield return new WaitForSeconds(1);
+    }
+    Debug.Log("Countdown Complete!");
+
+    if (power == "PowerUpMatrix") {
+    	// Reset game speed
+    } else if (power == "PowerUpSpeedShoot") {
+    	// Reset shooting speed
+    } else if (power == "PowerUpScatterShoot") {
+    	// Reset shooting
+    }
+
+	}
+
+	private void OnTriggerEnter(Collider collider) {
+
+		if (collider.gameObject.tag == "Player") {
+
+			Events.instance.Raise (new PowerEvent(PowerEvent.Type.Matrix));
+
+		}
+
 	}
 
 

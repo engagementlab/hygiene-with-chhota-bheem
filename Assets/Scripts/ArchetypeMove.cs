@@ -55,6 +55,7 @@ public class ArchetypeMove : MonoBehaviour
 	public string SpawnType;
 
 	public GameObject[] powerUps;
+	private string powerUpType;
 	
 	public enum Dirs
 	{
@@ -166,10 +167,24 @@ public class ArchetypeMove : MonoBehaviour
 			  }
 
 			  if(collider.gameObject.tag == "PowerUp") {
+			  	// powerUpType = collider.gameObject.name;
+			  	// // What kinda power up? 
+			  	// if (powerUpType == "PowerUpMatrix") {
+			  	// 	// Slow down the whole world except the player
 
-			  	GameConfig.numBubblesInterval -= GameConfig.numBubblesSpeedGained;
-			  	Destroy(collider.gameObject);
-			  
+		  		// } else if (powerUpType == "PowerUpSpeedShoot") {
+		  		// 	// Speed up bubble rate
+		  		// 	gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed = gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed * 2;
+
+		  		// } else if (powerUpType == "PowerUpScatterShoot") {
+		  		// 	// Make those bubbles scatter
+
+		  		// }
+
+		  		// StartCoroutine(collider.gameObject.GetComponent<ArchetypePowerUp>().Timer(10, powerUpType));
+
+			  	// Destroy(collider.gameObject);
+
 			  	return;
 			  }
 
@@ -178,7 +193,6 @@ public class ArchetypeMove : MonoBehaviour
 					// Destroy(gameObject);
 
 				// Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
-  			Debug.Log(collider.gameObject.tag);
   			if (collider.gameObject.tag == "Fly") {
 	  			Debug.Log("The Player shot a Fly! It should die!");
 
@@ -465,7 +479,7 @@ public class ArchetypeMove : MonoBehaviour
 
 	private IEnumerator RemoveVillager()
 	{
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(0.5f);
 		Destroy(gameObject);
 	}
 
@@ -481,5 +495,7 @@ public class ArchetypeMove : MonoBehaviour
 		// }
 
 	}
+
+	
 
 }

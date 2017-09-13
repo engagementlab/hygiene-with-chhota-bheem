@@ -82,6 +82,28 @@ public class ArchetypePlayer : MonoBehaviour {
 
   }
 
+  void PowerUpEvent(PowerEvent e) {
+  	Debug.Log("POWERED UP");
+
+  	// powerUpType = collider.gameObject.name;
+  	// // What kinda power up? 
+  	// if (powerUpType == "PowerUpMatrix") {
+  	// 	// Slow down the whole world except the player
+
+		// } else if (powerUpType == "PowerUpSpeedShoot") {
+		// 	// Speed up bubble rate
+		// 	gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed = gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed * 2;
+
+		// } else if (powerUpType == "PowerUpScatterShoot") {
+		// 	// Make those bubbles scatter
+
+		// }
+
+  	// StartCoroutine(collider.gameObject.GetComponent<ArchetypePowerUp>().Timer(10, powerUpType));
+
+  	// Destroy(collider.gameObject);
+  }	
+
   void SpawnHit(Collider collider, GameObject bubble=null) {
 
   }
@@ -140,7 +162,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		mainCamera = Camera.main;
 
 		Events.instance.AddListener<MovementEvent> (OnMovementEvent);
-		Events.instance.AddListener<HitEvent> (BubbleHitEvent);
+		Events.instance.AddListener<PowerEvent> (PowerUpEvent);
 		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 

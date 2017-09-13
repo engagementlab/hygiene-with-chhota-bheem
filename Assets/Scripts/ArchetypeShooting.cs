@@ -57,8 +57,6 @@ public class ArchetypeShooting : MonoBehaviour {
 			GameObject projectile = Instantiate (bubble, transform.position, Quaternion.identity) as GameObject;
 			projectile.GetComponent<Rigidbody> ().velocity = dir * bubbleSpeed; 
 			
-			Debug.Log(projectile);
-
 		}
 		else
 			intervalTime += Time.deltaTime;
