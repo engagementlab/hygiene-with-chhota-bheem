@@ -480,12 +480,14 @@ public class ArchetypeMove : MonoBehaviour
 
 	private void PowerUp(Vector3 location) {
 		// Check random to see if power up is dropped
-		if (Random.Range(0.0f, 10.0f) <= 5.0f) {
+		// if (Random.Range(0.0f, 10.0f) <= 5.0f) {
 			// TO DO: Check the level to determine the power up
 
+			GameObject powerUp = GameObject.FindWithTag("Player").GetComponent<ArchetypeMove>().powerUps[0];
+
 			// Drop that power up
-			Instantiate(powerUps[0], location, Quaternion.identity);
-		}
+			Instantiate(powerUp, location, Quaternion.identity);
+		// }
 
 	}
 
