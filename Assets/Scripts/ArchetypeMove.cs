@@ -53,6 +53,8 @@ public class ArchetypeMove : MonoBehaviour
 	
 	[CanBeNull] [HideInInspector]
 	public string SpawnType;
+
+	public GameObject[] powerUps;
 	
 	public enum Dirs
 	{
@@ -176,13 +178,15 @@ public class ArchetypeMove : MonoBehaviour
 					// Destroy(gameObject);
 
 				// Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
-
+  			Debug.Log(collider.gameObject.tag);
   			if (collider.gameObject.tag == "Fly") {
 	  			Debug.Log("The Player shot a Fly! It should die!");
 
 	  			Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));	
 		  		Destroy(collider.gameObject);
 		  		GameConfig.fliesCaught++;
+
+		  		PowerUp(collider.gameObject.transform.position);
 
 	  		}
 	  		if (collider.gameObject.tag == "Villager") {
@@ -206,6 +210,9 @@ public class ArchetypeMove : MonoBehaviour
 
 						villager.isDestroyed = true;
 						GameConfig.peopleSaved++;
+
+						PowerUp(collider.gameObject.transform.position);
+
 					}
 
 	  		}
@@ -460,6 +467,19 @@ public class ArchetypeMove : MonoBehaviour
 	{
 		yield return new WaitForSeconds(1);
 		Destroy(gameObject);
+	}
+
+	private void PowerUp(Vector3 location) {
+		// Check random to see if power up is dropped
+		// if (Random.Range(0.0f, 10.0f) <= 5.0f) {
+			// TO DO: Check the level to determine the power up
+
+			GameObject powerUp = GameObject.FindWithTag("Player").GetComponent<ArchetypeMove>().powerUps[0];
+
+			// Drop that power up
+			Instantiate(powerUp, location, Quaternion.identity);
+		// }
+
 	}
 
 }
