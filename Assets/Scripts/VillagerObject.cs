@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
@@ -15,11 +16,10 @@ public class VillagerObject : ArchetypeMove {
 	public int placeholderIndex = 0;
 	public float health = 2;
 
-	Vector3[] movements = new Vector3[4];
+	private Vector3[] movements = new Vector3[4];
 
-  IEnumerator RemoveVillager()
+	private void RemoveVillager()
   {
-      yield return new WaitForSeconds(1);
       Destroy(gameObject);
   }
 
@@ -28,24 +28,22 @@ public class VillagerObject : ArchetypeMove {
 	}
 
 	// Use this for initialization
-	void Awake () {
+	private void Awake () {
 		
 		base.Awake();
 
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	private void Update () {
 		
 		base.Update();
 
 	}
 
-	void OnTriggerEnter(Collider collider) {
+	private void OnTriggerEnter(Collider collider) {
 		
 		if(collider.gameObject.tag != "Bubble") return;
-		
-		Debug.Log("The Player shot a Villager! It should lose life!");
 
 		placeholderIndex++;
 
@@ -54,19 +52,25 @@ public class VillagerObject : ArchetypeMove {
 		Vector2 v = healthFill.rectTransform.sizeDelta;
 		v.x += .5f;
 		healthFill.rectTransform.sizeDelta = v;
+
+		if(!(Mathf.Abs(v.x - health) <= .1f)) return;
 		
-		if(Mathf.Abs(v.x - health) < .1f) {
+		iTween.ScaleTo(collider.gameObject, Vector3.zero, 1.0f);
+		Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));
+		
+		RemoveVillager();
 
-			iTween.ScaleTo(collider.gameObject, Vector3.zero, 1.0f);
-			Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));	
-			StartCoroutine(RemoveVillager());
+		IsDestroyed = true;
+		GameConfig.peopleSaved++;
 
-			IsDestroyed = true;
-			GameConfig.peopleSaved++;
-
+		if(powerUpGiven != PowerUps.None)
 			Events.instance.Raise(new PowerUpEvent(powerUpGiven));
-
+		else
+		{
+//			Events.instance.Raise(new SpellComponentEvent(true));
+			SpawnSpellComponent();
 		}
+
 	}
 
 }

@@ -9,7 +9,7 @@ public class ArchetypeProjectile : MonoBehaviour {
 	private Camera mainCamera;
 
 	// Use this for initialization
-	void Awake ()
+	private void Awake ()
 	{
 
 		mainCamera = Camera.main;
@@ -20,25 +20,12 @@ public class ArchetypeProjectile : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	private void Update () {
       
 
 		if(mainCamera.WorldToViewportPoint(transform.position).y > 1)
 			Destroy(gameObject);
 		
-	}
-
-	void OnTriggerEnter(Collider other)
-  {
-
-  	// Debug.Log(other);
-
-	  // if(other.gameObject.tag == "Spawner") {
-
-	  // 	Destroy(other.gameObject);
-	  // 	Destroy(gameObject);
-	  	
-	  // }
 	}
 
 }

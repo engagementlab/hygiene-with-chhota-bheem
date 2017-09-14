@@ -18,8 +18,7 @@ using UnityEditor;
 using UnityEngine;
 
 public class SceneEditor : MonoBehaviour {
-	
-	void OnDrawGizmos()
+	private void OnDrawGizmos()
 	{
 		if(Application.isPlaying) return;
 		

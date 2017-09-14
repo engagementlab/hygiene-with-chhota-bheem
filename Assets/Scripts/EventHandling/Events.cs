@@ -8,7 +8,7 @@ public class GameEvent {}
 
 public class Events
 {
-	static Events instanceInternal = null;
+	private static Events instanceInternal = null;
 	public static Events instance
 	{
 		get

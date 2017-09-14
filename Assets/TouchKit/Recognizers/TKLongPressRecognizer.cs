@@ -17,8 +17,8 @@ public class TKLongPressRecognizer : TKAbstractGestureRecognizer
 	public int requiredTouchesCount = -1;
 	public float allowableMovementCm = 1f;
 
-	Vector2 _beginLocation;
-	bool _waiting;
+	private Vector2 _beginLocation;
+	private bool _waiting;
 
 
 
@@ -34,7 +34,7 @@ public class TKLongPressRecognizer : TKAbstractGestureRecognizer
 	}
 
 
-	IEnumerator beginGesture()
+	private IEnumerator beginGesture()
 	{
 		var endTime = Time.time + minimumPressDuration;
 

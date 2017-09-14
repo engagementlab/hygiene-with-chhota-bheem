@@ -10,7 +10,7 @@ public class ArchetypePowerUp : ArchetypeMove {
 	public Sprite currentSpell;
 
 	// Use this for initialization
-	void Awake ()
+	private void Awake ()
 	{
 		// Pick the spell item
     int index = Random.Range(0, spells.Length);

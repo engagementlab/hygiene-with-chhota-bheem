@@ -90,6 +90,7 @@ public class ArchetypeMove : MonoBehaviour
 	public void Awake()
 	{
 		Events.instance.AddListener<PowerUpEvent> (OnPowerUpEvent);
+//		Events.instance.AddListener<SpellComponentEvent> (OnSpellComponentEvent);
 		
 		if(transform.parent != null)
 			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
@@ -163,34 +164,12 @@ public class ArchetypeMove : MonoBehaviour
 
   			bool die = collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager";
 
-			  if (die && !gameObject.GetComponent<ArchetypePlayer>().wonGame)
+			  if (die && !gameObject.GetComponent<ArchetypePlayer>().WonGame)
 			  {
 			  	Debug.Log("Game Over, you died.");
 				  gameObject.SetActive(false);
 
-				  gameObject.GetComponent<ArchetypePlayer>().gameOverText.SetActive(true);
-			  }
-
-			  if(collider.gameObject.tag == "PowerUp") {
-			  	// powerUpType = collider.gameObject.name;
-			  	// // What kinda power up? 
-			  	// if (powerUpType == "PowerUpMatrix") {
-			  	// 	// Slow down the whole world except the player
-
-		  		// } else if (powerUpType == "PowerUpSpeedShoot") {
-		  		// 	// Speed up bubble rate
-		  		// 	gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed = gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed * 2;
-
-		  		// } else if (powerUpType == "PowerUpScatterShoot") {
-		  		// 	// Make those bubbles scatter
-
-		  		// }
-
-		  		// StartCoroutine(collider.gameObject.GetComponent<ArchetypePowerUp>().Timer(10, powerUpType));
-
-			  	// Destroy(collider.gameObject);
-
-			  	return;
+				  gameObject.GetComponent<ArchetypePlayer>().GameOverText.SetActive(true);
 			  }
 
   		} else if (gameObject.tag == "Bubble") {
@@ -503,6 +482,18 @@ public class ArchetypeMove : MonoBehaviour
 			// Drop that power up
 			Instantiate(powerUp, location, Quaternion.identity);
 		// }
+
+	}
+
+	protected void SpawnSpellComponent()
+	{
+		
+		
+		var neededCt = Inventory.instance.SpellComponentsNeeded.Count;
+		GameObject spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
+		
+		SpellComponent comp = Inventory.instance.SpellComponentsNeeded[UnityEngine.Random.Range(0, neededCt)];
+		spellObject.GetComponent<SpellObject>().SelectComponent(comp);
 
 	}
 

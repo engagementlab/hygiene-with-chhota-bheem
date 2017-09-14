@@ -12,11 +12,11 @@ public class TKTapRecognizer : TKAbstractGestureRecognizer
 	public int numberOfTouchesRequired = 1;
 
 	// taps that last longer than this duration will be ignored
-	float _maxDurationForTapConsideration = 0.5f;
+	private float _maxDurationForTapConsideration = 0.5f;
 
-	float _maxDeltaMovementForTapConsideration = 1f;
-	float _touchBeganTime;
-	int _preformedTapsCount = 0;
+	private float _maxDeltaMovementForTapConsideration = 1f;
+	private float _touchBeganTime;
+	private int _preformedTapsCount = 0;
 
 
 	public TKTapRecognizer() : this( 0.5f, 1f )

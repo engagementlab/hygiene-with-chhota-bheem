@@ -19,7 +19,7 @@ public class TKAnyTouchRecognizer : TKAbstractGestureRecognizer
 	}
 
 
-	void onTouchEntered()
+	private void onTouchEntered()
 	{
 		// fire the event if this is the first touch we are tracking
 		if( _trackingTouches.Count == 1 && onEnteredEvent != null )
@@ -27,7 +27,7 @@ public class TKAnyTouchRecognizer : TKAbstractGestureRecognizer
 	}
 
 
-	void onTouchExited()
+	private void onTouchExited()
 	{
 		if( _trackingTouches.Count == 0 && onExitedEvent != null )
 			onExitedEvent( this );
