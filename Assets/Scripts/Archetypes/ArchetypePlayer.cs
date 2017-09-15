@@ -54,7 +54,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void Update() {
 		
 		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, Camera.main.nearClipPlane);
-		transform.position = ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime));
+		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
 	  if(_currentBadScore < _targetScore) {
 	  	_currentBadScore += _targetScore/20;
@@ -102,21 +102,6 @@ public class ArchetypePlayer : MonoBehaviour {
 	/**************
 		CUSTOM METHODS
 	***************/
-	private Vector3 ClampToScreen(Vector3 vector) {
-
-		Vector3 pos = _mainCamera.WorldToViewportPoint(vector);
-		pos.x = Mathf.Clamp01(pos.x);
-		pos.y = Mathf.Clamp01(pos.y);
-		pos.z = 0;
-
-		Vector3 worldPos = _mainCamera.ViewportToWorldPoint(pos);
-		// Debug.Log(worldPos.x);
-		worldPos.x = Mathf.Clamp(worldPos.x, -6.9f, 6.9f);
-		worldPos.z = 0;
-
-		return worldPos;
-
-	}
 	
 	private void OnPowerUpEvent(PowerUpEvent e)
 	{
@@ -150,20 +135,24 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private static IEnumerator PowerUpBubbleSpeed()
 	{
+		GUIManager.Instance.DisplayCurrentPowerUp("Bubble Speedup");
 		GameConfig.numBubblesInterval /= 2;
 		
 		yield return new WaitForSeconds(5);
 		
 		GameConfig.numBubblesInterval *= 2;
+		GUIManager.Instance.HidePowerUp();
 	}
 
 	private IEnumerator PowerUpScatterShoot()
 	{
+		GUIManager.Instance.DisplayCurrentPowerUp("Scatter Shot");
 		_scatterShootOn = true;
 		
 		yield return new WaitForSeconds(5);
 
 		_scatterShootOn = false;
+		GUIManager.Instance.HidePowerUp();
 	}
   
 }

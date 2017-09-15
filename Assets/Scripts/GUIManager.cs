@@ -1,29 +1,68 @@
-﻿using DefaultNamespace;
+﻿using System.Runtime.CompilerServices;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Linq;
 
-public class GUIManager : MonoBehaviour
+public class GUIManager
 {
-	private static GUIManager _instanceInternal;
+	static GUIManager _instanceInternal;
 	public static GUIManager Instance
 	{
-		get { return _instanceInternal ?? (_instanceInternal = new GUIManager()); }
+		get
+		{
+			if(_instanceInternal == null)
+				_instanceInternal = new GUIManager();
+
+			return _instanceInternal;
+		}
 	}
 	
 	private RectTransform inventoryUI;
+	private GameObject powerUpText;
 
 	// Use this for initialization
 	public void Initialiaze ()
 	{
 
-		inventoryUI = GameObject.Find("Inventory").GetComponent<RectTransform>();
+		inventoryUI = GameObject.Find("UI/Inventory").GetComponent<RectTransform>();
+		powerUpText = GameObject.Find("UI/PowerUpText");
+		
+		powerUpText.SetActive(false);
+		
+	}
 
+	public void DisplayCurrentPowerUp(string powerUpName)
+	{
+		
+		powerUpText.GetComponent<Text>().text = "Power up: " + powerUpName;
+		powerUpText.SetActive(true);
+		
+	}
+	
+	public void HidePowerUp()
+	{
+		
+		powerUpText.SetActive(false);
+		
 	}
 
 	public void ShowSpellComponent(SpellComponent component)
 	{
 		
-		inventoryUI.Find(component.ToString()).GetComponent<Image>().enabled = true;
+		var img = inventoryUI.Find(component.ToString()).GetComponent<Image>();
+		img.enabled = true;
+		
+		Inventory.instance.AddSpellComponent(component);
+		
+	}
+
+	public void EmptySpells()
+	{
+		
+		var spellIcons = inventoryUI.gameObject.Children().OfComponent<Image>().ToArray();
+		foreach(var spellIcon in spellIcons)
+			spellIcon.enabled = false;
 		
 	}
 }
