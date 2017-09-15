@@ -25,7 +25,7 @@ public class TKLSwipeDetector : MonoBehaviour
 
 	public float timeToSwipe = 0.5f;
 	public float swipeVelocity;
-	SwipeDirection completedSwipeDirection;
+	private SwipeDirection completedSwipeDirection;
 
 	public float _minimumDistance = 2f;
 	public float _allowedVariance = 1.5f;
@@ -36,10 +36,10 @@ public class TKLSwipeDetector : MonoBehaviour
 	private float _startTime;
 	private SwipeDirection _swipeDetectionState;
 	// the current swipes that are still possibly valid
-	bool _didCompleteDetection = true;
+	private bool _didCompleteDetection = true;
 
 
-	void Update()
+	private void Update()
 	{
 		// dont process drags if we have no input
 		if( TouchKitLite.instance.liveTouches.Count == 0 )

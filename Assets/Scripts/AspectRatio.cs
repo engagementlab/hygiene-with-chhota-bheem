@@ -6,7 +6,7 @@ public class AspectRatio : MonoBehaviour {
 
 	private float targetAspect = 3/4;
 
-	void Start () 
+	private void Start () 
 	{
 		float windowAspect = (float)Screen.width / (float)Screen.height;
 		float scaleHeight = windowAspect / targetAspect;

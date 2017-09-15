@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class ArchetypePowerUp : ArchetypeMove {
@@ -9,23 +10,14 @@ public class ArchetypePowerUp : ArchetypeMove {
 	public Sprite currentSpell;
 
 	// Use this for initialization
-	void Awake ()
+	private void Awake ()
 	{
 		// Pick the spell item
     int index = Random.Range(0, spells.Length);
     currentSpell = spells[index];
 
     gameObject.GetComponent<SpriteRenderer>().sprite = currentSpell;
-    
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-      
-
-		
-		
+  	
 	}
 
 	public IEnumerator Timer(int time, string power) {
@@ -50,7 +42,7 @@ public class ArchetypePowerUp : ArchetypeMove {
 
 		if (collider.gameObject.tag == "Player") {
 
-			Events.instance.Raise (new PowerEvent(PowerEvent.Type.Matrix));
+			Events.instance.Raise (new PowerUpEvent(PowerUps.SpeedShoot));
 
 		}
 

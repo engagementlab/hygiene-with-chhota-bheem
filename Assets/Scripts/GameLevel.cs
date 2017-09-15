@@ -24,7 +24,7 @@ public class GameLevel : MonoBehaviour
 	public Text intervalText;
 
 	// Use this for initialization
-	void Awake ()
+	private void Awake ()
 	{
 		GameConfig.sandboxMode = sandBoxMode;
 		
@@ -32,7 +32,7 @@ public class GameLevel : MonoBehaviour
 			GameConfig.gameSpeedModifier = gameSpeed;
 	}
 
-	void Start()
+	private void Start()
 	{
 		if(speedGainText == null) return;
 		

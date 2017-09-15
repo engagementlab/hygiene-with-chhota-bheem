@@ -16,7 +16,7 @@ Created by Engagement Lab @ Emerson College, 2017
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using DefaultNamespace;
 using JetBrains.Annotations;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -27,6 +27,7 @@ public class ArchetypeMove : MonoBehaviour
 {
 
 	public bool MoveEnabled = true;
+	public PowerUps powerUpGiven;
 
 	[HideInInspector]
 	public float MoveSpeed = 1;
@@ -51,11 +52,13 @@ public class ArchetypeMove : MonoBehaviour
 	[HideInInspector]
 	public float CurrentPathPercent;
 	
+	[HideInInspector]
+	public bool IsDestroyed;
+	
 	[CanBeNull] [HideInInspector]
 	public string SpawnType;
 
 	public GameObject[] powerUps;
-	private string powerUpType;
 	
 	public enum Dirs
 	{
@@ -86,6 +89,9 @@ public class ArchetypeMove : MonoBehaviour
 
 	public void Awake()
 	{
+		Events.instance.AddListener<PowerUpEvent> (OnPowerUpEvent);
+//		Events.instance.AddListener<SpellComponentEvent> (OnSpellComponentEvent);
+		
 		if(transform.parent != null)
 			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
 		
@@ -158,34 +164,12 @@ public class ArchetypeMove : MonoBehaviour
 
   			bool die = collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager";
 
-			  if (die && !gameObject.GetComponent<ArchetypePlayer>().wonGame)
+			  if (die && !gameObject.GetComponent<ArchetypePlayer>().WonGame)
 			  {
 			  	Debug.Log("Game Over, you died.");
 				  gameObject.SetActive(false);
 
-				  gameObject.GetComponent<ArchetypePlayer>().gameOverText.SetActive(true);
-			  }
-
-			  if(collider.gameObject.tag == "PowerUp") {
-			  	// powerUpType = collider.gameObject.name;
-			  	// // What kinda power up? 
-			  	// if (powerUpType == "PowerUpMatrix") {
-			  	// 	// Slow down the whole world except the player
-
-		  		// } else if (powerUpType == "PowerUpSpeedShoot") {
-		  		// 	// Speed up bubble rate
-		  		// 	gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed = gameObject.GetComponent<ArchetypeShooting>().bubbleSpeed * 2;
-
-		  		// } else if (powerUpType == "PowerUpScatterShoot") {
-		  		// 	// Make those bubbles scatter
-
-		  		// }
-
-		  		// StartCoroutine(collider.gameObject.GetComponent<ArchetypePowerUp>().Timer(10, powerUpType));
-
-			  	// Destroy(collider.gameObject);
-
-			  	return;
+				  gameObject.GetComponent<ArchetypePlayer>().GameOverText.SetActive(true);
 			  }
 
   		} else if (gameObject.tag == "Bubble") {
@@ -203,33 +187,7 @@ public class ArchetypeMove : MonoBehaviour
 		  		PowerUp(collider.gameObject.transform.position);
 
 	  		}
-	  		if (collider.gameObject.tag == "Villager") {
-	  			Debug.Log("The Player shot a Villager! It should lose life!");
 
-	  			var villager = collider.gameObject.GetComponent<VillagerObject>();
-
-	  			villager.placeholderIndex++;
-
-					Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
-
-					Vector2 v = villager.healthFill.rectTransform.sizeDelta;
-					v.x += .5f;
-					villager.healthFill.rectTransform.sizeDelta = v;
-
-					if(v.x == villager.health) {
-
-						iTween.ScaleTo(collider.gameObject, Vector3.zero, 1.0f);
-						Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));	
-						StartCoroutine(RemoveVillager());
-
-						villager.isDestroyed = true;
-						GameConfig.peopleSaved++;
-
-						PowerUp(collider.gameObject.transform.position);
-
-					}
-
-	  		}
 	  		if (collider.gameObject.tag == "Poop") {
 	  			Debug.Log("The Player shot a Poop! Nothing happens.");
 
@@ -334,6 +292,12 @@ public class ArchetypeMove : MonoBehaviour
 			if(_waypoints != null && _waypoints.Count > 0)
 				iTween.DrawPath(_waypoints.ToArray());
 	
+	}
+
+	private void OnDestroy() {
+		
+		Events.instance.RemoveListener<PowerUpEvent> (OnPowerUpEvent);
+
 	}
 	#endif
 
@@ -482,6 +446,31 @@ public class ArchetypeMove : MonoBehaviour
 		yield return new WaitForSeconds(0.5f);
 		Destroy(gameObject);
 	}
+	
+	private IEnumerator PowerUpMatrixMode()
+	{
+		MoveSpeed /= 2;
+		
+		yield return new WaitForSeconds(5);
+		
+		MoveSpeed *= 2;
+	}
+	
+	private void OnPowerUpEvent(PowerUpEvent e)
+	{
+		
+		// What kinda power up? 
+		switch(e.powerType)
+		{
+			
+			case PowerUps.Matrix:
+				// Slow down the whole world except the player
+				StartCoroutine(PowerUpMatrixMode());
+				break;
+				
+		}
+		
+	}
 
 	private void PowerUp(Vector3 location) {
 		// Check random to see if power up is dropped
@@ -493,6 +482,18 @@ public class ArchetypeMove : MonoBehaviour
 			// Drop that power up
 			Instantiate(powerUp, location, Quaternion.identity);
 		// }
+
+	}
+
+	protected void SpawnSpellComponent()
+	{
+		
+		
+		var neededCt = Inventory.instance.SpellComponentsNeeded.Count;
+		GameObject spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
+		
+		SpellComponent comp = Inventory.instance.SpellComponentsNeeded[UnityEngine.Random.Range(0, neededCt)];
+		spellObject.GetComponent<SpellObject>().SelectComponent(comp);
 
 	}
 

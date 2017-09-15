@@ -7,12 +7,12 @@ namespace Prime31 {
 public class TouchKitLite : MonoBehaviour
 {
 	public bool shouldProcessTouches = true;
-	const int kTotalTouchesToProcess = 2;
+	private const int kTotalTouchesToProcess = 2;
 
 
 	public List<TKLTouch> liveTouches = new List<TKLTouch>( 2 );
-	TKLTouch[] _touchCache;
-	const float inchesToCentimeters = 2.54f;
+	private TKLTouch[] _touchCache;
+	private const float inchesToCentimeters = 2.54f;
 
 	public float screenPixelsPerCm
 	{
@@ -53,7 +53,7 @@ public class TouchKitLite : MonoBehaviour
 
 	#region MonoBehaviour
 
-	void Awake()
+	private void Awake()
 	{
 		// prep our TKLTouch cache so we avoid excessive allocations
 		_touchCache = new TKLTouch[kTotalTouchesToProcess];
@@ -62,7 +62,7 @@ public class TouchKitLite : MonoBehaviour
 	}
 
 
-	void Update()
+	private void Update()
 	{
 		liveTouches.Clear();
 
@@ -97,7 +97,7 @@ public class TouchKitLite : MonoBehaviour
 	}
 
 
-	void OnApplicationQuit()
+	private void OnApplicationQuit()
 	{
 		_instance = null;
 	}

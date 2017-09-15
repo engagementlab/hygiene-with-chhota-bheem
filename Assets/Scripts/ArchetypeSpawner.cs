@@ -23,20 +23,18 @@ public class ArchetypeSpawner : ArchetypeMove
 	public bool moveAfterSpawn;
 	
 	[HideInInspector]
-	public bool isDestroyed;
-	[HideInInspector]
 	public string spawnType;
 
 	private Camera mainCamera;
 	private bool wait = true;
 
-	void Start()
+	private void Start()
 	{
 		mainCamera = Camera.main;
 	}
 
 	// Update is called once per frame
-	void Update () {
+	private void Update () {
 		
 		if(!MoveEnabled || !wait)
 			return;
