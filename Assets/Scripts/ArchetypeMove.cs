@@ -488,7 +488,6 @@ public class ArchetypeMove : MonoBehaviour
 	protected void SpawnSpellComponent()
 	{
 		
-		
 		var neededCt = Inventory.instance.SpellComponentsNeeded.Count;
 		GameObject spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
 		
