@@ -449,11 +449,13 @@ public class ArchetypeMove : MonoBehaviour
 	
 	private IEnumerator PowerUpMatrixMode()
 	{
+		GUIManager.Instance.DisplayCurrentPowerUp("Slow Enemies");
 		MoveSpeed /= 2;
 		
 		yield return new WaitForSeconds(5);
 		
 		MoveSpeed *= 2;
+		GUIManager.Instance.HidePowerUp();
 	}
 	
 	private void OnPowerUpEvent(PowerUpEvent e)
@@ -488,11 +490,10 @@ public class ArchetypeMove : MonoBehaviour
 	protected void SpawnSpellComponent()
 	{
 		
-		
 		var neededCt = Inventory.instance.SpellComponentsNeeded.Count;
 		GameObject spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
 		
-		SpellComponent comp = Inventory.instance.SpellComponentsNeeded[UnityEngine.Random.Range(0, neededCt)];
+		SpellComponent comp = Inventory.instance.SpellComponentsNeeded[Random.Range(0, neededCt)];
 		spellObject.GetComponent<SpellObject>().SelectComponent(comp);
 
 	}

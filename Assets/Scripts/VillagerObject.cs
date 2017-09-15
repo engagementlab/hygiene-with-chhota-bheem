@@ -63,13 +63,8 @@ public class VillagerObject : ArchetypeMove {
 		IsDestroyed = true;
 		GameConfig.peopleSaved++;
 
-		if(powerUpGiven != PowerUps.None)
-			Events.instance.Raise(new PowerUpEvent(powerUpGiven));
-		else
-		{
-//			Events.instance.Raise(new SpellComponentEvent(true));
-			SpawnSpellComponent();
-		}
+		SpawnSpellComponent();
+
 
 	}
 
