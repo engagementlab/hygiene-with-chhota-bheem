@@ -43,6 +43,7 @@ public class ArchetypePowerUp : ArchetypeMove {
 		if (collider.gameObject.tag == "Player") {
 
 			Events.instance.Raise (new PowerUpEvent(PowerUps.SpeedShoot));
+			Destroy(gameObject);
 
 		}
 
