@@ -76,12 +76,14 @@ public class ArchetypeMove : MonoBehaviour
 	}
 
 	[CanBeNull] private List<Vector3> _waypoints;
+	[CanBeNull] private Transform waypointsParent;
 	[CanBeNull] private GameObject _localParent;
 
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
 	private ArchetypeMove _parentMove;
+	private Transform _movingTransform;
 
 	/**************
 		UNITY METHODS
@@ -90,7 +92,9 @@ public class ArchetypeMove : MonoBehaviour
 	public void Awake()
 	{
 		Events.instance.AddListener<PowerUpEvent> (OnPowerUpEvent);
-//		Events.instance.AddListener<SpellComponentEvent> (OnSpellComponentEvent);
+
+		// For use in Update
+		_movingTransform = transform;
 		
 		if(transform.parent != null)
 			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
@@ -105,9 +109,13 @@ public class ArchetypeMove : MonoBehaviour
 		#if IS_DEBUG
 		if(!Input.GetMouseButton(0)) return;
 		#endif
+			
+		if(Camera.main.WorldToViewportPoint(_movingTransform.position).y < -1) {
+			Destroy(gameObject);
+		}
 		
 		// Find target for movement and change target vector based on direction
-		var target = _localParent != null ? _localParent.transform.position : transform.position;
+		var target = _movingTransform.position;
 		var deltaPos = Vector3.zero;
 
 		switch(MovementDir)
@@ -124,7 +132,7 @@ public class ArchetypeMove : MonoBehaviour
 				target.x -= MoveSpeed;
 				deltaPos.x -= MoveSpeed;
 				break;
-			default:
+			case Dirs.Down:
 				target.y -= MoveSpeed;
 				deltaPos.y -= MoveSpeed;
 				break;
@@ -132,23 +140,19 @@ public class ArchetypeMove : MonoBehaviour
 
 		// Move to target via lerp if movement allowed
 		if(MoveEnabled && MoveSpeed > 0)
-		{
-			if(_localParent != null)
-				_localParent.transform.position = Vector3.Lerp(_localParent.transform.position, target, Time.deltaTime);
-			else
-				transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime);
-		}
-
+			_movingTransform.position = Vector3.Lerp(_movingTransform.position, target, Time.deltaTime);
+		
 		if(_waypoints == null || _waypoints.Count <= 0) return;
 
 		// Translate waypoints
 		if(MoveEnabled)
 		{
-			for(var w = 0; w < _waypoints.Count; w++)
-			{
-				var v = Vector3.Lerp(_waypoints[w], _waypoints[w] + deltaPos, Time.deltaTime);
-				_waypoints[w] = v;
-			}
+//			for(var w = 0; w < _waypoints.Count; w++)
+//			{
+//				var v = Vector3.Lerp(_waypoints[w], _waypoints[w] + deltaPos, Time.deltaTime);
+//				_waypoints[w] = v;
+//			}
+			waypointsParent.transform.position = Vector3.Lerp(waypointsParent.transform.position, waypointsParent.transform.position + deltaPos, Time.deltaTime);
 		}
 		
 		Animate();
@@ -162,7 +166,8 @@ public class ArchetypeMove : MonoBehaviour
   		if (gameObject.tag == "Player") {
   			// Check if player hit a fly, poop, or villager. 
 
-  			bool die = collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager";
+			  // collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager"
+  			bool die = false;
 
 			  if (die && !gameObject.GetComponent<ArchetypePlayer>().WonGame)
 			  {
@@ -231,7 +236,7 @@ public class ArchetypeMove : MonoBehaviour
 			}
 
 			Handles.DrawDottedLine(transform.position, lineDir, 5);
-			Handles.ArrowHandleCap(0, lineDir, lookDir, 5, EventType.Repaint);
+			Handles.ArrowHandleCap(0, lineDir, lookDir, 15, EventType.Repaint);
 			
 		}
 		
@@ -345,15 +350,20 @@ public class ArchetypeMove : MonoBehaviour
 
 		_waypoints = new List<Vector3>();
 		var waypointTransforms = new List<Transform>();
+		waypointsParent = new GameObject("Waypoints").transform;
+		waypointsParent.parent = transform;
 		
 		foreach(Transform tr in transform)
 		{
 			if(tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy)
 			{
-				foreach(Transform wp in tr) 
+				foreach(Transform wp in tr)
+				{
 					waypointTransforms.Add(wp);
+					wp.parent = waypointsParent;
+				}
 
-			} 
+			}
 			else
 				waypointTransforms.Add(tr);
 		}
@@ -363,6 +373,7 @@ public class ArchetypeMove : MonoBehaviour
 		{
 			if(tr.tag != "Waypoint" || !tr.gameObject.activeInHierarchy) continue;
 			_waypoints.Add(tr.position);
+			tr.parent = waypointsParent;
 		}
 
 		if(_waypoints.Count <= 0) return;
@@ -370,6 +381,8 @@ public class ArchetypeMove : MonoBehaviour
 		// Make this object child of runtime-only parent to allow local path animation along with other x/y movement
 		_localParent = new GameObject("Parent-"+gameObject.name);
 		_localParent.transform.position = transform.position;
+
+		_movingTransform = _localParent.transform;
 
 		// If archetype has parent, make runtime-only parent a child of it
 		if(transform.parent != null)

@@ -27,8 +27,8 @@ public class SceneEditor : MonoBehaviour {
 		*/
 		
 		// Get lists of ArchetypeMove transforms ordered by x/y pos
-		var transformsY = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).OrderBy(t => t.position.y).ToArray();
-		var transformsX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).OrderBy(t => t.position.x).ToArray();
+		var transformsY = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.y).ToArray();
+		var transformsX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.x).ToArray();
 		
 		var xPosFirst = transformsX.First().position;
 		var xPosLast = transformsX.Last().position;

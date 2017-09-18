@@ -120,13 +120,7 @@ public class ArchetypePlayer : MonoBehaviour {
 				break;
 		}
 	}
-
-	/*	private void OnSpellComponentEvent(SpellComponentEvent e)
-	{
-		if(!e.SpawnPickup)
-			GUIManager.Instance.ShowSpellComponent(e.ComponentType);
-	}
-	*/
+ 
 	private void OnDeathEvent(DeathEvent e)
 	{
 		WonGame = e.wonGame;

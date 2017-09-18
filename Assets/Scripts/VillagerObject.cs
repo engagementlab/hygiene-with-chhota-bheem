@@ -7,10 +7,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-public class VillagerObject : ArchetypeMove {
-	
-	public Canvas healthCanvas;
-	public RawImage healthBg;
+public class VillagerObject : ArchetypeMove
+{
+
+	public ParticleSystem Particles;
 	public RawImage healthFill;
 
 	public int placeholderIndex = 0;
@@ -18,14 +18,11 @@ public class VillagerObject : ArchetypeMove {
 
 	private Vector3[] movements = new Vector3[4];
 
-	private void RemoveVillager()
-  {
-      Destroy(gameObject);
+	private IEnumerator RemoveVillager()
+	{
+		yield return new WaitForSeconds(1);
+    Destroy(gameObject);
   }
-
-	public void BubbleHitEvent(Transform t, GameObject bubble) {
-
-	}
 
 	// Use this for initialization
 	private void Awake () {
@@ -55,10 +52,11 @@ public class VillagerObject : ArchetypeMove {
 
 		if(!(Mathf.Abs(v.x - health) <= .1f)) return;
 		
-		iTween.ScaleTo(collider.gameObject, Vector3.zero, 1.0f);
+		Particles.Play();
+		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
 		Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));
-		
-		RemoveVillager();
+
+		StartCoroutine(RemoveVillager());
 
 		IsDestroyed = true;
 		GameConfig.peopleSaved++;

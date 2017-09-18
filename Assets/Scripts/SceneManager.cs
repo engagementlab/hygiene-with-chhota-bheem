@@ -1,6 +1,7 @@
-﻿using UnityEditor;
-using UnityEditor.SceneManagement;
+﻿#if UNITY_EDITOR
 using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 
 [InitializeOnLoad]
@@ -8,12 +9,6 @@ public class SceneManager : MonoBehaviour
 {
 	
 	private static GameObject camera;
-
-	private void Awake()
-	{
-		GUIManager.Instance.Initialiaze();
-	}
-
 	static SceneManager()
 	{
 		
@@ -43,3 +38,4 @@ public class SceneManager : MonoBehaviour
 	}
 	
 }
+#endif
