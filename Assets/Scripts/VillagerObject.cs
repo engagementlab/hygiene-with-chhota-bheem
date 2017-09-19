@@ -16,6 +16,7 @@ public class VillagerObject : ArchetypeMove
 	public int placeholderIndex = 0;
 	public float health = 2;
 
+	private Camera mainCamera;
 	private Vector3[] movements = new Vector3[4];
 
 	private IEnumerator RemoveVillager()
@@ -28,6 +29,7 @@ public class VillagerObject : ArchetypeMove
 	private void Awake () {
 		
 		base.Awake();
+		mainCamera = Camera.main;
 
 	}
 	
@@ -35,6 +37,10 @@ public class VillagerObject : ArchetypeMove
 	private void Update () {
 		
 		base.Update();
+			
+		if(mainCamera.WorldToViewportPoint(transform.position).y < -1)
+			Destroy(gameObject);
+	
 
 	}
 

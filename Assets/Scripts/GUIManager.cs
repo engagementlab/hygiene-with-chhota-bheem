@@ -20,6 +20,8 @@ public class GUIManager
 	
 	private RectTransform inventoryUI;
 	private GameObject powerUpText;
+	private GameObject pauseUI;
+	private Animator pauseAnimator;
 
 	// Use this for initialization
 	public void Initialiaze ()
@@ -28,6 +30,9 @@ public class GUIManager
 		inventoryUI = GameObject.Find("UI/Inventory").GetComponent<RectTransform>();
 		powerUpText = GameObject.Find("UI/PowerUpText");
 		
+		pauseUI = GameObject.Find("UI/PauseUI");
+		pauseAnimator = pauseUI.GetComponent<Animator>();
+
 		powerUpText.SetActive(false);
 		
 	}
@@ -64,5 +69,16 @@ public class GUIManager
 		foreach(var spellIcon in spellIcons)
 			spellIcon.enabled = false;
 		
+	}
+
+	public void ShowPause()
+	{
+		pauseAnimator.Play("ShowPause");
+	}
+
+	public void HidePause()
+	{
+//		pauseUI.SetActive(true);
+		pauseAnimator.Play("HidePause");
 	}
 }

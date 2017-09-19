@@ -108,10 +108,8 @@ public class ArchetypeMove : MonoBehaviour
 	
 	public void Update () {
 		
-		#if IS_DEBUG
 		if(!Input.GetMouseButton(0)) return;
-		#endif
-			
+		
 		if(Camera.main.WorldToViewportPoint(_movingTransform.position).y < -1) {
 			Destroy(gameObject);
 		}
@@ -350,6 +348,8 @@ public class ArchetypeMove : MonoBehaviour
 				foreach(Transform wp in tr)
 				{
 					waypointTransforms.Add(wp);
+					
+					// Assign waypoint to parent
 					wp.parent = waypointsParent;
 				}
 
@@ -363,7 +363,8 @@ public class ArchetypeMove : MonoBehaviour
 		{
 			if(tr.tag != "Waypoint" || !tr.gameObject.activeInHierarchy) continue;
 			_waypoints.Add(tr);
-			
+
+			// Assign waypoint to parent
 			tr.parent = waypointsParent;
 		}
 

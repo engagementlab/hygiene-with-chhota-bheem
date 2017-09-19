@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
 	public GameObject VillagerPrefab;
 	private float deltaTime;
+	private bool touching = false;
 
 	private void Awake()
 	{
@@ -12,6 +13,25 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
+
+		if(!Input.GetMouseButton(0))
+		{
+			if(touching)
+			{
+				touching = false;
+				GUIManager.Instance.ShowPause();
+			}
+
+		} 
+		else
+		{
+			if(!touching)
+			{
+				touching = true;
+				GUIManager.Instance.HidePause();
+			}
+		}
+		
 		deltaTime += (Time.deltaTime - deltaTime) * 0.1f; 
 	}
 
