@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class ArchetypePlayer : MonoBehaviour {
 
@@ -40,6 +42,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<PowerUpEvent> (OnPowerUpEvent);
 //		Events.instance.AddListener<SpellComponentEvent> (OnSpellComponentEvent);
 
+		
 	}
 
 	// Use this for initialization
@@ -97,6 +100,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.RemoveListener<PowerUpEvent> (OnPowerUpEvent);
 //		Events.instance.RemoveListener<SpellComponentEvent> (OnSpellComponentEvent);
 
+
+
 	}
 	
 	/**************
@@ -124,6 +129,16 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void OnDeathEvent(DeathEvent e)
 	{
 		WonGame = e.wonGame;
+
+		// var location = LocationInfo.latitude + ", " + LocationInfo.longitude;
+
+		// Send Player Data to Analytics
+		Analytics.CustomEvent("gameOver", new Dictionary<string, object>
+	  {
+	    // { "timeOver", LocationInfo.timestamp }, 
+	    // { "location", location }, 
+	    { "gameState", WonGame }
+	  });
 		
 	}
 
