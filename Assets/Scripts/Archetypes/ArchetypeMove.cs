@@ -13,12 +13,14 @@ Created by Engagement Lab @ Emerson College, 2017
 
 */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
 using JetBrains.Annotations;
 using UnityEngine;
+using Random = UnityEngine.Random;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -75,7 +77,7 @@ public class ArchetypeMove : MonoBehaviour
 		PingPong
 	}
 
-	[CanBeNull] private List<Vector3> _waypoints;
+	[CanBeNull] private List<Transform> _waypoints;
 	[CanBeNull] private Transform waypointsParent;
 	[CanBeNull] private GameObject _localParent;
 
@@ -136,24 +138,13 @@ public class ArchetypeMove : MonoBehaviour
 				target.y -= MoveSpeed;
 				deltaPos.y -= MoveSpeed;
 				break;
+			default:
+				throw new Exception("Unknown movement direction.");
 		}
 
 		// Move to target via lerp if movement allowed
 		if(MoveEnabled && MoveSpeed > 0)
 			_movingTransform.position = Vector3.Lerp(_movingTransform.position, target, Time.deltaTime);
-		
-		if(_waypoints == null || _waypoints.Count <= 0) return;
-
-		// Translate waypoints
-		if(MoveEnabled)
-		{
-//			for(var w = 0; w < _waypoints.Count; w++)
-//			{
-//				var v = Vector3.Lerp(_waypoints[w], _waypoints[w] + deltaPos, Time.deltaTime);
-//				_waypoints[w] = v;
-//			}
-			waypointsParent.transform.position = Vector3.Lerp(waypointsParent.transform.position, waypointsParent.transform.position + deltaPos, Time.deltaTime);
-		}
 		
 		Animate();
 		
@@ -348,10 +339,9 @@ public class ArchetypeMove : MonoBehaviour
 	protected void SetupWaypoints()
 	{
 
-		_waypoints = new List<Vector3>();
+		_waypoints = new List<Transform>();
 		var waypointTransforms = new List<Transform>();
 		waypointsParent = new GameObject("Waypoints").transform;
-		waypointsParent.parent = transform;
 		
 		foreach(Transform tr in transform)
 		{
@@ -372,11 +362,16 @@ public class ArchetypeMove : MonoBehaviour
 		foreach(var tr in waypointTransforms)
 		{
 			if(tr.tag != "Waypoint" || !tr.gameObject.activeInHierarchy) continue;
-			_waypoints.Add(tr.position);
+			_waypoints.Add(tr);
+			
 			tr.parent = waypointsParent;
 		}
 
-		if(_waypoints.Count <= 0) return;
+		if(_waypoints.Count <= 0)
+		{
+			Destroy(waypointsParent.gameObject);
+			return;
+		}
 		
 		// Make this object child of runtime-only parent to allow local path animation along with other x/y movement
 		_localParent = new GameObject("Parent-"+gameObject.name);
@@ -397,6 +392,8 @@ public class ArchetypeMove : MonoBehaviour
 					MoveSpeed = _parentMove.MoveSpeed;
 			}
 		}
+		
+		if(waypointsParent != null) waypointsParent.parent = _localParent.transform;
 
 		transform.SetParent(_localParent.transform);
 		transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
@@ -415,6 +412,8 @@ public class ArchetypeMove : MonoBehaviour
 	private void Animate()
 	{
 	
+		if(_waypoints == null || _waypoints.Count <= 0) return;
+		
 		// Calculate current percentage on waypoints path (basically ping pong but time, not frame, based)
 		_runningTime += Time.deltaTime * (_reverseAnim ? AnimationReverseSpeed : AnimationForwardSpeed);
 		var perClamp = Mathf.Clamp(_runningTime / AnimationDuration, 0, 1);
