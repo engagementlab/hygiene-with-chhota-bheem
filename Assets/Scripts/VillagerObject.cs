@@ -38,7 +38,7 @@ public class VillagerObject : ArchetypeMove
 		
 		base.Update();
 			
-		if(mainCamera.WorldToViewportPoint(transform.position).y < -1)
+		if(mainCamera.WorldToViewportPoint(transform.position).y < -.5f)
 			Destroy(gameObject);
 	
 

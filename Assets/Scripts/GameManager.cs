@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 	private void Update()
 	{
 
+		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(!Input.GetMouseButton(0))
 		{
 			if(touching)
@@ -31,13 +32,16 @@ public class GameManager : MonoBehaviour
 				GUIManager.Instance.HidePause();
 			}
 		}
+		#endif
 		
 		deltaTime += (Time.deltaTime - deltaTime) * 0.1f; 
 	}
 
 	private void OnGUI()
 	{
-//		if(!Debug.isDebugBuild) return;
+		#if !UNITY_EDITOR
+		if(!Debug.isDebugBuild) return;
+		#endif
 		
 		int w = Screen.width, h = Screen.height;
  
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour
 				Instantiate(VillagerPrefab, new Vector3(Random.Range(-2, 2), Random.Range(0, 20), 0), Quaternion.identity);
 			}
 		}
+
 	}
 
 }

@@ -108,7 +108,9 @@ public class ArchetypeMove : MonoBehaviour
 	
 	public void Update () {
 		
-		if(!Input.GetMouseButton(0)) return;
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if(Input.touches.Length == 0) return;
+		#endif
 		
 		if(Camera.main.WorldToViewportPoint(_movingTransform.position).y < -1) {
 			Destroy(gameObject);
