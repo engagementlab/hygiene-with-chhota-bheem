@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class ArchetypePlayer : MonoBehaviour {
 
@@ -40,6 +42,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<PowerUpEvent> (OnPowerUpEvent);
 //		Events.instance.AddListener<SpellComponentEvent> (OnSpellComponentEvent);
 
+		
 	}
 
 	// Use this for initialization
@@ -48,6 +51,12 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		GameOverText = GameObject.FindGameObjectWithTag("Game Over");
 		GameOverText.SetActive(false);
+		var time = Time.time;
+
+		Analytics.CustomEvent("gameStart", new Dictionary<string, object>
+	  {
+	    { "time", time}
+	  });
 
 	}
 
@@ -101,6 +110,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.RemoveListener<PowerUpEvent> (OnPowerUpEvent);
 //		Events.instance.RemoveListener<SpellComponentEvent> (OnSpellComponentEvent);
 
+
+
 	}
 	
 	/**************
@@ -128,6 +139,13 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void OnDeathEvent(DeathEvent e)
 	{
 		WonGame = e.wonGame;
+
+		// Send Player Data to Analytics
+		Analytics.CustomEvent("gameOver", new Dictionary<string, object>
+	  {
+	    { "gameState", WonGame }, 
+		{"time", Time.timeSinceLevelLoad}
+	  });
 		
 	}
 
