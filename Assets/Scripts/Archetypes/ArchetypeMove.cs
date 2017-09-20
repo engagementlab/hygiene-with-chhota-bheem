@@ -111,7 +111,12 @@ public class ArchetypeMove : MonoBehaviour
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(Input.touches.Length == 0) return;
 		#endif
-		
+
+		if (!_movingTransform)
+		{
+			return;
+		}
+
 		if(Camera.main.WorldToViewportPoint(_movingTransform.position).y < -1) {
 			Destroy(gameObject);
 		}
