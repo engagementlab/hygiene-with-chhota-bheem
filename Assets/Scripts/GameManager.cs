@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
 	private float deltaTime;
 	private bool touching = false;
 
-	// private Coroutine LocationTest;
-
 	private void Awake()
 	{
 		GUIManager.Instance.Initialiaze();

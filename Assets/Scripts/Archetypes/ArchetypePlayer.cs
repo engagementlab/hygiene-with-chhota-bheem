@@ -51,6 +51,12 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		GameOverText = GameObject.FindGameObjectWithTag("Game Over");
 		GameOverText.SetActive(false);
+		var time = Time.time;
+
+		Analytics.CustomEvent("gameStart", new Dictionary<string, object>
+	  {
+	    { "time", time}
+	  });
 
 	}
 
@@ -130,14 +136,11 @@ public class ArchetypePlayer : MonoBehaviour {
 	{
 		WonGame = e.wonGame;
 
-		// var location = LocationInfo.latitude + ", " + LocationInfo.longitude;
-
 		// Send Player Data to Analytics
 		Analytics.CustomEvent("gameOver", new Dictionary<string, object>
 	  {
-	    // { "timeOver", LocationInfo.timestamp }, 
-	    // { "location", location }, 
-	    { "gameState", WonGame }
+	    { "gameState", WonGame }, 
+		{"time", Time.timeSinceLevelLoad}
 	  });
 		
 	}
