@@ -45,8 +45,8 @@ public class WaypointGUI : Editor
 	public virtual void OnSceneGUI()
 	{
 		
-//		if(Application.isPlaying) return;
-	
+		if(!SceneEditor.ShowGizmos) return;
+		
 		Waypoint _waypoint= (Waypoint)target;	
 		
 		Handles.color = Color.yellow;

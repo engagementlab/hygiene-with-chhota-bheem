@@ -29,6 +29,7 @@ public class Waypoint : MonoBehaviour {
 	#if UNITY_EDITOR
 	private void OnDrawGizmosSelected()
 	{
+		if(!SceneEditor.ShowGizmos) return;
 		
 		var parent = transform.parent.GetComponent<ArchetypeMove>();
 

@@ -1,0 +1,53 @@
+﻿/*
+
+Hygiene With Chhota Bheem
+Created by Engagement Lab @ Emerson College, 2017
+
+==============
+	ImportTextures.cs
+	Unity texture asset import settings.
+	
+	Created by Johnny Richardson.
+==============
+
+*/
+// Run only if inside editor
+#if UNITY_EDITOR
+using UnityEngine;
+using UnityEditor;
+
+public class TexturePostProcessor : AssetPostprocessor {
+	// Texture import setting vars
+	int _qualityBest = (int)TextureCompressionQuality.Best;
+	int _qualityGood = (int)TextureCompressionQuality.Normal;
+	int _qualityFast = (int)TextureCompressionQuality.Fast;
+	
+	// Set per-platform texture settings
+	void OnPostprocessTexture(Texture2D texture) {
+
+		Debug.Log("OnPostprocessTexture");
+	
+		TextureImporter importer = assetImporter as TextureImporter;
+
+		importer.anisoLevel = 0;
+//		importer.filterMode = FilterMode.Bilinear;
+		importer.isReadable = true;
+		importer.mipmapEnabled = false;
+//		importer.wrapMode = TextureWrapMode.Clamp;
+
+		// Set texture settings
+		importer.SetPlatformTextureSettings( "Android", 1024, TextureImporterFormat.ETC2_RGB4, _qualityGood, false ); //ATC_RGBA8 \\ ETC2_RGBA8 || PVRTC_RGBA4
+
+		Object asset = AssetDatabase.LoadAssetAtPath(importer.assetPath, typeof(Texture2D));
+		if (asset) {
+			EditorUtility.SetDirty(asset);
+		} else {
+			texture.anisoLevel = 0;
+//			texture.filterMode = FilterMode.Bilinear;
+//			texture.wrapMode = TextureWrapMode.Clamp;
+		}
+
+	}
+
+}
+#endif

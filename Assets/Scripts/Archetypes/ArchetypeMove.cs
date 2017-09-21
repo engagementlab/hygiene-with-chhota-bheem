@@ -84,6 +84,7 @@ public class ArchetypeMove : MonoBehaviour
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
+	private bool _reversingRotate;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 
@@ -158,7 +159,7 @@ public class ArchetypeMove : MonoBehaviour
   			// Check if player hit a fly, poop, or villager. 
 
 			  // collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager"
-  			bool die = false;
+  			var die = false;
 
 			  if (die && !gameObject.GetComponent<ArchetypePlayer>().WonGame)
 			  {
@@ -197,12 +198,12 @@ public class ArchetypeMove : MonoBehaviour
 	#if UNITY_EDITOR
 	public void OnDrawGizmosSelected()
 	{
-		if(Application.isPlaying) return;
+		if(!SceneEditor.ShowGizmos || Application.isPlaying) return;
 		
 		if(transform.parent == null)
 		{
-			Vector3 lineDir = transform.position;
-			Quaternion lookDir = transform.rotation;
+			var lineDir = transform.position;
+			var lookDir = transform.rotation;
 			Handles.color = new Color(.81176f, .4352f, 1);
 
 			if(MovementDir == Dirs.Left)
@@ -277,6 +278,8 @@ public class ArchetypeMove : MonoBehaviour
 	}
 
 	private void OnDrawGizmos() {
+		
+		if(!SceneEditor.ShowGizmos || Application.isPlaying) return;
 
 		Gizmos.color = Color.cyan;
 		
@@ -285,8 +288,8 @@ public class ArchetypeMove : MonoBehaviour
 		else
 			Gizmos.DrawCube(transform.position, Vector3.one);
 	
-			if(_waypoints != null && _waypoints.Count > 0)
-				iTween.DrawPath(_waypoints.ToArray());
+		if(_waypoints != null && _waypoints.Count > 0)
+			iTween.DrawPath(_waypoints.ToArray());
 	
 	}
 
@@ -434,12 +437,15 @@ public class ArchetypeMove : MonoBehaviour
 
 					// Go into reverse if ping ponging
 					if(AnimationType == AnimType.PingPong)
+					{
+//						StartCoroutine(ReverseRotate());
 						_reverseAnim = true;
+					}
 					else
 						_currentPathPercent = 0;
 				}
 			}
-		} 
+		}
 		//- Reverse motion?
 		else
 		{
@@ -453,7 +459,36 @@ public class ArchetypeMove : MonoBehaviour
 
 		// Place object at current %
 		iTween.PutOnPath(gameObject, _waypoints.ToArray(), _currentPathPercent);
+		var arr = _waypoints.ToArray();
 		
+		var lookVector = iTween.PointOnPath(arr, _currentPathPercent + 0.05f);
+		var lookDelta = lookVector - transform.position;    
+		var angle = Mathf.Atan2(lookDelta.x, lookDelta.y) * Mathf.Rad2Deg;
+		var newRotation = Quaternion.Euler(0f, 0f, angle );
+
+		if(!_reversingRotate)
+			transform.rotation = newRotation;
+
+	}
+	
+	private IEnumerator ReverseRotate ()
+	{
+		_reversingRotate = true;
+		float elapsedTime = 0.0f;
+		Quaternion targetRotation =  Quaternion.Euler(-transform.localRotation.eulerAngles);
+         
+		while (elapsedTime < AnimationReverseSpeed) {
+         
+			// Rotations
+			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,  (AnimationReverseSpeed / 1 )  );
+  
+			elapsedTime += Time.deltaTime;
+			yield return new WaitForEndOfFrame ();
+		}
+
+		_reversingRotate = false;
+		Debug.Log ("Translation and rotation done! ");
+		yield return 0;
 	}
 
 	private IEnumerator RemoveVillager()
@@ -494,7 +529,7 @@ public class ArchetypeMove : MonoBehaviour
 		// if (Random.Range(0.0f, 10.0f) <= 5.0f) {
 			// TO DO: Check the level to determine the power up
 
-			GameObject powerUp = GameObject.FindWithTag("Player").GetComponent<ArchetypeMove>().powerUps[0];
+			var powerUp = GameObject.FindWithTag("Player").GetComponent<ArchetypeMove>().powerUps[0];
 
 			// Drop that power up
 			Instantiate(powerUp, location, Quaternion.identity);
@@ -506,9 +541,9 @@ public class ArchetypeMove : MonoBehaviour
 	{
 		
 		var neededCt = Inventory.instance.SpellComponentsNeeded.Count;
-		GameObject spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
+		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
 		
-		SpellComponent comp = Inventory.instance.SpellComponentsNeeded[Random.Range(0, neededCt)];
+		var comp = Inventory.instance.SpellComponentsNeeded[Random.Range(0, neededCt)];
 		spellObject.GetComponent<SpellObject>().SelectComponent(comp);
 
 	}

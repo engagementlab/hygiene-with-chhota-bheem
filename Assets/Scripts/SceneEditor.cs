@@ -17,7 +17,11 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class SceneEditor : MonoBehaviour {
+public class SceneEditor : MonoBehaviour
+{
+
+	public static bool ShowGizmos = true;
+	
 	private void OnDrawGizmos()
 	{
 		if(Application.isPlaying) return;

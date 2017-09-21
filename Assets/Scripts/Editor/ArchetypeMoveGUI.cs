@@ -80,7 +80,7 @@ public class ArchetypeMoveGUI : Editor
 	public virtual void OnSceneGUI()
 	{
 		
-		if(Application.isPlaying) return;
+		if(!SceneEditor.ShowGizmos || Application.isPlaying) return;
 		
 		var waypointChildren = new List<Transform>();
 
