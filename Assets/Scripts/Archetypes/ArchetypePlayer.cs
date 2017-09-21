@@ -144,7 +144,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		Analytics.CustomEvent("gameOver", new Dictionary<string, object>
 	  {
 	    { "gameState", WonGame }, 
-		{"time", Time.timeSinceLevelLoad}
+		{"time", Time.timeSinceLevelLoad }
 	  });
 		
 	}
