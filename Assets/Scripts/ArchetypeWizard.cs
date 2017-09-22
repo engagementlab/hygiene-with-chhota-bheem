@@ -19,6 +19,7 @@ using System.Linq;
 using DefaultNamespace;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -33,6 +34,10 @@ public class ArchetypeWizard : MonoBehaviour
 	private float playerPos;
 	private Vector3 wizardPos;
 
+	public RawImage healthFill;
+	public int placeholderIndex = 0;
+	public float health = 2f;
+
 	private Vector3 _velocity;
 	public float SmoothTime = 0.1f;
 
@@ -45,7 +50,10 @@ public class ArchetypeWizard : MonoBehaviour
 	
 	public void Update () {
 
-		if (parent.transform.position.y <= 4f) {
+		float height = 2f * Camera.main.orthographicSize;
+		float width = height * Camera.main.aspect;
+
+		if (parent.transform.position.y <= height/2) {
 
 			if (parent.GetComponent<ArchetypeMove>().MoveEnabled == true) {
 				parent.GetComponent<ArchetypeMove>().MoveEnabled = false;
@@ -59,7 +67,7 @@ public class ArchetypeWizard : MonoBehaviour
 
 			if (wizardPos.x <= playerPos && wizardPos.x >= playerPos - 1.5f) {
 				// Move Wizard
-				if (distance >= 3.5f) {
+				if (distance >= width/2.2f) {
 					wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
 				} else {
 					wizardPos = new Vector3(wizardPos.x - 2.0f, wizardPos.y, wizardPos.z);
@@ -67,7 +75,7 @@ public class ArchetypeWizard : MonoBehaviour
 
 			} else if (wizardPos.x >= playerPos && wizardPos.x <= playerPos + 1.5f) {
 			 // Move Wizard
-				if (distance >= 3.5f) {
+				if (distance >= width/2.2f) {
 					wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
 				} else {
 					wizardPos = new Vector3(wizardPos.x + 2.0f, wizardPos.y, wizardPos.z);
@@ -78,10 +86,37 @@ public class ArchetypeWizard : MonoBehaviour
 
 		
 	}
+
 	
-  public void OnTriggerEnter(Collider collider) {
-	  
-  	
-  }
+    public void OnTriggerEnter(Collider collider) {
+
+	  	if(collider.gameObject.tag != "Bubble") return;
+
+		placeholderIndex++;
+
+		Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
+
+		Vector2 v = healthFill.rectTransform.sizeDelta;
+		v.x += .5f;
+		healthFill.rectTransform.sizeDelta = v;
+
+		if(!(Mathf.Abs(v.x - health) <= .1f)) return;
+		
+		// Destroy Wizard
+		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
+		StartCoroutine(DestroyWizard());
+
+		// You won the game
+		Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Wizard));
+		Events.instance.Raise (new DeathEvent(true));
+
+
+  	}
+
+
+	private IEnumerator DestroyWizard() {
+		yield return new WaitForSeconds(1);
+	    Destroy(gameObject);
+	}
 
 }

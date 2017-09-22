@@ -14,7 +14,7 @@ public class VillagerObject : ArchetypeMove
 	public RawImage healthFill;
 
 	public int placeholderIndex = 0;
-	public float health = 2;
+	public float health = 2f;
 
 	private Camera mainCamera;
 	private Vector3[] movements = new Vector3[4];
@@ -22,8 +22,8 @@ public class VillagerObject : ArchetypeMove
 	private IEnumerator RemoveVillager()
 	{
 		yield return new WaitForSeconds(1);
-    Destroy(gameObject);
-  }
+	    Destroy(gameObject);
+    }
 
 	// Use this for initialization
 	private void Awake () {
@@ -60,7 +60,7 @@ public class VillagerObject : ArchetypeMove
 		
 		Particles.Play();
 		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
-		Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));
+		Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Villager));
 
 		StartCoroutine(RemoveVillager());
 

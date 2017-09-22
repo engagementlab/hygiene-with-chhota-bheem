@@ -11,6 +11,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	
 	public GameObject Bubble;
 	public GameObject GameOverText;
+	public GameObject GameWonText;
 
 	public bool WonGame;
 
@@ -40,7 +41,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
 		Events.instance.AddListener<PowerUpEvent> (OnPowerUpEvent);
-//		Events.instance.AddListener<SpellComponentEvent> (OnSpellComponentEvent);
+		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 
 		
 	}
@@ -51,12 +52,9 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		GameOverText = GameObject.FindGameObjectWithTag("Game Over");
 		GameOverText.SetActive(false);
-		var time = Time.time;
 
-		Analytics.CustomEvent("gameStart", new Dictionary<string, object>
-	  {
-	    { "time", time}
-	  });
+		GameWonText = GameObject.FindGameObjectWithTag("Game Won");
+		GameWonText.SetActive(false);
 
 	}
 
@@ -110,13 +108,17 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.RemoveListener<PowerUpEvent> (OnPowerUpEvent);
 //		Events.instance.RemoveListener<SpellComponentEvent> (OnSpellComponentEvent);
 
-
-
 	}
 	
 	/**************
 		CUSTOM METHODS
 	***************/
+
+  	private void OnScoreEvent(ScoreEvent e) {
+
+		GUIManager.Instance.UpdateScore(e.scoreAmount, e.eventType.ToString());
+
+	}
 	
 	private void OnPowerUpEvent(PowerUpEvent e)
 	{
@@ -140,12 +142,19 @@ public class ArchetypePlayer : MonoBehaviour {
 	{
 		WonGame = e.wonGame;
 
+		gameObject.SetActive(false);
+
+		if (WonGame)
+			GameWonText.SetActive(true);
+		else 
+			GameOverText.SetActive(true);
+
 		// Send Player Data to Analytics
 		Analytics.CustomEvent("gameEnd", new Dictionary<string, object>
-	  {
-	    { "gameState", WonGame }, 
-		{ "time", Time.timeSinceLevelLoad }
-	  });
+	    {
+		    { "gameState", WonGame }, 
+			{ "time", Time.timeSinceLevelLoad }
+	    });
 		
 	}
 

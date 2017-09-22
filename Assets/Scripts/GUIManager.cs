@@ -23,6 +23,10 @@ public class GUIManager
 	private GameObject pauseUI;
 	private Animator pauseAnimator;
 
+	private Text fliesCount;
+	private Text villagerCount;
+	private Text score;
+
 	// Use this for initialization
 	public void Initialiaze ()
 	{
@@ -34,6 +38,10 @@ public class GUIManager
 		pauseAnimator = pauseUI.GetComponent<Animator>();
 
 		powerUpText.SetActive(false);
+
+		fliesCount = GameObject.Find("UI/Score/FlyCount").GetComponent<Text>();
+		villagerCount = GameObject.Find("UI/Score/VillagerCount").GetComponent<Text>();
+		score = GameObject.Find("UI/Score/ScoreCount").GetComponent<Text>();
 		
 	}
 
@@ -69,6 +77,18 @@ public class GUIManager
 		foreach(var spellIcon in spellIcons)
 			spellIcon.enabled = false;
 		
+	}
+
+	public void UpdateScore(float num, string type) {
+
+		if (type == "Villager") {
+			villagerCount.text = GameConfig.peopleSaved.ToString();
+		} else if (type == "Fly") {
+			fliesCount.text = GameConfig.fliesCaught.ToString();
+		}
+
+		score.text = (float.Parse(score.text) + num).ToString();
+
 	}
 
 	public void ShowPause()

@@ -6,8 +6,9 @@ public class ScoreEvent : GameEvent {
 	public readonly Type eventType;
 
 	public enum Type {
-		Good,
-		Bad
+		Fly,
+		Villager, 
+		Wizard
 	}
 
 	public ScoreEvent (float amount, Type scoreType) {
