@@ -118,7 +118,8 @@ public class ArchetypeMove : MonoBehaviour
 			return;
 		}
 
-		if(Camera.main.WorldToViewportPoint(_movingTransform.position).y < -1) {
+		// Not for background layers
+		if(gameObject.layer != 8 && Camera.main.WorldToViewportPoint(_movingTransform.position).y < -1) {
 			Destroy(gameObject);
 			Debug.Log("Destroying " + gameObject);
 		}
