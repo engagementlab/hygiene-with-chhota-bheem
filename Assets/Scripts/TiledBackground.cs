@@ -90,7 +90,7 @@ public class TiledBackground : MonoBehaviour {
 		if(_canvasRect == null)
 			_canvasRect = GetComponent<RectTransform>();
 		
-		_canvasRect.sizeDelta = new Vector2(rightBound-leftBound, topLeftPos.y - bottomLeftPos.y+6);
+		_canvasRect.sizeDelta = new Vector2(rightBound-leftBound, topLeftPos.y - bottomLeftPos.y+7);
 		_canvasRect.position = new Vector3(leftBound, topLeftPos.y, 0);
 		
 		var sizeY = _canvasRect.rect.height;
