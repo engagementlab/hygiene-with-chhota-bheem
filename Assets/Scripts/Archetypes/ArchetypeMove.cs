@@ -162,13 +162,16 @@ public class ArchetypeMove : MonoBehaviour
 
   		if (gameObject.tag == "Player") {
   			// Check if player hit a fly, poop, or villager. 
-
-			  // collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager"
   			var die = false;
+
+		    if (collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager")
+			    die = true;
 
 			  if (die && !gameObject.GetComponent<ArchetypePlayer>().WonGame)
 			  {
 			  	Debug.Log("Game Over, you died.");
+
+			  	Events.instance.Raise (new DeathEvent(false));
 				  gameObject.SetActive(false);
 
 				  gameObject.GetComponent<ArchetypePlayer>().GameOverText.SetActive(true);
@@ -178,7 +181,7 @@ public class ArchetypeMove : MonoBehaviour
 	  		// if(!inBossBattle)
 					// Destroy(gameObject);
 
-				// Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
+			// Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
   			if (collider.gameObject.tag == "Fly") {
 	  			Debug.Log("The Player shot a Fly! It should die!");
 
