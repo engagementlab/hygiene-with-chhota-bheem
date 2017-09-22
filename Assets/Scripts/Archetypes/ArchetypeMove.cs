@@ -121,6 +121,7 @@ public class ArchetypeMove : MonoBehaviour
 		// Not for background layers
 		if(gameObject.layer != 8 && Camera.main.WorldToViewportPoint(_movingTransform.position).y < -1) {
 			Destroy(gameObject);
+			Debug.Log("Destroying " + gameObject);
 		}
 		
 		// Find target for movement and change target vector based on direction
@@ -173,20 +174,16 @@ public class ArchetypeMove : MonoBehaviour
 			  	Debug.Log("Game Over, you died.");
 
 			  	Events.instance.Raise (new DeathEvent(false));
-				  gameObject.SetActive(false);
-
-				  gameObject.GetComponent<ArchetypePlayer>().GameOverText.SetActive(true);
+				
 			  }
 
   		} else if (gameObject.tag == "Bubble") {
-	  		// if(!inBossBattle)
-					// Destroy(gameObject);
 
 			// Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
   			if (collider.gameObject.tag == "Fly") {
 	  			Debug.Log("The Player shot a Fly! It should die!");
 
-	  			Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Good));	
+	  			Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Fly));	
 		  		Destroy(collider.gameObject);
 		  		GameConfig.fliesCaught++;
 
@@ -203,6 +200,7 @@ public class ArchetypeMove : MonoBehaviour
 
   	}
   }
+
 	 
 	#if UNITY_EDITOR
 	public void OnDrawGizmosSelected()

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Analytics;
 
 public class GameManager : MonoBehaviour
 {
@@ -100,6 +102,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+        	var time = Input.location.lastData.timestamp;
+
+			Analytics.CustomEvent("gameStart", new Dictionary<string, object>
+			{
+			   { "latitude", Input.location.lastData.latitude },
+			   { "longitude", Input.location.lastData.longitude }, 
+			   { "time", time }
+			});
             // Access granted and location value could be retrieved
             print("Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
         }
