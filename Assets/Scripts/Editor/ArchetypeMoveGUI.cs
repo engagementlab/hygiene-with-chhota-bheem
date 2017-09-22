@@ -50,6 +50,7 @@ public class ArchetypeMoveGUI : Editor
 		
 		// Animation
 		if(_archetype.HasWaypoints()) {
+			
 			GUILayout.BeginVertical("box");
 			
 			EditorGUILayout.HelpBox("This sets the duration of the journey between start and end waypoints, the type of animation, and speed scaling for forward/backward tween.", MessageType.None);
@@ -61,6 +62,7 @@ public class ArchetypeMoveGUI : Editor
 			_archetype.AnimationReverseSpeed = EditorGUILayout.Slider("Backward Speed", _archetype.AnimationReverseSpeed, 0, 2);
 			
 			GUILayout.EndVertical();
+			
 		}
 		
 		// Movement Direction

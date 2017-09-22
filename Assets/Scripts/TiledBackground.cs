@@ -1,26 +1,105 @@
-﻿using UnityEngine;
+﻿/* 
 
+Hygiene With Chhota Bheem
+Created by Engagement Lab @ Emerson College, 2017
+
+==============
+	TiledBackground.cs
+	Tile and position background texture inside scene container canvas.
+
+	Created by Johnny Richardson.
+==============
+
+*/
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
+
+[ExecuteInEditMode]
 public class TiledBackground : MonoBehaviour {
-//	[SerializeField]
-	public float _squareSize = 1;
-    
-	public float SquareSize {
-		get { return _squareSize; }
-		set { _squareSize = value; }
-	}
 
-	void Update () {
-		/* 	Optional: Have a check here to only call this code when
-		 *  the screen changes dimensions or when the camera is modified in any way.
-		 *	This code is called more times than it has to.
-		 */
-//		transform.position = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0));
-//		transform.position = new Vector3(transform.position.x, transform.position.y, 1);
-//		transform.localScale = Camera.main.ScreenToWorldLength(new Vector3(Screen.width, Screen.height, 0));
-		float sizeY = GetComponent<Renderer>().bounds.size.y;
-		float repY = sizeY / 1024;
-
-		GetComponent<Renderer>().material.SetFloat("RepeatX", _squareSize);
-		GetComponent<Renderer>().material.mainTextureScale = new Vector2(1, repY);
+	[HideInInspector]
+	public BackgroundImage Image;
+	
+	public enum BackgroundType
+	{
+		Grass,
+		Dirt,
+		Rock
 	}
+	public BackgroundType BackgroundImg;
+	
+	private const float SquareSize = 8;
+	private BackgroundType _currentImgType;
+	private RectTransform _canvasRect;
+
+	private void Start ()
+	{
+
+		_canvasRect = GetComponent<RectTransform>();
+		
+		var sizeY = _canvasRect.rect.height;
+		var repY = sizeY / SquareSize;
+
+		if(Image == null)
+			Image = GetComponentInChildren<BackgroundImage>();
+		
+		var imgRect = Image.uvRect;
+		imgRect.height = repY;
+		Image.uvRect = imgRect;
+		
+	}
+	
+	#if UNITY_EDITOR
+	private void Update()
+	{
+
+		if(Application.isPlaying) return;
+
+		if(Image == null)
+			Image = GetComponentInChildren<BackgroundImage>();
+
+		// Change image
+		if(BackgroundImg != _currentImgType)
+		{
+			_currentImgType = BackgroundImg;
+
+			var imgName = BackgroundImg.ToString().ToLower();
+			var imgAssetAtPath = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/backgrounds/" + imgName + "-bg.png");
+			Image.texture = imgAssetAtPath;
+		}
+
+		if(Image == null) return;
+
+		// Get lists of ArchetypeMove transforms ordered by x/y pos
+		var transformsY = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.y).ToArray();
+		var transformsX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.x).ToArray();
+		
+		var xPosFirst = transformsX.First().position;
+		var yPosFirst = transformsY.First().position;
+		var yPosLast = transformsY.Last().position;
+		
+		var topLeftPos = new Vector3(xPosFirst.x, yPosLast.y);
+		var bottomLeftPos = new Vector3(xPosFirst.x, yPosFirst.y);
+
+		// L/R game boundaries
+		var rightBound = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane)).x;
+		var leftBound = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.nearClipPlane)).x;
+		
+		if(_canvasRect == null)
+			_canvasRect = GetComponent<RectTransform>();
+		
+		_canvasRect.sizeDelta = new Vector2(rightBound-leftBound, topLeftPos.y - bottomLeftPos.y+6);
+		_canvasRect.position = new Vector3(leftBound, topLeftPos.y, 0);
+		
+		var sizeY = _canvasRect.rect.height;
+		var repY = sizeY / SquareSize;
+
+		var imgRect = Image.uvRect;
+		imgRect.height = repY;
+		Image.uvRect = imgRect;
+		
+	}
+	#endif
 }
