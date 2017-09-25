@@ -12,9 +12,10 @@ Created by Engagement Lab @ Emerson College, 2017
 
 */
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [ExecuteInEditMode]
 public class TiledBackground : MonoBehaviour {
@@ -90,8 +91,9 @@ public class TiledBackground : MonoBehaviour {
 		if(_canvasRect == null)
 			_canvasRect = GetComponent<RectTransform>();
 		
-		_canvasRect.sizeDelta = new Vector2(rightBound-leftBound, topLeftPos.y - bottomLeftPos.y+7);
-		_canvasRect.position = new Vector3(leftBound, topLeftPos.y, 0);
+		// Size and position canvas of sprite
+		_canvasRect.sizeDelta = new Vector2(rightBound - leftBound, topLeftPos.y - bottomLeftPos.y+10);
+		_canvasRect.position = new Vector3(leftBound, topLeftPos.y+.5f, 0);
 		
 		var sizeY = _canvasRect.rect.height;
 		var repY = sizeY / SquareSize;

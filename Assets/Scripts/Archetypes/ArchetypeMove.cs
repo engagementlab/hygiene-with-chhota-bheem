@@ -84,7 +84,8 @@ public class ArchetypeMove : MonoBehaviour
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
-	private bool _reversingRotate;
+	private float _reversingAngle;
+	private Camera _mainCamera;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 
@@ -98,13 +99,14 @@ public class ArchetypeMove : MonoBehaviour
 
 		// For use in Update
 		_movingTransform = transform;
+		_mainCamera = Camera.main;
 		
 		if(transform.parent != null)
 			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
 		
 		if(GetType().Name != "ArchetypeSpawner")
 			SetupWaypoints();
-	
+		
 	}
 	
 	public void Update () {
@@ -113,17 +115,20 @@ public class ArchetypeMove : MonoBehaviour
 		if(Input.touches.Length == 0) return;
 		#endif
 
+		// Sanity check
 		if (!_movingTransform)
-		{
 			return;
-		}
 
 		// Not for background layers
-		if(gameObject.layer != 8 && Camera.main.WorldToViewportPoint(_movingTransform.position).y < -1) {
+		if(gameObject.layer != 8 && _mainCamera.WorldToViewportPoint(_movingTransform.position).y < -1)
 			Destroy(gameObject);
-			Debug.Log("Destroying " + gameObject);
+		else if(gameObject.layer == 8)
+		{
+			// Don't move background layer once there is none left
+			if(_mainCamera.WorldToViewportPoint(_movingTransform.position).y <= -.035f)
+				return;
 		}
-		
+
 		// Find target for movement and change target vector based on direction
 		var target = _movingTransform.position;
 		var deltaPos = Vector3.zero;
@@ -158,47 +163,44 @@ public class ArchetypeMove : MonoBehaviour
 		
 	}
 	
-  public void OnTriggerEnter(Collider collider) {
+  public void OnTriggerEnter(Collider collider)
+  {
+	  if(collider.gameObject.GetComponent<ArchetypeMove>() == null) return;
 	  
-  	if(collider.gameObject.GetComponent<ArchetypeMove>() != null) {
-
-  		if (gameObject.tag == "Player") {
-  			// Check if player hit a fly, poop, or villager. 
-  			var die = false;
-
-		    if (collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager")
-			    die = true;
+	  switch(gameObject.tag)
+	  {
+		  case "Player":
+			  // Check if player hit a fly, poop, or villager. 
+			  var die = collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager";
 
 			  if (die && !gameObject.GetComponent<ArchetypePlayer>().WonGame)
 			  {
-			  	Debug.Log("Game Over, you died.");
+				  Debug.Log("Game Over, you died.");
 
-			  	Events.instance.Raise (new DeathEvent(false));
+				  Events.instance.Raise (new DeathEvent(false));
 				
 			  }
+			  break;
+		  case "Bubble":
+			  // Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
+			  switch(collider.gameObject.tag)
+			  {
+				  case "Fly":
+					  Debug.Log("The Player shot a Fly! It should die!");
 
-  		} else if (gameObject.tag == "Bubble") {
+					  Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Fly));	
+					  Destroy(collider.gameObject);
+					  GameConfig.fliesCaught++;
 
-			// Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
-  			if (collider.gameObject.tag == "Fly") {
-	  			Debug.Log("The Player shot a Fly! It should die!");
+					  PowerUp(collider.gameObject.transform.position);
+					  break;
+				  case "Poop":
+					  Debug.Log("The Player shot a Poop! Nothing happens.");
+					  break;
+			  }
 
-	  			Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Fly));	
-		  		Destroy(collider.gameObject);
-		  		GameConfig.fliesCaught++;
-
-		  		PowerUp(collider.gameObject.transform.position);
-
-	  		}
-
-	  		if (collider.gameObject.tag == "Poop") {
-	  			Debug.Log("The Player shot a Poop! Nothing happens.");
-
-	  		}
-  		}
-
-
-  	}
+			  break;
+	  }
   }
 
 	 
@@ -430,11 +432,15 @@ public class ArchetypeMove : MonoBehaviour
 		// Calculate current percentage on waypoints path (basically ping pong but time, not frame, based)
 		_runningTime += Time.deltaTime * (_reverseAnim ? AnimationReverseSpeed : AnimationForwardSpeed);
 		var perClamp = Mathf.Clamp(_runningTime / AnimationDuration, 0, 1);
-		
+
 		//- Forward motion?
 		if(!_reverseAnim)
 		{
+			if(_reversingAngle > 0)
+				_reversingAngle -= 10;
+				
 			_currentPathPercent = perClamp;
+			
 			if(_currentPathPercent >= 1)
 			{
 				// Reset if not animating once
@@ -444,10 +450,7 @@ public class ArchetypeMove : MonoBehaviour
 
 					// Go into reverse if ping ponging
 					if(AnimationType == AnimType.PingPong)
-					{
-//						StartCoroutine(ReverseRotate());
 						_reverseAnim = true;
-					}
 					else
 						_currentPathPercent = 0;
 				}
@@ -457,47 +460,32 @@ public class ArchetypeMove : MonoBehaviour
 		else
 		{
 			_currentPathPercent = 1 - perClamp;
+
+			// Added 180° when reversing
+			if(_reversingAngle < 180)
+				_reversingAngle += 10;
+			
 			if(_currentPathPercent <= 0)
 			{
 				_runningTime = 0;
+				_reversingAngle = 0;
 				_reverseAnim = false;
 			}
 		}
 
 		// Place object at current %
 		iTween.PutOnPath(gameObject, _waypoints.ToArray(), _currentPathPercent);
-		var arr = _waypoints.ToArray();
+		var arrWaypoints = _waypoints.ToArray();
 		
-		var lookVector = iTween.PointOnPath(arr, _currentPathPercent + 0.05f);
-		var lookDelta = lookVector - transform.position;    
-		var angle = Mathf.Atan2(lookDelta.x, lookDelta.y) * Mathf.Rad2Deg;
-		var newRotation = Quaternion.Euler(0f, 0f, angle );
+		var lookDelta = iTween.PointOnPath(arrWaypoints, _currentPathPercent + 0.05f) - transform.position;
+		var angle =  -Mathf.Atan2(lookDelta.x, lookDelta.y) * Mathf.Rad2Deg;
+	
+		var newRotation = Quaternion.Euler(0f, 0f, angle+_reversingAngle);
 
-		if(!_reversingRotate)
-			transform.rotation = newRotation;
+		transform.rotation = newRotation;
 
 	}
 	
-	private IEnumerator ReverseRotate ()
-	{
-		_reversingRotate = true;
-		float elapsedTime = 0.0f;
-		Quaternion targetRotation =  Quaternion.Euler(-transform.localRotation.eulerAngles);
-         
-		while (elapsedTime < AnimationReverseSpeed) {
-         
-			// Rotations
-			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,  (AnimationReverseSpeed / 1 )  );
-  
-			elapsedTime += Time.deltaTime;
-			yield return new WaitForEndOfFrame ();
-		}
-
-		_reversingRotate = false;
-		Debug.Log ("Translation and rotation done! ");
-		yield return 0;
-	}
-
 	private IEnumerator RemoveVillager()
 	{
 		yield return new WaitForSeconds(0.5f);
