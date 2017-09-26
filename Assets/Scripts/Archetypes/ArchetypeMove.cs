@@ -29,7 +29,7 @@ public class ArchetypeMove : MonoBehaviour
 {
 
 	public bool MoveEnabled = true;
-	public PowerUps powerUpGiven;
+	public Spells SpellGiven;
 
 	[HideInInspector]
 	public float MoveSpeed = 1;
@@ -60,7 +60,7 @@ public class ArchetypeMove : MonoBehaviour
 	[CanBeNull] [HideInInspector]
 	public string SpawnType;
 
-	public GameObject[] powerUps;
+	public GameObject[] Spells;
 	
 	public enum Dirs
 	{
@@ -95,7 +95,7 @@ public class ArchetypeMove : MonoBehaviour
 
 	public void Awake()
 	{
-		Events.instance.AddListener<PowerUpEvent> (OnPowerUpEvent);
+		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 
 		// For use in Update
 		_movingTransform = transform;
@@ -192,7 +192,7 @@ public class ArchetypeMove : MonoBehaviour
 					  Destroy(collider.gameObject);
 					  GameConfig.fliesCaught++;
 
-					  PowerUp(collider.gameObject.transform.position);
+					  Spell(collider.gameObject.transform.position);
 					  break;
 				  case "Poop":
 					  Debug.Log("The Player shot a Poop! Nothing happens.");
@@ -304,7 +304,7 @@ public class ArchetypeMove : MonoBehaviour
 
 	private void OnDestroy() {
 		
-		Events.instance.RemoveListener<PowerUpEvent> (OnPowerUpEvent);
+		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
 
 	}
 	#endif
@@ -492,42 +492,42 @@ public class ArchetypeMove : MonoBehaviour
 		Destroy(gameObject);
 	}
 	
-	private IEnumerator PowerUpMatrixMode()
+	private IEnumerator SpellMatrixMode()
 	{
-		GUIManager.Instance.DisplayCurrentPowerUp("Slow Enemies");
+		GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
 		MoveSpeed /= 2;
 		
 		yield return new WaitForSeconds(5);
 		
 		MoveSpeed *= 2;
-		GUIManager.Instance.HidePowerUp();
+		GUIManager.Instance.HideSpell();
 	}
 	
-	private void OnPowerUpEvent(PowerUpEvent e)
+	private void OnSpellEvent(SpellEvent e)
 	{
 		
 		// What kinda power up? 
 		switch(e.powerType)
 		{
 			
-			case PowerUps.Matrix:
+			case Spells.Matrix:
 				// Slow down the whole world except the player
-				StartCoroutine(PowerUpMatrixMode());
+				StartCoroutine(SpellMatrixMode());
 				break;
 				
 		}
 		
 	}
 
-	private void PowerUp(Vector3 location) {
+	private void Spell(Vector3 location) {
 		// Check random to see if power up is dropped
 		// if (Random.Range(0.0f, 10.0f) <= 5.0f) {
 			// TO DO: Check the level to determine the power up
 
-			var powerUp = GameObject.FindWithTag("Player").GetComponent<ArchetypeMove>().powerUps[0];
+			var Spell = GameObject.FindWithTag("Player").GetComponent<ArchetypeMove>().Spells[0];
 
 			// Drop that power up
-			Instantiate(powerUp, location, Quaternion.identity);
+			Instantiate(Spell, location, Quaternion.identity);
 		// }
 
 	}
@@ -539,7 +539,7 @@ public class ArchetypeMove : MonoBehaviour
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
 		
 		var comp = Inventory.instance.SpellComponentsNeeded[Random.Range(0, neededCt)];
-		spellObject.GetComponent<SpellObject>().SelectComponent(comp);
+		spellObject.GetComponent<ArchetypeSpellJuice>().SelectComponent(comp);
 
 	}
 

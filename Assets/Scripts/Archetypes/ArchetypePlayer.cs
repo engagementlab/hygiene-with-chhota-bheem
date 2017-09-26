@@ -12,6 +12,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public GameObject Bubble;
 	public GameObject GameOverText;
 	public GameObject GameWonText;
+	public GameObject GameEndScreen;
 
 	public bool WonGame;
 
@@ -22,7 +23,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private GameObject _lastBubble;
 	private Camera _mainCamera;
-	private PowerUps _powerUpType;
+	private Spells _spellsType;
 
 	private bool _freeMovement = true;
 	private bool _trailEnabled = true;
@@ -40,7 +41,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		_mainCamera = Camera.main;
 
 		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
-		Events.instance.AddListener<PowerUpEvent> (OnPowerUpEvent);
+		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 
 		
@@ -50,11 +51,9 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void Start ()
 	{
 
-		GameOverText = GameObject.FindGameObjectWithTag("Game Over");
 		GameOverText.SetActive(false);
-
-		GameWonText = GameObject.FindGameObjectWithTag("Game Won");
 		GameWonText.SetActive(false);
+		GameEndScreen.SetActive(false);
 
 	}
 
@@ -67,9 +66,9 @@ public class ArchetypePlayer : MonoBehaviour {
 		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, Camera.main.nearClipPlane);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
-	  if(_currentBadScore < _targetScore) {
-	  	_currentBadScore += _targetScore/20;
-	  }
+	    if(_currentBadScore < _targetScore) {
+		  	_currentBadScore += _targetScore/20;
+	    }
 		
 		if(_intervalTime >= GameConfig.numBubblesInterval) {
 
@@ -105,7 +104,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void OnDestroy() {
 
 		Events.instance.RemoveListener<DeathEvent> (OnDeathEvent);
-		Events.instance.RemoveListener<PowerUpEvent> (OnPowerUpEvent);
+		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
 //		Events.instance.RemoveListener<SpellComponentEvent> (OnSpellComponentEvent);
 
 	}
@@ -120,20 +119,20 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	}
 	
-	private void OnPowerUpEvent(PowerUpEvent e)
+	private void OnSpellEvent(SpellEvent e)
 	{
-		_powerUpType = e.powerType;
+		_spellsType = e.powerType;
 		
-		// What kinda power up? 
-		switch(_powerUpType)
+		// What kinda spell? 
+		switch(_spellsType)
 		{
-			case PowerUps.SpeedShoot:
+			case Spells.SpeedShoot:
 				// Speed up bubble rate
-				StartCoroutine(PowerUpBubbleSpeed());
+				StartCoroutine(SpellBubbleSpeed());
 				break;
-			case PowerUps.ScatterShoot:
+			case Spells.ScatterShoot:
 				// Make those bubbles scatter
-				StartCoroutine(PowerUpScatterShoot());
+				StartCoroutine(SpellScatterShoot());
 				break;
 		}
 	}
@@ -143,6 +142,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		WonGame = e.wonGame;
 
 		gameObject.SetActive(false);
+		GameEndScreen.SetActive(true);
 
 		if (WonGame)
 			GameWonText.SetActive(true);
@@ -158,26 +158,26 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 	}
 
-	private static IEnumerator PowerUpBubbleSpeed()
+	private static IEnumerator SpellBubbleSpeed()
 	{
-		GUIManager.Instance.DisplayCurrentPowerUp("Bubble Speedup");
+		GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
 		GameConfig.numBubblesInterval /= 2;
 		
 		yield return new WaitForSeconds(5);
 		
 		GameConfig.numBubblesInterval *= 2;
-		GUIManager.Instance.HidePowerUp();
+		GUIManager.Instance.HideSpell();
 	}
 
-	private IEnumerator PowerUpScatterShoot()
+	private IEnumerator SpellScatterShoot()
 	{
-		GUIManager.Instance.DisplayCurrentPowerUp("Scatter Shot");
+		GUIManager.Instance.DisplayCurrentSpell("Scatter Shot");
 		_scatterShootOn = true;
 		
 		yield return new WaitForSeconds(5);
 
 		_scatterShootOn = false;
-		GUIManager.Instance.HidePowerUp();
+		GUIManager.Instance.HideSpell();
 	}
   
 }

@@ -2,16 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Analytics;
+using System.Linq;
+using JetBrains.Annotations;
 
 public class GameManager : MonoBehaviour
 {
+	[CanBeNull]
 	public GameObject VillagerPrefab;
+
 	private float deltaTime;
 	private bool touching = false;
 
 	private void Awake()
 	{
-		GUIManager.Instance.Initialiaze();
 		StartCoroutine(LocationTest());
 	}
 
@@ -116,6 +119,17 @@ public class GameManager : MonoBehaviour
 
         // Stop service if there is no need to query location updates continuously
         Input.location.Stop();
+    }
+
+    public void LoadLevel(string level) {
+
+    	if (level) 
+			UnityEngine.SceneManagement.SceneManager.LoadScene(level);
+    	else 
+    		UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
+    		
+    	GUIManager.Instance.Initialiaze();
+
     }
 
 }

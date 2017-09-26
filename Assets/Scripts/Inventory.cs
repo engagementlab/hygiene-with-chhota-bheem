@@ -29,8 +29,8 @@ namespace DefaultNamespace
 
       if(SpellInventory.Count == 2)
       {
-        var powerUpGiven = Enum.GetValues(typeof(PowerUps)).Cast<PowerUps>().ToList()[UnityEngine.Random.Range(0, 2)];
-        Events.instance.Raise(new PowerUpEvent(powerUpGiven));
+        var powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[UnityEngine.Random.Range(0, 2)];
+        Events.instance.Raise(new SpellEvent(powerUpGiven));
 
         SpellComponentsNeeded = Enum.GetValues(typeof(SpellComponent)).Cast<SpellComponent>().ToList();
         SpellInventory.Clear();
