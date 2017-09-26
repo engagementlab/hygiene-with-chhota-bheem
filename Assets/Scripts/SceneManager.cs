@@ -18,19 +18,20 @@ public class SceneManager : MonoBehaviour
 
 	private static void OnSceneSaved(UnityEngine.SceneManagement.Scene scene)
 	{
-			DestroyImmediate(Camera.main.gameObject);
-			EditorSceneManager.sceneSaved -= OnSceneSaved;
-			EditorSceneManager.SaveScene(scene);
+		DestroyImmediate(Camera.main.gameObject);
+			
+		EditorSceneManager.sceneSaved -= OnSceneSaved;
+		EditorSceneManager.SaveScene(scene);
 	}
 
 	private static void LoadCamera(int instanceID, Rect selectionRect) 
 	{
-					if(FindObjectOfType(typeof(Camera)))
-				return;
+		if(FindObjectOfType(typeof(Camera)))
+			return;
 			
-			// Load main camera into scene
-			camera = Resources.Load<GameObject>("SceneCamera");
-			PrefabUtility.InstantiatePrefab(camera);
+		// Load main camera into scene
+		camera = Resources.Load<GameObject>("SceneCamera");
+		PrefabUtility.InstantiatePrefab(camera);
 	}
 
 	private static void DeleteCamera(Scene scene, bool removingScene)

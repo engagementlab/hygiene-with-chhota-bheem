@@ -17,6 +17,7 @@ using UnityEngine;
 using UnityEditor;
 
 public class TexturePostProcessor : AssetPostprocessor {
+
 	// Texture import setting vars
 	int _qualityBest = (int)TextureCompressionQuality.Best;
 	int _qualityGood = (int)TextureCompressionQuality.Normal;
@@ -24,19 +25,15 @@ public class TexturePostProcessor : AssetPostprocessor {
 	
 	// Set per-platform texture settings
 	void OnPostprocessTexture(Texture2D texture) {
-
-		Debug.Log("OnPostprocessTexture");
 	
 		TextureImporter importer = assetImporter as TextureImporter;
 
 		importer.anisoLevel = 0;
-//		importer.filterMode = FilterMode.Bilinear;
 		importer.isReadable = true;
 		importer.mipmapEnabled = false;
-//		importer.wrapMode = TextureWrapMode.Clamp;
 
 		// Set texture settings
-		importer.SetPlatformTextureSettings( "Android", 1024, TextureImporterFormat.ETC2_RGB4, _qualityGood, false ); //ATC_RGBA8 \\ ETC2_RGBA8 || PVRTC_RGBA4
+		importer.SetPlatformTextureSettings( "Android", 1024, TextureImporterFormat.PVRTC_RGBA4, _qualityGood, false ); //ATC_RGBA8 \\ ETC2_RGBA8 || PVRTC_RGBA4
 
 		Object asset = AssetDatabase.LoadAssetAtPath(importer.assetPath, typeof(Texture2D));
 		if (asset) {
