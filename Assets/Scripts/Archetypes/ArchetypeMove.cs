@@ -88,6 +88,7 @@ public class ArchetypeMove : MonoBehaviour
 	private Camera _mainCamera;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
+	private RectTransform _bgRectTransform;
 
 	/**************
 		UNITY METHODS
@@ -107,6 +108,10 @@ public class ArchetypeMove : MonoBehaviour
 		if(GetType().Name != "ArchetypeSpawner")
 			SetupWaypoints();
 		
+		// Is background object?
+		if(gameObject.layer == 8)
+			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
+
 	}
 	
 	public void Update () {
@@ -122,10 +127,15 @@ public class ArchetypeMove : MonoBehaviour
 		// Not for background layers
 		if(gameObject.layer != 8 && _mainCamera.WorldToViewportPoint(_movingTransform.position).y < -1)
 			Destroy(gameObject);
+		
 		else if(gameObject.layer == 8)
 		{
-			// Don't move background layer once there is none left
-			if(_mainCamera.WorldToViewportPoint(_movingTransform.position).y <= -.035f)
+			Vector3[] bgCorners = new Vector3[4];
+			_bgRectTransform.GetWorldCorners(bgCorners);
+			float cameraTop = _mainCamera.WorldToViewportPoint(bgCorners[1]).y;
+			
+			// Don't move background layer once there is none left (point of top-right coord is less than 1 relative to viewport)
+			if(cameraTop < 1)
 				return;
 		}
 
@@ -459,6 +469,7 @@ public class ArchetypeMove : MonoBehaviour
 		//- Reverse motion?
 		else
 		{
+			
 			_currentPathPercent = 1 - perClamp;
 
 			// Added 180° when reversing
@@ -471,6 +482,7 @@ public class ArchetypeMove : MonoBehaviour
 				_reversingAngle = 0;
 				_reverseAnim = false;
 			}
+			
 		}
 
 		// Place object at current %

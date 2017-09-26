@@ -26,73 +26,66 @@ public class SceneEditor : MonoBehaviour
 	private Vector3[] _camBounds; 
 	private Vector3[] _lowerCamBounds; 
 	
-	private Transform[] objSortedY;
-	private Transform[] objSortedX;
+	private Transform[] _objSortedY;
+	private Transform[] _objSortedX;
 	
-	private Vector3 xPosFirst;
-	private Vector3 xPosLast;
-	private Vector3 yPosFirst;
-	private Vector3 yPosLast;
-	private Vector3 topLeftPos;
-	private Vector3 topRightPos;
-	private Vector3 bottomLeftPos;
-	private Vector3 bottomRightPos;
+	private Vector3 _xPosFirst;
+	private Vector3 _xPosLast;
+	private Vector3 _yPosFirst;
+	private Vector3 _yPosLast;
+	private Vector3 _topLeftPos;
+	private Vector3 _topRightPos;
+	private Vector3 _bottomLeftPos;
+	private Vector3 _bottomRightPos;
 
-	private Vector3 cameraTopRight;
-	private Vector3 cameraTopLeft;
+	private Vector3 _cameraTopRight;
+	private Vector3 _cameraTopLeft;
 	
-	private void Start()
-	{
-		
-		// Get lists of ArchetypeMove transforms ordered by x/y pos
-		objSortedY = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.y).ToArray();
-		objSortedX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.x).ToArray();
-		
-
-		xPosFirst = objSortedX.First().position;
-		xPosLast = objSortedX.Last().position;
-		yPosFirst = objSortedY.First().position;
-		yPosLast = objSortedY.Last().position;
-		
-		topLeftPos = new Vector3(xPosFirst.x, yPosLast.y);
-		topRightPos = new Vector3(xPosLast.x, yPosLast.y);
-		bottomLeftPos = new Vector3(xPosFirst.x, yPosFirst.y);
-		bottomRightPos = new Vector3(xPosLast.x, yPosFirst.y);
-			
-		cameraTopRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
-		cameraTopLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.nearClipPlane));
-		
-		_camBounds = new[] {
-			new Vector3(cameraTopLeft.x, 5.735f, cameraTopLeft.z), 
-			new Vector3(cameraTopRight.x, 5.735f, cameraTopRight.z), 
-			new Vector3(cameraTopRight.x, -5.735f, cameraTopLeft.z), 
-			new Vector3(cameraTopLeft.x, -5.735f, cameraTopLeft.z), 
-			new Vector3(cameraTopLeft.x, 5.735f, cameraTopLeft.z)		
-		};
-	}
-
 	private void OnDrawGizmos()
 	{
 		if(Application.isPlaying) return;
+		
+		// Get lists of ArchetypeMove transforms ordered by x/y pos
+		_objSortedY = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.y).ToArray();
+		_objSortedX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.x).ToArray();
+		
+		_xPosFirst = _objSortedX.First().position;
+		_xPosLast = _objSortedX.Last().position;
+		_yPosFirst = _objSortedY.First().position;
+		_yPosLast = _objSortedY.Last().position;
+		
+		_topLeftPos = new Vector3(_xPosFirst.x, _yPosLast.y);
+		_topRightPos = new Vector3(_xPosLast.x, _yPosLast.y);
+		_bottomLeftPos = new Vector3(_xPosFirst.x, _yPosFirst.y);
+		_bottomRightPos = new Vector3(_xPosLast.x, _yPosFirst.y);
 		
 		/*
 		 Draw outline around all current ArchetypeMove objects, allowing easy tracking of how many moving objects are in scene.
 		*/
 		Gizmos.color = Color.green;
-		Gizmos.DrawLine(topLeftPos, topRightPos);
-		Gizmos.DrawLine(topLeftPos, bottomLeftPos);
-		Gizmos.DrawLine(bottomLeftPos, bottomRightPos);
-		Gizmos.DrawLine(bottomRightPos, topRightPos);
+		Gizmos.DrawLine(_topLeftPos, _topRightPos);
+		Gizmos.DrawLine(_topLeftPos, _bottomLeftPos);
+		Gizmos.DrawLine(_bottomLeftPos, _bottomRightPos);
+		Gizmos.DrawLine(_bottomRightPos, _topRightPos);
 
 		// Draw L/R game boundaries
 		Handles.color = Color.white;
-		Handles.DrawDottedLine(cameraTopRight, cameraTopRight + new Vector3(0, 600), 5);
-		Handles.DrawDottedLine(cameraTopLeft, cameraTopLeft + new Vector3(0, 600), 5);
+		Handles.DrawDottedLine(_cameraTopRight, _cameraTopRight + new Vector3(0, 600), 5);
+		Handles.DrawDottedLine(_cameraTopLeft, _cameraTopLeft + new Vector3(0, 600), 5);
+		
+		_cameraTopRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
+		_cameraTopLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.nearClipPlane));
+		_camBounds = new[] {
+			new Vector3(_cameraTopLeft.x, 5.735f, _cameraTopLeft.z), 
+			new Vector3(_cameraTopRight.x, 5.735f, _cameraTopRight.z), 
+			new Vector3(_cameraTopRight.x, -5.735f, _cameraTopLeft.z), 
+			new Vector3(_cameraTopLeft.x, -5.735f, _cameraTopLeft.z), 
+			new Vector3(_cameraTopLeft.x, 5.735f, _cameraTopLeft.z)		
+		};
 		
 		// Draw camera bounds
 		Handles.color = new Color(1, .48f, 0.007f);
 		Handles.DrawAAPolyLine(10, _camBounds);
-		
 		
 	}
 }

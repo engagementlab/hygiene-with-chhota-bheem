@@ -78,11 +78,9 @@ public class TiledBackground : MonoBehaviour {
 		var transformsX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.x).ToArray();
 		
 		var xPosFirst = transformsX.First().position;
-		var yPosFirst = transformsY.First().position;
 		var yPosLast = transformsY.Last().position;
 		
 		var topLeftPos = new Vector3(xPosFirst.x, yPosLast.y);
-		var bottomLeftPos = new Vector3(xPosFirst.x, yPosFirst.y);
 
 		// L/R game boundaries
 		var rightBound = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane)).x;
@@ -92,15 +90,16 @@ public class TiledBackground : MonoBehaviour {
 			_canvasRect = GetComponent<RectTransform>();
 		
 		// Size and position canvas of sprite
-		_canvasRect.sizeDelta = new Vector2(rightBound - leftBound, topLeftPos.y - bottomLeftPos.y+10);
-		_canvasRect.position = new Vector3(leftBound, topLeftPos.y+.5f, 0);
-		
+		_canvasRect.sizeDelta = new Vector2(rightBound - leftBound, topLeftPos.y + 6);
+
 		var sizeY = _canvasRect.rect.height;
 		var repY = sizeY / SquareSize;
 
 		var imgRect = Image.uvRect;
 		imgRect.height = repY;
 		Image.uvRect = imgRect;
+		
+//		_canvasRect.position = new Vector3(leftBound, topLeftPos.y + ((_canvasRect.offsetMax.y/2)-5.6f), 0);
 		
 	}
 	#endif
