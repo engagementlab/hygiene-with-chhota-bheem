@@ -90,7 +90,7 @@ public class ArchetypeMove : MonoBehaviour
 	private float _currentAnimSpeed;
 	private float _lerpAnimSpeed;
 	private float _targetAnimSpeed;
-	private Camera _mainCamera;
+	internal Camera _mainCamera;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 	private RectTransform _bgRectTransform;

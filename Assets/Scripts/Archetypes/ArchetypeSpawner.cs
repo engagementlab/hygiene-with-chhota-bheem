@@ -17,44 +17,70 @@ using UnityEngine;
 public class ArchetypeSpawner : ArchetypeMove
 {
 
-	public GameObject prefabToSpawn;
+	public GameObject PrefabToSpawn;
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
-	public bool moveAfterSpawn;
+	public bool MoveAfterSpawn;
+
+	public bool SpawnRepeating;
 	
 	[HideInInspector]
-	public string spawnType;
-
-	private Camera mainCamera;
-	private bool wait = true;
-
-	private void Start()
-	{
-		mainCamera = Camera.main;
-	}
+	public int SpawnRepeatCount;
+	[HideInInspector]
+	public float SpawnDelay;
+	
+	private float _spawnWaitTime;
+	private int _spawnCount;
+	private bool _wait = true;
 
 	// Update is called once per frame
 	private void Update () {
 		
-		if(!MoveEnabled || !wait)
+		if(!MoveEnabled || !_wait)
 			return;
 		
 		base.Update();
 
-		if(!(mainCamera.WorldToViewportPoint(transform.position).y < 1) || prefabToSpawn == null) return;
-		var spawn = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
+		if(!(_mainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabToSpawn == null) return;
 
-		spawn.SetActive(true);
-		wait = false;
-
-		if(!moveAfterSpawn)
+		// If not repeating, spawn and destroy now
+		if(!SpawnRepeating)
 		{
-			Vector3 globalPos = mainCamera.transform.InverseTransformPoint(transform.position);
+			Spawn();
+			Destroy(gameObject);
+		}
+		else
+			InvokeRepeating("Spawn", 0, SpawnDelay);
+
+		_wait = false;
+		
+	}
+
+	private void Spawn()
+	{
+	
+		var spawn = Instantiate(PrefabToSpawn, transform.position, Quaternion.identity);	
+		spawn.SetActive(true);
+		
+		if(!MoveAfterSpawn)
+		{
+			Vector3 globalPos = _mainCamera.transform.InverseTransformPoint(transform.position);
+			globalPos.z = 0;
+			
 			transform.parent = null;
 			transform.position = globalPos;
+			
 			SetupWaypoints();
 		}
-			
-		Destroy(gameObject);
+
+		if(!SpawnRepeating) return;
+		_spawnCount++;
+
+		if(_spawnCount == SpawnRepeatCount)
+		{
+			CancelInvoke();
+			Destroy(gameObject);
+		}
+		
 	}
 }
