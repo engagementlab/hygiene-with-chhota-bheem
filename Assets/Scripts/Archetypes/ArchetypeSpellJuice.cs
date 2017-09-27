@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ArchetypeSpellJuice : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	private float currentPathPercent;
 
 	private SpellComponent thisComponent;
+
+	public Spells type;
 
 	private void Awake()
 	{
@@ -38,10 +42,16 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	private void OnTriggerEnter(Collider collider) {
 		
 		if(collider.gameObject.tag != "Player") return;
+		
+		Debug.Log("We triggered a spell");
 
-		var currentSpell = GameObject.FindGameObjectsWithTag("Spell").activeInHierarchy == true;
+		var currentSpell = GameObject.FindGameObjectWithTag("SpellBar");
 
 		Debug.Log(currentSpell);
+		
+		if (currentSpell.GetComponent<ArchetypeSpellJuice>().type == type)
+			Debug.Log(type);
+		
 		GUIManager.Instance.AddSpellJuice(thisComponent);
 		Destroy(gameObject);
 
