@@ -37,7 +37,7 @@ public class Waypoint : MonoBehaviour {
 			parent.OnDrawGizmosSelected();
 		else
 		{
-			if(transform.parent.parent.GetComponent<ArchetypeMove>() != null)
+			if(transform.parent.parent != null && transform.parent.parent.GetComponent<ArchetypeMove>() != null)
 				transform.parent.parent.GetComponent<ArchetypeMove>().OnDrawGizmosSelected();
 		}
 		

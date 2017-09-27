@@ -53,13 +53,13 @@ public class ArchetypeMoveGUI : Editor
 			
 			GUILayout.BeginVertical("box");
 			
-			EditorGUILayout.HelpBox("This sets the duration of the journey between start and end waypoints, the type of animation, and speed scaling for forward/backward tween.", MessageType.None);
+			EditorGUILayout.HelpBox("This sets the duration of the journey between start and end waypoints, the type of animation, and speed scaling for upward/downward tween.", MessageType.None);
 			_archetype.AnimationDuration = EditorGUILayout.Slider("Animation Duration", _archetype.AnimationDuration, 1, 10);
 			_archetype.AnimationType = (ArchetypeMove.AnimType) EditorGUILayout.EnumPopup("Animation Type", _archetype.AnimationType);
 
 			// Animation speed controls
-			_archetype.AnimationForwardSpeed = EditorGUILayout.Slider("Forward Speed", _archetype.AnimationForwardSpeed, 0, 2);
-			_archetype.AnimationReverseSpeed = EditorGUILayout.Slider("Backward Speed", _archetype.AnimationReverseSpeed, 0, 2);
+			_archetype.AnimationUpwardSpeed = EditorGUILayout.Slider("Forward Speed", _archetype.AnimationUpwardSpeed, 0, 2);
+			_archetype.AnimationDownwardSpeed = EditorGUILayout.Slider("Backward Speed", _archetype.AnimationDownwardSpeed, 0, 2);
 			
 			GUILayout.EndVertical();
 			
