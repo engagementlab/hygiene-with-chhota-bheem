@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
 using DefaultNamespace;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -39,9 +40,9 @@ public class ArchetypeMove : MonoBehaviour
 	[HideInInspector]
 	public float AnimationDuration = 1;
 	[HideInInspector]
-	public float AnimationForwardSpeed = 1;	
+	public float AnimationUpwardSpeed = 1;	
 	[HideInInspector]
-	public float AnimationReverseSpeed = 1;	
+	public float AnimationDownwardSpeed = 1;	
 	[HideInInspector]
 	public AnimType AnimationType = AnimType.PingPong;
 	
@@ -84,7 +85,11 @@ public class ArchetypeMove : MonoBehaviour
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
+	private bool _movingDownward;
 	private float _reversingAngle;
+	private float _currentAnimSpeed;
+	private float _lerpAnimSpeed;
+	private float _targetAnimSpeed;
 	private Camera _mainCamera;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
@@ -111,6 +116,9 @@ public class ArchetypeMove : MonoBehaviour
 		// Is background object?
 		if(gameObject.layer == 8)
 			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
+
+		_currentAnimSpeed = AnimationDownwardSpeed;
+		_targetAnimSpeed = AnimationUpwardSpeed;
 
 	}
 	
@@ -370,16 +378,10 @@ public class ArchetypeMove : MonoBehaviour
 			if(tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy)
 			{
 				foreach(Transform wp in tr)
-				{
 					waypointTransforms.Add(wp);
-					
-					// Assign waypoint to parent
-					wp.parent = waypointsParent;
-				}
-
 			}
-			else
-				waypointTransforms.Add(tr);
+			
+			waypointTransforms.Add(tr);
 		}
 
 		// Iterate through all transform children or waypoint prefab patterns and pull out any waypoints
@@ -440,12 +442,33 @@ public class ArchetypeMove : MonoBehaviour
 		if(_waypoints == null || _waypoints.Count <= 0) return;
 		
 		// Calculate current percentage on waypoints path (basically ping pong but time, not frame, based)
-		_runningTime += Time.deltaTime * (_reverseAnim ? AnimationReverseSpeed : AnimationForwardSpeed);
+		bool isDownward = transform.InverseTransformDirection(Vector3.up).y < 0;
+
+		if(!isDownward && _movingDownward)
+		{
+			_currentAnimSpeed = AnimationDownwardSpeed;
+			_targetAnimSpeed = AnimationUpwardSpeed;
+			_lerpAnimSpeed = 0;
+		}
+		else if(isDownward && !_movingDownward)
+		{
+			_currentAnimSpeed = AnimationUpwardSpeed;
+			_targetAnimSpeed = AnimationDownwardSpeed;
+			_lerpAnimSpeed = 0;
+		}
+
+		_movingDownward = isDownward;
+		_lerpAnimSpeed += Time.deltaTime;
+		
+		float speed = Mathf.Lerp(_currentAnimSpeed, _targetAnimSpeed, Mathf.Clamp(_lerpAnimSpeed, 0, 1));
+		
+		_runningTime += Time.deltaTime * speed;
 		var perClamp = Mathf.Clamp(_runningTime / AnimationDuration, 0, 1);
 
 		//- Forward motion?
 		if(!_reverseAnim)
 		{
+			
 			if(_reversingAngle > 0)
 				_reversingAngle -= 10;
 				
@@ -465,6 +488,7 @@ public class ArchetypeMove : MonoBehaviour
 						_currentPathPercent = 0;
 				}
 			}
+			
 		}
 		//- Reverse motion?
 		else
