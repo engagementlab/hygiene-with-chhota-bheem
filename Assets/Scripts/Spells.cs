@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace
 {
-  public enum PowerUps
+  public enum Spells
   {
     None,
     Matrix,

@@ -3,6 +3,7 @@ using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Linq;
+using JetBrains.Annotations;
 
 public class GUIManager
 {
@@ -19,7 +20,7 @@ public class GUIManager
 	}
 	
 	private RectTransform inventoryUI;
-	private GameObject powerUpText;
+	private GameObject spellText;
 	private GameObject pauseUI;
 	private Animator pauseAnimator;
 
@@ -31,42 +32,39 @@ public class GUIManager
 	public void Initialiaze ()
 	{
 
-		inventoryUI = GameObject.Find("UI/Inventory").GetComponent<RectTransform>();
-		powerUpText = GameObject.Find("UI/PowerUpText");
+		inventoryUI = GameObject.Find("GameUI/SpellJuiceBars").GetComponent<RectTransform>();
+		spellText = GameObject.Find("GameUI/SpellText");
 		
-		pauseUI = GameObject.Find("UI/PauseUI");
+		pauseUI = GameObject.Find("GameUI/PauseUI");
 		pauseAnimator = pauseUI.GetComponent<Animator>();
 
-		powerUpText.SetActive(false);
+		spellText.SetActive(false);
 
-		fliesCount = GameObject.Find("UI/Score/FlyCount").GetComponent<Text>();
-		villagerCount = GameObject.Find("UI/Score/VillagerCount").GetComponent<Text>();
-		score = GameObject.Find("UI/Score/ScoreCount").GetComponent<Text>();
+		fliesCount = GameObject.Find("GameUI/Score/FlyCount").GetComponent<Text>();
+		villagerCount = GameObject.Find("GameUI/Score/VillagerCount").GetComponent<Text>();
+		score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
 		
 	}
 
-	public void DisplayCurrentPowerUp(string powerUpName)
+	public void DisplayCurrentSpell(string spellName)
 	{
 		
-		powerUpText.GetComponent<Text>().text = "Power up: " + powerUpName;
-		powerUpText.SetActive(true);
+		spellText.GetComponent<Text>().text = "Spell: " + spellName;
+		spellText.SetActive(true);
 		
 	}
 	
-	public void HidePowerUp()
+	public void HideSpell()
 	{
 		
-		powerUpText.SetActive(false);
+		spellText.SetActive(false);
 		
 	}
 
-	public void ShowSpellComponent(SpellComponent component)
+	public void AddSpellJuice(SpellComponent component)
 	{
 		
-		var img = inventoryUI.Find(component.ToString()).GetComponent<Image>();
-		img.enabled = true;
 		
-		Inventory.instance.AddSpellComponent(component);
 		
 	}
 

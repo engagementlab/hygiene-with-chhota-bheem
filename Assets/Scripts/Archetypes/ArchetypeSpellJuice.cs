@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 
-public class SpellObject : MonoBehaviour
+public class ArchetypeSpellJuice : MonoBehaviour
 {
 
 	private Vector3[] movementPoints;
@@ -36,7 +36,10 @@ public class SpellObject : MonoBehaviour
 		
 		if(collider.gameObject.tag != "Player") return;
 
-		GUIManager.Instance.ShowSpellComponent(thisComponent);
+		// var currentSpell = GameObject.FindGameObjectsWithTag("Spell").activeSelf == true;
+
+		Debug.Log(currentSpell);
+		GUIManager.Instance.AddSpellJuice(thisComponent);
 		Destroy(gameObject);
 
 	}
@@ -46,5 +49,4 @@ public class SpellObject : MonoBehaviour
 		thisComponent = component;
 		transform.Find(component.ToString()).GetComponent<SpriteRenderer>().enabled = true;
 	}
-
 }
