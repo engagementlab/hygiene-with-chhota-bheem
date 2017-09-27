@@ -11,15 +11,18 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	private float currentPathPercent;
 
 	private SpellComponent thisComponent;
-	
+
 	private void Awake()
 	{
-		
+
 		movementPoints = new Vector3[10];
-			
-		for(int i = 0; i < 10; i++)
-			movementPoints[i] = Utilities.ClampToScreen(new Vector3(Random.Range(transform.position.x-1, transform.position.x+1), Random.Range(transform.position.y-1, transform.position.y+1), 0), Camera.main);
-		
+
+		for (int i = 0; i < 10; i++)
+			movementPoints[i] =
+				Utilities.ClampToScreen(
+					new Vector3(Random.Range(transform.position.x - 1, transform.position.x + 1),
+						Random.Range(transform.position.y - 1, transform.position.y + 1), 0), Camera.main);
+
 	}
 
 	private void Update()
@@ -36,7 +39,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		
 		if(collider.gameObject.tag != "Player") return;
 
-		// var currentSpell = GameObject.FindGameObjectsWithTag("Spell").activeSelf == true;
+		var currentSpell = GameObject.FindGameObjectsWithTag("Spell").activeInHierarchy == true;
 
 		Debug.Log(currentSpell);
 		GUIManager.Instance.AddSpellJuice(thisComponent);

@@ -60,7 +60,7 @@ public class ArchetypeMove : MonoBehaviour
 	[CanBeNull] [HideInInspector]
 	public string SpawnType;
 
-	public GameObject[] Spells;
+	public GameObject[] SpellJuices;
 	
 	public enum Dirs
 	{
@@ -536,7 +536,7 @@ public class ArchetypeMove : MonoBehaviour
 		// if (Random.Range(0.0f, 10.0f) <= 5.0f) {
 			// TO DO: Check the level to determine the power up
 
-			var Spell = GameObject.FindWithTag("Player").GetComponent<ArchetypeMove>().Spells[0];
+			var Spell = GameObject.FindWithTag("Player").GetComponent<ArchetypeMove>().SpellJuices[0];
 
 			// Drop that power up
 			Instantiate(Spell, location, Quaternion.identity);

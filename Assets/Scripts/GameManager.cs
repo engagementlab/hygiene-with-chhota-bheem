@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel(string level) {
 
-    	if (level) 
+    	if (!System.String.IsNullOrEmpty(level)) 
 			UnityEngine.SceneManagement.SceneManager.LoadScene(level);
     	else 
     		UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
