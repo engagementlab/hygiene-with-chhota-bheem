@@ -19,7 +19,7 @@ public class GUIManager
 		}
 	}
 	
-	private RectTransform inventoryUI;
+	private GameObject inventoryUI;
 	private GameObject spellText;
 	private GameObject pauseUI;
 	private Animator pauseAnimator;
@@ -32,8 +32,8 @@ public class GUIManager
 	public void Initialiaze ()
 	{
 
-		inventoryUI = GameObject.Find("GameUI/SpellJuiceBars").GetComponent<RectTransform>();
-		spellText = GameObject.Find("GameUI/SpellText");
+		inventoryUI = GameObject.Find("GameUI/SpellJuiceBars");
+		spellText = GameObject.Find("GameUI/SpellJuiceBars/SpellText");
 		
 		pauseUI = GameObject.Find("GameUI/PauseUI");
 		pauseAnimator = pauseUI.GetComponent<Animator>();

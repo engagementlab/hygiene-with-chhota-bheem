@@ -23,6 +23,13 @@ namespace DefaultNamespace
     {
       return SpellInventory.Contains(component);
     }
+    
+    public void ChangeSpell(SpellComponent component)
+    {
+      SpellInventory.Clear();
+      SpellInventory.Add(component);
+      
+    }
 
     public void AddSpellComponent(SpellComponent component)
     {

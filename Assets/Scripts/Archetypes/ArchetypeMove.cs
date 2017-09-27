@@ -210,7 +210,7 @@ public class ArchetypeMove : MonoBehaviour
 					  Destroy(collider.gameObject);
 					  GameConfig.fliesCaught++;
 
-					  Spell(collider.gameObject.transform.position);
+					  // Spell(collider.gameObject.transform.position);
 					  break;
 				  case "Poop":
 					  Debug.Log("The Player shot a Poop! Nothing happens.");
@@ -522,11 +522,6 @@ public class ArchetypeMove : MonoBehaviour
 
 	}
 	
-	private IEnumerator RemoveVillager()
-	{
-		yield return new WaitForSeconds(0.5f);
-		Destroy(gameObject);
-	}
 	
 	private IEnumerator SpellMatrixMode()
 	{
@@ -551,28 +546,27 @@ public class ArchetypeMove : MonoBehaviour
 				StartCoroutine(SpellMatrixMode());
 				break;
 				
+			case Spells.ScatterShoot:
+
+				break;
+				
+			case Spells.SpeedShoot:
+
+				break;
+				
 		}
 		
 	}
 
-	private void Spell(Vector3 location) {
-		// Check random to see if power up is dropped
-		// if (Random.Range(0.0f, 10.0f) <= 5.0f) {
-			// TO DO: Check the level to determine the power up
-
-			var Spell = GameObject.FindWithTag("Player").GetComponent<ArchetypeMove>().SpellJuices[0];
-
-			// Drop that power up
-			Instantiate(Spell, location, Quaternion.identity);
-		// }
-
-	}
-
 	protected void SpawnSpellComponent()
-	{
+	{	
+		
+		Debug.Log("spawning spell juice");
 		
 		var neededCt = Inventory.instance.SpellComponentsNeeded.Count;
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
+		
+		Debug.Log(spellObject);
 		
 		var comp = Inventory.instance.SpellComponentsNeeded[Random.Range(0, neededCt)];
 		spellObject.GetComponent<ArchetypeSpellJuice>().SelectComponent(comp);
