@@ -28,22 +28,31 @@ public class GUIManager
 	private Text villagerCount;
 	private Text score;
 
+	public GameObject[] spellBars;
+
 	// Use this for initialization
 	public void Initialiaze ()
 	{
 
 		inventoryUI = GameObject.Find("GameUI/SpellJuiceBars");
+		
+		spellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		spellText = GameObject.Find("GameUI/SpellJuiceBars/SpellText");
 		
-		pauseUI = GameObject.Find("GameUI/PauseUI");
-		pauseAnimator = pauseUI.GetComponent<Animator>();
+		// pauseUI = GameObject.Find("GameUI/PauseUI");
+		// pauseAnimator = pauseUI.GetComponent<Animator>();
 
 		spellText.SetActive(false);
 
 		fliesCount = GameObject.Find("GameUI/Score/FlyCount").GetComponent<Text>();
 		villagerCount = GameObject.Find("GameUI/Score/VillagerCount").GetComponent<Text>();
 		score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
-		
+
+		for (int i = 0; i < spellBars.Length; i++)
+		{
+			spellBars[i].SetActive(false);
+		}
+
 	}
 
 	public void DisplayCurrentSpell(string spellName)

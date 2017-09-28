@@ -11,6 +11,10 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	private Vector3[] movementPoints;
 	private float percentsPerSecond = .1f;
 	private float currentPathPercent;
+	
+	public Sprite[] spells;
+
+	public Sprite currentSpell;
 
 	private SpellComponent thisComponent;
 
@@ -18,6 +22,12 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	private void Awake()
 	{
+		
+		// Pick the spell item
+		int index = Random.Range(0, spells.Length);
+		currentSpell = spells[index];
+
+		gameObject.GetComponent<SpriteRenderer>().sprite = currentSpell;
 
 		movementPoints = new Vector3[10];
 
@@ -43,13 +53,25 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		
 		if(collider.gameObject.tag != "Player") return;
 		
-		Debug.Log("We triggered a spell");
+		Debug.Log("We triggered a spell component");
 
 		var currentSpell = GameObject.FindGameObjectWithTag("SpellBar");
 
+		if (currentSpell != null)
+		{
+			var spellBars = GUIManager.Instance.spellBars;
+			for (int i = 0; i < spellBars.Length; i++)
+			{
+				if (spellBars[i].GetComponent<ArchetypeSpell>().type == type)
+				{
+					currentSpell = spellBars[i];
+				}
+			}
+		}
+			
 		Debug.Log(currentSpell);
 		
-		if (currentSpell.GetComponent<ArchetypeSpellJuice>().type == type)
+		if (currentSpell.GetComponent<ArchetypeSpell>().type == type)
 			Debug.Log(type);
 		
 		GUIManager.Instance.AddSpellJuice(thisComponent);

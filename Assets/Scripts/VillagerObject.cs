@@ -59,7 +59,7 @@ public class VillagerObject : ArchetypeMove
 		if(!(Mathf.Abs(v.x - health) <= .1f)) return;
 		
 		Particles.Play();
-		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
+		iTween.ScaleTo(gameObject, Vector3.zero, 1f);
 		Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Villager));
 
 		StartCoroutine(RemoveVillager());
