@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class Utilities : MonoBehaviour {
 
@@ -20,10 +22,10 @@ public class Utilities : MonoBehaviour {
 
 	}
 
-	#if UNITY_EDITOR
 	public static void DrawWaypoints(Transform t)
 	{
 		
+		#if UNITY_EDITOR
 		var waypointChildren = new List<Transform>();
 		foreach(Transform tr in t)
 		{
