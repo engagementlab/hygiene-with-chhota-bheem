@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Utilities : MonoBehaviour {
 
@@ -17,5 +18,52 @@ public class Utilities : MonoBehaviour {
 
 		return worldPos;
 
+	}
+
+	#if UNITY_EDITOR
+	public static void DrawWaypoints(Transform t)
+	{
+		
+		var waypointChildren = new List<Transform>();
+		foreach(Transform tr in t)
+		{
+			if(tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy)
+			{
+				foreach(Transform wp in tr)
+					waypointChildren.Add(wp);
+			}
+			else if(tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy)
+				waypointChildren.Add(tr);
+		}
+
+		if(waypointChildren.Count > 0)
+		{
+			
+			if(Selection.activeGameObject == t.gameObject)
+				Gizmos.color = Color.yellow;
+			else
+				Gizmos.color = Color.cyan;
+			
+			Gizmos.DrawLine(t.position, waypointChildren[0].transform.position);
+			
+		}
+			
+		if(waypointChildren.Count > 1)
+		{
+			for(var i = 0; i < waypointChildren.Count; i++)
+			{
+				if(waypointChildren.Count - 1 > i)
+				{
+					if(Selection.activeGameObject == waypointChildren[i].gameObject)
+						Gizmos.color = Color.yellow;
+					else
+						Gizmos.color = Color.cyan;
+						
+					Gizmos.DrawLine(waypointChildren[i].transform.position, waypointChildren[i+1].transform.position);
+				}
+
+			}
+		}
+		#endif
 	}
 }

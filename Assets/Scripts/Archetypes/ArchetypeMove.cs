@@ -49,6 +49,8 @@ public class ArchetypeMove : MonoBehaviour
 	[HideInInspector]
 	public bool UseParentSpeed;
 	[HideInInspector]
+	public bool RotateOnWaypoints = true;
+	[HideInInspector]
 	public int SpawnTypeIndex;
 	[HideInInspector]
 	public int Direction;
@@ -259,49 +261,7 @@ public class ArchetypeMove : MonoBehaviour
 			
 		}
 		
-		var waypointChildren = new List<Transform>();
-		
-		foreach(Transform tr in transform)
-		{
-			if(tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy)
-			{
-				foreach(Transform wp in tr)
-					waypointChildren.Add(wp);
-			}
-			else if(tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy)
-				waypointChildren.Add(tr);
-		}
-
-		
-		if(waypointChildren.Count > 0)
-		{
-			
-			if(Selection.activeGameObject == gameObject)
-				Gizmos.color = Color.yellow;
-			else
-				Gizmos.color = Color.cyan;
-			
-			Gizmos.DrawLine(transform.position, waypointChildren[0].transform.position);
-			
-		}
-			
-		if(waypointChildren.Count > 1)
-		{
-			for(var i = 0; i < waypointChildren.Count; i++)
-			{
-				if(waypointChildren.Count - 1 > i)
-				{
-					if(Selection.activeGameObject == waypointChildren[i].gameObject)
-						Gizmos.color = Color.yellow;
-					else
-						Gizmos.color = Color.cyan;
-						
-					Gizmos.DrawLine(waypointChildren[i].transform.position, waypointChildren[i+1].transform.position);
-				}
-
-			}
-		}
-		
+		Utilities.DrawWaypoints(transform);
 	}
 
 	private void OnDrawGizmos() {
@@ -511,11 +471,11 @@ public class ArchetypeMove : MonoBehaviour
 
 		// Place object at current %
 		iTween.PutOnPath(gameObject, _waypoints.ToArray(), _currentPathPercent);
-		var arrWaypoints = _waypoints.ToArray();
 		
+		if(!RotateOnWaypoints) return;
+		var arrWaypoints = _waypoints.ToArray();
 		var lookDelta = iTween.PointOnPath(arrWaypoints, _currentPathPercent + 0.05f) - transform.position;
 		var angle =  -Mathf.Atan2(lookDelta.x, lookDelta.y) * Mathf.Rad2Deg;
-	
 		var newRotation = Quaternion.Euler(0f, 0f, angle+_reversingAngle);
 
 		transform.rotation = newRotation;

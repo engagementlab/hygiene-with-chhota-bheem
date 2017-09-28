@@ -45,12 +45,9 @@ public class ArchetypeSpawner : ArchetypeMove
 
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
-		{
-			Spawn();
-			Destroy(gameObject);
-		}
+			InvokeRepeating("Spawn", SpawnDelay, 0);
 		else
-			InvokeRepeating("Spawn", 0, SpawnDelay);
+			InvokeRepeating("Spawn", SpawnDelay, SpawnDelay);
 
 		_wait = false;
 		
@@ -73,7 +70,12 @@ public class ArchetypeSpawner : ArchetypeMove
 			SetupWaypoints();
 		}
 
-		if(!SpawnRepeating) return;
+		// If not repeating, destroy now
+		if(!SpawnRepeating)
+		{
+			Destroy(gameObject);
+			return;
+		}
 		_spawnCount++;
 
 		if(_spawnCount == SpawnRepeatCount)
