@@ -20,10 +20,14 @@ public class Waypoint : MonoBehaviour {
 	{
 		
 		var parent = transform.parent.GetComponent<ArchetypeMove>();
-		
-		if(parent != null)
+		if(parent == null)
+		{
+			var waypointParent = transform.parent.GetComponent<WaypointParent>();
+			waypointParent.AddWaypoint();
+		}
+		else
 			parent.AddWaypoint();
-		
+
 	}
 
 	#if UNITY_EDITOR
@@ -39,6 +43,11 @@ public class Waypoint : MonoBehaviour {
 		{
 			if(transform.parent.parent != null && transform.parent.parent.GetComponent<ArchetypeMove>() != null)
 				transform.parent.parent.GetComponent<ArchetypeMove>().OnDrawGizmosSelected();
+			else
+			{
+				if(transform.parent.GetComponent<WaypointParent>() != null)
+					transform.parent.GetComponent<WaypointParent>().OnDrawGizmosSelected();
+			}
 		}
 		
 	}
