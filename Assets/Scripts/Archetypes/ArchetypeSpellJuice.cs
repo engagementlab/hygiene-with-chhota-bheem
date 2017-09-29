@@ -57,7 +57,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 		var currentSpell = GameObject.FindGameObjectWithTag("SpellBar");
 
-		if (currentSpell != null)
+		if (currentSpell == null || currentSpell.GetComponent<ArchetypeSpell>().type != type)
 		{
 			var spellBars = GUIManager.Instance.spellBars;
 			for (int i = 0; i < spellBars.Length; i++)
@@ -65,16 +65,20 @@ public class ArchetypeSpellJuice : MonoBehaviour
 				if (spellBars[i].GetComponent<ArchetypeSpell>().type == type)
 				{
 					currentSpell = spellBars[i];
+					Debug.Log("Starting new spell '" + type + "'!");
+					GUIManager.Instance.NewSpell(spellBars[i]);
 				}
 			}
 		}
-			
-		Debug.Log(currentSpell);
+		else if (currentSpell.GetComponent<ArchetypeSpell>().type == type)
+		{
+			// COntinue spelling
+			Debug.Log("Continuing to work towards spell '" + type + "'!");
+
+		}
 		
-		if (currentSpell.GetComponent<ArchetypeSpell>().type == type)
-			Debug.Log(type);
-		
-		GUIManager.Instance.AddSpellJuice(thisComponent);
+		var fill = currentSpell.transform.Find("Background").gameObject;
+		GUIManager.Instance.AddSpellJuice(type, fill);
 		Destroy(gameObject);
 
 	}

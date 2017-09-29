@@ -29,6 +29,8 @@ public class GUIManager
 	private Text score;
 
 	public GameObject[] spellBars;
+	public float spellSize;
+	private GameObject bar;
 
 	// Use this for initialization
 	public void Initialiaze ()
@@ -51,7 +53,12 @@ public class GUIManager
 		for (int i = 0; i < spellBars.Length; i++)
 		{
 			spellBars[i].SetActive(false);
+			var fill = spellBars[i].transform.Find("Background").GetComponent<RectTransform>();
+			fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);
+
 		}
+
+		spellSize = spellBars[0].transform.Find("Fill").GetComponent<RectTransform>().sizeDelta.y/5;
 
 	}
 
@@ -70,11 +77,22 @@ public class GUIManager
 		
 	}
 
-	public void AddSpellJuice(SpellComponent component)
+	public void NewSpell(GameObject spellBar)
 	{
+		bar = GameObject.FindGameObjectWithTag("SpellBar");
 		
+		if (bar != null)
+			bar.SetActive(false);
 		
-		
+		spellBar.SetActive(true);
+	}
+
+	public void AddSpellJuice(Spells type, GameObject fill)
+	{
+		Debug.Log("Adding juice for spell '" + type + "'");
+
+		var spellFill = fill.GetComponent<RectTransform>();
+		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + spellSize);
 	}
 
 	public void EmptySpells()
