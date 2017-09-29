@@ -70,13 +70,14 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		} 
 		else if (currentSpell.GetComponent<ArchetypeSpell>().type == type)
 		{
-			Debug.Log(type);
 			// COntinue spelling
+			Debug.Log("Continuing to work towards spell '" + type + "'!");
 
 		} 
 		else if (currentSpell.GetComponent<ArchetypeSpell>().type != type)
 		{
 			// New spell started
+			Debug.Log("Starting new spell '" + type + "'!");
 		}
 		
 		GUIManager.Instance.AddSpellJuice(thisComponent);
