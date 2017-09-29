@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ce6ca3e-c86b-4a34-8e2d-321d986f7550" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/SpawnVillager.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/SpawnVillager.prefab" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.hygiene-with-chhota-bheem/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.hygiene-with-chhota-bheem/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/GUIManager.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/GUIManager.cs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -173,20 +175,19 @@
       <file leaf-file-name="ArchetypeSpellJuice.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="73" column="71" lean-forward="false" selection-start-line="73" selection-start-column="71" selection-end-line="73" selection-end-column="71" />
+            <state relative-caret-position="329">
+              <caret line="69" column="17" lean-forward="false" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="17" />
               <folding>
-                <marker date="1506702876000" expanded="false" signature="6:151" ph="..." />
-                <marker date="1506702876000" expanded="true" signature="201:2209" ph="{...}" />
-                <marker date="1506702876000" expanded="true" signature="456:931" ph="{...}" />
-                <marker date="1506702876000" expanded="true" signature="955:1148" ph="{...}" />
-                <marker date="1506702876000" expanded="true" signature="1198:2030" ph="{...}" />
-                <marker date="1506702876000" expanded="true" signature="1399:1625" ph="{...}" />
-                <marker date="1506702876000" expanded="true" signature="1499:1621" ph="{...}" />
-                <marker date="1506702876000" expanded="true" signature="1570:1616" ph="{...}" />
-                <marker date="1506702876000" expanded="true" signature="1695:1794" ph="{...}" />
-                <marker date="1506702876000" expanded="true" signature="1864:1948" ph="{...}" />
-                <marker date="1506702876000" expanded="true" signature="2086:2207" ph="{...}" />
+                <marker date="1506706298000" expanded="false" signature="6:151" ph="..." />
+                <marker date="1506706298000" expanded="true" signature="201:2281" ph="{...}" />
+                <marker date="1506706298000" expanded="true" signature="456:931" ph="{...}" />
+                <marker date="1506706298000" expanded="true" signature="955:1148" ph="{...}" />
+                <marker date="1506706298000" expanded="true" signature="1198:2102" ph="{...}" />
+                <marker date="1506706298000" expanded="true" signature="1459:1788" ph="{...}" />
+                <marker date="1506706298000" expanded="true" signature="1559:1784" ph="{...}" />
+                <marker date="1506706298000" expanded="true" signature="1630:1779" ph="{...}" />
+                <marker date="1506706298000" expanded="true" signature="1857:1956" ph="{...}" />
+                <marker date="1506706298000" expanded="true" signature="2158:2279" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -195,25 +196,26 @@
       <file leaf-file-name="GUIManager.cs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/GUIManager.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="50" column="8" lean-forward="false" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="50" />
+            <state relative-caret-position="404">
+              <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
               <folding>
-                <marker date="1506550836000" expanded="false" signature="6:150" ph="..." />
-                <marker date="1506550836000" expanded="true" signature="175:2284" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="250:375" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="259:372" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="674:1337" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="872:974" ph="/* pauseUI = GameObject.Find(&quot;GameUI/PauseUI&quot;); ... */" />
-                <marker date="1506550836000" expanded="true" signature="1291:1333" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="1389:1493" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="1520:1562" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="1616:1631" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="1659:1825" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="1876:2119" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="1905:1969" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="1994:2055" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="2145:2186" ph="{...}" />
-                <marker date="1506550836000" expanded="true" signature="2212:2282" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="6:150" ph="..." />
+                <marker date="1506709076000" expanded="true" signature="175:2955" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="250:375" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="259:372" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="724:1626" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="922:1024" ph="/* pauseUI = GameObject.Find(&quot;GameUI/PauseUI&quot;); ... */" />
+                <marker date="1506709076000" expanded="true" signature="1341:1526" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="1678:1782" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="1809:1851" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="1895:2033" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="2091:2302" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="2330:2496" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="2547:2790" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="2576:2640" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="2665:2726" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="2816:2857" ph="{...}" />
+                <marker date="1506709076000" expanded="true" signature="2883:2953" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -1366,8 +1368,8 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/AppManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/VillagerObject.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpell.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GUIManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GUIManager.cs" />
       </list>
     </option>
   </component>
@@ -1379,9 +1381,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="184" />
-    <option name="y" value="171" />
-    <option name="width" value="1440" />
-    <option name="height" value="820" />
+    <option name="y" value="64" />
+    <option name="width" value="1168" />
+    <option name="height" value="718" />
   </component>
   <component name="ProjectView">
     <navigator currentView="SolutionExplorer" proportions="" version="1">
@@ -1529,12 +1531,12 @@
       <workItem from="1506349683841" duration="17110000" />
       <workItem from="1506441103151" duration="11833000" />
       <workItem from="1506522712366" duration="7915000" />
-      <workItem from="1506696277261" duration="1333000" />
+      <workItem from="1506696277261" duration="4625000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="240862000" />
+    <option name="totallyTimeSpent" value="244154000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1546,7 +1548,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="184" y="171" width="1440" height="820" extended-state="0" />
+    <frame x="184" y="64" width="1168" height="718" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -1557,10 +1559,10 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12916666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15924658" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32490012" sideWeight="0.49010417" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37596303" sideWeight="0.49010417" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1581,34 +1583,22 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs</url>
-          <line>57</line>
-          <properties startOffset="1306" endOffset="1370" documentPath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs" />
-          <option name="timeStamp" value="199" />
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GUIManager.cs</url>
+          <line>91</line>
+          <properties startOffset="2097" endOffset="2148" documentPath="$PROJECT_DIR$/Assets/Scripts/GUIManager.cs" />
+          <option name="timeStamp" value="203" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs</url>
-          <line>70</line>
-          <properties startOffset="1634" endOffset="1794" documentPath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs" />
-          <option name="timeStamp" value="200" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs</url>
-          <line>66</line>
-          <properties startOffset="1582" endOffset="1610" documentPath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs" />
-          <option name="timeStamp" value="201" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs</url>
-          <line>64</line>
-          <properties startOffset="1509" endOffset="1616" documentPath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs" />
-          <option name="timeStamp" value="202" />
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GUIManager.cs</url>
+          <line>94</line>
+          <properties startOffset="2206" endOffset="2299" documentPath="$PROJECT_DIR$/Assets/Scripts/GUIManager.cs" />
+          <option name="timeStamp" value="205" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="203" />
+      <option name="time" value="206" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -3054,45 +3044,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="73" column="71" lean-forward="false" selection-start-line="73" selection-start-column="71" selection-end-line="73" selection-end-column="71" />
+        <state relative-caret-position="329">
+          <caret line="69" column="17" lean-forward="false" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="17" />
           <folding>
-            <marker date="1506702876000" expanded="false" signature="6:151" ph="..." />
-            <marker date="1506702876000" expanded="true" signature="201:2209" ph="{...}" />
-            <marker date="1506702876000" expanded="true" signature="456:931" ph="{...}" />
-            <marker date="1506702876000" expanded="true" signature="955:1148" ph="{...}" />
-            <marker date="1506702876000" expanded="true" signature="1198:2030" ph="{...}" />
-            <marker date="1506702876000" expanded="true" signature="1399:1625" ph="{...}" />
-            <marker date="1506702876000" expanded="true" signature="1499:1621" ph="{...}" />
-            <marker date="1506702876000" expanded="true" signature="1570:1616" ph="{...}" />
-            <marker date="1506702876000" expanded="true" signature="1695:1794" ph="{...}" />
-            <marker date="1506702876000" expanded="true" signature="1864:1948" ph="{...}" />
-            <marker date="1506702876000" expanded="true" signature="2086:2207" ph="{...}" />
+            <marker date="1506706298000" expanded="false" signature="6:151" ph="..." />
+            <marker date="1506706298000" expanded="true" signature="201:2281" ph="{...}" />
+            <marker date="1506706298000" expanded="true" signature="456:931" ph="{...}" />
+            <marker date="1506706298000" expanded="true" signature="955:1148" ph="{...}" />
+            <marker date="1506706298000" expanded="true" signature="1198:2102" ph="{...}" />
+            <marker date="1506706298000" expanded="true" signature="1459:1788" ph="{...}" />
+            <marker date="1506706298000" expanded="true" signature="1559:1784" ph="{...}" />
+            <marker date="1506706298000" expanded="true" signature="1630:1779" ph="{...}" />
+            <marker date="1506706298000" expanded="true" signature="1857:1956" ph="{...}" />
+            <marker date="1506706298000" expanded="true" signature="2158:2279" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/GUIManager.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="50" column="8" lean-forward="false" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="50" />
+        <state relative-caret-position="404">
+          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding>
-            <marker date="1506550836000" expanded="false" signature="6:150" ph="..." />
-            <marker date="1506550836000" expanded="true" signature="175:2284" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="250:375" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="259:372" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="674:1337" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="872:974" ph="/* pauseUI = GameObject.Find(&quot;GameUI/PauseUI&quot;); ... */" />
-            <marker date="1506550836000" expanded="true" signature="1291:1333" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="1389:1493" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="1520:1562" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="1616:1631" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="1659:1825" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="1876:2119" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="1905:1969" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="1994:2055" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="2145:2186" ph="{...}" />
-            <marker date="1506550836000" expanded="true" signature="2212:2282" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="6:150" ph="..." />
+            <marker date="1506709076000" expanded="true" signature="175:2955" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="250:375" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="259:372" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="724:1626" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="922:1024" ph="/* pauseUI = GameObject.Find(&quot;GameUI/PauseUI&quot;); ... */" />
+            <marker date="1506709076000" expanded="true" signature="1341:1526" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="1678:1782" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="1809:1851" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="1895:2033" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="2091:2302" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="2330:2496" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="2547:2790" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="2576:2640" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="2665:2726" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="2816:2857" ph="{...}" />
+            <marker date="1506709076000" expanded="true" signature="2883:2953" ph="{...}" />
           </folding>
         </state>
       </provider>
