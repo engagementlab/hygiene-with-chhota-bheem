@@ -46,7 +46,7 @@ public class ArchetypeMoveGUI : Editor
 			_archetype.UseParentSpeed = EditorGUILayout.Toggle("Use Parent's Speed", _archetype.UseParentSpeed);
 		
 		if(!_archetype.UseParentSpeed || _archetype.transform.parent == null)
-			_archetype.MoveSpeed = EditorGUILayout.Slider("Movement Speed", _archetype.MoveSpeed, 1, 10);
+			_archetype.MoveSpeed = EditorGUILayout.Slider("Movement Speed", _archetype.MoveSpeed, 0, 10);
 		
 		// Animation
 		if(_archetype.HasWaypoints()) {
@@ -70,9 +70,7 @@ public class ArchetypeMoveGUI : Editor
 		// Movement Direction
 		if(_archetype.transform.parent == null || !_archetype.HasWaypoints())
 			_archetype.MovementDir = (ArchetypeMove.Dirs) EditorGUILayout.EnumPopup("Movement Direction", _archetype.MovementDir);
-		else
-			EditorGUILayout.HelpBox("This object has a parent and waypoints; movement direction is not editable.", MessageType.Warning);
-
+	
 		if(GUILayout.Button("Add Waypoint"))
 			_archetype.AddWaypoint();
 
