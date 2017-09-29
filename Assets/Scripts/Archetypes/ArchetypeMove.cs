@@ -33,7 +33,7 @@ public class ArchetypeMove : MonoBehaviour
 	public Spells SpellGiven;
 
 	[HideInInspector]
-	public float MoveSpeed = 1;
+	public float MoveSpeed;
 	[HideInInspector]
 	public Dirs MovementDir = Dirs.Down;
 	

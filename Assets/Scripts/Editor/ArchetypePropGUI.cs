@@ -10,19 +10,42 @@ public class ArchetypePropGUI : Editor
 	{
 
 		var _archetype = (ArchetypeProp) target;
-		float currentMax = _archetype.maxVal;
-		float currentMin = _archetype.minVal;
-		
-		EditorGUILayout.MinMaxSlider(ref _archetype.minVal, ref _archetype.maxVal, _archetype.minLimit, _archetype.maxLimit);
-		
-		if(_archetype.maxVal != currentMax || _archetype.minVal != currentMin)
-			EditorUtility.SetDirty(target);	
-	}
+		float currentXRightCount = _archetype.XRightCount;
+		float currentXLeftCount = _archetype.XLeftCount;
+		float currentYAboveCount = _archetype.YAboveCount;
+		float currentYBelowCount = _archetype.YBelowCount;
 
-//	private void OnSceneGUI()
-//	{
-//		Debug.Log("seelcted");
-//		var _archetype = (ArchetypeProp) target;
-//		_archetype.AddTiles();
-//	}
+		_archetype.Type = (ArchetypeProp.PropType) EditorGUILayout.EnumPopup("Prop Type", _archetype.Type);
+		
+		GUILayout.BeginVertical("box");
+		
+		EditorGUILayout.LabelField("Tiles to Left: " + (_archetype.XLeftCount > 0 ? 0 : Mathf.Abs(Mathf.RoundToInt(_archetype.XLeftCount))));
+		EditorGUILayout.LabelField("Tiles to Right: " + (_archetype.XRightCount < 0 ? 0 : Mathf.RoundToInt(_archetype.XRightCount)));
+		EditorGUILayout.MinMaxSlider(ref _archetype.XLeftCount, ref _archetype.XRightCount, _archetype.XLeftLimit, _archetype.XRightLimit);
+		
+		EditorGUILayout.LabelField("Tiles Above: " + Mathf.RoundToInt(_archetype.YAboveCount));
+		EditorGUILayout.LabelField("Tiles Below: " + Mathf.Abs(Mathf.RoundToInt(_archetype.YBelowCount)));
+		EditorGUILayout.MinMaxSlider(ref _archetype.YBelowCount, ref _archetype.YAboveCount, _archetype.YBelowLimit, _archetype.YAboveLimit);
+
+		GUILayout.EndVertical();
+		
+		bool apply = _archetype.XRightCount != currentXRightCount || _archetype.XLeftCount != currentXLeftCount || _archetype.YAboveCount != currentYAboveCount || _archetype.YBelowCount != currentYBelowCount;
+		if(apply)
+		{
+			_archetype.ApplyChange = true;
+	
+			if(!_archetype.SaveChanges)
+				EditorGUILayout.HelpBox("You will lose your changes if you don't save.", MessageType.Warning);
+			
+			EditorUtility.SetDirty(target);
+		}
+		
+
+		if(GUILayout.Button("Save Changes"))
+		{
+			_archetype.SaveChanges = true;
+			EditorUtility.SetDirty(target);
+		}
+	}
+	
 }
