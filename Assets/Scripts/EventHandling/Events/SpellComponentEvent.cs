@@ -17,9 +17,9 @@ public class SpellComponentEvent : GameEvent {
 
 		if(spawn) return;
 		
-		var neededCt = Inventory.instance.SpellComponentsNeeded.Count;
+		//var neededCt = Inventory.instance.SpellComponentsNeeded.Count;
 		
-		ComponentType = Inventory.instance.SpellComponentsNeeded[UnityEngine.Random.Range(0, neededCt)];
+		//ComponentType = Inventory.instance.SpellComponentsNeeded[UnityEngine.Random.Range(0, neededCt)];
 		GiveToPlayer = true;
 
 	}

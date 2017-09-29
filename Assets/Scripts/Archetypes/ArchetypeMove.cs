@@ -520,19 +520,15 @@ public class ArchetypeMove : MonoBehaviour
 
 	protected void SpawnSpellComponent()
 	{	
+		// Randomly decide which spell for which to spawn juice
+		var powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[UnityEngine.Random.Range(0, 2)];
 		
-		Debug.Log("spawning spell juice");
-		
-		var neededCt = Inventory.instance.SpellComponentsNeeded.Count;
+		// Instantiate Spell Object as the random spell type
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
-		
-		Debug.Log(spellObject);
-		
-		var comp = Inventory.instance.SpellComponentsNeeded[Random.Range(0, neededCt)];
-		spellObject.GetComponent<ArchetypeSpellJuice>().SelectComponent(comp);
+		spellObject.GetComponent<ArchetypeSpellJuice>().type = powerUpGiven;
+		spellObject.GetComponent<SpriteRenderer>().sprite =
+			spellObject.transform.Find(powerUpGiven.ToString()).GetComponent<SpriteRenderer>().sprite;
 
 	}
-
-	
 
 }

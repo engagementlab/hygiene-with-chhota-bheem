@@ -16,8 +16,6 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	public Sprite currentSpell;
 
-	private SpellComponent thisComponent;
-
 	public Spells type;
 
 	private void Awake()
@@ -53,8 +51,6 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		
 		if(collider.gameObject.tag != "Player") return;
 		
-		Debug.Log("We triggered a spell component");
-
 		var currentSpell = GameObject.FindGameObjectWithTag("SpellBar");
 
 		if (currentSpell == null || currentSpell.GetComponent<ArchetypeSpell>().type != type)
@@ -78,14 +74,14 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		}
 		
 		var fill = currentSpell.transform.Find("Background").gameObject;
+		// Update Spell Juice UI
 		GUIManager.Instance.AddSpellJuice(type, fill);
+		// Add Spell Juice to Inventory
+		Inventory.instance.AddSpellComponent(type);
+		
+		// Destroy this spell juice
 		Destroy(gameObject);
 
 	}
 
-	public void SelectComponent(SpellComponent component)
-	{
-		thisComponent = component;
-		transform.Find(component.ToString()).GetComponent<SpriteRenderer>().enabled = true;
-	}
 }

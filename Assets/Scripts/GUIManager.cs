@@ -58,7 +58,7 @@ public class GUIManager
 
 		}
 
-		spellSize = spellBars[0].transform.Find("Fill").GetComponent<RectTransform>().sizeDelta.y/5;
+		spellSize = spellBars[0].transform.Find("Background/Fill").GetComponent<RectTransform>().sizeDelta.y/5;
 
 	}
 
@@ -98,9 +98,10 @@ public class GUIManager
 	public void EmptySpells()
 	{
 		
-		var spellIcons = inventoryUI.gameObject.Children().OfComponent<Image>().ToArray();
-		foreach(var spellIcon in spellIcons)
-			spellIcon.enabled = false;
+		bar = GameObject.FindGameObjectWithTag("SpellBar");
+		
+		if (bar != null)
+			bar.SetActive(false);
 		
 	}
 

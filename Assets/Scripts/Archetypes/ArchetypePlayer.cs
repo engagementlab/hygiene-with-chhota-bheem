@@ -44,7 +44,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 
-		
 	}
 
 	// Use this for initialization
@@ -105,7 +104,6 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		Events.instance.RemoveListener<DeathEvent> (OnDeathEvent);
 		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
-//		Events.instance.RemoveListener<SpellComponentEvent> (OnSpellComponentEvent);
 
 	}
 	
