@@ -23,8 +23,8 @@ public class ArchetypePropGUI : Editor
 		EditorGUILayout.LabelField("Tiles to Right: " + (_archetype.XRightCount < 0 ? 0 : Mathf.RoundToInt(_archetype.XRightCount)));
 		EditorGUILayout.MinMaxSlider(ref _archetype.XLeftCount, ref _archetype.XRightCount, _archetype.XLeftLimit, _archetype.XRightLimit);
 		
-		EditorGUILayout.LabelField("Tiles Above: " + Mathf.RoundToInt(_archetype.YAboveCount));
-		EditorGUILayout.LabelField("Tiles Below: " + Mathf.Abs(Mathf.RoundToInt(_archetype.YBelowCount)));
+		EditorGUILayout.LabelField("Tiles Above: " + (_archetype.YAboveCount < 0 ? 0 : Mathf.RoundToInt(_archetype.YAboveCount)));
+		EditorGUILayout.LabelField("Tiles Below: " + (_archetype.YBelowCount > 0 ? 0 : Mathf.Abs(Mathf.RoundToInt(_archetype.YBelowCount))));
 		EditorGUILayout.MinMaxSlider(ref _archetype.YBelowCount, ref _archetype.YAboveCount, _archetype.YBelowLimit, _archetype.YAboveLimit);
 
 		GUILayout.EndVertical();

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEditor;
@@ -51,25 +52,14 @@ public class ArchetypeProp : MonoBehaviour {
 	{
 		#if UNITY_EDITOR
 			
-			if(Image == null)
-				Image = GetComponent<PropImage>();
-			
-			// Change image
-			if(Type != _currentImgType)
-			{
-				_currentImgType = Type;
-	
-				var imgName = Type.ToString().ToLower();
-				var imgAssetAtPath = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/props/" + imgName + ".png");
-				Image.texture = imgAssetAtPath;
-			}
+		// Change image
+		if(Type != _currentImgType)
+			SetType(Type);
 			
 			if(_isSelected && Selection.activeTransform != transform)
 			{
-					
 				if(!SaveChanges)
-					RemoveAllTiles();
-				
+					RemoveAllTiles();	
 			}
 	
 			_isSelected = Selection.activeTransform == transform;
@@ -87,15 +77,67 @@ public class ArchetypeProp : MonoBehaviour {
 		
 	}
 
+	private void SetType(PropType type)
+	{
+			
+		if(Image == null)
+			Image = GetComponent<PropImage>();
+
+		Type = type;
+		_currentImgType = type;
+	
+		var imgName = type.ToString().ToLower();
+		var imgAssetAtPath = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/props/" + imgName + ".png");
+		Image.texture = imgAssetAtPath;
+		Image.enabled = true;
+
+		if(transform.parent == null && transform.childCount > 0)
+		{
+			foreach(Transform t in transform)
+			{
+				if(t.tag == "Prop")
+					t.GetComponent<ArchetypeProp>().SetType(type);
+			}
+		}
+
+	}
+
 	private void RemoveAllTiles()
 	{
+		Object[] undoCopy = new Object[_objectsToUndo.Count]; 
+		_objectsToUndo.CopyTo(undoCopy);
 		
-		foreach(GameObject tile in _objectsToUndo)
+		foreach(GameObject tile in undoCopy)
 		{
-			if(tile.tag == "Prop")
+			if(tile.gameObject != null)
+			{
+				_objectsToUndo.Remove(tile.gameObject);
 				DestroyImmediate(tile.gameObject);
+			}
 		}
-		_objectsToUndo.Clear();
+		
+	}
+
+	private void InstantiateTile(int index, string direction, bool xAxis=true)
+	{
+		
+		var propPrefab = AssetDatabase.LoadAssetAtPath<ArchetypeProp>("Assets/Prefabs/Archetypes/Prop.prefab");
+		var position = Vector3.zero;
+		var prop = Instantiate(propPrefab, position, Quaternion.identity);
+
+		prop.transform.parent = transform;
+		prop.SetType(Type);
+		
+		if(xAxis)
+			position.x = 5.33f * index;
+		else
+			position.y = 5.33f * index;
+		
+		prop.transform.localPosition = position;
+		prop.name = "PropBush_" + direction + "-" + Mathf.Abs(index);
+
+		_objectsToUndo.Add(prop.gameObject);
+		Undo.RegisterCreatedObjectUndo(prop, "Add Tiles");
 		
 	}
 
@@ -106,81 +148,27 @@ public class ArchetypeProp : MonoBehaviour {
 		if(XRightCount > 0)
 		{
 			for(var i = 1; i < XRightCount; i++)
-			{
-
-				var propPrefab = AssetDatabase.LoadAssetAtPath<ArchetypeProp>("Assets/Prefabs/Archetypes/PropBush.prefab");
-				var position = Vector3.zero;
-				var prop = Instantiate(propPrefab, position, Quaternion.identity);
-
-				prop.Type = Type;
-				prop.transform.parent = transform;
-				position.x = 5.33f * i;
-				prop.transform.localPosition = position;
-				prop.name = "PropBushRight_" + i;
-
-				_objectsToUndo.Add(prop.gameObject);
-				Undo.RegisterCreatedObjectUndo(prop, "Add Tiles");
-			}
+				InstantiateTile(i, "Right");				
 		}
 
 		if(XLeftCount < 0)
 		{
-			for(var h = -1; h > XLeftCount; h--)
-			{
-
-				var propPrefab = AssetDatabase.LoadAssetAtPath<ArchetypeProp>("Assets/Prefabs/Archetypes/PropBush.prefab");
-				var position = Vector3.zero;
-				var prop = Instantiate(propPrefab, position, Quaternion.identity);
-
-				prop.Type = Type;
-				prop.transform.parent = transform;
-				position.x = 5.33f * h;
-				prop.transform.localPosition = position;
-				prop.name = "PropBushLeft_" + Mathf.Abs(h);
-
-				_objectsToUndo.Add(prop.gameObject);
-				Undo.RegisterCreatedObjectUndo(prop, "Add Tiles");
-			}
+			for(var i = -1; i > XLeftCount; i--)
+				InstantiateTile(i, "Left");				
+				
 		}
 
 		if(YAboveCount > 0)
 		{
-			for(var i = 1; i < Mathf.RoundToInt(YAboveCount); i++)
-			{
+			for(var i = 1; i < YAboveCount; i++)
+				InstantiateTile(i, "Above", false);
 
-				var propPrefab = AssetDatabase.LoadAssetAtPath<ArchetypeProp>("Assets/Prefabs/Archetypes/PropBush.prefab");
-				var position = Vector3.zero;
-				var prop = Instantiate(propPrefab, position, Quaternion.identity);
-
-				prop.Type = Type;
-				prop.transform.parent = transform;
-				position.y = 5.33f * i;
-				prop.transform.localPosition = position;
-				prop.name = "PropBushAbove_" + i;
-
-				_objectsToUndo.Add(prop.gameObject);
-				Undo.RegisterCreatedObjectUndo(prop, "Add Tiles");
-			}
 		}
-
 		if(YBelowCount < 0)
 		{
-			for(var i = 1; i > Mathf.RoundToInt(YBelowCount); i--)
-			{
+			for(var i = 1; i > YBelowCount; i--)
+				InstantiateTile(i, "Below", false);
 
-				var propPrefab = AssetDatabase.LoadAssetAtPath<ArchetypeProp>("Assets/Prefabs/Archetypes/PropBush.prefab");
-				var position = Vector3.zero;
-				var prop = Instantiate(propPrefab, position, Quaternion.identity);
-
-				prop.Type = Type;
-				prop.transform.parent = transform;
-				position.y = 5.33f * i;
-				prop.transform.localPosition = position;
-				prop.name = "PropBushBelow_" + Mathf.Abs(i);
-
-				_objectsToUndo.Add(prop.gameObject);
-				Undo.RegisterCreatedObjectUndo(prop, "Add Tiles");
-			}
 		}		
 		ApplyChange = false;
 	}
