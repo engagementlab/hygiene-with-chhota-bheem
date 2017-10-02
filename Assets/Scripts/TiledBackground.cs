@@ -99,8 +99,6 @@ public class TiledBackground : MonoBehaviour {
 		imgRect.height = repY;
 		Image.uvRect = imgRect;
 		
-//		_canvasRect.position = new Vector3(leftBound, topLeftPos.y + ((_canvasRect.offsetMax.y/2)-5.6f), 0);
-		
 	}
 	#endif
 }

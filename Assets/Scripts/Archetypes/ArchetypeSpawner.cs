@@ -21,6 +21,7 @@ public class ArchetypeSpawner : ArchetypeMove
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
 	public bool MoveAfterSpawn;
+	public bool UseSpawnerParent = true;
 
 	public bool SpawnRepeating;
 	
@@ -36,29 +37,37 @@ public class ArchetypeSpawner : ArchetypeMove
 	// Update is called once per frame
 	private void Update () {
 		
-		if(!MoveEnabled || !_wait)
-			return;
+		if(MoveEnabled)
+			base.Update();
 		
-		base.Update();
-
+		if(!_wait) return;
 		if(!(_mainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabToSpawn == null) return;
 
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
-			InvokeRepeating("Spawn", SpawnDelay, 0);
-		else
+			Spawn();
+		else {
+			// Don't "wait" for spawner from here on out until destroy so we invoke only once
+			_wait = false;
 			InvokeRepeating("Spawn", SpawnDelay, SpawnDelay);
-
-		_wait = false;
+		}
 		
 	}
 
 	private void Spawn()
 	{
 	
-		var spawn = Instantiate(PrefabToSpawn, transform.position, Quaternion.identity);	
+		var spawn = Instantiate(PrefabToSpawn, transform.localPosition, PrefabToSpawn.transform.rotation);	
 		spawn.SetActive(true);
+		var scale = spawn.transform.localScale;
 		
+		// Give spawn parent of spawner if enabled
+		if(UseSpawnerParent)
+		{
+			spawn.transform.SetParent(transform.parent, false);
+//			spawn.transform.localScale = scale;
+		}
+
 		if(!MoveAfterSpawn)
 		{
 			Vector3 globalPos = _mainCamera.transform.InverseTransformPoint(transform.position);
@@ -78,7 +87,7 @@ public class ArchetypeSpawner : ArchetypeMove
 		}
 		_spawnCount++;
 
-		if(_spawnCount == SpawnRepeatCount)
+		if(_spawnCount >= SpawnRepeatCount)
 		{
 			CancelInvoke();
 			Destroy(gameObject);
