@@ -14,6 +14,7 @@ public class ArchetypePropGUI : Editor
 		float currentXLeftCount = _archetype.XLeftCount;
 		float currentYAboveCount = _archetype.YAboveCount;
 		float currentYBelowCount = _archetype.YBelowCount;
+		float currentSpacing = _archetype.PropSpacing;
 
 		_archetype.Type = (ArchetypeProp.PropType) EditorGUILayout.EnumPopup("Prop Type", _archetype.Type);
 		
@@ -26,10 +27,15 @@ public class ArchetypePropGUI : Editor
 		EditorGUILayout.LabelField("Tiles Above: " + (_archetype.YAboveCount < 0 ? 0 : Mathf.RoundToInt(_archetype.YAboveCount)));
 		EditorGUILayout.LabelField("Tiles Below: " + (_archetype.YBelowCount > 0 ? 0 : Mathf.Abs(Mathf.RoundToInt(_archetype.YBelowCount))));
 		EditorGUILayout.MinMaxSlider(ref _archetype.YBelowCount, ref _archetype.YAboveCount, _archetype.YBelowLimit, _archetype.YAboveLimit);
+		
+		EditorGUILayout.LabelField("Tile Spacing");
+	  _archetype.PropSpacing = EditorGUILayout.Slider(_archetype.PropSpacing, 0, 20);
 
 		GUILayout.EndVertical();
 		
-		bool apply = _archetype.XRightCount != currentXRightCount || _archetype.XLeftCount != currentXLeftCount || _archetype.YAboveCount != currentYAboveCount || _archetype.YBelowCount != currentYBelowCount;
+		bool apply = _archetype.XRightCount != currentXRightCount || _archetype.XLeftCount != currentXLeftCount 
+		             || _archetype.YAboveCount != currentYAboveCount || _archetype.YBelowCount != currentYBelowCount
+								 || _archetype.PropSpacing != currentSpacing;
 		if(apply)
 		{
 			_archetype.ApplyChange = true;

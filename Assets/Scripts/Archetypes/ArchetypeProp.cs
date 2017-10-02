@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Runtime.InteropServices;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [ExecuteInEditMode]
 public class ArchetypeProp : MonoBehaviour {
@@ -32,6 +30,8 @@ public class ArchetypeProp : MonoBehaviour {
 	public float YBelowLimit =  -20;
 	public float YAboveLimit = 20;
 	public float YAboveCount;
+
+	public float PropSpacing = 5.33f;
 
 	public bool ApplyChange;
 	public bool SaveChanges;
@@ -129,9 +129,9 @@ public class ArchetypeProp : MonoBehaviour {
 		prop.SetType(Type);
 		
 		if(xAxis)
-			position.x = 5.33f * index;
+			position.x = PropSpacing * index;
 		else
-			position.y = 5.33f * index;
+			position.y = PropSpacing * index;
 		
 		prop.transform.localPosition = position;
 		prop.name = "PropBush_" + direction + "-" + Mathf.Abs(index);
@@ -143,6 +143,7 @@ public class ArchetypeProp : MonoBehaviour {
 
 	private void AddTiles()
 	{
+		
 		if(XRightCount == 0 && XLeftCount == 0 && YAboveCount == 0 && YBelowCount == 0) return;
 
 		if(XRightCount > 0)
@@ -171,5 +172,7 @@ public class ArchetypeProp : MonoBehaviour {
 
 		}		
 		ApplyChange = false;
+		
 	}
+	
 }
