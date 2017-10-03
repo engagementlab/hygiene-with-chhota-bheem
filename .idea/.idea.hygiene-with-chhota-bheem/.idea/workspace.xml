@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ce6ca3e-c86b-4a34-8e2d-321d986f7550" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeProp.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeProp.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypePropGUI.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypePropGUI.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Sprites/dirt_bg.png.meta" afterPath="$PROJECT_DIR$/Assets/Sprites/dirt_bg.png.meta" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Sprites/grass_bg.png.meta" afterPath="$PROJECT_DIR$/Assets/Sprites/grass_bg.png.meta" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Sprites/rock_bg.png.meta" afterPath="$PROJECT_DIR$/Assets/Sprites/rock_bg.png.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scenes/LevelTemplate.unity" afterPath="$PROJECT_DIR$/Assets/Scenes/LevelTemplate.unity" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.hygiene-with-chhota-bheem/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.hygiene-with-chhota-bheem/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpawner.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpawner.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypeSpawnerGUI.cs" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypeSpawnerGUI.cs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,7 +20,7 @@
       <file leaf-file-name="TiledBackground.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/TiledBackground.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1176">
+            <state relative-caret-position="1178">
               <caret line="92" column="25" lean-forward="false" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="25" />
               <folding>
                 <marker date="1506977293000" expanded="true" signature="0:236" ph="/* Hygiene With Chhota Bheem ... */" />
@@ -39,87 +35,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArchetypeMove.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeMove.cs">
+      <file leaf-file-name="ArchetypeSpawner.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpawner.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="61" column="2" lean-forward="false" selection-start-line="61" selection-start-column="2" selection-end-line="61" selection-end-column="2" />
+            <state relative-caret-position="-25">
+              <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
               <folding>
-                <marker date="1506728078000" expanded="true" signature="0:360" ph="/* Hygiene With Chhota Bheem ... */" />
-                <marker date="1506728078000" expanded="false" signature="368:629" ph="..." />
-                <marker date="1506728078000" expanded="true" signature="680:13254" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="1507:1543" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="1567:1609" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="2155:2204" ph="/* UNITY METHODS ... */" />
-                <marker date="1506728078000" expanded="true" signature="2226:2764" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="2790:4244" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="3125:3451" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="3622:4041" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="4294:5373" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="4401:5369" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="4677:4791" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="4950:5351" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="5431:6361" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="5531:6317" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="5692:5793" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="5831:5934" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="5969:6068" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="6076:6178" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="6392:6744" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="6772:6841" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="6852:6902" ph="/* CUSTOM METHODS ... */" />
-                <marker date="1506728078000" expanded="true" signature="7015:7723" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="7802:8106" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="8192:9848" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="8383:8572" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="8458:8533" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="8712:8882" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="8911:8970" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="9347:9614" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="9494:9610" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="9897:9983" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="10008:12083" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="10288:10410" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="10452:10574" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="10904:11322" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="11042:11314" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="11121:11309" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="11351:11614" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="11523:11606" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="12126:12306" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="12349:12641" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="12404:12635" ph="{...}" />
-                <marker date="1506728078000" expanded="true" signature="12680:13251" ph="{...}" />
+                <marker date="1507054911000" expanded="true" signature="0:378" ph="/* Hygiene With Chhota Bheem ... */" />
+                <marker date="1507054911000" expanded="true" signature="444:2106" ph="{...}" />
+                <marker date="1507054911000" expanded="true" signature="952:1378" ph="{...}" />
+                <marker date="1507054911000" expanded="true" signature="1197:1372" ph="{...}" />
+                <marker date="1507054911000" expanded="true" signature="1401:2104" ph="{...}" />
+                <marker date="1507054911000" expanded="true" signature="1682:1890" ph="{...}" />
+                <marker date="1507054911000" expanded="true" signature="1948:1991" ph="{...}" />
+                <marker date="1507054911000" expanded="true" signature="2047:2098" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArchetypeProp.cs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeProp.cs">
+      <file leaf-file-name="ArchetypeSpawnerGUI.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypeSpawnerGUI.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="147" column="10" lean-forward="false" selection-start-line="147" selection-start-column="10" selection-end-line="147" selection-end-column="10" />
+            <state relative-caret-position="207">
+              <caret line="31" column="33" lean-forward="false" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
               <folding>
-                <marker date="1507051081000" expanded="false" signature="6:88" ph="..." />
-                <marker date="1507051081000" expanded="true" signature="160:3518" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="230:297" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="797:861" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="921:1268" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="1078:1133" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="1296:1338" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="1376:1924" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="1777:1908" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="1818:1904" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="1956:2231" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="2093:2225" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="2128:2221" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="2308:2919" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="2945:3514" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="3064:3149" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="3171:3260" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="3283:3372" ph="{...}" />
-                <marker date="1507051081000" expanded="true" signature="3394:3483" ph="{...}" />
+                <marker date="1507055231000" expanded="true" signature="0:260" ph="/* Hygiene With Chhota Bheem ... */" />
+                <marker date="1507055231000" expanded="false" signature="285:350" ph="..." />
+                <marker date="1507055231000" expanded="true" signature="440:1774" ph="{...}" />
+                <marker date="1507055231000" expanded="true" signature="483:1162" ph="{...}" />
+                <marker date="1507055231000" expanded="true" signature="1198:1767" ph="{...}" />
+                <marker date="1507055231000" expanded="true" signature="1379:1443" ph="{...}" />
+                <marker date="1507055231000" expanded="true" signature="1518:1763" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -283,10 +230,11 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypePlayer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeMove.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpellJuice.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpawner.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TiledBackground.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypePropGUI.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeProp.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpawner.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypeSpawnerGUI.cs" />
       </list>
     </option>
   </component>
@@ -339,6 +287,116 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Assembly-CSharp-Editor" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hygiene-with-chhota-bheem (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp-Editor" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scripts" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Editor" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hygiene-with-chhota-bheem (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp-Editor" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hygiene-with-chhota-bheem (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hygiene-with-chhota-bheem (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scripts" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hygiene-with-chhota-bheem (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scripts" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Archetypes" />
               <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
           </PATH>
@@ -480,7 +538,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="266257000" />
+    <option name="totallyTimeSpent" value="266966000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -836,18 +894,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypeSpawnerGUI.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Editor/PropImageGUI.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="105">
+          <caret line="7" column="30" lean-forward="false" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
           <folding>
-            <marker date="1506613556000" expanded="true" signature="0:260" ph="/* Hygiene With Chhota Bheem ... */" />
-            <marker date="1506613556000" expanded="false" signature="285:350" ph="..." />
-            <marker date="1506613556000" expanded="true" signature="440:1657" ph="{...}" />
-            <marker date="1506613556000" expanded="true" signature="483:1045" ph="{...}" />
-            <marker date="1506613556000" expanded="true" signature="1081:1650" ph="{...}" />
-            <marker date="1506613556000" expanded="true" signature="1262:1326" ph="{...}" />
-            <marker date="1506613556000" expanded="true" signature="1401:1646" ph="{...}" />
+            <marker date="1506713403000" expanded="true" signature="0:195" ph="/* Hygiene With Chhota Bheem ... */" />
+            <marker date="1506713403000" expanded="true" signature="290:513" ph="{...}" />
+            <marker date="1506713403000" expanded="true" signature="332:509" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypePropGUI.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="26" column="125" lean-forward="false" selection-start-line="26" selection-start-column="125" selection-end-line="26" selection-end-column="125" />
+          <folding>
+            <marker date="1507047185000" expanded="false" signature="6:59" ph="..." />
+            <marker date="1507047185000" expanded="true" signature="143:2222" ph="{...}" />
+            <marker date="1507047185000" expanded="true" signature="185:2218" ph="{...}" />
+            <marker date="1507047185000" expanded="true" signature="1879:2092" ph="{...}" />
+            <marker date="1507047185000" expanded="true" signature="2135:2212" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeProp.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="132" column="0" lean-forward="true" selection-start-line="132" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+          <folding>
+            <marker date="1507051081000" expanded="false" signature="6:88" ph="..." />
+            <marker date="1507051081000" expanded="true" signature="160:3518" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="230:297" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="797:861" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="921:1268" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="1078:1133" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="1296:1338" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="1376:1924" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="1777:1908" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="1818:1904" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="1956:2231" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="2093:2225" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="2128:2221" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="2308:2919" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="2945:3514" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="3064:3149" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="3171:3260" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="3283:3372" ph="{...}" />
+            <marker date="1507051081000" expanded="true" signature="3394:3483" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -906,27 +1002,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpawner.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="68" column="5" lean-forward="false" selection-start-line="68" selection-start-column="5" selection-end-line="68" selection-end-column="5" />
-          <folding>
-            <marker date="1506976690000" expanded="true" signature="0:378" ph="/* Hygiene With Chhota Bheem ... */" />
-            <marker date="1506976690000" expanded="true" signature="444:2140" ph="{...}" />
-            <marker date="1506976690000" expanded="true" signature="901:1321" ph="{...}" />
-            <marker date="1506976690000" expanded="true" signature="1146:1315" ph="{...}" />
-            <marker date="1506976690000" expanded="true" signature="1344:2138" ph="{...}" />
-            <marker date="1506976690000" expanded="true" signature="1589:1693" ph="{...}" />
-            <marker date="1506976690000" expanded="true" signature="1716:1924" ph="{...}" />
-            <marker date="1506976690000" expanded="true" signature="1982:2025" ph="{...}" />
-            <marker date="1506976690000" expanded="true" signature="2081:2132" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/TiledBackground.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1176">
+        <state relative-caret-position="1178">
           <caret line="92" column="25" lean-forward="false" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="25" />
           <folding>
             <marker date="1506977293000" expanded="true" signature="0:236" ph="/* Hygiene With Chhota Bheem ... */" />
@@ -940,56 +1018,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Editor/PropImageGUI.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypeSpawnerGUI.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="30" lean-forward="false" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+        <state relative-caret-position="207">
+          <caret line="31" column="33" lean-forward="false" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
           <folding>
-            <marker date="1506713403000" expanded="true" signature="0:195" ph="/* Hygiene With Chhota Bheem ... */" />
-            <marker date="1506713403000" expanded="true" signature="290:513" ph="{...}" />
-            <marker date="1506713403000" expanded="true" signature="332:509" ph="{...}" />
+            <marker date="1507055231000" expanded="true" signature="0:260" ph="/* Hygiene With Chhota Bheem ... */" />
+            <marker date="1507055231000" expanded="false" signature="285:350" ph="..." />
+            <marker date="1507055231000" expanded="true" signature="440:1774" ph="{...}" />
+            <marker date="1507055231000" expanded="true" signature="483:1162" ph="{...}" />
+            <marker date="1507055231000" expanded="true" signature="1198:1767" ph="{...}" />
+            <marker date="1507055231000" expanded="true" signature="1379:1443" ph="{...}" />
+            <marker date="1507055231000" expanded="true" signature="1518:1763" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Editor/ArchetypePropGUI.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeSpawner.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="26" column="125" lean-forward="false" selection-start-line="26" selection-start-column="125" selection-end-line="26" selection-end-column="125" />
+        <state relative-caret-position="-25">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
           <folding>
-            <marker date="1507047185000" expanded="false" signature="6:59" ph="..." />
-            <marker date="1507047185000" expanded="true" signature="143:2222" ph="{...}" />
-            <marker date="1507047185000" expanded="true" signature="185:2218" ph="{...}" />
-            <marker date="1507047185000" expanded="true" signature="1879:2092" ph="{...}" />
-            <marker date="1507047185000" expanded="true" signature="2135:2212" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Archetypes/ArchetypeProp.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="147" column="10" lean-forward="false" selection-start-line="147" selection-start-column="10" selection-end-line="147" selection-end-column="10" />
-          <folding>
-            <marker date="1507051081000" expanded="false" signature="6:88" ph="..." />
-            <marker date="1507051081000" expanded="true" signature="160:3518" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="230:297" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="797:861" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="921:1268" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="1078:1133" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="1296:1338" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="1376:1924" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="1777:1908" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="1818:1904" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="1956:2231" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="2093:2225" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="2128:2221" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="2308:2919" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="2945:3514" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="3064:3149" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="3171:3260" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="3283:3372" ph="{...}" />
-            <marker date="1507051081000" expanded="true" signature="3394:3483" ph="{...}" />
+            <marker date="1507054911000" expanded="true" signature="0:378" ph="/* Hygiene With Chhota Bheem ... */" />
+            <marker date="1507054911000" expanded="true" signature="444:2106" ph="{...}" />
+            <marker date="1507054911000" expanded="true" signature="952:1378" ph="{...}" />
+            <marker date="1507054911000" expanded="true" signature="1197:1372" ph="{...}" />
+            <marker date="1507054911000" expanded="true" signature="1401:2104" ph="{...}" />
+            <marker date="1507054911000" expanded="true" signature="1682:1890" ph="{...}" />
+            <marker date="1507054911000" expanded="true" signature="1948:1991" ph="{...}" />
+            <marker date="1507054911000" expanded="true" signature="2047:2098" ph="{...}" />
           </folding>
         </state>
       </provider>
