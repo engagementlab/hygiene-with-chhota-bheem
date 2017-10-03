@@ -31,16 +31,4 @@ public class ArchetypeSpell : ArchetypeMove {
 
 	}
 
-	private void OnTriggerEnter(Collider collider) {
-
-		if (collider.gameObject.tag == "Player") {
-
-			Events.instance.Raise (new SpellEvent(Spells.SpeedShoot));
-			Destroy(gameObject);
-
-		}
-
-	}
-
-
 }

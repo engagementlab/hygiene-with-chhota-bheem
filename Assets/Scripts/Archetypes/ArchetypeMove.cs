@@ -31,6 +31,9 @@ public class ArchetypeMove : MonoBehaviour
 
 	public bool MoveEnabled = true;
 	public Spells SpellGiven;
+	public bool spellRandom;
+	
+	private Spells powerUpGiven;
 
 	[HideInInspector]
 	public float MoveSpeed;
@@ -519,10 +522,19 @@ public class ArchetypeMove : MonoBehaviour
 	}
 
 	protected void SpawnSpellComponent()
-	{	
-		// Randomly decide which spell for which to spawn juice
-		var powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[UnityEngine.Random.Range(1, 3)];
-		Debug.Log("Spawned " + powerUpGiven);
+	{
+		if (spellRandom)
+		{
+			// Randomly decide which spell for which to spawn juice
+			powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[UnityEngine.Random.Range(1, 3)];
+			Debug.Log("Spawned " + powerUpGiven);
+		}
+		else
+		{
+			// Use Publically Selected Spell
+			powerUpGiven = SpellGiven;
+			Debug.Log("Spawned " + powerUpGiven);
+		}
 		
 		// Instantiate Spell Object as the random spell type
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);

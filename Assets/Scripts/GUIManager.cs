@@ -1,9 +1,16 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using Unity.Linq;
 using JetBrains.Annotations;
+using UnityEditor;
 
 public class GUIManager
 {
@@ -31,6 +38,10 @@ public class GUIManager
 	public GameObject[] spellBars;
 	public float spellSize;
 	private GameObject bar;
+	private int spellCount;
+	private GameObject spellStepsUI;
+	private GameObject[] spellSteps;
+	private Animator[] spellStepsComponent;
 
 	// Use this for initialization
 	public void Initialiaze ()
@@ -49,17 +60,61 @@ public class GUIManager
 		fliesCount = GameObject.Find("GameUI/Score/FlyCount").GetComponent<Text>();
 		villagerCount = GameObject.Find("GameUI/Score/VillagerCount").GetComponent<Text>();
 		score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
+		
+		spellSize = spellBars[0].transform.Find("Background").GetComponent<RectTransform>().sizeDelta.y/5;
 
 		for (int i = 0; i < spellBars.Length; i++)
 		{
 			spellBars[i].SetActive(false);
+			
 			var fill = spellBars[i].transform.Find("Background").GetComponent<RectTransform>();
 			fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);
 
 		}
+		
+		spellStepsUI = GameObject.Find("GameUI/SpellSteps");
+		spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
+		
+		spellStepsUI.SetActive(false);
+		spellCount = 0;
+		
+		foreach (GameObject group in spellSteps)
+		{
+			group.SetActive(false);
+		}
 
-		spellSize = spellBars[0].transform.Find("Background/Fill").GetComponent<RectTransform>().sizeDelta.y/5;
+	}
+	
+	private void SpellComplete(Spells type)
+	{
+		var animations = 0;
+				
+		spellStepsUI.SetActive(true);
 
+		foreach (GameObject group in spellSteps)
+		{
+			if (group.name == type.ToString())
+			{
+				group.SetActive(true);
+				spellStepsComponent = group.GetComponentsInChildren<Animator>();
+						
+				foreach (Animator step in spellStepsComponent)
+				{
+					step.Play("SpellStep");
+					animations++;
+			
+					if (animations >= spellStepsComponent.Length)
+					{
+						Events.instance.Raise (new SpellEvent(type));
+						group.SetActive(false);
+						spellStepsUI.SetActive(false);
+					}
+				}
+			}
+		}		
+
+
+				
 	}
 
 	public void DisplayCurrentSpell(string spellName)
@@ -85,6 +140,7 @@ public class GUIManager
 			bar.SetActive(false);
 		
 		spellBar.SetActive(true);
+		spellCount = 1;
 	}
 
 	public void AddSpellJuice(Spells type, GameObject fill)
@@ -93,16 +149,30 @@ public class GUIManager
 
 		var spellFill = fill.GetComponent<RectTransform>();
 		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + spellSize);
+		spellCount++;
+
+		if (spellCount == 5)
+		{
+			SpellComplete(type);
+			EmptySpells();
+		}
+
 	}
+
 
 	public void EmptySpells()
 	{
 		
 		bar = GameObject.FindGameObjectWithTag("SpellBar");
+				
+		var fill = bar.transform.Find("Background").GetComponent<RectTransform>();
+		fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);
+
+		spellCount = 0;
 		
 		if (bar != null)
 			bar.SetActive(false);
-		
+
 	}
 
 	public void UpdateScore(float num, string type) {

@@ -66,7 +66,7 @@ public class VillagerObject : ArchetypeMove
 
 		IsDestroyed = true;
 		GameConfig.peopleSaved++;
-
+		
 		SpawnSpellComponent();
 
 
