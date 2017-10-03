@@ -47,33 +47,9 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		
 	}
 
-	private void OnTriggerEnter(Collider collider) {
-		
-		if(collider.gameObject.tag != "Player") return;
-		
-		var currentSpell = GameObject.FindGameObjectWithTag("SpellBar");
-
-		if (currentSpell == null || currentSpell.GetComponent<ArchetypeSpell>().type != type)
-		{
-			var spellBars = GUIManager.Instance.spellBars;
-			for (int i = 0; i < spellBars.Length; i++)
-			{
-				if (spellBars[i].GetComponent<ArchetypeSpell>().type == type)
-				{
-					currentSpell = spellBars[i];
-					Debug.Log("Starting new spell '" + type + "'!");
-					GUIManager.Instance.NewSpell(spellBars[i]);
-				}
-			}
-		}
-		else if (currentSpell.GetComponent<ArchetypeSpell>().type == type)
-		{
-			// COntinue spelling
-			Debug.Log("Continuing to work towards spell '" + type + "'!");
-
-		}
-		
-		var fill = currentSpell.transform.Find("Background").gameObject;
+	private void JuiceCollected(GameObject spellObject)
+	{
+		var fill = spellObject.transform.Find("Background").gameObject;
 		// Update Spell Juice UI
 		GUIManager.Instance.AddSpellJuice(type, fill);
 		// Add Spell Juice to Inventory
@@ -81,6 +57,39 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		
 		// Destroy this spell juice
 		Destroy(gameObject);
+	}
+
+	private void OnTriggerEnter(Collider collider) {
+		
+		if(collider.gameObject.tag != "Player") return;
+		
+		var currentSpellObject = GameObject.FindGameObjectWithTag("SpellBar");
+
+		if (currentSpellObject == null || currentSpellObject.GetComponent<ArchetypeSpell>().type != type)
+		{
+			var spellBars = GUIManager.Instance.spellBars;
+			for (int i = 0; i < spellBars.Length; i++)
+			{
+				Debug.Log("The Type of the juice is " + type);
+				Debug.Log("The Type of this spellbar is " + spellBars[i].GetComponent<ArchetypeSpell>().type);
+				if (spellBars[i].GetComponent<ArchetypeSpell>().type == type)
+				{
+					currentSpellObject = spellBars[i];
+					Debug.Log("Starting new spell '" + type + "'!");
+					GUIManager.Instance.NewSpell(spellBars[i]);
+					
+					JuiceCollected(currentSpellObject);
+				}
+			}
+		}
+		else if (currentSpellObject.GetComponent<ArchetypeSpell>().type == type)
+		{
+			// COntinue spelling
+			Debug.Log("Continuing to work towards spell '" + type + "'!");
+			JuiceCollected(currentSpellObject);
+
+		}
+		
 
 	}
 

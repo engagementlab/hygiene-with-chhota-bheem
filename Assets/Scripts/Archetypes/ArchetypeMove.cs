@@ -521,7 +521,8 @@ public class ArchetypeMove : MonoBehaviour
 	protected void SpawnSpellComponent()
 	{	
 		// Randomly decide which spell for which to spawn juice
-		var powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[UnityEngine.Random.Range(0, 2)];
+		var powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[UnityEngine.Random.Range(1, 3)];
+		Debug.Log("Spawned " + powerUpGiven);
 		
 		// Instantiate Spell Object as the random spell type
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
