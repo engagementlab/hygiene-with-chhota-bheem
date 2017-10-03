@@ -21,10 +21,10 @@ public class ArchetypeSpawner : ArchetypeMove
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
 	public bool MoveAfterSpawn;
+	[HideInInspector]
 	public bool UseSpawnerParent = true;
 
 	public bool SpawnRepeating;
-	
 	[HideInInspector]
 	public int SpawnRepeatCount;
 	[HideInInspector]
@@ -61,20 +61,22 @@ public class ArchetypeSpawner : ArchetypeMove
 	
 		var spawn = Instantiate(PrefabToSpawn, transform.localPosition, PrefabToSpawn.transform.rotation);	
 		spawn.SetActive(true);
-		
-		// Give spawn parent of spawner if enabled
-		if(UseSpawnerParent)
-			spawn.transform.SetParent(transform.parent, false);
 
 		if(!MoveAfterSpawn)
 		{
 			Vector3 globalPos = _mainCamera.transform.InverseTransformPoint(transform.position);
 			globalPos.z = 0;
-			
+
 			transform.parent = null;
 			transform.position = globalPos;
-			
+
 			SetupWaypoints();
+		}
+		else
+		{
+			// Give spawn parent of spawner if enabled
+			if(UseSpawnerParent)
+				spawn.transform.SetParent(transform.parent, false);
 		}
 
 		// If not repeating, destroy now
