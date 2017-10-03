@@ -79,6 +79,8 @@ public class ArchetypeProp : MonoBehaviour {
 
 	private void SetType(PropType type)
 	{
+		
+		#if UNITY_EDITOR
 			
 		if(Image == null)
 			Image = GetComponent<PropImage>();
@@ -99,6 +101,8 @@ public class ArchetypeProp : MonoBehaviour {
 					t.GetComponent<ArchetypeProp>().SetType(type);
 			}
 		}
+		
+		#endif
 
 	}
 
@@ -121,6 +125,8 @@ public class ArchetypeProp : MonoBehaviour {
 	private void InstantiateTile(int index, string direction, bool xAxis=true)
 	{
 		
+		#if UNITY_EDITOR
+		
 		var propPrefab = AssetDatabase.LoadAssetAtPath<ArchetypeProp>("Assets/Prefabs/Archetypes/Prop.prefab");
 		var position = Vector3.zero;
 		var prop = Instantiate(propPrefab, position, Quaternion.identity);
@@ -138,6 +144,8 @@ public class ArchetypeProp : MonoBehaviour {
 
 		_objectsToUndo.Add(prop.gameObject);
 		Undo.RegisterCreatedObjectUndo(prop, "Add Tiles");
+		
+		#endif
 		
 	}
 

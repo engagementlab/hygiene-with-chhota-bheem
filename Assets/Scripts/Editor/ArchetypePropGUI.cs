@@ -52,6 +52,7 @@ public class ArchetypePropGUI : Editor
 			_archetype.SaveChanges = true;
 			EditorUtility.SetDirty(target);
 		}
+		
 	}
 	
 }
