@@ -25,7 +25,7 @@ public class ArchetypeMoveGUI : Editor
 	public override void OnInspectorGUI()
 	{
 		
-		if(Application.isPlaying) return;
+//		if(Application.isPlaying) return;
   
 		var _archetype = (ArchetypeMove)target;
 

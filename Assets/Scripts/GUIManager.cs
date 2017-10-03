@@ -45,8 +45,7 @@ public class GUIManager
 
 	// Use this for initialization
 	public void Initialiaze ()
-	{
-
+	{ 
 		inventoryUI = GameObject.Find("GameUI/SpellJuiceBars");
 		
 		spellBars = GameObject.FindGameObjectsWithTag("SpellBar");

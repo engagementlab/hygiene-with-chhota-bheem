@@ -28,11 +28,15 @@ public class ArchetypeSpawnerGUI : Editor
     
 		// Draw the default inspector
 		DrawDefaultInspector();
+		
+		if(!_archetype.MoveAfterSpawn)
+			_archetype.UseSpawnerParent = EditorGUILayout.Toggle("Use Spawner's Parent", _archetype.UseSpawnerParent);
 
 		if(_archetype.SpawnRepeating)
 			_archetype.SpawnRepeatCount = EditorGUILayout.IntSlider("Repeat Count", _archetype.SpawnRepeatCount, 0, 50);
 		
 		_archetype.SpawnDelay = EditorGUILayout.Slider("Spawn Delay", _archetype.SpawnDelay, 0, 20);
+		_archetype.SpawnRepeatDelay = EditorGUILayout.Slider("Spawn Repeat Interval", _archetype.SpawnRepeatDelay, 0, 20);
 		
 		if(_archetype.PrefabToSpawn == null)
 			EditorGUILayout.HelpBox("Don't forget to assign a prefab!", MessageType.Error);
