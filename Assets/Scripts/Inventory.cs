@@ -15,8 +15,6 @@ namespace DefaultNamespace
       get { return _instanceInternal ?? (_instanceInternal = new Inventory()); }
     }
 
-    
-
     public void AddSpellComponent(Spells spell)
     {
 
@@ -28,7 +26,7 @@ namespace DefaultNamespace
         Events.instance.Raise(new SpellEvent(spell));
         
         // Remove Spell JUICE UI
-        GUIManager.Instance.EmptySpells();
+        GuiManager.Instance.EmptySpells();
       } 
       else
       {

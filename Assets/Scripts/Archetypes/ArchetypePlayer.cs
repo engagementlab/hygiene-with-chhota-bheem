@@ -10,10 +10,6 @@ public class ArchetypePlayer : MonoBehaviour {
 	public float BubbleSpeed = 15;
 	
 	public GameObject Bubble;
-	public GameObject GameOverText;
-	public GameObject GameWonText;
-	public GameObject GameEndScreen;
-
 	public bool WonGame;
 
 	private float _currentBadScore;
@@ -50,9 +46,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void Start ()
 	{
 
-		GameOverText.SetActive(false);
-		GameWonText.SetActive(false);
-		GameEndScreen.SetActive(false);
+//		GameEndScreen.SetActive(false);
 
 	}
 
@@ -62,7 +56,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		if(Input.touches.Length == 0) return;
 		#endif
 		
-		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, Camera.main.nearClipPlane);
+		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, -1.1f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
 	    if(_currentBadScore < _targetScore) {
@@ -72,13 +66,16 @@ public class ArchetypePlayer : MonoBehaviour {
 		if(_intervalTime >= GameConfig.numBubblesInterval) {
 
 			_intervalTime = 0;
+			
+			var projectilePos = transform.position;
+			projectilePos.z = 0;
 
 			if(!_scatterShootOn)
 			{
 				var dir = new Vector2(0, 1);
 				dir.Normalize();
 
-				var projectile = Instantiate(Bubble, transform.position, Quaternion.identity);
+				var projectile = Instantiate(Bubble, projectilePos, Quaternion.identity);
 				projectile.GetComponent<Rigidbody>().velocity = dir * BubbleSpeed;
 			} 
 			else
@@ -111,9 +108,9 @@ public class ArchetypePlayer : MonoBehaviour {
 		CUSTOM METHODS
 	***************/
 
-  	private void OnScoreEvent(ScoreEvent e) {
+  private void OnScoreEvent(ScoreEvent e) {
 
-		GUIManager.Instance.UpdateScore(e.scoreAmount, e.eventType.ToString());
+		GuiManager.Instance.UpdateScore(e.scoreAmount, e.eventType.ToString());
 
 	}
 	
@@ -140,12 +137,12 @@ public class ArchetypePlayer : MonoBehaviour {
 		WonGame = e.wonGame;
 
 		gameObject.SetActive(false);
-		GameEndScreen.SetActive(true);
+/*		GameEndScreen.SetActive(true);
 
 		if (WonGame)
 			GameWonText.SetActive(true);
 		else 
-			GameOverText.SetActive(true);
+			GameOverText.SetActive(true);*/
 
 		// Send Player Data to Analytics
 		Analytics.CustomEvent("gameEnd", new Dictionary<string, object>
@@ -158,24 +155,24 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private static IEnumerator SpellBubbleSpeed()
 	{
-		GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
+		GuiManager.Instance.DisplayCurrentSpell("Bubble Speedup");
 		GameConfig.numBubblesInterval /= 2;
 		
 		yield return new WaitForSeconds(5);
 		
 		GameConfig.numBubblesInterval *= 2;
-		GUIManager.Instance.HideSpell();
+		GuiManager.Instance.HideSpell();
 	}
 
 	private IEnumerator SpellScatterShoot()
 	{
-		GUIManager.Instance.DisplayCurrentSpell("Scatter Shot");
+		GuiManager.Instance.DisplayCurrentSpell("Scatter Shot");
 		_scatterShootOn = true;
 		
 		yield return new WaitForSeconds(5);
 
 		_scatterShootOn = false;
-		GUIManager.Instance.HideSpell();
+		GuiManager.Instance.HideSpell();
 	}
   
 }

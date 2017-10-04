@@ -390,15 +390,6 @@ public class ArchetypeMove : MonoBehaviour
 		
 	}
 	
-	public Vector3 ClampToScreen(Vector3 vector) {
-
-		var pos = Camera.main.ScreenToWorldPoint(vector);
-		pos.z = 0;
-
-		return pos;
-
-	}
-
 	private void Animate()
 	{
 	
@@ -488,13 +479,13 @@ public class ArchetypeMove : MonoBehaviour
 	
 	private IEnumerator SpellMatrixMode()
 	{
-		GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
+		GuiManager.Instance.DisplayCurrentSpell("Slow Enemies");
 		MoveSpeed /= 2;
 		
 		yield return new WaitForSeconds(5);
 		
 		MoveSpeed *= 2;
-		GUIManager.Instance.HideSpell();
+		GuiManager.Instance.HideSpell();
 	}
 	
 	private void OnSpellEvent(SpellEvent e)
@@ -523,24 +514,20 @@ public class ArchetypeMove : MonoBehaviour
 
 	protected void SpawnSpellComponent()
 	{
-		if (spellRandom)
+		if (spellRandom || SpellGiven == Spells.None)
 		{
 			// Randomly decide which spell for which to spawn juice
-			powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[UnityEngine.Random.Range(1, 3)];
-			Debug.Log("Spawned " + powerUpGiven);
+			powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[Random.Range(1, 3)];
 		}
 		else
 		{
 			// Use Publically Selected Spell
 			powerUpGiven = SpellGiven;
-			Debug.Log("Spawned " + powerUpGiven);
 		}
 		
 		// Instantiate Spell Object as the random spell type
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
-		spellObject.GetComponent<ArchetypeSpellJuice>().type = powerUpGiven;
-		spellObject.GetComponent<SpriteRenderer>().sprite =
-			spellObject.transform.Find(powerUpGiven.ToString()).GetComponent<SpriteRenderer>().sprite;
+		spellObject.GetComponent<ArchetypeSpellJuice>().Type = powerUpGiven;
 
 	}
 

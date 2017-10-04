@@ -8,24 +8,33 @@ using Random = UnityEngine.Random;
 public class ArchetypeSpellJuice : MonoBehaviour
 {
 
+	public Spells Type
+	{
+		get { return type; }
+		set { 
+			type = value;
+			foreach(Transform child in transform)
+				child.gameObject.SetActive(false);
+			
+			transform.Find(type.ToString()).gameObject.SetActive(true);
+		}
+	}
+
+	public GameObject currentSpell;
+
 	private Vector3[] movementPoints;
+	private Spells type;
 	private float percentsPerSecond = .1f;
 	private float currentPathPercent;
-	
-	public Sprite[] spells;
-
-	public Sprite currentSpell;
-
-	public Spells type;
 
 	private void Awake()
 	{
 		
 		// Pick the spell item
+		var spells = transform.GetComponentsInChildren(typeof(SpriteRenderer), true);
 		int index = Random.Range(0, spells.Length);
-		currentSpell = spells[index];
-
-		gameObject.GetComponent<SpriteRenderer>().sprite = currentSpell;
+		currentSpell = spells[index].gameObject;
+		currentSpell.SetActive(true);
 
 		movementPoints = new Vector3[10];
 
@@ -51,7 +60,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	{
 		var fill = spellObject.transform.Find("Background").gameObject;
 		// Update Spell Juice UI
-		GUIManager.Instance.AddSpellJuice(type, fill);
+		GuiManager.Instance.AddSpellJuice(type, fill);
 		// Add Spell Juice to Inventory
 		Inventory.instance.AddSpellComponent(type);
 		
@@ -67,16 +76,14 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 		if (currentSpellObject == null || currentSpellObject.GetComponent<ArchetypeSpell>().type != type)
 		{
-			var spellBars = GUIManager.Instance.spellBars;
+			var spellBars = GuiManager.Instance.SpellBars;
+			
 			for (int i = 0; i < spellBars.Length; i++)
 			{
-				Debug.Log("The Type of the juice is " + type);
-				Debug.Log("The Type of this spellbar is " + spellBars[i].GetComponent<ArchetypeSpell>().type);
 				if (spellBars[i].GetComponent<ArchetypeSpell>().type == type)
 				{
 					currentSpellObject = spellBars[i];
-					Debug.Log("Starting new spell '" + type + "'!");
-					GUIManager.Instance.NewSpell(spellBars[i]);
+					GuiManager.Instance.NewSpell(spellBars[i]);
 					
 					JuiceCollected(currentSpellObject);
 				}
@@ -84,12 +91,10 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		}
 		else if (currentSpellObject.GetComponent<ArchetypeSpell>().type == type)
 		{
-			// COntinue spelling
-			Debug.Log("Continuing to work towards spell '" + type + "'!");
+//			Debug.Log("Continuing to work towards spell '" + type + "'!");
 			JuiceCollected(currentSpellObject);
 
-		}
-		
+		}	
 
 	}
 

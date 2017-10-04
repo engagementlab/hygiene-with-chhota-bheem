@@ -70,6 +70,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			transform.parent = null;
 			transform.position = globalPos;
 
+			MoveEnabled = false;
 			SetupWaypoints();
 		}
 		else

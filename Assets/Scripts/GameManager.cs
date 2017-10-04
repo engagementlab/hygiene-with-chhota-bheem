@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
-		GUIManager.Instance.Initialiaze();
+		GuiManager.Instance.Initialiaze();
 	}
 
 	private void Update()

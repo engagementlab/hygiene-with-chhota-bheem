@@ -6,13 +6,6 @@ public class ArchetypeSpell : ArchetypeMove {
 
 	public Spells type;
 
-	// Use this for initialization
-	private void Start ()
-	{
-		
-
-	}
-
 	public IEnumerator Timer(int time, string power) {
 
 		while(time>0){
