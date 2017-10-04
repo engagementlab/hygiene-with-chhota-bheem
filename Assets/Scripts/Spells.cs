@@ -1,10 +1,7 @@
-﻿namespace DefaultNamespace
+﻿public enum Spells
 {
-  public enum Spells
-  {
-    None,
-    Matrix,
-    SpeedShoot,
-    ScatterShoot
-  }
+  None,
+  Matrix,
+  SpeedShoot,
+  ScatterShoot
 }

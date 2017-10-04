@@ -1,16 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using DefaultNamespace;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using UnityEngine.Events;
-using Unity.Linq;
-using JetBrains.Annotations;
-using UnityEditor;
 
 public class GUIManager
 {
