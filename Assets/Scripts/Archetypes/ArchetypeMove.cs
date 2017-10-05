@@ -99,6 +99,11 @@ public class ArchetypeMove : MonoBehaviour
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 	private RectTransform _bgRectTransform;
+	private Queue<SplineSegment> pathSegments;
+	private int nextPoint;
+	private Vector3 lastPoint;
+	private Vector3 toPoint;
+	private Vector3 lerpPoint;
 
 	/**************
 		UNITY METHODS
@@ -111,7 +116,11 @@ public class ArchetypeMove : MonoBehaviour
 		// For use in Update
 		_movingTransform = transform;
 		_mainCamera = Camera.main;
-		
+
+		AnimationDuration = 10 / AnimationDuration;
+		_currentAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
+		_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
+
 		if(transform.parent != null)
 			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
 		
@@ -121,10 +130,6 @@ public class ArchetypeMove : MonoBehaviour
 		// Is background object?
 		if(gameObject.layer == 8)
 			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
-
-		_currentAnimSpeed = AnimationDownwardSpeed;
-		_targetAnimSpeed = AnimationUpwardSpeed;
-
 	}
 	
 	public void Update () {
@@ -182,7 +187,60 @@ public class ArchetypeMove : MonoBehaviour
 		if(MoveEnabled && MoveSpeed > 0)
 			_movingTransform.position = Vector3.Lerp(_movingTransform.position, target, Time.deltaTime);
 		
-		Animate();
+//		Animate();
+		
+		if(_waypoints == null || _waypoints.Count <= 0) return;
+		if(!RotateOnWaypoints) return;
+		
+		//- Forward motion?
+		if(!_reverseAnim)
+		{
+
+			if(_reversingAngle > 0)
+				_reversingAngle -= 10;
+
+//			_currentPathPercent = perClamp;
+
+			if(_currentPathPercent >= 1)
+			{
+//				// Reset if not animating once
+//				if(AnimationType != AnimType.Once)
+//				{
+//					_runningTime = 0;
+//
+//					// Go into reverse if ping ponging
+//					if(AnimationType == AnimType.PingPong)
+//						_reverseAnim = true;
+//					else
+//						_currentPathPercent = 0;
+//				}
+			}
+
+		}
+		//- Reverse motion?
+		else
+		{
+
+//			_currentPathPercent = 1 - perClamp;
+
+			// Added 180° when reversing
+			if(_reversingAngle < 180)
+				_reversingAngle += 10;
+
+//			if(_currentPathPercent <= 0)
+//			{
+//				_runningTime = 0;
+//				_reversingAngle = 0;
+//				_reverseAnim = false;
+//			}
+		}
+
+		lerpPoint = Vector3.Lerp(lastPoint, toPoint, Time.deltaTime);
+		var lookDelta = lerpPoint - transform.position;
+		var angle =  -Mathf.Atan2(lookDelta.x, lookDelta.y) * Mathf.Rad2Deg;
+		var newRotation = Quaternion.Euler(0f, 0f, angle+_reversingAngle);
+
+		transform.rotation = newRotation;
 		
 	}
 	
@@ -226,7 +284,6 @@ public class ArchetypeMove : MonoBehaviour
 	  }
   }
 
-	 
 	#if UNITY_EDITOR
 	public void OnDrawGizmosSelected()
 	{
@@ -272,11 +329,6 @@ public class ArchetypeMove : MonoBehaviour
 		if(!SceneEditor.ShowGizmos || Application.isPlaying) return;
 
 		Gizmos.color = Color.cyan;
-		
-		if(GetComponent<ArchetypeSpawner>() != null)
-			Gizmos.DrawSphere(transform.position, .5f);
-		else
-			Gizmos.DrawCube(transform.position, Vector3.one);
 	
 		if(_waypoints != null && _waypoints.Count > 0)
 			iTween.DrawPath(_waypoints.ToArray());
@@ -388,6 +440,8 @@ public class ArchetypeMove : MonoBehaviour
 		transform.SetParent(_localParent.transform);
 		transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
 		
+		Animate();
+		
 	}
 	
 	private void Animate()
@@ -400,14 +454,14 @@ public class ArchetypeMove : MonoBehaviour
 
 		if(!isDownward && _movingDownward)
 		{
-			_currentAnimSpeed = AnimationDownwardSpeed;
-			_targetAnimSpeed = AnimationUpwardSpeed;
+			_currentAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
+			_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
 			_lerpAnimSpeed = 0;
 		}
 		else if(isDownward && !_movingDownward)
 		{
-			_currentAnimSpeed = AnimationUpwardSpeed;
-			_targetAnimSpeed = AnimationDownwardSpeed;
+			_currentAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
+			_targetAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
 			_lerpAnimSpeed = 0;
 		}
 
@@ -415,66 +469,53 @@ public class ArchetypeMove : MonoBehaviour
 		_lerpAnimSpeed += Time.deltaTime;
 		
 		float speed = Mathf.Lerp(_currentAnimSpeed, _targetAnimSpeed, Mathf.Clamp(_lerpAnimSpeed, 0, 1));
-		
 		_runningTime += Time.deltaTime * speed;
-		var perClamp = Mathf.Clamp(_runningTime / AnimationDuration, 0, 1);
 
-		//- Forward motion?
+		// Place object at current %
+		lastPoint = transform.position;
+		toPoint = _waypoints.ToArray()[nextPoint].position;
+		var distance = Vector3.Distance(toPoint, transform.position);
+		iTween.MoveTo(gameObject, iTween.Hash("position", toPoint,"time", distance/speed,"easetype","linear","oncomplete","Complete"));
+	}
+
+	void Complete()
+	{
+
 		if(!_reverseAnim)
 		{
 			
-			if(_reversingAngle > 0)
-				_reversingAngle -= 10;
-				
-			_currentPathPercent = perClamp;
-			
-			if(_currentPathPercent >= 1)
+			// Reset if not animating once
+			if(AnimationType != AnimType.Once)
 			{
-				// Reset if not animating once
-				if(AnimationType != AnimType.Once)
+				// Go into reverse if ping ponging
+				if(nextPoint < _waypoints.Count-1)
+					nextPoint++;
+				else
 				{
-					_runningTime = 0;
-
-					// Go into reverse if ping ponging
 					if(AnimationType == AnimType.PingPong)
+					{
 						_reverseAnim = true;
-					else
-						_currentPathPercent = 0;
+						nextPoint--;
+					}
 				}
 			}
 			
 		}
-		//- Reverse motion?
 		else
 		{
-			
-			_currentPathPercent = 1 - perClamp;
-
-			// Added 180° when reversing
-			if(_reversingAngle < 180)
-				_reversingAngle += 10;
-			
-			if(_currentPathPercent <= 0)
+			if(nextPoint > 0)
+				nextPoint--;
+			else
 			{
-				_runningTime = 0;
-				_reversingAngle = 0;
+				nextPoint++;
 				_reverseAnim = false;
 			}
-			
 		}
 
-		// Place object at current %
-		iTween.PutOnPath(gameObject, _waypoints.ToArray(), _currentPathPercent);
+		Animate();
 		
-		if(!RotateOnWaypoints) return;
-		var arrWaypoints = _waypoints.ToArray();
-		var lookDelta = iTween.PointOnPath(arrWaypoints, _currentPathPercent + 0.05f) - transform.position;
-		var angle =  -Mathf.Atan2(lookDelta.x, lookDelta.y) * Mathf.Rad2Deg;
-		var newRotation = Quaternion.Euler(0f, 0f, angle+_reversingAngle);
-
-		transform.rotation = newRotation;
-
 	}
+
 	
 	
 	private IEnumerator SpellMatrixMode()

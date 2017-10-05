@@ -62,7 +62,7 @@ public class GuiManager
 		_spellStepsUi = GameObject.Find("GameUI/SpellSteps");
 		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
 		
-		_spellStepsUi.SetActive(false);
+//		_spellStepsUi.SetActive(false);
 		_spellCount = 0;
 		
 		foreach (GameObject group in _spellSteps)
