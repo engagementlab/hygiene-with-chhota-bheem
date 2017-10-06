@@ -31,9 +31,9 @@ public class ArchetypeMove : MonoBehaviour
 
 	public bool MoveEnabled = true;
 	public Spells SpellGiven;
-	public bool spellRandom;
+	public bool SpellRandom;
 	
-	private Spells powerUpGiven;
+	private Spells _powerUpGiven;
 
 	[HideInInspector]
 	public float MoveSpeed;
@@ -84,7 +84,7 @@ public class ArchetypeMove : MonoBehaviour
 	}
 
 	[CanBeNull] private List<Transform> _waypoints;
-	[CanBeNull] private Transform waypointsParent;
+	[CanBeNull] private Transform _waypointsParent;
 	[CanBeNull] private GameObject _localParent;
 
 	private float _currentPathPercent;
@@ -92,15 +92,17 @@ public class ArchetypeMove : MonoBehaviour
 	private bool _reverseAnim;
 	private float _reversingAngle;
 	private float _targetAnimSpeed;
-	internal Camera _mainCamera;
+	private int _nextPoint;
+	internal Camera MainCamera;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 	private RectTransform _bgRectTransform;
-	private Queue<SplineSegment> pathSegments;
-	private int nextPoint;
-	private Vector3 lastPoint;
-	private Vector3 toPoint;
-	private Vector3 lerpPoint;
+	private Queue<SplineSegment> _pathSegments;
+	private Vector3 _lastPoint;
+	private Vector3 _toPoint;
+	private Vector3 _lerpPoint;
+	private Transform[] _waypointPositions;
+	private Quaternion _startingRotation;
 
 	/**************
 		UNITY METHODS
@@ -112,10 +114,11 @@ public class ArchetypeMove : MonoBehaviour
 
 		// For use in Update
 		_movingTransform = transform;
-		_mainCamera = Camera.main;
+		MainCamera = Camera.main;
 
 		AnimationDuration = 10 / AnimationDuration;
 		_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
+		_startingRotation = transform.rotation;
 
 		if(transform.parent != null)
 			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
@@ -139,14 +142,14 @@ public class ArchetypeMove : MonoBehaviour
 			return;
 
 		// Not for background layers
-		if(gameObject.layer != 8 && _mainCamera.WorldToViewportPoint(_movingTransform.position).y < -1)
+		if(gameObject.layer != 8 && MainCamera.WorldToViewportPoint(_movingTransform.position).y < -1)
 			Destroy(gameObject);
 		
 		else if(gameObject.layer == 8)
 		{
 			Vector3[] bgCorners = new Vector3[4];
 			_bgRectTransform.GetWorldCorners(bgCorners);
-			float cameraTop = _mainCamera.WorldToViewportPoint(bgCorners[1]).y;
+			float cameraTop = MainCamera.WorldToViewportPoint(bgCorners[1]).y;
 			
 			// Don't move background layer once there is none left (point of top-right coord is less than 1 relative to viewport)
 			if(cameraTop < 1)
@@ -186,9 +189,9 @@ public class ArchetypeMove : MonoBehaviour
 		if(_waypoints == null || _waypoints.Count <= 0) return;
 		if(!RotateOnWaypoints) return;
 		
-		lerpPoint = Vector3.Lerp(lastPoint, toPoint, Time.deltaTime);
+		_lerpPoint = Vector3.Lerp(_lastPoint, _toPoint, Time.deltaTime);
 		
-		var lookDelta = lerpPoint - transform.position;
+		var lookDelta = _lerpPoint - transform.position;
 		var angle =  -Mathf.Atan2(lookDelta.x, lookDelta.y) * Mathf.Rad2Deg;
 		var newRotation = Quaternion.Euler(0f, 0f, angle);
 		transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * 2);
@@ -337,7 +340,7 @@ public class ArchetypeMove : MonoBehaviour
 
 		_waypoints = new List<Transform>();
 		var waypointTransforms = new List<Transform>();
-		waypointsParent = new GameObject("Waypoints").transform;
+		_waypointsParent = new GameObject("Waypoints").transform;
 		
 		foreach(Transform tr in transform)
 		{
@@ -357,12 +360,12 @@ public class ArchetypeMove : MonoBehaviour
 			_waypoints.Add(tr);
 
 			// Assign waypoint to parent
-			tr.parent = waypointsParent;
+			tr.parent = _waypointsParent;
 		}
 
 		if(_waypoints.Count <= 0)
 		{
-			Destroy(waypointsParent.gameObject);
+			Destroy(_waypointsParent.gameObject);
 			return;
 		}
 		
@@ -386,10 +389,12 @@ public class ArchetypeMove : MonoBehaviour
 			}
 		}
 		
-		if(waypointsParent != null) waypointsParent.parent = _localParent.transform;
+		if(_waypointsParent != null) _waypointsParent.parent = _localParent.transform;
 
 		transform.SetParent(_localParent.transform);
 		transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
+
+		_waypointPositions = _waypoints.ToArray();
 		
 		Animate();
 		
@@ -409,10 +414,11 @@ public class ArchetypeMove : MonoBehaviour
 			_targetAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
 			
 		// Place object at current %
-		lastPoint = transform.position;
-		toPoint = _waypoints.ToArray()[nextPoint].position;
-		var distance = Vector3.Distance(toPoint, transform.position);
-		iTween.MoveTo(gameObject, iTween.Hash("position", toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+		_lastPoint = transform.position;
+		_toPoint = _waypointPositions[_nextPoint].position;
+		
+		var distance = Vector3.Distance(_toPoint, transform.position);
+		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
 	}
 
 	void Complete()
@@ -425,14 +431,20 @@ public class ArchetypeMove : MonoBehaviour
 			if(AnimationType != AnimType.Once)
 			{
 				// Go into reverse if ping ponging
-				if(nextPoint < _waypoints.Count-1)
-					nextPoint++;
+				if(_nextPoint < _waypoints.Count-1)
+					_nextPoint++;
 				else
 				{
 					if(AnimationType == AnimType.PingPong)
 					{
 						_reverseAnim = true;
-						nextPoint--;
+						_nextPoint--;
+					} 
+					else if(AnimationType == AnimType.LoopFromStart)
+					{
+						_nextPoint = 0;
+						transform.position = _waypointPositions[0].position;
+						transform.rotation = _startingRotation;
 					}
 				}
 			}
@@ -440,11 +452,11 @@ public class ArchetypeMove : MonoBehaviour
 		}
 		else
 		{
-			if(nextPoint > 0)
-				nextPoint--;
+			if(_nextPoint > 0)
+				_nextPoint--;
 			else
 			{
-				nextPoint++;
+				_nextPoint++;
 				_reverseAnim = false;
 			}
 		}
@@ -490,20 +502,20 @@ public class ArchetypeMove : MonoBehaviour
 
 	protected void SpawnSpellComponent()
 	{
-		if (spellRandom || SpellGiven == Spells.None)
+		if (SpellRandom || SpellGiven == Spells.None)
 		{
 			// Randomly decide which spell for which to spawn juice
-			powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[Random.Range(1, 3)];
+			_powerUpGiven = Enum.GetValues(typeof(Spells)).Cast<Spells>().ToList()[Random.Range(1, 3)];
 		}
 		else
 		{
 			// Use Publically Selected Spell
-			powerUpGiven = SpellGiven;
+			_powerUpGiven = SpellGiven;
 		}
 		
 		// Instantiate Spell Object as the random spell type
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
-		spellObject.GetComponent<ArchetypeSpellJuice>().Type = powerUpGiven;
+		spellObject.GetComponent<ArchetypeSpellJuice>().Type = _powerUpGiven;
 
 	}
 

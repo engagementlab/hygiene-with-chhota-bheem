@@ -43,7 +43,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			base.Update();
 		
 		if(!_wait) return;
-		if(!(_mainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabToSpawn == null) return;
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabToSpawn == null) return;
 
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
@@ -64,7 +64,7 @@ public class ArchetypeSpawner : ArchetypeMove
 
 		if(!MoveAfterSpawn)
 		{
-			Vector3 globalPos = _mainCamera.transform.InverseTransformPoint(transform.position);
+			Vector3 globalPos = MainCamera.transform.InverseTransformPoint(transform.position);
 			globalPos.z = 0;
 
 			transform.parent = null;
