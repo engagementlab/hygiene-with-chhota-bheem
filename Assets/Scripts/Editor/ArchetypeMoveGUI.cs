@@ -58,8 +58,8 @@ public class ArchetypeMoveGUI : Editor
 			_archetype.AnimationType = (ArchetypeMove.AnimType) EditorGUILayout.EnumPopup("Animation Type", _archetype.AnimationType);
 
 			// Animation speed controls
-			_archetype.AnimationUpwardSpeed = EditorGUILayout.Slider("Forward Speed", _archetype.AnimationUpwardSpeed, 0, 2);
-			_archetype.AnimationDownwardSpeed = EditorGUILayout.Slider("Backward Speed", _archetype.AnimationDownwardSpeed, 0, 2);
+			_archetype.AnimationUpwardSpeed = EditorGUILayout.Slider("Forward Speed", _archetype.AnimationUpwardSpeed, .01f, 2);
+			_archetype.AnimationDownwardSpeed = EditorGUILayout.Slider("Backward Speed", _archetype.AnimationDownwardSpeed, .01f, 2);
 
 			_archetype.RotateOnWaypoints = EditorGUILayout.ToggleLeft("Rotate Along Waypoints", _archetype.RotateOnWaypoints);
 			

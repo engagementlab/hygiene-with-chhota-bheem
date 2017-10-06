@@ -90,10 +90,7 @@ public class ArchetypeMove : MonoBehaviour
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
-	private bool _movingDownward;
 	private float _reversingAngle;
-	private float _currentAnimSpeed;
-	private float _lerpAnimSpeed;
 	private float _targetAnimSpeed;
 	internal Camera _mainCamera;
 	private ArchetypeMove _parentMove;
@@ -118,7 +115,6 @@ public class ArchetypeMove : MonoBehaviour
 		_mainCamera = Camera.main;
 
 		AnimationDuration = 10 / AnimationDuration;
-		_currentAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
 		_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
 
 		if(transform.parent != null)
@@ -187,60 +183,15 @@ public class ArchetypeMove : MonoBehaviour
 		if(MoveEnabled && MoveSpeed > 0)
 			_movingTransform.position = Vector3.Lerp(_movingTransform.position, target, Time.deltaTime);
 		
-//		Animate();
-		
 		if(_waypoints == null || _waypoints.Count <= 0) return;
 		if(!RotateOnWaypoints) return;
 		
-		//- Forward motion?
-		if(!_reverseAnim)
-		{
-
-			if(_reversingAngle > 0)
-				_reversingAngle -= 10;
-
-//			_currentPathPercent = perClamp;
-
-			if(_currentPathPercent >= 1)
-			{
-//				// Reset if not animating once
-//				if(AnimationType != AnimType.Once)
-//				{
-//					_runningTime = 0;
-//
-//					// Go into reverse if ping ponging
-//					if(AnimationType == AnimType.PingPong)
-//						_reverseAnim = true;
-//					else
-//						_currentPathPercent = 0;
-//				}
-			}
-
-		}
-		//- Reverse motion?
-		else
-		{
-
-//			_currentPathPercent = 1 - perClamp;
-
-			// Added 180° when reversing
-			if(_reversingAngle < 180)
-				_reversingAngle += 10;
-
-//			if(_currentPathPercent <= 0)
-//			{
-//				_runningTime = 0;
-//				_reversingAngle = 0;
-//				_reverseAnim = false;
-//			}
-		}
-
 		lerpPoint = Vector3.Lerp(lastPoint, toPoint, Time.deltaTime);
+		
 		var lookDelta = lerpPoint - transform.position;
 		var angle =  -Mathf.Atan2(lookDelta.x, lookDelta.y) * Mathf.Rad2Deg;
-		var newRotation = Quaternion.Euler(0f, 0f, angle+_reversingAngle);
-
-		transform.rotation = newRotation;
+		var newRotation = Quaternion.Euler(0f, 0f, angle);
+		transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * 2);
 		
 	}
 	
@@ -452,30 +403,16 @@ public class ArchetypeMove : MonoBehaviour
 		// Calculate current percentage on waypoints path (basically ping pong but time, not frame, based)
 		bool isDownward = transform.InverseTransformDirection(Vector3.up).y < 0;
 
-		if(!isDownward && _movingDownward)
-		{
-			_currentAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
+		if(!isDownward)
 			_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
-			_lerpAnimSpeed = 0;
-		}
-		else if(isDownward && !_movingDownward)
-		{
-			_currentAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
+		else
 			_targetAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
-			_lerpAnimSpeed = 0;
-		}
-
-		_movingDownward = isDownward;
-		_lerpAnimSpeed += Time.deltaTime;
-		
-		float speed = Mathf.Lerp(_currentAnimSpeed, _targetAnimSpeed, Mathf.Clamp(_lerpAnimSpeed, 0, 1));
-		_runningTime += Time.deltaTime * speed;
-
+			
 		// Place object at current %
 		lastPoint = transform.position;
 		toPoint = _waypoints.ToArray()[nextPoint].position;
 		var distance = Vector3.Distance(toPoint, transform.position);
-		iTween.MoveTo(gameObject, iTween.Hash("position", toPoint,"time", distance/speed,"easetype","linear","oncomplete","Complete"));
+		iTween.MoveTo(gameObject, iTween.Hash("position", toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
 	}
 
 	void Complete()
@@ -516,8 +453,6 @@ public class ArchetypeMove : MonoBehaviour
 		
 	}
 
-	
-	
 	private IEnumerator SpellMatrixMode()
 	{
 		GuiManager.Instance.DisplayCurrentSpell("Slow Enemies");
