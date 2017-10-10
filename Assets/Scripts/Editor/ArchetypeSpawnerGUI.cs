@@ -29,7 +29,7 @@ public class ArchetypeSpawnerGUI : Editor
 		// Draw the default inspector
 		DrawDefaultInspector();
 		
-		if(!_archetype.MoveAfterSpawn)
+		if(_archetype.MoveAfterSpawn)
 			_archetype.UseSpawnerParent = EditorGUILayout.Toggle("Use Spawner's Parent", _archetype.UseSpawnerParent);
 
 		if(_archetype.SpawnRepeating)
