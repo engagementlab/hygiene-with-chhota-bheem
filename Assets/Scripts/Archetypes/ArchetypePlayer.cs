@@ -210,22 +210,21 @@ public class ArchetypePlayer : MonoBehaviour {
 				group.SetActive(true);
 				GuiManager.Instance._spellStepsComponent = group.GetComponentsInChildren<Animator>();
 					
-				GuiManager.Instance._spellStepsComponent[animations].Play("SpellStep");
-//				foreach (Animator step in GuiManager.Instance._spellStepsComponent)
-//				{
+				for (var i = 0; i <= GuiManager.Instance._spellStepsComponent.Length; i++)
+				{
+					GuiManager.Instance._spellStepsComponent[i].Play("SpellStep");
 					yield return new WaitForSeconds(2);
 					animations++;
 			
-//					if (animations >= GuiManager.Instance._spellStepsComponent.Length)
-//					{
+					if (animations >= GuiManager.Instance._spellStepsComponent.Length)
+					{
 						group.SetActive(false);
 						GuiManager.Instance._spellStepsUi.SetActive(false);
-//					}
-//				}
+					}
+				}
 			}
 		}
-//		GuiManager.Instance.SpellComplete(spell);
-//		yield return new WaitForSeconds(3);
+
 	}
  
 	private void OnDeathEvent(DeathEvent e)

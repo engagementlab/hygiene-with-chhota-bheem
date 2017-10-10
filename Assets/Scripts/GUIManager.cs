@@ -76,34 +76,6 @@ public class GuiManager
 
 	}
 	
-	public void SpellComplete(Spells type)
-	{
-		var animations = 0;
-				
-		_spellStepsUi.SetActive(true);
-
-		foreach (GameObject group in _spellSteps)
-		{
-			if (group.name == type.ToString())
-			{
-				group.SetActive(true);
-				_spellStepsComponent = group.GetComponentsInChildren<Animator>();
-						
-				foreach (Animator step in _spellStepsComponent)
-				{
-					step.Play("SpellStep");
-					animations++;
-			
-					if (animations >= _spellStepsComponent.Length)
-					{
-						group.SetActive(false);
-						_spellStepsUi.SetActive(false);
-					}
-				}
-			}
-		}		
-				
-	}
 
 	public void DisplayCurrentSpell(string spellName)
 	{
