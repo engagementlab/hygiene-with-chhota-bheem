@@ -18,6 +18,9 @@ public class GuiManager
 	private GameObject _inventoryUi;
 	private GameObject _spellText;
 	private GameObject _pauseUi;
+	private GameObject _spellStepsUi;
+	private GameObject[] _spellSteps;
+	private GameObject _gameEndUi;
 	private Animator _pauseAnimator;
 
 	private Text _fliesCount;
@@ -28,8 +31,6 @@ public class GuiManager
 	public float SpellSize;
 	private GameObject _bar;
 	private int _spellCount;
-	private GameObject _spellStepsUi;
-	private GameObject[] _spellSteps;
 	private Animator[] _spellStepsComponent;
 
 	// Use this for initialization
@@ -40,7 +41,7 @@ public class GuiManager
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		_spellText = GameObject.Find("GameUI/SpellJuiceBars/SpellText");
 		
-		// pauseUI = GameObject.Find("GameUI/PauseUI");
+		 pauseUI = GameObject.Find("GameUI/PauseUI");
 		// pauseAnimator = pauseUI.GetComponent<Animator>();
 
 		_spellText.SetActive(false);
@@ -62,7 +63,10 @@ public class GuiManager
 		_spellStepsUi = GameObject.Find("GameUI/SpellSteps");
 		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
 		
-//		_spellStepsUi.SetActive(false);
+		_gameEndUi = GameObject.Find("GameUI/GameEndScreen");
+		_gameEndUi.SetActive(false);
+		
+		_spellStepsUi.SetActive(false);
 		_spellCount = 0;
 		
 		foreach (GameObject group in _spellSteps)

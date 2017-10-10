@@ -32,6 +32,7 @@ public class ArchetypeMove : MonoBehaviour
 	public bool MoveEnabled = true;
 	public Spells SpellGiven;
 	public bool SpellRandom;
+	public bool KillsPlayer;
 	
 	private Spells _powerUpGiven;
 
@@ -200,24 +201,21 @@ public class ArchetypeMove : MonoBehaviour
 	
   public void OnTriggerEnter(Collider collider)
   {
-	  if(collider.gameObject.GetComponent<ArchetypeMove>() == null) return;
+//	  if(collider.gameObject.GetComponent<ArchetypeMove>() == null) return;
 	  
-	  switch(gameObject.tag)
+	  if(collider.tag == "Player")
 	  {
-		  case "Player":
-			  // Check if player hit a fly, poop, or villager. 
-			  var die = collider.gameObject.tag == "Fly" || collider.gameObject.tag == "Poop" || collider.gameObject.tag == "Villager";
+		  // Check if player hit and object that ends game 
+		  var die = KillsPlayer;
 
-			  if (die && !gameObject.GetComponent<ArchetypePlayer>().WonGame)
-			  {
-				  Debug.Log("Game Over, you died.");
+		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame)
+			  Events.instance.Raise(new DeathEvent(false));
+		  
+	  }
 
-				  Events.instance.Raise (new DeathEvent(false));
-				
-			  }
-			  break;
+	  /*switch(gameObject.tag)
+	  {
 		  case "Bubble":
-			  // Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, gameObject));  
 			  switch(collider.gameObject.tag)
 			  {
 				  case "Fly":
@@ -235,7 +233,7 @@ public class ArchetypeMove : MonoBehaviour
 			  }
 
 			  break;
-	  }
+	  }*/
   }
 
 	#if UNITY_EDITOR

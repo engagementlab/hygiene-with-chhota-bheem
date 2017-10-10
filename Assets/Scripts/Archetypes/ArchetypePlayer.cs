@@ -10,6 +10,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public float BubbleSpeed = 15;
 	
 	public GameObject Bubble;
+	[HideInInspector]
 	public bool WonGame;
 
 	private float _currentBadScore;
@@ -42,21 +43,13 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	}
 
-	// Use this for initialization
-	private void Start ()
-	{
-
-//		GameEndScreen.SetActive(false);
-
-	}
-
 	private void Update() {
 		
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(Input.touches.Length == 0) return;
 		#endif
 		
-		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, -1.1f);
+		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
 	    if(_currentBadScore < _targetScore) {
@@ -145,11 +138,10 @@ public class ArchetypePlayer : MonoBehaviour {
 			GameOverText.SetActive(true);*/
 
 		// Send Player Data to Analytics
-		Analytics.CustomEvent("gameEnd", new Dictionary<string, object>
-	    {
-		    { "gameState", WonGame }, 
-			{ "time", Time.timeSinceLevelLoad }
-	    });
+		Analytics.CustomEvent("gameEnd",
+			new Dictionary<string, object>
+			{{ "gameState", WonGame }, { "time", Time.timeSinceLevelLoad }}
+		);
 		
 	}
 
