@@ -10,6 +10,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public float BubbleSpeed = 15;
 	
 	public GameObject Bubble;
+	[HideInInspector]
 	public bool WonGame;
 
 	private float _currentBadScore;
@@ -42,21 +43,13 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	}
 
-	// Use this for initialization
-	private void Start ()
-	{
-
-//		GameEndScreen.SetActive(false);
-
-	}
-
 	private void Update() {
 		
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(Input.touches.Length == 0) return;
 		#endif
 		
-		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, -1.1f);
+		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
 	    if(_currentBadScore < _targetScore) {
@@ -101,9 +94,29 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		Events.instance.RemoveListener<DeathEvent> (OnDeathEvent);
 		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
+		Events.instance.RemoveListener<ScoreEvent> (OnScoreEvent);
 
 	}
+
+	private void OnDisable()
+	{
+		
+		Events.instance.RemoveListener<DeathEvent> (OnDeathEvent);
+		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
+		Events.instance.RemoveListener<ScoreEvent> (OnScoreEvent);
+		
+	}
 	
+
+	private void OnEnable()
+	{
+
+		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
+		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
+		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
+		
+	}
+
 	/**************
 		CUSTOM METHODS
 	***************/
@@ -117,7 +130,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void OnSpellEvent(SpellEvent e)
 	{
 		_spellsType = e.powerType;
-		
+		StartCoroutine(SpellComplete(_spellsType));
+
 		// What kinda spell? 
 		switch(_spellsType)
 		{
@@ -130,6 +144,37 @@ public class ArchetypePlayer : MonoBehaviour {
 				StartCoroutine(SpellScatterShoot());
 				break;
 		}
+	}
+	
+	private IEnumerator SpellComplete(Spells spell)
+	{
+		var animations = 0;
+				
+		GuiManager.Instance._spellStepsUi.SetActive(true);
+
+		foreach (GameObject group in GuiManager.Instance._spellSteps)
+		{
+			if (group.name == spell.ToString())
+			{
+				group.SetActive(true);
+				GuiManager.Instance._spellStepsComponent = group.GetComponentsInChildren<Animator>();
+					
+				GuiManager.Instance._spellStepsComponent[animations].Play("SpellStep");
+//				foreach (Animator step in GuiManager.Instance._spellStepsComponent)
+//				{
+					yield return new WaitForSeconds(2);
+					animations++;
+			
+//					if (animations >= GuiManager.Instance._spellStepsComponent.Length)
+//					{
+						group.SetActive(false);
+						GuiManager.Instance._spellStepsUi.SetActive(false);
+//					}
+//				}
+			}
+		}
+//		GuiManager.Instance.SpellComplete(spell);
+//		yield return new WaitForSeconds(3);
 	}
  
 	private void OnDeathEvent(DeathEvent e)
@@ -145,11 +190,10 @@ public class ArchetypePlayer : MonoBehaviour {
 			GameOverText.SetActive(true);*/
 
 		// Send Player Data to Analytics
-		Analytics.CustomEvent("gameEnd", new Dictionary<string, object>
-	    {
-		    { "gameState", WonGame }, 
-			{ "time", Time.timeSinceLevelLoad }
-	    });
+		Analytics.CustomEvent("gameEnd",
+			new Dictionary<string, object>
+			{{ "gameState", WonGame }, { "time", Time.timeSinceLevelLoad }}
+		);
 		
 	}
 

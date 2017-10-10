@@ -18,6 +18,9 @@ public class GuiManager
 	private GameObject _inventoryUi;
 	private GameObject _spellText;
 	private GameObject _pauseUi;
+	public GameObject _spellStepsUi;
+	public GameObject[] _spellSteps;
+	private GameObject _gameEndUi;
 	private Animator _pauseAnimator;
 
 	private Text _fliesCount;
@@ -28,9 +31,7 @@ public class GuiManager
 	public float SpellSize;
 	private GameObject _bar;
 	private int _spellCount;
-	private GameObject _spellStepsUi;
-	private GameObject[] _spellSteps;
-	private Animator[] _spellStepsComponent;
+	public Animator[] _spellStepsComponent;
 
 	// Use this for initialization
 	public void Initialiaze ()
@@ -39,11 +40,11 @@ public class GuiManager
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		_spellText = GameObject.Find("GameUI/SpellJuiceBars/SpellText");
-		
-		// pauseUI = GameObject.Find("GameUI/PauseUI");
-		// pauseAnimator = pauseUI.GetComponent<Animator>();
-
 		_spellText.SetActive(false);
+		
+		_pauseUi = GameObject.Find("GameUI/PauseUI");
+		_pauseUi.SetActive(false);
+		
 
 		_fliesCount = GameObject.Find("GameUI/Score/FlyCount").GetComponent<Text>();
 		_villagerCount = GameObject.Find("GameUI/Score/VillagerCount").GetComponent<Text>();
@@ -62,7 +63,10 @@ public class GuiManager
 		_spellStepsUi = GameObject.Find("GameUI/SpellSteps");
 		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
 		
-//		_spellStepsUi.SetActive(false);
+		_gameEndUi = GameObject.Find("GameUI/GameEndScreen");
+		_gameEndUi.SetActive(false);
+		
+		_spellStepsUi.SetActive(false);
 		_spellCount = 0;
 		
 		foreach (GameObject group in _spellSteps)
@@ -72,7 +76,7 @@ public class GuiManager
 
 	}
 	
-	private void SpellComplete(Spells type)
+	public void SpellComplete(Spells type)
 	{
 		var animations = 0;
 				
@@ -92,7 +96,6 @@ public class GuiManager
 			
 					if (animations >= _spellStepsComponent.Length)
 					{
-						Events.instance.Raise (new SpellEvent(type));
 						group.SetActive(false);
 						_spellStepsUi.SetActive(false);
 					}
@@ -138,7 +141,7 @@ public class GuiManager
 
 		if (_spellCount == 5)
 		{
-			SpellComplete(type);
+			Events.instance.Raise (new SpellEvent(type));
 			EmptySpells();
 		}
 

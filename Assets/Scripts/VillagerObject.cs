@@ -46,6 +46,8 @@ public class VillagerObject : ArchetypeMove
 
 	private void OnTriggerEnter(Collider collider) {
 		
+		base.OnTriggerEnter(collider);
+		
 		if(collider.gameObject.tag != "Bubble") return;
 
 		placeholderIndex++;
