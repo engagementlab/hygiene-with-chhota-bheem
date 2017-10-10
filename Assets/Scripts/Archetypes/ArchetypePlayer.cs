@@ -110,7 +110,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void OnSpellEvent(SpellEvent e)
 	{
 		_spellsType = e.powerType;
-		
+		StartCoroutine(SpellComplete(_spellsType));
+
 		// What kinda spell? 
 		switch(_spellsType)
 		{
@@ -123,6 +124,37 @@ public class ArchetypePlayer : MonoBehaviour {
 				StartCoroutine(SpellScatterShoot());
 				break;
 		}
+	}
+	
+	private IEnumerator SpellComplete(Spells spell)
+	{
+		var animations = 0;
+				
+		GuiManager.Instance._spellStepsUi.SetActive(true);
+
+		foreach (GameObject group in GuiManager.Instance._spellSteps)
+		{
+			if (group.name == spell.ToString())
+			{
+				group.SetActive(true);
+				GuiManager.Instance._spellStepsComponent = group.GetComponentsInChildren<Animator>();
+					
+				GuiManager.Instance._spellStepsComponent[animations].Play("SpellStep");
+//				foreach (Animator step in GuiManager.Instance._spellStepsComponent)
+//				{
+					yield return new WaitForSeconds(2);
+					animations++;
+			
+//					if (animations >= GuiManager.Instance._spellStepsComponent.Length)
+//					{
+						group.SetActive(false);
+						GuiManager.Instance._spellStepsUi.SetActive(false);
+//					}
+//				}
+			}
+		}
+//		GuiManager.Instance.SpellComplete(spell);
+//		yield return new WaitForSeconds(3);
 	}
  
 	private void OnDeathEvent(DeathEvent e)

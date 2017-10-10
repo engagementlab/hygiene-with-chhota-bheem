@@ -18,8 +18,8 @@ public class GuiManager
 	private GameObject _inventoryUi;
 	private GameObject _spellText;
 	private GameObject _pauseUi;
-	private GameObject _spellStepsUi;
-	private GameObject[] _spellSteps;
+	public GameObject _spellStepsUi;
+	public GameObject[] _spellSteps;
 	private GameObject _gameEndUi;
 	private Animator _pauseAnimator;
 
@@ -31,7 +31,7 @@ public class GuiManager
 	public float SpellSize;
 	private GameObject _bar;
 	private int _spellCount;
-	private Animator[] _spellStepsComponent;
+	public Animator[] _spellStepsComponent;
 
 	// Use this for initialization
 	public void Initialiaze ()
@@ -76,7 +76,7 @@ public class GuiManager
 
 	}
 	
-	private void SpellComplete(Spells type)
+	public void SpellComplete(Spells type)
 	{
 		var animations = 0;
 				
@@ -96,7 +96,6 @@ public class GuiManager
 			
 					if (animations >= _spellStepsComponent.Length)
 					{
-						Events.instance.Raise (new SpellEvent(type));
 						group.SetActive(false);
 						_spellStepsUi.SetActive(false);
 					}
@@ -142,7 +141,7 @@ public class GuiManager
 
 		if (_spellCount == 5)
 		{
-			SpellComplete(type);
+			Events.instance.Raise (new SpellEvent(type));
 			EmptySpells();
 		}
 

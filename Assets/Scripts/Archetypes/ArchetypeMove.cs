@@ -474,11 +474,10 @@ public class ArchetypeMove : MonoBehaviour
 		GuiManager.Instance.HideSpell();
 	}
 	
+	
 	private void OnSpellEvent(SpellEvent e)
 	{
-		
-		
-		
+
 		// What kinda power up? 
 		switch(e.powerType)
 		{
