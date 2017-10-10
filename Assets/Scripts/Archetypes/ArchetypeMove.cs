@@ -208,9 +208,10 @@ public class ArchetypeMove : MonoBehaviour
 		  // Check if player hit and object that ends game 
 		  var die = KillsPlayer;
 
-		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame)
+		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new DeathEvent(false));
-		  
+		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
+			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>()._spellsType, false));		  
 	  }
 
 	  switch(collider.gameObject.tag)
@@ -494,25 +495,51 @@ public class ArchetypeMove : MonoBehaviour
 	
 	private void OnSpellEvent(SpellEvent e)
 	{
-		// What kinda power up? 
-		switch(e.powerType)
+		if (e.powerUp)
 		{
-			
-			case Spells.Matrix:
-				// Slow down the whole world except the player
-				StartCoroutine(SpellMatrixMode());
-				break;
-				
-			case Spells.ScatterShoot:
+			// Spell ON
+			switch (e.powerType)
+			{
 
-				break;
-				
-			case Spells.SpeedShoot:
+				case Spells.Matrix:
+					// Slow down the whole world except the player
+					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().PowerInfinite)
+					{
+						GuiManager.Instance.DisplayCurrentSpell("Slow Enemies");
+						MoveSpeed /= 2;
+					}
+					else
+					{
+						StartCoroutine(SpellMatrixMode());
+					}
+					
+					break;
 
-				break;
-				
+				default:
+
+					break;
+
+			}
 		}
-		
+		else
+		{
+			// Spell OFF
+			switch (e.powerType)
+			{
+
+				case Spells.Matrix:
+					GuiManager.Instance.HideSpell();
+					MoveSpeed *= 2;
+					
+					break;
+
+				default:
+
+					break;
+
+			}
+		}
+
 	}
 
 	protected void SpawnSpellComponent()

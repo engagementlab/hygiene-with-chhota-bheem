@@ -141,7 +141,7 @@ public class GuiManager
 
 		if (_spellCount == 5)
 		{
-			Events.instance.Raise (new SpellEvent(type));
+			Events.instance.Raise (new SpellEvent(type, true));
 			EmptySpells();
 		}
 

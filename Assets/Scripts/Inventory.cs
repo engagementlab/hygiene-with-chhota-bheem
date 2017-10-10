@@ -23,7 +23,7 @@ namespace DefaultNamespace
         // Reset Count
         count = 0;
         // New Spell Event
-        Events.instance.Raise(new SpellEvent(spell));
+        Events.instance.Raise(new SpellEvent(spell, true));
         
         // Remove Spell JUICE UI
         GuiManager.Instance.EmptySpells();
