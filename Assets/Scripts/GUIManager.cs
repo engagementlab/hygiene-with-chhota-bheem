@@ -40,11 +40,11 @@ public class GuiManager
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		_spellText = GameObject.Find("GameUI/SpellJuiceBars/SpellText");
-		
-//		 pauseUI = GameObject.Find("GameUI/PauseUI");
-		// pauseAnimator = pauseUI.GetComponent<Animator>();
-
 		_spellText.SetActive(false);
+		
+		_pauseUi = GameObject.Find("GameUI/PauseUI");
+		_pauseUi.SetActive(false);
+		
 
 		_fliesCount = GameObject.Find("GameUI/Score/FlyCount").GetComponent<Text>();
 		_villagerCount = GameObject.Find("GameUI/Score/VillagerCount").GetComponent<Text>();

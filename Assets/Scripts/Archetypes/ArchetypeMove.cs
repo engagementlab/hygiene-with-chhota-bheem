@@ -477,6 +477,8 @@ public class ArchetypeMove : MonoBehaviour
 	private void OnSpellEvent(SpellEvent e)
 	{
 		
+		
+		
 		// What kinda power up? 
 		switch(e.powerType)
 		{
