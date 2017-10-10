@@ -94,9 +94,29 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		Events.instance.RemoveListener<DeathEvent> (OnDeathEvent);
 		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
+		Events.instance.RemoveListener<ScoreEvent> (OnScoreEvent);
 
 	}
+
+	private void OnDisable()
+	{
+		
+		Events.instance.RemoveListener<DeathEvent> (OnDeathEvent);
+		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
+		Events.instance.RemoveListener<ScoreEvent> (OnScoreEvent);
+		
+	}
 	
+
+	private void OnEnable()
+	{
+
+		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
+		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
+		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
+		
+	}
+
 	/**************
 		CUSTOM METHODS
 	***************/
