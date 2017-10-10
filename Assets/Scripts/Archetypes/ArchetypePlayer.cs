@@ -8,9 +8,15 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	public float SmoothTime = 0.1f;
 	public float BubbleSpeed = 15;
+
+	public int PowerTime;
+	public bool PowerInfinite;
 	
 	public GameObject Bubble;
+	
 	[HideInInspector]
+	public bool PoweredUp;
+
 	public bool WonGame;
 
 	private float _currentBadScore;
@@ -20,7 +26,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private GameObject _lastBubble;
 	private Camera _mainCamera;
-	private Spells _spellsType;
+	public Spells _spellsType;
 
 	private bool _freeMovement = true;
 	private bool _trailEnabled = true;
@@ -40,7 +46,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
-
 	}
 
 	private void Update() {
@@ -128,22 +133,68 @@ public class ArchetypePlayer : MonoBehaviour {
 	}
 	
 	private void OnSpellEvent(SpellEvent e)
-	{
+	{		
 		_spellsType = e.powerType;
-		StartCoroutine(SpellComplete(_spellsType));
 
-		// What kinda spell? 
-		switch(_spellsType)
+		if (e.powerUp)
 		{
-			case Spells.SpeedShoot:
-				// Speed up bubble rate
-				StartCoroutine(SpellBubbleSpeed());
-				break;
-			case Spells.ScatterShoot:
-				// Make those bubbles scatter
-				StartCoroutine(SpellScatterShoot());
-				break;
+			// Spell ON
+			StartCoroutine(SpellComplete(_spellsType));
+
+			switch(_spellsType)
+			{
+				case Spells.SpeedShoot:
+					// Speed up bubble rate
+					if (PowerInfinite)
+					{
+						GuiManager.Instance.DisplayCurrentSpell("Bubble Speedup");
+						GameConfig.numBubblesInterval /= 2;
+						PoweredUp = true;
+					}
+					else
+					{
+						StartCoroutine(SpellBubbleSpeed(PowerTime));
+					}
+				
+					break;
+				case Spells.ScatterShoot:
+					// Make those bubbles scatter
+					if (PowerInfinite)
+					{
+						GuiManager.Instance.DisplayCurrentSpell("Scatter Shot");
+						_scatterShootOn = true;
+						PoweredUp = true;
+					}
+					else
+					{
+						StartCoroutine(SpellScatterShoot(PowerTime));
+					}
+					break;
+			}
 		}
+		else
+		{
+			// Spell OFF
+			
+			switch(_spellsType)
+			{
+				case Spells.SpeedShoot:
+					GuiManager.Instance.HideSpell();
+					GameConfig.numBubblesInterval *= 2;
+					PoweredUp = false;
+				
+					break;
+				case Spells.ScatterShoot:
+					
+					GuiManager.Instance.HideSpell();
+					_scatterShootOn = false;
+					PoweredUp = false;
+					break;
+			}
+		}
+		
+
+		
 	}
 	
 	private IEnumerator SpellComplete(Spells spell)
@@ -197,23 +248,23 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 	}
 
-	private static IEnumerator SpellBubbleSpeed()
+	private static IEnumerator SpellBubbleSpeed(int time)
 	{
 		GuiManager.Instance.DisplayCurrentSpell("Bubble Speedup");
 		GameConfig.numBubblesInterval /= 2;
-		
-		yield return new WaitForSeconds(5);
+				
+		yield return new WaitForSeconds(time);
 		
 		GameConfig.numBubblesInterval *= 2;
 		GuiManager.Instance.HideSpell();
 	}
 
-	private IEnumerator SpellScatterShoot()
+	private IEnumerator SpellScatterShoot(int time)
 	{
 		GuiManager.Instance.DisplayCurrentSpell("Scatter Shot");
 		_scatterShootOn = true;
 		
-		yield return new WaitForSeconds(5);
+		yield return new WaitForSeconds(time);
 
 		_scatterShootOn = false;
 		GuiManager.Instance.HideSpell();
