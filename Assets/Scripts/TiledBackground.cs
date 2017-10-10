@@ -77,6 +77,8 @@ public class TiledBackground : MonoBehaviour {
 		var transformsY = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.y).ToArray();
 		var transformsX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.x).ToArray();
 		
+		if(transformsX.Length == 0 || transformsY.Length == 0) return;
+		
 		var xPosFirst = transformsX.First().position;
 		var yPosLast = transformsY.Last().position;
 		

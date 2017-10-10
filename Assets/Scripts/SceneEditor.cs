@@ -49,6 +49,8 @@ public class SceneEditor : MonoBehaviour
 		_objSortedY = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.y).ToArray();
 		_objSortedX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.x).ToArray();
 		
+		if(_objSortedX.Length == 0 || _objSortedY.Length == 0) return;
+		
 		_xPosFirst = _objSortedX.First().position;
 		_xPosLast = _objSortedX.Last().position;
 		_yPosFirst = _objSortedY.First().position;

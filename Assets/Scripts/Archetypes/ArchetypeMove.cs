@@ -197,11 +197,11 @@ public class ArchetypeMove : MonoBehaviour
 		var newRotation = Quaternion.Euler(0f, 0f, angle);
 		transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * 2);
 		
+		
 	}
 	
   public void OnTriggerEnter(Collider collider)
   {
-//	  if(collider.gameObject.GetComponent<ArchetypeMove>() == null) return;
 	  
 	  if(collider.tag == "Player")
 	  {
@@ -213,19 +213,18 @@ public class ArchetypeMove : MonoBehaviour
 		  
 	  }
 
-	  /*switch(gameObject.tag)
+	  switch(collider.gameObject.tag)
 	  {
 		  case "Bubble":
-			  switch(collider.gameObject.tag)
+			  switch(gameObject.tag)
 			  {
 				  case "Fly":
-					  Debug.Log("The Player shot a Fly! It should die!");
 
 					  Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Fly));	
 					  Destroy(collider.gameObject);
+					  Destroy(gameObject);
 					  GameConfig.fliesCaught++;
 
-					  // Spell(collider.gameObject.transform.position);
 					  break;
 				  case "Poop":
 					  Debug.Log("The Player shot a Poop! Nothing happens.");
@@ -233,7 +232,7 @@ public class ArchetypeMove : MonoBehaviour
 			  }
 
 			  break;
-	  }*/
+	  }
   }
 
 	#if UNITY_EDITOR
@@ -292,7 +291,22 @@ public class ArchetypeMove : MonoBehaviour
 		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
 
 	}
-	#endif
+
+	private void OnDisable()
+	{
+	
+		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);		
+		
+	}
+
+	private void OnEnable()
+	{
+	
+		Events.instance.AddListener<SpellEvent> (OnSpellEvent);		
+		
+	}
+	
+#endif
 
 	/**************
 		CUSTOM METHODS
@@ -413,9 +427,10 @@ public class ArchetypeMove : MonoBehaviour
 			
 		// Place object at current %
 		_lastPoint = transform.position;
-		_toPoint = _waypointPositions[_nextPoint].position;
+		_toPoint = _waypointPositions[_nextPoint].position;	
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
+		Debug.Log(distance/_targetAnimSpeed);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
 	}
 
@@ -445,7 +460,9 @@ public class ArchetypeMove : MonoBehaviour
 						transform.rotation = _startingRotation;
 					}
 				}
-			}
+			} 
+			else if(_nextPoint < _waypoints.Count-1)
+				_nextPoint++;
 			
 		}
 		else
@@ -476,8 +493,6 @@ public class ArchetypeMove : MonoBehaviour
 	
 	private void OnSpellEvent(SpellEvent e)
 	{
-		
-		
 		
 		// What kinda power up? 
 		switch(e.powerType)
