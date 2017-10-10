@@ -41,7 +41,7 @@ public class GuiManager
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		_spellText = GameObject.Find("GameUI/SpellJuiceBars/SpellText");
 		
-		 pauseUI = GameObject.Find("GameUI/PauseUI");
+//		 pauseUI = GameObject.Find("GameUI/PauseUI");
 		// pauseAnimator = pauseUI.GetComponent<Animator>();
 
 		_spellText.SetActive(false);
