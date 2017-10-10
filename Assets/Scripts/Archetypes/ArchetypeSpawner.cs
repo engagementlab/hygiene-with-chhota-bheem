@@ -18,6 +18,7 @@ public class ArchetypeSpawner : ArchetypeMove
 {
 
 	public GameObject PrefabToSpawn;
+	public Sprite SpriteAfterSpawn;
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
 	public bool MoveAfterSpawn;
@@ -34,6 +35,7 @@ public class ArchetypeSpawner : ArchetypeMove
 	
 	private float _spawnWaitTime;
 	private int _spawnCount;
+	private bool _spriteReplaced;
 	private bool _wait = true;
 
 	// Update is called once per frame
@@ -85,6 +87,13 @@ public class ArchetypeSpawner : ArchetypeMove
 		{
 			Destroy(gameObject);
 			return;
+		} 
+		// Replace sprite?
+		if(SpriteAfterSpawn != null && !_spriteReplaced)
+		{
+			GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
+			_spriteReplaced = true;
+
 		}
 		_spawnCount++;
 
