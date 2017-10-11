@@ -112,14 +112,11 @@ public class ArchetypeSpawner : ArchetypeMove
 		{
 			// Give spawn parent of spawner if enabled
 			if(UseSpawnerParent)
-			{
 				spawn.transform.SetParent(transform.parent, false);
-//				spawn.transform.position = transform.localPosition;
-			}
 		}
 
-		// If not repeating, destroy now
-		if(!SpawnRepeating)
+		// If not repeating and not replacing sprite, destroy now
+		if(!SpawnRepeating && SpriteAfterSpawn == null)
 		{
 			Destroy(gameObject);
 			return;
@@ -133,11 +130,16 @@ public class ArchetypeSpawner : ArchetypeMove
 		}
 		_spawnCount++;
 
-		if(_spawnCount >= SpawnRepeatCount)
+		if(_spawnCount >= SpawnRepeatCount && SpriteAfterSpawn == null)
 		{
 			CancelInvoke();
 			Destroy(gameObject);
+			return;
 		}
+		
+		// Destroy once well past camera bounds
+		if(MainCamera.WorldToViewportPoint(transform.position).y < -1.2f)
+			Destroy(gameObject);
 		
 	}
 }

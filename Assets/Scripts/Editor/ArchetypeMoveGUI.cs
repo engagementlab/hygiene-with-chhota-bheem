@@ -38,10 +38,12 @@ public class ArchetypeMoveGUI : Editor
 			
 			EditorGUILayout.HelpBox(helpTxt, MessageType.Info);
 		}
-    
+    		
+		if(!_archetype.MoveEnabled)
+			_archetype.MoveOnceInCamera = EditorGUILayout.Toggle("Move Once In View", _archetype.MoveOnceInCamera);
+
 		// Draw the default inspector
 		DrawDefaultInspector();
-
 		if(_archetype.transform.parent != null)
 			_archetype.UseParentSpeed = EditorGUILayout.Toggle("Use Parent's Speed", _archetype.UseParentSpeed);
 		
