@@ -105,6 +105,8 @@ public class ArchetypeMove : MonoBehaviour
 	private Transform[] _waypointPositions;
 	private Quaternion _startingRotation;
 
+	private bool chasing;
+
 	/**************
 		UNITY METHODS
 	***************/
@@ -141,6 +143,10 @@ public class ArchetypeMove : MonoBehaviour
 		// Sanity check
 		if (!_movingTransform)
 			return;
+		
+		// Check if this is chasing
+		if (gameObject.GetComponent<ArchetypeFollow>() != null)
+			chasing = gameObject.GetComponent<ArchetypeFollow>().chase;
 
 		// Not for background layers
 		if(gameObject.layer != 8 && MainCamera.WorldToViewportPoint(_movingTransform.position).y < -1)
@@ -160,6 +166,9 @@ public class ArchetypeMove : MonoBehaviour
 		// Find target for movement and change target vector based on direction
 		var target = _movingTransform.position;
 		var deltaPos = Vector3.zero;
+		
+		if (gameObject.name == "Scorpion")
+			Debug.Log(gameObject.name + " is the currently MOVING object");
 
 		switch(MovementDir)
 		{
@@ -184,10 +193,10 @@ public class ArchetypeMove : MonoBehaviour
 		}
 
 		// Move to target via lerp if movement allowed
-		if(MoveEnabled && MoveSpeed > 0)
+		if(MoveEnabled && MoveSpeed > 0 && !chasing)
 			_movingTransform.position = Vector3.Lerp(_movingTransform.position, target, Time.deltaTime);
 		
-		if(_waypoints == null || _waypoints.Count <= 0) return;
+		if(_waypoints == null || _waypoints.Count <= 0 || chasing) return;
 		if(!RotateOnWaypoints) return;
 		
 		_lerpPoint = Vector3.Lerp(_lastPoint, _toPoint, Time.deltaTime);
@@ -416,7 +425,7 @@ public class ArchetypeMove : MonoBehaviour
 	private void Animate()
 	{
 	
-		if(_waypoints == null || _waypoints.Count <= 0) return;
+		if(_waypoints == null || _waypoints.Count <= 0 || chasing) return;
 		
 		// Calculate current percentage on waypoints path (basically ping pong but time, not frame, based)
 		bool isDownward = transform.InverseTransformDirection(Vector3.up).y < 0;

@@ -28,6 +28,8 @@ public class ArchetypeWizard : MonoBehaviour
 {
 	public int speed;
 
+	public bool spawned;
+
 	private GameObject player;
 	private GameObject parent;
 
@@ -48,41 +50,39 @@ public class ArchetypeWizard : MonoBehaviour
 		
 	}
 	
-	public void Update () {
+	public void Update ()
+	{
+
+		if (!spawned) return;
+		
+		parent.GetComponent<ArchetypeMove>().MoveEnabled = false;
 
 		float height = 2f * Camera.main.orthographicSize;
 		float width = height * Camera.main.aspect;
 
-		if (parent.transform.position.y <= height/2) {
+		// Check player & wizard position, move wizard away from bounds & player
+		playerPos = player.transform.position.x;
+		wizardPos = gameObject.transform.position;
 
-			if (parent.GetComponent<ArchetypeMove>().MoveEnabled == true) {
-				parent.GetComponent<ArchetypeMove>().MoveEnabled = false;
+		var distance = Vector3.Distance(wizardPos, new Vector3(0f, wizardPos.y, wizardPos.z));
+
+		if (wizardPos.x <= playerPos && wizardPos.x >= playerPos - 1.5f) {
+			// Move Wizard
+			if (distance >= width/2.2f) {
+				wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
+			} else {
+				wizardPos = new Vector3(wizardPos.x - 2.0f, wizardPos.y, wizardPos.z);
 			}
 
-			// Check player & wizard position, move wizard away from bounds & player
-			playerPos = player.transform.position.x;
-			wizardPos = gameObject.transform.position;
-
-			var distance = Vector3.Distance(wizardPos, new Vector3(0f, wizardPos.y, wizardPos.z));
-
-			if (wizardPos.x <= playerPos && wizardPos.x >= playerPos - 1.5f) {
-				// Move Wizard
-				if (distance >= width/2.2f) {
-					wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
-				} else {
-					wizardPos = new Vector3(wizardPos.x - 2.0f, wizardPos.y, wizardPos.z);
-				}
-
-			} else if (wizardPos.x >= playerPos && wizardPos.x <= playerPos + 1.5f) {
-			 // Move Wizard
-				if (distance >= width/2.2f) {
-					wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
-				} else {
-					wizardPos = new Vector3(wizardPos.x + 2.0f, wizardPos.y, wizardPos.z);
-				}
-			} 
-			gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position, wizardPos, ref _velocity, SmoothTime);
-		}
+		} else if (wizardPos.x >= playerPos && wizardPos.x <= playerPos + 1.5f) {
+		 // Move Wizard
+			if (distance >= width/2.2f) {
+				wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
+			} else {
+				wizardPos = new Vector3(wizardPos.x + 2.0f, wizardPos.y, wizardPos.z);
+			}
+		} 
+		gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position, wizardPos, ref _velocity, SmoothTime);
 
 		
 	}

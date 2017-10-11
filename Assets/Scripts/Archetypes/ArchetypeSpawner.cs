@@ -22,6 +22,9 @@ public class ArchetypeSpawner : ArchetypeMove
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
 	public bool MoveAfterSpawn;
+
+	public bool SpawnSelf;
+	
 	[HideInInspector]
 	public bool UseSpawnerParent = true;
 
@@ -38,6 +41,8 @@ public class ArchetypeSpawner : ArchetypeMove
 	private bool _spriteReplaced;
 	private bool _wait = true;
 
+	private GameObject _spawnObject;
+
 	// Update is called once per frame
 	private void Update () {
 		
@@ -46,7 +51,8 @@ public class ArchetypeSpawner : ArchetypeMove
 		
 		if(!_wait) return;
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabToSpawn == null) return;
-
+		
+		Debug.Log(MainCamera.WorldToViewportPoint(transform.position).y);
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
 			Spawn();
@@ -60,9 +66,21 @@ public class ArchetypeSpawner : ArchetypeMove
 
 	private void Spawn()
 	{
-	
-		var spawn = Instantiate(PrefabToSpawn, transform.localPosition, PrefabToSpawn.transform.rotation);	
-		spawn.SetActive(true);
+		
+		Debug.Log(gameObject.name);
+		if (SpawnSelf)
+		{
+			_spawnObject = gameObject;
+			_spawnObject.GetComponent<SpriteRenderer>().enabled = true;
+
+			if (gameObject.tag == "Wizard")
+				gameObject.GetComponent<ArchetypeWizard>().spawned = true;
+		}
+		else
+		{
+			_spawnObject = Instantiate(PrefabToSpawn, transform.localPosition, PrefabToSpawn.transform.rotation);
+			_spawnObject.SetActive(true);
+		}
 
 		if(!MoveAfterSpawn)
 		{
@@ -79,7 +97,7 @@ public class ArchetypeSpawner : ArchetypeMove
 		{
 			// Give spawn parent of spawner if enabled
 			if(UseSpawnerParent)
-				spawn.transform.SetParent(transform.parent, false);
+				_spawnObject.transform.SetParent(transform.parent, false);
 		}
 
 		// If not repeating, destroy now
