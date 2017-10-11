@@ -12,6 +12,8 @@ Created by Engagement Lab @ Emerson College, 2017
 ==============
 
 */
+
+using System.Collections;
 using UnityEngine;
 
 public class ArchetypeSpawner : ArchetypeMove
@@ -49,19 +51,31 @@ public class ArchetypeSpawner : ArchetypeMove
 
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
-			Spawn();
-		else {
+			StartCoroutine(DelayedSpawn());
+		else
+		{
 			// Don't "wait" for spawner from here on out until destroy so we invoke only once
 			_wait = false;
 			InvokeRepeating("Spawn", SpawnDelay, SpawnRepeatDelay);
 		}
+
+	}
+
+	private IEnumerator DelayedSpawn()
+	{
+		yield return new WaitForSeconds(SpawnDelay);
 		
+		Spawn();
 	}
 
 	private void Spawn()
 	{
 	
-		var spawn = Instantiate(PrefabToSpawn, transform.localPosition, PrefabToSpawn.transform.rotation);	
+		var spawn = Instantiate(
+															PrefabToSpawn, 
+															UseSpawnerParent ? transform.localPosition : transform.position, 
+															PrefabToSpawn.transform.rotation
+														);	
 		spawn.SetActive(true);
 
 		if(!MoveAfterSpawn)
@@ -79,7 +93,10 @@ public class ArchetypeSpawner : ArchetypeMove
 		{
 			// Give spawn parent of spawner if enabled
 			if(UseSpawnerParent)
+			{
 				spawn.transform.SetParent(transform.parent, false);
+//				spawn.transform.position = transform.localPosition;
+			}
 		}
 
 		// If not repeating, destroy now
