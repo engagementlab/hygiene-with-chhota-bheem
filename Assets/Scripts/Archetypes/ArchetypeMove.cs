@@ -30,12 +30,15 @@ public class ArchetypeMove : MonoBehaviour
 {
 
 	public bool MoveEnabled = true;
+	
 	public Spells SpellGiven;
 	public bool SpellRandom;
 	public bool KillsPlayer;
 	
 	private Spells _powerUpGiven;
 
+	[HideInInspector]
+	public bool MoveOnceInCamera;
 	[HideInInspector]
 	public float MoveSpeed;
 	[HideInInspector]
@@ -91,6 +94,7 @@ public class ArchetypeMove : MonoBehaviour
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
+	private bool _animateWait = true;
 	private float _reversingAngle;
 	private float _targetAnimSpeed;
 	private int _nextPoint;
@@ -148,8 +152,22 @@ public class ArchetypeMove : MonoBehaviour
 		if (gameObject.GetComponent<ArchetypeFollow>() != null)
 			chasing = gameObject.GetComponent<ArchetypeFollow>().chase;
 
+		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
+		if(yPos < 1.04f)
+		{
+			if(_animateWait)
+			{
+				_animateWait = false;
+				Animate();
+			}
+			
+			// If object waiting to move once in view, check pos
+			if(!MoveEnabled && MoveOnceInCamera)
+				MoveEnabled = true;
+		}
+
 		// Not for background layers
-		if(gameObject.layer != 8 && MainCamera.WorldToViewportPoint(_movingTransform.position).y < -1)
+		if(gameObject.layer != 8 && yPos < -1)
 			Destroy(gameObject);
 		
 		else if(gameObject.layer == 8)
@@ -295,6 +313,8 @@ public class ArchetypeMove : MonoBehaviour
 			iTween.DrawPath(_waypoints.ToArray());
 	
 	}
+	
+#endif
 
 	private void OnDestroy() {
 		
@@ -315,8 +335,6 @@ public class ArchetypeMove : MonoBehaviour
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);		
 		
 	}
-	
-#endif
 
 	/**************
 		CUSTOM METHODS
@@ -418,7 +436,8 @@ public class ArchetypeMove : MonoBehaviour
 
 		_waypointPositions = _waypoints.ToArray();
 		
-		Animate();
+		if(!_animateWait)
+			Animate();
 		
 	}
 	
@@ -440,12 +459,13 @@ public class ArchetypeMove : MonoBehaviour
 		_toPoint = _waypointPositions[_nextPoint].position;	
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
-		Debug.Log(distance/_targetAnimSpeed);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
 	}
 
 	void Complete()
 	{
+
+		if(_animateWait) return;
 
 		if(!_reverseAnim)
 		{
