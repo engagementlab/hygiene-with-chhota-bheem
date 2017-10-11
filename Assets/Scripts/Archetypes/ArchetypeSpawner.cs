@@ -19,7 +19,7 @@ using UnityEngine;
 public class ArchetypeSpawner : ArchetypeMove
 {
 
-	public GameObject PrefabToSpawn;
+	public GameObject[] PrefabsToSpawn;
 	public Sprite SpriteAfterSpawn;
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
@@ -36,6 +36,7 @@ public class ArchetypeSpawner : ArchetypeMove
 	public float SpawnRepeatDelay;
 	
 	private float _spawnWaitTime;
+	private int _prefabIndex;
 	private int _spawnCount;
 	private bool _spriteReplaced;
 	private bool _wait = true;
@@ -47,7 +48,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			base.Update();
 		
 		if(!_wait) return;
-		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabToSpawn == null) return;
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabsToSpawn == null) return;
 
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
@@ -72,10 +73,17 @@ public class ArchetypeSpawner : ArchetypeMove
 	{
 	
 		var spawn = Instantiate(
-															PrefabToSpawn, 
+															PrefabsToSpawn[_prefabIndex], 
 															UseSpawnerParent ? transform.localPosition : transform.position, 
-															PrefabToSpawn.transform.rotation
+															PrefabsToSpawn[_prefabIndex].transform.rotation
 														);	
+
+		// Increment or reset index
+		if(_prefabIndex < PrefabsToSpawn.Length - 1)
+			_prefabIndex++;
+		else
+			_prefabIndex = 0;
+		
 		spawn.SetActive(true);
 
 		if(!MoveAfterSpawn)
