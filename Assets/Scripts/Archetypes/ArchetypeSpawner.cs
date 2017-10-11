@@ -61,6 +61,17 @@ public class ArchetypeSpawner : ArchetypeMove
 		}
 
 	}
+	
+/*	#if UNITY_EDITOR
+
+	private void OnDrawGizmos() {
+		
+		if(PrefabsToSpawn == null || PrefabsToSpawn.Length < 1) return;
+
+		Gizmos.DrawGUITexture();
+	}
+	
+	#endif*/
 
 	private IEnumerator DelayedSpawn()
 	{

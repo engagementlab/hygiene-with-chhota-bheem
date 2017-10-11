@@ -30,6 +30,7 @@ public class ArchetypeMove : MonoBehaviour
 {
 
 	public bool MoveEnabled = true;
+	public bool MoveOnceInCamera;
 	public Spells SpellGiven;
 	public bool SpellRandom;
 	public bool KillsPlayer;
@@ -141,9 +142,15 @@ public class ArchetypeMove : MonoBehaviour
 		// Sanity check
 		if (!_movingTransform)
 			return;
+		
+		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
+		
+		// If object waiting to move once in view, check pos
+		if(yPos < 1.04f && !MoveEnabled && MoveOnceInCamera)
+			MoveEnabled = true;
 
 		// Not for background layers
-		if(gameObject.layer != 8 && MainCamera.WorldToViewportPoint(_movingTransform.position).y < -1)
+		if(gameObject.layer != 8 && yPos < -1)
 			Destroy(gameObject);
 		
 		else if(gameObject.layer == 8)
@@ -286,6 +293,8 @@ public class ArchetypeMove : MonoBehaviour
 			iTween.DrawPath(_waypoints.ToArray());
 	
 	}
+	
+#endif
 
 	private void OnDestroy() {
 		
@@ -306,8 +315,6 @@ public class ArchetypeMove : MonoBehaviour
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);		
 		
 	}
-	
-#endif
 
 	/**************
 		CUSTOM METHODS
