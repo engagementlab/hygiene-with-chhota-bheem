@@ -33,6 +33,9 @@ public class ArchetypeBoss : ArchetypeSpawner
 	{
 		_mainCamera = Camera.main;
 		_player = GameObject.FindGameObjectWithTag("Player");
+
+		base.Awake();
+
 	}
 
 	// Update is called once per frame
@@ -40,6 +43,7 @@ public class ArchetypeBoss : ArchetypeSpawner
 		
 //		var targetPosition = new Vector3(_player.transform.position.x, _player.transform.position.y, -.5f);
 //		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
+		base.Update();
 
 		if(_intervalTime >= projectileInterval) {
 

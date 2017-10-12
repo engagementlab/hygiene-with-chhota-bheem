@@ -49,14 +49,21 @@ public class ArchetypeWizard : MonoBehaviour
 		parent = GameObject.FindWithTag("Parent");
 		
 	}
+
+	private IEnumerator Spawned()
+	{
+		yield return new WaitForSeconds(1);
+		parent.GetComponent<ArchetypeMove>().MoveEnabled = false;
+
+	}
 	
 	public void Update ()
 	{
 
 		if (!spawned) return;
-		
-		parent.GetComponent<ArchetypeMove>().MoveEnabled = false;
 
+		StartCoroutine(Spawned());
+		
 		float height = 2f * Camera.main.orthographicSize;
 		float width = height * Camera.main.aspect;
 
@@ -68,7 +75,7 @@ public class ArchetypeWizard : MonoBehaviour
 
 		if (wizardPos.x <= playerPos && wizardPos.x >= playerPos - 1.5f) {
 			// Move Wizard
-			if (distance >= width/2.2f) {
+			if (distance >= width/2.5f) {
 				wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
 			} else {
 				wizardPos = new Vector3(wizardPos.x - 2.0f, wizardPos.y, wizardPos.z);
@@ -76,7 +83,7 @@ public class ArchetypeWizard : MonoBehaviour
 
 		} else if (wizardPos.x >= playerPos && wizardPos.x <= playerPos + 1.5f) {
 		 // Move Wizard
-			if (distance >= width/2.2f) {
+			if (distance >= width/2.5f) {
 				wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
 			} else {
 				wizardPos = new Vector3(wizardPos.x + 2.0f, wizardPos.y, wizardPos.z);
