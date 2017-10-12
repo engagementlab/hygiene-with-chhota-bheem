@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class GuiManager
+public class GUIManager
 {
-	static GuiManager _instanceInternal;
-	public static GuiManager Instance
+	static GUIManager _instanceInternal;
+	public static GUIManager Instance
 	{
 		get
 		{
 			if(_instanceInternal == null)
-				_instanceInternal = new GuiManager();
+				_instanceInternal = new GUIManager();
 
 			return _instanceInternal;
 		}
