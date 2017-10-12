@@ -18,8 +18,18 @@ public class ArchetypeBoss : ArchetypeSpawner
 {
 	public GameObject[] projectiles;
 	public float projectileInterval;
-	public float projectileSpeed = 100f;
+	public float projectileSpeed = 5f;
 	public float SmoothTime = 0.1f;
+
+	public ShootModes shootMode;
+
+	public enum ShootModes
+	{
+		down, 
+		atPlayer, 
+		random
+		
+	}
 
 	public int health;
 
@@ -41,25 +51,52 @@ public class ArchetypeBoss : ArchetypeSpawner
 	// Update is called once per frame
 	private void Update () {
 		
-//		var targetPosition = new Vector3(_player.transform.position.x, _player.transform.position.y, -.5f);
-//		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 		base.Update();
+
+		if (!gameObject.GetComponent<ArchetypeWizard>().spawned) return;
 
 		if(_intervalTime >= projectileInterval) {
 
 			_intervalTime = 0;
 			
 			// Choose Random projectile from list
-//			var random = Random.Range(0, projectiles.Length);
-//			
-//			var projectilePos = transform.position;
-//			projectilePos.z = 0;
-//			var dir = new Vector2(_player.transform.position.x, _player.transform.position.y);
-//			dir.Normalize();
-//
-//			var projectile = Instantiate(projectiles[random], projectilePos, Quaternion.identity);
-//			projectile.GetComponent<Rigidbody>().velocity = dir * projectileSpeed;
+			var random = Random.Range(0, projectiles.Length);
+			
+			var projectilePos = transform.position;
+			projectilePos.z = 0;
+			var dir = new Vector2(0, 0);
 
+			switch (shootMode)
+			{
+					case ShootModes.down:
+						dir = new Vector2(0, -1);
+
+						break;
+						
+					case ShootModes.atPlayer:
+						
+						dir = new Vector2(_player.transform.position.x, -1);
+						
+						break;
+						
+					case ShootModes.random:
+						dir = new Vector2(0, -1);
+
+						break;
+			}
+			
+			dir.Normalize();
+			Debug.Log(dir);
+
+
+			var projectile = Instantiate(projectiles[random], projectilePos, Quaternion.identity);
+			projectile.GetComponent<Rigidbody>().velocity = dir * projectileSpeed;
+
+			if (projectile.GetComponent<ArchetypeMove>() != null)
+			{
+				projectile.GetComponent<ArchetypeMove>().MoveSpeed = projectileSpeed;
+				projectile.GetComponent<ArchetypeMove>().KillsPlayer = true;
+			}
 		}
 		else
 			_intervalTime += Time.deltaTime;
