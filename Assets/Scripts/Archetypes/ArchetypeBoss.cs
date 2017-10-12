@@ -74,8 +74,9 @@ public class ArchetypeBoss : ArchetypeSpawner
 						break;
 						
 					case ShootModes.atPlayer:
-						
-						dir = new Vector2(_player.transform.position.x, -1);
+						var heading = _player.transform.position - transform.position;
+						var distance = heading.magnitude;
+						dir = heading / distance;
 						
 						break;
 						

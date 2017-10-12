@@ -48,7 +48,8 @@ public class ArchetypeWizard : MonoBehaviour
 	public enum Movements
 	{
 		Avoid, 
-		Follow
+		Follow, 
+		Dodge
 	}
 
 	public void Awake() {
@@ -125,6 +126,29 @@ public class ArchetypeWizard : MonoBehaviour
 						}
 					} 
 
+					break;
+					
+				case Movements.Dodge:
+					
+					// move wizard away from bounds & towards player
+					
+					if (wizardPos.x <= playerPos && wizardPos.x <= playerPos - 1.5f) {
+						// Move Wizard
+						if (distance >= width/2.5f) {
+							wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
+						} else {
+							wizardPos = new Vector3(wizardPos.x + 2.0f, wizardPos.y, wizardPos.z);
+						}
+
+					} else if (wizardPos.x >= playerPos && wizardPos.x >= playerPos + 1.5f) {
+						// Move Wizard
+						if (distance >= width/2.5f) {
+							wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
+						} else {
+							wizardPos = new Vector3(wizardPos.x - 2.0f, wizardPos.y, wizardPos.z);
+						}
+					} 
+					
 					break;
 		}
 		
