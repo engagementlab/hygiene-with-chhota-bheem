@@ -40,6 +40,22 @@ public class ArchetypeSpawner : ArchetypeMove
 	private int _spawnCount;
 	private bool _spriteReplaced;
 	private bool _wait = true;
+	private SpriteRenderer _tempRenderer;
+
+	private Material _gizmoMaterial;
+
+	private void Awake()
+	{
+		base.Awake();
+
+		if(SpriteAfterSpawn != null && GetComponent<SpriteRenderer>() == null)
+			gameObject.AddComponent<SpriteRenderer>();
+		else
+		{
+			gameObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
+			gameObject.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("SpriteDefaultMaterial");
+		}
+	}
 
 	// Update is called once per frame
 	private void Update () {
@@ -48,7 +64,8 @@ public class ArchetypeSpawner : ArchetypeMove
 			base.Update();
 		
 		if(!_wait) return;
-		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabsToSpawn == null) return;
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) 
+		   || PrefabsToSpawn == null) return;
 
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
@@ -62,16 +79,34 @@ public class ArchetypeSpawner : ArchetypeMove
 
 	}
 	
-/*	#if UNITY_EDITOR
+#if UNITY_EDITOR
 
-	private void OnDrawGizmos() {
-		
-		if(PrefabsToSpawn == null || PrefabsToSpawn.Length < 1) return;
+	// Display sprite of first prefab spawn as "ghost" to help w/ layout
+	private void OnDrawGizmos()
+	{
 
-		Gizmos.DrawGUITexture();
-	}
+		if(PrefabsToSpawn == null || PrefabsToSpawn.Length < 1 || Application.isPlaying) return;
+
+		if(_gizmoMaterial == null)
+			_gizmoMaterial = Resources.Load<Material>("GizmoGreyMaterial");
+
+		var sprite = PrefabsToSpawn[0].GetComponent<SpriteRenderer>();
 	
-	#endif*/
+		_tempRenderer = GetComponent<SpriteRenderer>() == null ? gameObject.AddComponent<SpriteRenderer>() : gameObject.GetComponent<SpriteRenderer>();
+
+		// Switch to gizmo material
+		if(_tempRenderer.sharedMaterial != null)
+			_tempRenderer.sharedMaterial = _gizmoMaterial;
+
+		if(_tempRenderer.sprite == null)
+		{
+//			_tempRenderer.drawMode = SpriteDrawMode.Sliced;
+			_tempRenderer.sprite = sprite.sprite;
+//			var origSize = _tempRenderer.size;
+//			_tempRenderer.size = new Vector2(origSize.x*.5f, origSize.y*.5f);
+		}
+	}
+#endif
 
 	private IEnumerator DelayedSpawn()
 	{
