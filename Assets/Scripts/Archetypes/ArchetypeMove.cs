@@ -232,7 +232,7 @@ public class ArchetypeMove : MonoBehaviour
 	  
 	  if(collider.tag == "Player")
 	  {
-		  // Check if player hit and object that ends game 
+		  // Check if player hit an object that ends game 
 		  var die = KillsPlayer;
 
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
