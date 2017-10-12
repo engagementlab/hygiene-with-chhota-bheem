@@ -1,4 +1,4 @@
-/* 
+﻿/* 
 
 Hygiene With Chhota Bheem
 Created by Engagement Lab @ Emerson College, 2017
@@ -43,9 +43,8 @@ public class ArchetypeSpawner : ArchetypeMove
 	private int _spawnCount;
 	private bool _spriteReplaced;
 	private bool _wait = true;
-	
 	private SpriteRenderer _tempRenderer;
-	private GameObject _spawnObject;
+
 	private Material _gizmoMaterial;
 
 	private void Awake()
@@ -61,6 +60,13 @@ public class ArchetypeSpawner : ArchetypeMove
 		}
 	}
 
+	private GameObject _spawnObject;
+
+	private void Awake()
+	{
+		base.Awake();
+	}
+
 	// Update is called once per frame
 	public void Update () {
 		
@@ -68,8 +74,14 @@ public class ArchetypeSpawner : ArchetypeMove
 			base.Update();
 		
 		if(!_wait) return;
+<<<<<<< HEAD
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) 
+		   || PrefabsToSpawn == null) return;
+
+=======
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabsToSpawn == null) return;
 	
+>>>>>>> 8db998c768a396392d48f9cb28606fea4e784d30
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
 			StartCoroutine(DelayedSpawn());
@@ -132,7 +144,7 @@ public class ArchetypeSpawner : ArchetypeMove
 		else
 		{
 
-			_spawnObject = Instantiate(
+			var spawn = Instantiate(
 				PrefabsToSpawn[_prefabIndex],
 				UseSpawnerParent ? transform.localPosition : transform.position,
 				PrefabsToSpawn[_prefabIndex].transform.rotation
@@ -144,7 +156,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			else
 				_prefabIndex = 0;
 
-			_spawnObject.SetActive(true);
+			spawn.SetActive(true);
 
 			if (!MoveAfterSpawn)
 			{

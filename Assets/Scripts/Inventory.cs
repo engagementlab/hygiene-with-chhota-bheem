@@ -26,7 +26,7 @@ namespace DefaultNamespace
         Events.instance.Raise(new SpellEvent(spell, true));
         
         // Remove Spell JUICE UI
-        GuiManager.Instance.EmptySpells();
+        GUIManager.Instance.EmptySpells();
       } 
       else
       {

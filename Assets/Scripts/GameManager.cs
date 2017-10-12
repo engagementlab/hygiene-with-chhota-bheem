@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 	{
 		GameObject gameUI = (GameObject) Instantiate(Resources.Load("GameUI"));
 		gameUI.name = "GameUI";
-		GuiManager.Instance.Initialiaze();
+		GUIManager.Instance.Initialiaze();
 	}
 
 	private void Update()
