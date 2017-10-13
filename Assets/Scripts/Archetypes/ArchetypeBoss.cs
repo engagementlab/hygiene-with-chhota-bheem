@@ -28,7 +28,6 @@ public class ArchetypeBoss : ArchetypeSpawner
 		
 	}
 
-	private GameObject _player;
 	private float _intervalTime;
 	private Vector3 _velocity;
 
@@ -64,7 +63,7 @@ public class ArchetypeBoss : ArchetypeSpawner
 						break;
 						
 					case ShootModes.atPlayer:
-						var heading = _player.transform.position - transform.position;
+						var heading = Player.transform.position - transform.position;
 						var distance = heading.magnitude;
 						dir = heading / distance;
 						

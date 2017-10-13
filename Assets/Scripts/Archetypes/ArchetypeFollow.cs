@@ -53,7 +53,7 @@ public class ArchetypeFollow : ArchetypeMove
 			else
 			{
 				// Chase the Player 
-				_playerPos = _player.transform.position;
+				_playerPos = Player.transform.position;
 				_thisPos = gameObject.transform.position;
 				var distance = Vector3.Distance(_playerPos, _thisPos);
 
