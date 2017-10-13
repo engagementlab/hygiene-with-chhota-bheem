@@ -109,7 +109,7 @@ public class ArchetypeMove : MonoBehaviour
 	
 	internal Camera MainCamera;
 	internal bool _animateWait = true;
-	internal GameObject _player;
+	internal GameObject Player;
 
 	/**************
 		UNITY METHODS
@@ -118,14 +118,14 @@ public class ArchetypeMove : MonoBehaviour
 	public void Awake()
 	{
 		
-		_player = GameObject.FindGameObjectWithTag("Player");
+		Player = GameObject.FindGameObjectWithTag("Player");
+		MainCamera = Camera.main;
+		AnimationDuration = 10 / AnimationDuration;
+		
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 
 		// For use in Update
 		_movingTransform = transform;
-		MainCamera = Camera.main;
-
-		AnimationDuration = 10 / AnimationDuration;
 		_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
 		_startingRotation = transform.rotation;
 
