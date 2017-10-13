@@ -5,7 +5,7 @@ Created by Engagement Lab @ Emerson College, 2017
 
 ==============
 	ArchetypeFollow.cs
-	Archetype class for which all moving non-player objects use or inherit.
+	Archetype class for objects that follow players.
 	https://github.com/engagementgamelab/hygiene-with-chhota-bheem/blob/master/Assets/Scripts/ArchetypeMove.cs
 
 	Created by Johnny Richardson, Erica Salling.

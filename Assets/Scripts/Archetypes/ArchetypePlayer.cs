@@ -46,6 +46,10 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
+
+		var currentRect = GetComponent<RectTransform>().position;
+		currentRect.z = -.5f;
+		GetComponent<RectTransform>().position = currentRect;
 	}
 
 	private void Update() {
