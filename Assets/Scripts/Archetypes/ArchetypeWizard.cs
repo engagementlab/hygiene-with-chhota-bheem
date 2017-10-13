@@ -38,7 +38,6 @@ public class ArchetypeWizard : MonoBehaviour
 	private Vector3 wizardPos;
 
 	public RawImage healthFill;
-	public int placeholderIndex = 0;
 	public float health = 2f;
 
 	private Vector3 _velocity;
@@ -179,8 +178,6 @@ public class ArchetypeWizard : MonoBehaviour
 	{
 
 		if(collider.gameObject.tag != "Bubble") return;
-
-		placeholderIndex++;
 
 		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
 

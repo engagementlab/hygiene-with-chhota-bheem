@@ -18,8 +18,6 @@ public class ArchetypeBoss : ArchetypeSpawner
 	public GameObject[] projectiles;
 	public float projectileInterval;
 	public float projectileSpeed = 5f;
-	public float SmoothTime = 0.1f;
-
 	public ShootModes shootMode;
 
 	public enum ShootModes
@@ -30,21 +28,13 @@ public class ArchetypeBoss : ArchetypeSpawner
 		
 	}
 
-	public int health;
-
 	private GameObject _player;
-	
 	private float _intervalTime;
-	private Camera _mainCamera;
 	private Vector3 _velocity;
 
 	private void Awake()
 	{
-		_mainCamera = Camera.main;
-		_player = GameObject.FindGameObjectWithTag("Player");
-
 		base.Awake();
-
 	}
 
 	// Update is called once per frame

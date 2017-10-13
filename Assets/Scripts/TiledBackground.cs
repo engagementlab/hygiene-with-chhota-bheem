@@ -11,6 +11,7 @@ Created by Engagement Lab @ Emerson College, 2017
 ==============
 
 */
+
 using System.Linq;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -74,8 +75,12 @@ public class TiledBackground : MonoBehaviour {
 		if(Image == null) return;
 
 		// Get lists of ArchetypeMove transforms ordered by x/y pos
-		var transformsY = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.y).ToArray();
-		var transformsX = FindObjectsOfType<ArchetypeMove>().Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.x).ToArray();
+		MonoBehaviour[] layoutObjects = FindObjectsOfType<ArchetypeMove>();
+		MonoBehaviour[] props = FindObjectsOfType<ArchetypeProp>();
+		ArrayUtility.AddRange(ref layoutObjects, props);
+		
+		var transformsY = layoutObjects.Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.y).ToArray();
+		var transformsX = layoutObjects.Select(t => t.transform).Where(t => t.gameObject.layer != 8).OrderBy(t => t.position.x).ToArray();
 		
 		if(transformsX.Length == 0 || transformsY.Length == 0) return;
 		
