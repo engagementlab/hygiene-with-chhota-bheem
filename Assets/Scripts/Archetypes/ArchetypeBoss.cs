@@ -5,10 +5,9 @@ Created by Engagement Lab @ Emerson College, 2017
 
 ==============
 	ArchetypeBoss.cs
-	Archetype object that spawns other archetype once entering camera; inherits ArchetypeMove.
-	https://github.com/engagementgamelab/hygiene-with-chhota-bheem/blob/master/Assets/Scripts/Editor/ArchetypeSpawner.cs
+	Archetype object for bosses, inheriting logic of spawner.
 
-	Created by Johnny Richardson.
+	Created by Erica Salling.
 ==============
 
 */
@@ -64,12 +63,13 @@ public class ArchetypeBoss : ArchetypeSpawner
 			
 			var projectilePos = transform.position;
 			projectilePos.z = 0;
-			var dir = new Vector2(0, 0);
+			Vector2 dir;
 
 			switch (shootMode)
 			{
 					case ShootModes.down:
 						dir = new Vector2(0, -1);
+						dir.Normalize();
 
 						break;
 						
@@ -82,13 +82,15 @@ public class ArchetypeBoss : ArchetypeSpawner
 						
 					case ShootModes.random:
 						dir = new Vector2(0, -1);
+						dir.Normalize();
 
 						break;
+						
+						default:
+							dir = new Vector2(-1, 0);
+							break;
 			}
 			
-			dir.Normalize();
-			Debug.Log(dir);
-
 
 			var projectile = Instantiate(projectiles[random], projectilePos, Quaternion.identity);
 			projectile.GetComponent<Rigidbody>().velocity = dir * projectileSpeed;
