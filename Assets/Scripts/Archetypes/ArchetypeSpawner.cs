@@ -56,6 +56,9 @@ public class ArchetypeSpawner : ArchetypeMove
 			gameObject.AddComponent<SpriteRenderer>();
 		else
 		{
+			if(GetComponent<SpriteRenderer>() == null)
+				gameObject.AddComponent<SpriteRenderer>();
+	
 			gameObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
 			gameObject.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("SpriteDefaultMaterial");
 		}
@@ -102,12 +105,8 @@ public class ArchetypeSpawner : ArchetypeMove
 			_tempRenderer.sharedMaterial = _gizmoMaterial;
 
 		if(_tempRenderer.sprite == null)
-		{
-//			_tempRenderer.drawMode = SpriteDrawMode.Sliced;
 			_tempRenderer.sprite = sprite.sprite;
-//			var origSize = _tempRenderer.size;
-//			_tempRenderer.size = new Vector2(origSize.x*.5f, origSize.y*.5f);
-		}
+		
 	}
 #endif
 

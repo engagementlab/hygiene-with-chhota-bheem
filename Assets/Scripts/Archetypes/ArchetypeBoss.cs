@@ -90,7 +90,6 @@ public class ArchetypeBoss : ArchetypeSpawner
 							dir = new Vector2(-1, 0);
 							break;
 			}
-			
 
 			var projectile = Instantiate(projectiles[random], projectilePos, Quaternion.identity);
 			projectile.GetComponent<Rigidbody>().velocity = dir * projectileSpeed;
