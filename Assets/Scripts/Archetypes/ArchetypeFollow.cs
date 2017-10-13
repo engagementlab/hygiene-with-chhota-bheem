@@ -31,6 +31,8 @@ public class ArchetypeFollow : MonoBehaviour
 	public bool chase;
 
 	private GameObject player;
+
+	private List<GameObject> waypoints;
 	
 	private Vector3 playerPos;
 	private Vector3 thisPos;
@@ -50,14 +52,26 @@ public class ArchetypeFollow : MonoBehaviour
 			time -= Time.deltaTime;
 			if ( time < 0 )
 			{
-			      chase = false;
+			     chase = false;
 			} else {
-					// Chase the Player immediately
-				  playerPos = player.transform.position;
-				  thisPos = gameObject.transform.position;
+				// Chase the Player 
+				playerPos = player.transform.position;
+				thisPos = gameObject.transform.position;
 	
-				  gameObject.transform.position = Vector3.SmoothDamp(thisPos, playerPos, ref _velocity, speed);
-				
+				gameObject.transform.position = Vector3.SmoothDamp(thisPos, playerPos, ref _velocity, speed);
+
+				foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+				{
+					if (child.GetComponent<Waypoint>() != null)
+					{
+						waypoints.Add(child.gameObject);
+					}
+				}
+
+				foreach (GameObject waypoint in waypoints)
+				{
+//					waypoint.transform.position
+				}
 			}
 			
 		} else {
