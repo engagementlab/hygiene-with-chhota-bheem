@@ -105,8 +105,6 @@ public class GUIManager
 
 	public void AddSpellJuice(Spells type, GameObject fill)
 	{
-		Debug.Log("Adding juice for spell '" + type + "'");
-
 		var spellFill = fill.GetComponent<RectTransform>();
 		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
 		_spellCount++;
@@ -124,6 +122,7 @@ public class GUIManager
 	{
 		
 		_bar = GameObject.FindGameObjectWithTag("SpellBar");
+		Debug.Log(_bar.name);
 				
 		var fill = _bar.transform.Find("Background").GetComponent<RectTransform>();
 		fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);

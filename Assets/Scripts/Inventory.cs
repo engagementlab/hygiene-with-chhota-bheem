@@ -18,20 +18,6 @@ namespace DefaultNamespace
     public void AddSpellComponent(Spells spell)
     {
 
-      if(count == 4)
-      {
-        // Reset Count
-        count = 0;
-        // New Spell Event
-        Events.instance.Raise(new SpellEvent(spell, true));
-        
-        // Remove Spell JUICE UI
-        GUIManager.Instance.EmptySpells();
-      } 
-      else
-      {
-        count++;
-      }
       
     }
     

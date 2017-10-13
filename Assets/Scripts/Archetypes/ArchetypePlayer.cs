@@ -34,6 +34,10 @@ public class ArchetypePlayer : MonoBehaviour {
 	private bool _moveDelta;
 	private bool _scatterShootOn;
 
+	public int _matrix = 0;
+	private int _scatterShoot = 0;
+	private int _speedShoot = 0;
+
 	private Vector3 _velocity;
 
 	/**************
@@ -50,6 +54,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		var currentRect = GetComponent<RectTransform>().position;
 		currentRect.z = -.5f;
 		GetComponent<RectTransform>().position = currentRect;
+		
 	}
 
 	private void Update() {
@@ -151,9 +156,14 @@ public class ArchetypePlayer : MonoBehaviour {
 					// Speed up bubble rate
 					if (PowerInfinite)
 					{
-						GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
-						GameConfig.numBubblesInterval /= 2;
-						PoweredUp = true;
+						if (_speedShoot <= 0)
+						{
+							GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
+							GameConfig.numBubblesInterval /= 2;
+							PoweredUp = true;
+						}
+
+						_speedShoot++;
 					}
 					else
 					{
@@ -165,14 +175,24 @@ public class ArchetypePlayer : MonoBehaviour {
 					// Make those bubbles scatter
 					if (PowerInfinite)
 					{
-						GUIManager.Instance.DisplayCurrentSpell("Scatter Shot");
-						_scatterShootOn = true;
-						PoweredUp = true;
+						if (_scatterShoot <= 0)
+						{
+							GUIManager.Instance.DisplayCurrentSpell("Scatter Shot");
+							_scatterShootOn = true;
+							PoweredUp = true;
+						}
+						
+						_scatterShoot++;
 					}
 					else
 					{
 						StartCoroutine(SpellScatterShoot(PowerTime));
 					}
+					break;
+					
+				case Spells.Matrix:
+
+					_matrix++;
 					break;
 			}
 		}
@@ -183,16 +203,32 @@ public class ArchetypePlayer : MonoBehaviour {
 			switch(_spellsType)
 			{
 				case Spells.SpeedShoot:
-					GUIManager.Instance.HideSpell();
-					GameConfig.numBubblesInterval *= 2;
-					PoweredUp = false;
+					if (_speedShoot <= 0)
+					{
+						GUIManager.Instance.HideSpell();
+						GameConfig.numBubblesInterval *= 2;
+						PoweredUp = false;
+					}
+					else
+					{
+						_speedShoot--;
+					}
+					
 				
 					break;
 				case Spells.ScatterShoot:
+
+					if (_scatterShoot <= 0)
+					{
+						GUIManager.Instance.HideSpell();
+						_scatterShootOn = false;
+						PoweredUp = false;
+					}
+					else
+					{
+						_scatterShoot--;
+					}
 					
-					GUIManager.Instance.HideSpell();
-					_scatterShootOn = false;
-					PoweredUp = false;
 					break;
 			}
 		}
@@ -204,6 +240,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	private IEnumerator SpellComplete(Spells spell)
 	{
 		var animations = 0;
+
+		GameConfig.gamePaused = true;
 				
 		GUIManager.Instance._spellStepsUi.SetActive(true);
 
@@ -217,13 +255,14 @@ public class ArchetypePlayer : MonoBehaviour {
 				for (var i = 0; i <= GUIManager.Instance._spellStepsComponent.Length; i++)
 				{
 					GUIManager.Instance._spellStepsComponent[i].Play("SpellStep");
-					yield return new WaitForSeconds(2);
 					animations++;
 			
 					if (animations >= GUIManager.Instance._spellStepsComponent.Length)
 					{
+						yield return new WaitForSeconds(3);
 						group.SetActive(false);
 						GUIManager.Instance._spellStepsUi.SetActive(false);
+						GameConfig.gamePaused = false;
 					}
 				}
 			}

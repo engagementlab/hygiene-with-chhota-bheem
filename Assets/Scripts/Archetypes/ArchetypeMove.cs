@@ -529,9 +529,11 @@ public class ArchetypeMove : MonoBehaviour
 					// Slow down the whole world except the player
 					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().PowerInfinite)
 					{
-						GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
-						MoveSpeed /= 2;
-					}
+						if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>()._matrix <= 0) {
+							GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
+							MoveSpeed /= 2;
+						}
+			}
 					else
 					{
 						StartCoroutine(SpellMatrixMode());
@@ -552,8 +554,13 @@ public class ArchetypeMove : MonoBehaviour
 			{
 
 				case Spells.Matrix:
-					GUIManager.Instance.HideSpell();
-					MoveSpeed *= 2;
+
+					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>()._matrix < 1)
+					{
+						GUIManager.Instance.HideSpell();
+						MoveSpeed *= 2;
+					}
+					
 					
 					break;
 
