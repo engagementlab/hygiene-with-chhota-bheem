@@ -252,7 +252,7 @@ public class ArchetypePlayer : MonoBehaviour {
 				group.SetActive(true);
 				GUIManager.Instance._spellStepsComponent = group.GetComponentsInChildren<Animator>();
 					
-				for (var i = 0; i <= GUIManager.Instance._spellStepsComponent.Length; i++)
+				for (var i = 0; i <= GUIManager.Instance._spellStepsComponent.Length-1; i++)
 				{
 					GUIManager.Instance._spellStepsComponent[i].Play("SpellStep");
 					animations++;

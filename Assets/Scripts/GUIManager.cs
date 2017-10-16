@@ -46,9 +46,9 @@ public class GUIManager
 		_pauseUi.SetActive(false);
 		
 
-		_fliesCount = GameObject.Find("GameUI/Score/FlyCount").GetComponent<Text>();
-		_villagerCount = GameObject.Find("GameUI/Score/VillagerCount").GetComponent<Text>();
-		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
+//		_fliesCount = GameObject.Find("GameUI/Score/FlyCount").GetComponent<Text>();
+//		_villagerCount = GameObject.Find("GameUI/Score/VillagerCount").GetComponent<Text>();
+//		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
 		
 		SpellSize = SpellBars[0].transform.Find("Background").GetComponent<RectTransform>().sizeDelta.y/5;
 
@@ -105,6 +105,8 @@ public class GUIManager
 
 	public void AddSpellJuice(Spells type, GameObject fill)
 	{
+//		Debug.Log("Adding juice for spell '" + type + "'");
+
 		var spellFill = fill.GetComponent<RectTransform>();
 		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
 		_spellCount++;
@@ -122,7 +124,6 @@ public class GUIManager
 	{
 		
 		_bar = GameObject.FindGameObjectWithTag("SpellBar");
-		Debug.Log(_bar.name);
 				
 		var fill = _bar.transform.Find("Background").GetComponent<RectTransform>();
 		fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);
@@ -136,6 +137,7 @@ public class GUIManager
 
 	public void UpdateScore(float num, string type) {
 
+/*
 		if (type == "Villager") {
 			_villagerCount.text = GameConfig.peopleSaved.ToString();
 		} else if (type == "Fly") {
@@ -143,6 +145,7 @@ public class GUIManager
 		}
 
 		_score.text = (float.Parse(_score.text) + num).ToString();
+*/
 
 	}
 

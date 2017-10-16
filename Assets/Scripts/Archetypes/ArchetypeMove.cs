@@ -219,7 +219,6 @@ public class ArchetypeMove : MonoBehaviour
 		var newRotation = Quaternion.Euler(0f, 0f, angle);
 		transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * 2);
 		
-		
 	}
 	
   public void OnTriggerEnter(Collider collider)
