@@ -41,7 +41,7 @@ public class ArchetypeBoss : ArchetypeSpawner
 		
 		base.Update();
 
-		if (!gameObject.GetComponent<ArchetypeWizard>().spawned) return;
+		if (!gameObject.GetComponent<ArchetypeWizard>().spawned || projectiles != null || projectiles.Length < 1) return;
 
 		if(_intervalTime >= projectileInterval) {
 
