@@ -30,13 +30,15 @@ public class ArchetypeMove : MonoBehaviour
 {
 
 	public bool MoveEnabled = true;
-	public bool MoveOnceInCamera;
+	
 	public Spells SpellGiven;
 	public bool SpellRandom;
 	public bool KillsPlayer;
 	
 	private Spells _powerUpGiven;
 
+	[HideInInspector]
+	public bool MoveOnceInCamera;
 	[HideInInspector]
 	public float MoveSpeed;
 	[HideInInspector]
@@ -95,7 +97,6 @@ public class ArchetypeMove : MonoBehaviour
 	private float _reversingAngle;
 	private float _targetAnimSpeed;
 	private int _nextPoint;
-	internal Camera MainCamera;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 	private RectTransform _bgRectTransform;
@@ -105,6 +106,10 @@ public class ArchetypeMove : MonoBehaviour
 	private Vector3 _lerpPoint;
 	private Transform[] _waypointPositions;
 	private Quaternion _startingRotation;
+	
+	internal Camera MainCamera;
+	internal bool _animateWait = true;
+	internal GameObject Player;
 
 	/**************
 		UNITY METHODS
@@ -112,13 +117,15 @@ public class ArchetypeMove : MonoBehaviour
 
 	public void Awake()
 	{
+		
+		Player = GameObject.FindGameObjectWithTag("Player");
+		MainCamera = Camera.main;
+		AnimationDuration = 10 / AnimationDuration;
+		
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 
 		// For use in Update
 		_movingTransform = transform;
-		MainCamera = Camera.main;
-
-		AnimationDuration = 10 / AnimationDuration;
 		_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
 		_startingRotation = transform.rotation;
 
@@ -142,12 +149,20 @@ public class ArchetypeMove : MonoBehaviour
 		// Sanity check
 		if (!_movingTransform)
 			return;
-		
+
 		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
-		
-		// If object waiting to move once in view, check pos
-		if(yPos < 1.04f && !MoveEnabled && MoveOnceInCamera)
-			MoveEnabled = true;
+		if(yPos < 1.04f)
+		{
+			if(_animateWait)
+			{
+				_animateWait = false;
+				Animate();
+			}
+			
+			// If object waiting to move once in view, check pos
+			if(!MoveEnabled && MoveOnceInCamera)
+				MoveEnabled = true;
+		}
 
 		// Not for background layers
 		if(gameObject.layer != 8 && yPos < -1)
@@ -212,7 +227,7 @@ public class ArchetypeMove : MonoBehaviour
 	  
 	  if(collider.tag == "Player")
 	  {
-		  // Check if player hit and object that ends game 
+		  // Check if player hit an object that ends game 
 		  var die = KillsPlayer;
 
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
@@ -416,11 +431,12 @@ public class ArchetypeMove : MonoBehaviour
 
 		_waypointPositions = _waypoints.ToArray();
 		
-		Animate();
+		if(!_animateWait)
+			Animate();
 		
 	}
 	
-	private void Animate()
+	internal void Animate()
 	{
 	
 		if(_waypoints == null || _waypoints.Count <= 0) return;
@@ -438,12 +454,13 @@ public class ArchetypeMove : MonoBehaviour
 		_toPoint = _waypointPositions[_nextPoint].position;	
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
-		Debug.Log(distance/_targetAnimSpeed);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
 	}
 
 	void Complete()
 	{
+
+		if(_animateWait) return;
 
 		if(!_reverseAnim)
 		{
@@ -490,13 +507,13 @@ public class ArchetypeMove : MonoBehaviour
 
 	private IEnumerator SpellMatrixMode()
 	{
-		GuiManager.Instance.DisplayCurrentSpell("Slow Enemies");
+		GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
 		MoveSpeed /= 2;
 		
 		yield return new WaitForSeconds(5);
 		
 		MoveSpeed *= 2;
-		GuiManager.Instance.HideSpell();
+		GUIManager.Instance.HideSpell();
 	}
 	
 	
@@ -512,9 +529,11 @@ public class ArchetypeMove : MonoBehaviour
 					// Slow down the whole world except the player
 					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().PowerInfinite)
 					{
-						GuiManager.Instance.DisplayCurrentSpell("Slow Enemies");
-						MoveSpeed /= 2;
-					}
+						if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>()._matrix <= 0) {
+							GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
+							MoveSpeed /= 2;
+						}
+			}
 					else
 					{
 						StartCoroutine(SpellMatrixMode());
@@ -535,8 +554,13 @@ public class ArchetypeMove : MonoBehaviour
 			{
 
 				case Spells.Matrix:
-					GuiManager.Instance.HideSpell();
-					MoveSpeed *= 2;
+
+					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>()._matrix < 1)
+					{
+						GUIManager.Instance.HideSpell();
+						MoveSpeed *= 2;
+					}
+					
 					
 					break;
 

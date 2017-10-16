@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class GuiManager
+public class GUIManager
 {
-	static GuiManager _instanceInternal;
-	public static GuiManager Instance
+	static GUIManager _instanceInternal;
+	public static GUIManager Instance
 	{
 		get
 		{
 			if(_instanceInternal == null)
-				_instanceInternal = new GuiManager();
+				_instanceInternal = new GUIManager();
 
 			return _instanceInternal;
 		}
@@ -105,8 +105,6 @@ public class GuiManager
 
 	public void AddSpellJuice(Spells type, GameObject fill)
 	{
-		Debug.Log("Adding juice for spell '" + type + "'");
-
 		var spellFill = fill.GetComponent<RectTransform>();
 		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
 		_spellCount++;
@@ -124,6 +122,7 @@ public class GuiManager
 	{
 		
 		_bar = GameObject.FindGameObjectWithTag("SpellBar");
+		Debug.Log(_bar.name);
 				
 		var fill = _bar.transform.Find("Background").GetComponent<RectTransform>();
 		fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);

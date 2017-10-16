@@ -10,14 +10,16 @@ public class GameManager : MonoBehaviour
 	[CanBeNull]
 	public GameObject VillagerPrefab;
 
-	private float deltaTime;
-	private bool touching = false;
+	private float _deltaTime;
+	private bool _touching;
 
 	private void Awake()
 	{
-		GameObject gameUI = (GameObject) Instantiate(Resources.Load("GameUI"));
-		gameUI.name = "GameUI";
-		GuiManager.Instance.Initialiaze();
+		GameObject gameUi = (GameObject) Instantiate(Resources.Load("GameUI"));
+		gameUi.name = "GameUI";
+		GUIManager.Instance.Initialiaze();
+
+		Instantiate(Resources.Load("EventSystem"));
 	}
 
 	private void Update()
@@ -26,24 +28,24 @@ public class GameManager : MonoBehaviour
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(!Input.GetMouseButton(0))
 		{
-			if(touching)
+			if(_touching)
 			{
-				touching = false;
+				_touching = false;
 				GUIManager.Instance.ShowPause();
 			}
 
 		} 
 		else
 		{
-			if(!touching)
+			if(!_touching)
 			{
-				touching = true;
+				_touching = true;
 				GUIManager.Instance.HidePause();
 			}
 		}
 		#endif
 		
-		deltaTime += (Time.deltaTime - deltaTime) * 0.1f; 
+		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f; 
 	}
 
 	private void OnGUI()
@@ -60,8 +62,8 @@ public class GameManager : MonoBehaviour
 		style.alignment = TextAnchor.UpperLeft;
 		style.fontSize = h * 2 / 100;
 		style.normal.textColor = new Color (0.0f, 0.0f, 0.5f, 1.0f);
-		float msec = deltaTime * 1000.0f;
-		float fps = 1.0f / deltaTime;
+		float msec = _deltaTime * 1000.0f;
+		float fps = 1.0f / _deltaTime;
 		string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
 		
 		GUI.Label(rect, text, style);

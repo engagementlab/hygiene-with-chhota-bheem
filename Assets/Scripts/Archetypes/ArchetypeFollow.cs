@@ -5,63 +5,63 @@ Created by Engagement Lab @ Emerson College, 2017
 
 ==============
 	ArchetypeFollow.cs
-	Archetype class for which all moving non-player objects use or inherit.
-	https://github.com/engagementgamelab/hygiene-with-chhota-bheem/blob/master/Assets/Scripts/ArchetypeMove.cs
+	Archetype class for objects that follow players.
 
-	Created by Johnny Richardson, Erica Salling.
+	Created by Erica Salling, Johnny Richardson.
 ==============
 
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using DefaultNamespace;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-public class ArchetypeFollow : MonoBehaviour
+public class ArchetypeFollow : ArchetypeMove
 {
-	public float speed = 2;
-	public float time = 2;
-	public bool chase;
+	[Range(1, 10)]
+	public float FollowDistance = 2;
+	[Range(1, 40)]	
+	public float FollowDuration = 4;
 
-	private GameObject player;
-	
-	private Vector3 playerPos;
-	private Vector3 thisPos;
-
+	private Vector3 _playerPos;
+	private Vector3 _thisPos;
 	private Vector3 _velocity;
-
+	private bool _chase = true;
+	
 	public void Awake() {
 
-		player = GameObject.FindWithTag("Player");
-		
+		base.Awake();
 	}
 	
 	public void Update () {
+		 
+		// Do nothing outside camera
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1)) return;
 
-		if (chase) {
+		if (_chase) {
 
-			time -= Time.deltaTime;
-			if ( time < 0 )
+			FollowDuration -= Time.deltaTime;
+
+			if(FollowDuration < 0)
 			{
-			      chase = false;
-			} else {
-					// Chase the Player immediately
-				  playerPos = player.transform.position;
-				  thisPos = gameObject.transform.position;
-	
-				  gameObject.transform.position = Vector3.SmoothDamp(thisPos, playerPos, ref _velocity, speed);
-				
+				// Following done, animate normally
+				_chase = false;
+				_animateWait = false;
+				Animate();
+			} 
+			else
+			{
+				// Chase the Player 
+				_playerPos = Player.transform.position;
+				_thisPos = gameObject.transform.position;
+				var distance = Vector3.Distance(_playerPos, _thisPos);
+
+				// Divide distance by max value (10 is distance of 1) and then factor by current world distance, so we ramp smoothly
+				gameObject.transform.position = Vector3.SmoothDamp(_thisPos, _playerPos, ref _velocity, FollowDistance/10*distance);
+
 			}
-			
-		} else {
-			// No chasing
+
 		}
 
 	}

@@ -34,6 +34,10 @@ public class ArchetypePlayer : MonoBehaviour {
 	private bool _moveDelta;
 	private bool _scatterShootOn;
 
+	public int _matrix = 0;
+	private int _scatterShoot = 0;
+	private int _speedShoot = 0;
+
 	private Vector3 _velocity;
 
 	/**************
@@ -46,6 +50,11 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
+
+		var currentRect = GetComponent<RectTransform>().position;
+		currentRect.z = -.5f;
+		GetComponent<RectTransform>().position = currentRect;
+		
 	}
 
 	private void Update() {
@@ -53,7 +62,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if(Input.touches.Length == 0) return;
 		#endif
-		
+				
 		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
@@ -128,7 +137,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
   private void OnScoreEvent(ScoreEvent e) {
 
-		GuiManager.Instance.UpdateScore(e.scoreAmount, e.eventType.ToString());
+		GUIManager.Instance.UpdateScore(e.scoreAmount, e.eventType.ToString());
 
 	}
 	
@@ -147,9 +156,14 @@ public class ArchetypePlayer : MonoBehaviour {
 					// Speed up bubble rate
 					if (PowerInfinite)
 					{
-						GuiManager.Instance.DisplayCurrentSpell("Bubble Speedup");
-						GameConfig.numBubblesInterval /= 2;
-						PoweredUp = true;
+						if (_speedShoot <= 0)
+						{
+							GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
+							GameConfig.numBubblesInterval /= 2;
+							PoweredUp = true;
+						}
+
+						_speedShoot++;
 					}
 					else
 					{
@@ -161,14 +175,24 @@ public class ArchetypePlayer : MonoBehaviour {
 					// Make those bubbles scatter
 					if (PowerInfinite)
 					{
-						GuiManager.Instance.DisplayCurrentSpell("Scatter Shot");
-						_scatterShootOn = true;
-						PoweredUp = true;
+						if (_scatterShoot <= 0)
+						{
+							GUIManager.Instance.DisplayCurrentSpell("Scatter Shot");
+							_scatterShootOn = true;
+							PoweredUp = true;
+						}
+						
+						_scatterShoot++;
 					}
 					else
 					{
 						StartCoroutine(SpellScatterShoot(PowerTime));
 					}
+					break;
+					
+				case Spells.Matrix:
+
+					_matrix++;
 					break;
 			}
 		}
@@ -179,16 +203,32 @@ public class ArchetypePlayer : MonoBehaviour {
 			switch(_spellsType)
 			{
 				case Spells.SpeedShoot:
-					GuiManager.Instance.HideSpell();
-					GameConfig.numBubblesInterval *= 2;
-					PoweredUp = false;
+					if (_speedShoot <= 0)
+					{
+						GUIManager.Instance.HideSpell();
+						GameConfig.numBubblesInterval *= 2;
+						PoweredUp = false;
+					}
+					else
+					{
+						_speedShoot--;
+					}
+					
 				
 					break;
 				case Spells.ScatterShoot:
+
+					if (_scatterShoot <= 0)
+					{
+						GUIManager.Instance.HideSpell();
+						_scatterShootOn = false;
+						PoweredUp = false;
+					}
+					else
+					{
+						_scatterShoot--;
+					}
 					
-					GuiManager.Instance.HideSpell();
-					_scatterShootOn = false;
-					PoweredUp = false;
 					break;
 			}
 		}
@@ -200,26 +240,29 @@ public class ArchetypePlayer : MonoBehaviour {
 	private IEnumerator SpellComplete(Spells spell)
 	{
 		var animations = 0;
-				
-		GuiManager.Instance._spellStepsUi.SetActive(true);
 
-		foreach (GameObject group in GuiManager.Instance._spellSteps)
+		GameConfig.gamePaused = true;
+				
+		GUIManager.Instance._spellStepsUi.SetActive(true);
+
+		foreach (GameObject group in GUIManager.Instance._spellSteps)
 		{
 			if (group.name == spell.ToString())
 			{
 				group.SetActive(true);
-				GuiManager.Instance._spellStepsComponent = group.GetComponentsInChildren<Animator>();
+				GUIManager.Instance._spellStepsComponent = group.GetComponentsInChildren<Animator>();
 					
-				for (var i = 0; i <= GuiManager.Instance._spellStepsComponent.Length; i++)
+				for (var i = 0; i <= GUIManager.Instance._spellStepsComponent.Length; i++)
 				{
-					GuiManager.Instance._spellStepsComponent[i].Play("SpellStep");
-					yield return new WaitForSeconds(2);
+					GUIManager.Instance._spellStepsComponent[i].Play("SpellStep");
 					animations++;
 			
-					if (animations >= GuiManager.Instance._spellStepsComponent.Length)
+					if (animations >= GUIManager.Instance._spellStepsComponent.Length)
 					{
+						yield return new WaitForSeconds(3);
 						group.SetActive(false);
-						GuiManager.Instance._spellStepsUi.SetActive(false);
+						GUIManager.Instance._spellStepsUi.SetActive(false);
+						GameConfig.gamePaused = false;
 					}
 				}
 			}
@@ -249,24 +292,24 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private static IEnumerator SpellBubbleSpeed(int time)
 	{
-		GuiManager.Instance.DisplayCurrentSpell("Bubble Speedup");
+		GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
 		GameConfig.numBubblesInterval /= 2;
 				
 		yield return new WaitForSeconds(time);
 		
 		GameConfig.numBubblesInterval *= 2;
-		GuiManager.Instance.HideSpell();
+		GUIManager.Instance.HideSpell();
 	}
 
 	private IEnumerator SpellScatterShoot(int time)
 	{
-		GuiManager.Instance.DisplayCurrentSpell("Scatter Shot");
+		GUIManager.Instance.DisplayCurrentSpell("Scatter Shot");
 		_scatterShootOn = true;
 		
 		yield return new WaitForSeconds(time);
 
 		_scatterShootOn = false;
-		GuiManager.Instance.HideSpell();
+		GUIManager.Instance.HideSpell();
 	}
   
 }

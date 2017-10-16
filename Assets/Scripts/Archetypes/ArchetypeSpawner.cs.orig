@@ -1,4 +1,4 @@
-/* 
+﻿/* 
 
 Hygiene With Chhota Bheem
 Created by Engagement Lab @ Emerson College, 2017
@@ -43,9 +43,8 @@ public class ArchetypeSpawner : ArchetypeMove
 	private int _spawnCount;
 	private bool _spriteReplaced;
 	private bool _wait = true;
-	
 	private SpriteRenderer _tempRenderer;
-	private GameObject _spawnObject;
+
 	private Material _gizmoMaterial;
 
 	private void Awake()
@@ -56,12 +55,16 @@ public class ArchetypeSpawner : ArchetypeMove
 			gameObject.AddComponent<SpriteRenderer>();
 		else
 		{
-			if(GetComponent<SpriteRenderer>() == null)
-				gameObject.AddComponent<SpriteRenderer>();
-	
 			gameObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
 			gameObject.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("SpriteDefaultMaterial");
 		}
+	}
+
+	private GameObject _spawnObject;
+
+	private void Awake()
+	{
+		base.Awake();
 	}
 
 	// Update is called once per frame
@@ -71,8 +74,14 @@ public class ArchetypeSpawner : ArchetypeMove
 			base.Update();
 		
 		if(!_wait) return;
+<<<<<<< HEAD
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) 
+		   || PrefabsToSpawn == null) return;
+
+=======
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabsToSpawn == null) return;
 	
+>>>>>>> 8db998c768a396392d48f9cb28606fea4e784d30
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
 			StartCoroutine(DelayedSpawn());
@@ -105,8 +114,12 @@ public class ArchetypeSpawner : ArchetypeMove
 			_tempRenderer.sharedMaterial = _gizmoMaterial;
 
 		if(_tempRenderer.sprite == null)
+		{
+//			_tempRenderer.drawMode = SpriteDrawMode.Sliced;
 			_tempRenderer.sprite = sprite.sprite;
-		
+//			var origSize = _tempRenderer.size;
+//			_tempRenderer.size = new Vector2(origSize.x*.5f, origSize.y*.5f);
+		}
 	}
 #endif
 
@@ -131,7 +144,7 @@ public class ArchetypeSpawner : ArchetypeMove
 		else
 		{
 
-			_spawnObject = Instantiate(
+			var spawn = Instantiate(
 				PrefabsToSpawn[_prefabIndex],
 				UseSpawnerParent ? transform.localPosition : transform.position,
 				PrefabsToSpawn[_prefabIndex].transform.rotation
@@ -143,7 +156,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			else
 				_prefabIndex = 0;
 
-			_spawnObject.SetActive(true);
+			spawn.SetActive(true);
 
 			if (!MoveAfterSpawn)
 			{
