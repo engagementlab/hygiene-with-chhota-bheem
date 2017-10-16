@@ -18,6 +18,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Configuration;
+using System.Runtime.InteropServices;
 using DefaultNamespace;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -37,6 +38,12 @@ public class ArchetypeMove : MonoBehaviour
 	
 	private Spells _powerUpGiven;
 
+	[HideInInspector]
+	public bool PlayerCanKill;	
+	[HideInInspector]
+	public int HitPoints;
+
+	
 	[HideInInspector]
 	public bool MoveOnceInCamera;
 	[HideInInspector]
@@ -97,6 +104,7 @@ public class ArchetypeMove : MonoBehaviour
 	private float _reversingAngle;
 	private float _targetAnimSpeed;
 	private int _nextPoint;
+	private int _bubblesHit;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 	private RectTransform _bgRectTransform;
@@ -108,7 +116,7 @@ public class ArchetypeMove : MonoBehaviour
 	private Quaternion _startingRotation;
 	
 	internal Camera MainCamera;
-	internal bool _animateWait = true;
+	internal bool AnimateWait = true;
 	internal GameObject Player;
 
 	/**************
@@ -153,9 +161,9 @@ public class ArchetypeMove : MonoBehaviour
 		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
 		if(yPos < 1.04f)
 		{
-			if(_animateWait)
+			if(AnimateWait)
 			{
-				_animateWait = false;
+				AnimateWait = false;
 				Animate();
 			}
 			
@@ -232,28 +240,36 @@ public class ArchetypeMove : MonoBehaviour
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new DeathEvent(false));
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
-			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>()._spellsType, false));		  
+			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));		  
 	  }
 
-	  switch(collider.gameObject.tag)
+	  if(!PlayerCanKill) return;
+	  _bubblesHit++;
+		Destroy(collider.gameObject);
+
+	  if(_bubblesHit == HitPoints)
 	  {
-		  case "Bubble":
-			  switch(gameObject.tag)
-			  {
-				  case "Fly":
+			Destroy(gameObject);
 
-					  Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Fly));	
-					  Destroy(collider.gameObject);
-					  Destroy(gameObject);
-					  GameConfig.fliesCaught++;
+		  switch(collider.gameObject.tag)
+		  {
+			  case "Bubble":
+				  switch(gameObject.tag)
+				  {
+					  case "Fly":
 
-					  break;
-				  case "Poop":
-					  Debug.Log("The Player shot a Poop! Nothing happens.");
-					  break;
-			  }
+						  Events.instance.Raise(new ScoreEvent(1, ScoreEvent.Type.Fly));
+						  GameConfig.fliesCaught++;
 
-			  break;
+						  break;
+					  case "Poop":
+						  Debug.Log("The Player shot a Poop! Nothing happens.");
+						  break;
+				  }
+
+				  break;
+		  }
+
 	  }
   }
 
@@ -430,7 +446,7 @@ public class ArchetypeMove : MonoBehaviour
 
 		_waypointPositions = _waypoints.ToArray();
 		
-		if(!_animateWait)
+		if(!AnimateWait)
 			Animate();
 		
 	}
@@ -459,7 +475,7 @@ public class ArchetypeMove : MonoBehaviour
 	void Complete()
 	{
 
-		if(_animateWait) return;
+		if(AnimateWait) return;
 
 		if(!_reverseAnim)
 		{
@@ -528,7 +544,7 @@ public class ArchetypeMove : MonoBehaviour
 					// Slow down the whole world except the player
 					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().PowerInfinite)
 					{
-						if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>()._matrix <= 0) {
+						if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix <= 0) {
 							GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
 							MoveSpeed /= 2;
 						}
@@ -554,7 +570,7 @@ public class ArchetypeMove : MonoBehaviour
 
 				case Spells.Matrix:
 
-					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>()._matrix < 1)
+					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix < 1)
 					{
 						GUIManager.Instance.HideSpell();
 						MoveSpeed *= 2;

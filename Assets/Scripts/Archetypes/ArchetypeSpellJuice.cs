@@ -10,31 +10,31 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	public Spells Type
 	{
-		get { return type; }
+		get { return _type; }
 		set { 
-			type = value;
+			_type = value;
 			foreach(Transform child in transform)
 				child.gameObject.SetActive(false);
 			
-			transform.Find(type.ToString()).gameObject.SetActive(true);
+			transform.Find(_type.ToString()).gameObject.SetActive(true);
 		}
 	}
 
-	public GameObject currentSpell;
+	public GameObject CurrentSpell;
 
-	private Vector3[] movementPoints;
-	private Spells type;
-	private float percentsPerSecond = .1f;
-	private float currentPathPercent;
+	private Vector3[] _movementPoints;
+	private Spells _type;
+	private float _percentsPerSecond = .1f;
+	private float _currentPathPercent;
 
 	public void Animate(Vector3 startingPos)
 	{
 		
-		movementPoints = new Vector3[10];
-		movementPoints[0] = Utilities.ClampToScreen(startingPos, Camera.main);
+		_movementPoints = new Vector3[10];
+		_movementPoints[0] = Utilities.ClampToScreen(startingPos, Camera.main);
 
 		for (int i = 1; i < 10; i++)
-			movementPoints[i] =
+			_movementPoints[i] =
 				Utilities.ClampToScreen(
 					new Vector3(Random.Range(transform.position.x - 1, transform.position.x + 1),
 						Random.Range(transform.position.y - 1, transform.position.y + 1), 0), Camera.main);
@@ -47,20 +47,20 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		// Pick the spell item
 		var spells = transform.GetComponentsInChildren(typeof(SpriteRenderer), true);
 		int index = Random.Range(0, spells.Length);
-		currentSpell = spells[index].gameObject;
-		currentSpell.SetActive(true);
+		CurrentSpell = spells[index].gameObject;
+		CurrentSpell.SetActive(true);
 
 	}
 
 	private void Update()
 	{
-		if(movementPoints == null) return;
+		if(_movementPoints == null) return;
 	
-		if(currentPathPercent >= 1)
+		if(_currentPathPercent >= 1)
 			Destroy(gameObject);
 		
-		currentPathPercent += percentsPerSecond * Time.deltaTime;
-		iTween.PutOnPath(transform, movementPoints, currentPathPercent);
+		_currentPathPercent += _percentsPerSecond * Time.deltaTime;
+		iTween.PutOnPath(transform, _movementPoints, _currentPathPercent);
 		
 	}
 
@@ -68,9 +68,9 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	{
 		var fill = spellObject.transform.Find("Background").gameObject;
 		// Update Spell Juice UI
-		GUIManager.Instance.AddSpellJuice(type, fill);
+		GUIManager.Instance.AddSpellJuice(_type, fill);
 		// Add Spell Juice to Inventory
-		Inventory.instance.AddSpellComponent(type);
+		Inventory.instance.AddSpellComponent(_type);
 		
 		// Destroy this spell juice
 		Destroy(gameObject);
@@ -82,13 +82,13 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		
 		var currentSpellObject = GameObject.FindGameObjectWithTag("SpellBar");
 
-		if (currentSpellObject == null || currentSpellObject.GetComponent<ArchetypeSpell>().type != type)
+		if (currentSpellObject == null || currentSpellObject.GetComponent<ArchetypeSpell>().Type != _type)
 		{
 			var spellBars = GUIManager.Instance.SpellBars;
 			
 			for (int i = 0; i < spellBars.Length; i++)
 			{
-				if (spellBars[i].GetComponent<ArchetypeSpell>().type == type)
+				if (spellBars[i].GetComponent<ArchetypeSpell>().Type == _type)
 				{
 					currentSpellObject = spellBars[i];
 					GUIManager.Instance.NewSpell(spellBars[i]);
@@ -97,7 +97,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 				}
 			}
 		}
-		else if (currentSpellObject.GetComponent<ArchetypeSpell>().type == type)
+		else if (currentSpellObject.GetComponent<ArchetypeSpell>().Type == _type)
 		{
 //			Debug.Log("Continuing to work towards spell '" + type + "'!");
 			JuiceCollected(currentSpellObject);
