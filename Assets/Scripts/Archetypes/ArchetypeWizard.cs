@@ -13,10 +13,6 @@ Created by Engagement Lab @ Emerson College, 2017
 */
 
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using DefaultNamespace;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 #if UNITY_EDITOR

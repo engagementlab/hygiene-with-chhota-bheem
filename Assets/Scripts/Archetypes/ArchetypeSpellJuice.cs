@@ -27,6 +27,20 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	private float percentsPerSecond = .1f;
 	private float currentPathPercent;
 
+	public void Animate(Vector3 startingPos)
+	{
+		
+		movementPoints = new Vector3[10];
+		movementPoints[0] = Utilities.ClampToScreen(startingPos, Camera.main);
+
+		for (int i = 1; i < 10; i++)
+			movementPoints[i] =
+				Utilities.ClampToScreen(
+					new Vector3(Random.Range(transform.position.x - 1, transform.position.x + 1),
+						Random.Range(transform.position.y - 1, transform.position.y + 1), 0), Camera.main);
+		
+	}
+
 	private void Awake()
 	{
 		
@@ -36,18 +50,12 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		currentSpell = spells[index].gameObject;
 		currentSpell.SetActive(true);
 
-		movementPoints = new Vector3[10];
-
-		for (int i = 0; i < 10; i++)
-			movementPoints[i] =
-				Utilities.ClampToScreen(
-					new Vector3(Random.Range(transform.position.x - 1, transform.position.x + 1),
-						Random.Range(transform.position.y - 1, transform.position.y + 1), 0), Camera.main);
-
 	}
 
 	private void Update()
 	{
+		if(movementPoints == null) return;
+	
 		if(currentPathPercent >= 1)
 			Destroy(gameObject);
 		
