@@ -132,11 +132,10 @@ public class ArchetypeSpawner : ArchetypeMove
 			return;
 		}
 		
-		_spawnObject = Instantiate(
-			PrefabsToSpawn[_prefabIndex],
-			UseSpawnerParent ? transform.localPosition : transform.position,
-			PrefabsToSpawn[_prefabIndex].transform.rotation
-		);
+		var spawnPos = UseSpawnerParent ? transform.localPosition : transform.position;
+		
+		_spawnObject = Instantiate(PrefabsToSpawn[_prefabIndex], spawnPos, PrefabsToSpawn[_prefabIndex].transform.rotation);
+		_spawnObject.SetActive(true);
 
 		// Increment or reset index
 		if (_prefabIndex < PrefabsToSpawn.Length - 1)
@@ -144,64 +143,7 @@ public class ArchetypeSpawner : ArchetypeMove
 		else
 			_prefabIndex = 0;
 
-		_spawnObject.SetActive(true);
-
-		// If not repeating and not replacing sprite, destroy now
-		if (!SpawnRepeating && SpriteAfterSpawn == null)
-		{
-			Destroy(gameObject);
-			return;
-		}
-		// Replace sprite?
-		if (SpriteAfterSpawn != null && !_spriteReplaced)
-		{
-			GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
-			_spriteReplaced = true;
-
-			_spawnObject = Instantiate(
-				PrefabsToSpawn[_prefabIndex],
-				UseSpawnerParent ? transform.localPosition : transform.position,
-				PrefabsToSpawn[_prefabIndex].transform.rotation
-			);
-
-			// Increment or reset index
-			if (_prefabIndex < PrefabsToSpawn.Length - 1)
-				_prefabIndex++;
-			else
-				_prefabIndex = 0;
-
-			_spawnObject.SetActive(true);
-
-			// If not repeating and not replacing sprite, destroy now
-			if (!SpawnRepeating && SpriteAfterSpawn == null)
-			{
-				Destroy(gameObject);
-				return;
-			}
-			// Replace sprite?
-			if (SpriteAfterSpawn != null && !_spriteReplaced)
-			{
-				GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
-				_spriteReplaced = true;
-
-			}
-			_spawnCount++;
-
-			if (_spawnCount >= SpawnRepeatCount && SpriteAfterSpawn == null)
-			{
-				CancelInvoke();
-				Destroy(gameObject);
-				return;
-			}
-			
-		}
-
-		if (_spawnCount >= SpawnRepeatCount && SpriteAfterSpawn == null)
-		{
-			CancelInvoke();
-			Destroy(gameObject);
-			return;
-		}
+		_spawnCount++;
 
 		// Destroy once well past camera bounds
 		if (MainCamera.WorldToViewportPoint(transform.position).y < -1.2f)
@@ -214,9 +156,7 @@ public class ArchetypeSpawner : ArchetypeMove
 
 			transform.parent = null;
 			transform.position = globalPos;
-
-			if(!SpawnSelf)
-				MoveEnabled = false;
+			MoveEnabled = false;
 	
 			SetupWaypoints();
 		}
@@ -225,6 +165,20 @@ public class ArchetypeSpawner : ArchetypeMove
 			// Give spawn parent of spawner if enabled
 			if (UseSpawnerParent)
 				_spawnObject.transform.SetParent(transform.parent, false);
+		}
+
+		if (_spawnCount >= SpawnRepeatCount)
+		{
+			
+			// Replace sprite?
+			if(SpriteAfterSpawn != null)
+			{
+				GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
+				_spriteReplaced = true;
+			}
+			
+			CancelInvoke();
+			Destroy(gameObject);
 		}
 		
 	}
