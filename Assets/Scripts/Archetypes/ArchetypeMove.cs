@@ -465,13 +465,14 @@ public class ArchetypeMove : MonoBehaviour
 			_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
 		else
 			_targetAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
-		
-		if(_nextPoint == _waypoints.Count)
-			Debug.Log("uaehdjbfe");
-			
+
+		var toPosition = _waypointPositions[_nextPoint];
+		if(toPosition == null)
+			return;
+	
 		// Place object at current %
 		_lastPoint = transform.position;
-		_toPoint = _waypointPositions[_nextPoint].position;	
+		_toPoint = toPosition.position;	
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
@@ -493,7 +494,7 @@ public class ArchetypeMove : MonoBehaviour
 					_nextPoint++;
 				else
 				{
-					if(AnimationType == AnimType.PingPong)
+					if(AnimationType == AnimType.PingPong && _waypoints.Count > 1)
 					{
 						_reverseAnim = true;
 						_nextPoint--;
