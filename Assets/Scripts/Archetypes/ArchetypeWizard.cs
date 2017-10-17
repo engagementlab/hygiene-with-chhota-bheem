@@ -81,28 +81,24 @@ public class ArchetypeWizard : MonoBehaviour
 		switch(MovementType)
 		{
 			case Movements.Avoid:
+				
 				// move wizard away from bounds & player
 				if(_wizardPos.x <= _playerPos && _wizardPos.x >= _playerPos - 1.5f)
 				{
 					// Move Wizard
 					if(distance >= width / 2.5f)
-					{
 						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
-					} else
-					{
+					else
 						_wizardPos = new Vector3(_wizardPos.x - 2.0f, _wizardPos.y, _wizardPos.z);
-					}
 
-				} else if(_wizardPos.x >= _playerPos && _wizardPos.x <= _playerPos + 1.5f)
+				}
+				else if(_wizardPos.x >= _playerPos && _wizardPos.x <= _playerPos + 1.5f)
 				{
 					// Move Wizard
 					if(distance >= width / 2.5f)
-					{
 						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
-					} else
-					{
+					else
 						_wizardPos = new Vector3(_wizardPos.x + 2.0f, _wizardPos.y, _wizardPos.z);
-					}
 				}
 
 				break;
@@ -110,7 +106,6 @@ public class ArchetypeWizard : MonoBehaviour
 			case Movements.Follow:
 
 				// move wizard away from bounds & towards player
-
 				if(_wizardPos.x <= _playerPos && _wizardPos.x <= _playerPos - 1.5f)
 				{
 					// Move Wizard
