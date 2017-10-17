@@ -26,7 +26,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private GameObject _lastBubble;
 	private Camera _mainCamera;
-	public Spells _spellsType;
+	public Spells SpellsType;
 
 	private bool _freeMovement = true;
 	private bool _trailEnabled = true;
@@ -34,7 +34,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private bool _moveDelta;
 	private bool _scatterShootOn;
 
-	public int _matrix = 0;
+	public int Matrix = 0;
 	private int _scatterShoot = 0;
 	private int _speedShoot = 0;
 
@@ -143,14 +143,14 @@ public class ArchetypePlayer : MonoBehaviour {
 	
 	private void OnSpellEvent(SpellEvent e)
 	{		
-		_spellsType = e.powerType;
+		SpellsType = e.powerType;
 
 		if (e.powerUp)
 		{
 			// Spell ON
-			StartCoroutine(SpellComplete(_spellsType));
+			StartCoroutine(SpellComplete(SpellsType));
 
-			switch(_spellsType)
+			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:
 					// Speed up bubble rate
@@ -192,7 +192,7 @@ public class ArchetypePlayer : MonoBehaviour {
 					
 				case Spells.Matrix:
 
-					_matrix++;
+					Matrix++;
 					break;
 			}
 		}
@@ -200,7 +200,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		{
 			// Spell OFF
 			
-			switch(_spellsType)
+			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:
 					if (_speedShoot <= 0)

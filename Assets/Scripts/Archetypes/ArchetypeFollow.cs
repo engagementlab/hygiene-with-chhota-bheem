@@ -47,7 +47,7 @@ public class ArchetypeFollow : ArchetypeMove
 			{
 				// Following done, animate normally
 				_chase = false;
-				_animateWait = false;
+				AnimateWait = false;
 				Animate();
 			} 
 			else
