@@ -465,6 +465,9 @@ public class ArchetypeMove : MonoBehaviour
 			_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
 		else
 			_targetAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
+		
+		if(_nextPoint == _waypoints.Count)
+			Debug.Log("uaehdjbfe");
 			
 		// Place object at current %
 		_lastPoint = transform.position;
