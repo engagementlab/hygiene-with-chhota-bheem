@@ -11,14 +11,20 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	public int PowerTime;
 	public bool PowerInfinite;
+
+	public int SpellStepCount;
 	
 	public GameObject Bubble;
+
+	public float BubbleSpeedIncrease = 2f;
+	public float BubbleSizeIncrease = 0.1f;
+	public int BubbleCountIncrease = 2;
 	
 	[HideInInspector]
 	public bool PoweredUp;
 
 	public bool WonGame;
-
+	
 	private float _currentBadScore;
 	private float _targetScore;
 	private float _intervalTime;
@@ -26,6 +32,8 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private GameObject _lastBubble;
 	private Camera _mainCamera;
+	
+	[HideInInspector]
 	public Spells SpellsType;
 
 	private bool _freeMovement = true;
@@ -34,9 +42,12 @@ public class ArchetypePlayer : MonoBehaviour {
 	private bool _moveDelta;
 	private bool _scatterShootOn;
 
+	[HideInInspector]
 	public int Matrix = 0;
+	
 	private int _scatterShoot = 0;
 	private int _speedShoot = 0;
+	private int _bigShoot = 0;
 
 	private Vector3 _velocity;
 
@@ -50,6 +61,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
+		
+		Bubble.transform.localScale = new Vector3(0.12F, 0.12F, 0.22F);
 
 		var currentRect = GetComponent<RectTransform>().position;
 		currentRect.z = -.5f;
@@ -159,8 +172,12 @@ public class ArchetypePlayer : MonoBehaviour {
 						if (_speedShoot <= 0)
 						{
 							GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
-							GameConfig.numBubblesInterval /= 2;
+							GameConfig.numBubblesInterval /= BubbleSpeedIncrease;
 							PoweredUp = true;
+						}
+						else
+						{
+							GameConfig.numBubblesInterval /= BubbleSpeedIncrease;
 						}
 
 						_speedShoot++;
@@ -190,6 +207,30 @@ public class ArchetypePlayer : MonoBehaviour {
 					}
 					break;
 					
+				case Spells.BigShoot:
+
+					// Make those bubbles bigger
+					if (PowerInfinite)
+					{
+						if (_bigShoot <= 0)
+						{
+							GUIManager.Instance.DisplayCurrentSpell("Bigger Shoot");
+							Bubble.transform.localScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+							PoweredUp = true;
+						}
+						else
+						{
+							Bubble.transform.localScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+						}
+						
+						_bigShoot++;
+					}
+					else
+					{
+						StartCoroutine(SpellBigShoot(PowerTime));
+					}
+					break;
+					
 				case Spells.Matrix:
 
 					Matrix++;
@@ -206,7 +247,7 @@ public class ArchetypePlayer : MonoBehaviour {
 					if (_speedShoot <= 0)
 					{
 						GUIManager.Instance.HideSpell();
-						GameConfig.numBubblesInterval *= 2;
+						GameConfig.numBubblesInterval *= BubbleSpeedIncrease;
 						PoweredUp = false;
 					}
 					else
@@ -230,6 +271,21 @@ public class ArchetypePlayer : MonoBehaviour {
 					}
 					
 					break;
+					
+				case Spells.BigShoot:
+
+					if (_bigShoot <= 0)
+					{
+						GUIManager.Instance.HideSpell();
+						Bubble.transform.localScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+						PoweredUp = false;
+					}
+					else
+					{
+						_bigShoot--;
+					}
+					
+					break;
 			}
 		}
 		
@@ -242,6 +298,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		var animations = 0;
 
 		GameConfig.gamePaused = true;
+		GameConfig.gameSpeedModifier = 0;
 				
 		GUIManager.Instance._spellStepsUi.SetActive(true);
 
@@ -259,7 +316,7 @@ public class ArchetypePlayer : MonoBehaviour {
 			
 					if (animations >= GUIManager.Instance._spellStepsComponent.Length)
 					{
-						yield return new WaitForSeconds(3);
+						yield return new WaitForSeconds(1);
 						group.SetActive(false);
 						GUIManager.Instance._spellStepsUi.SetActive(false);
 						GameConfig.gamePaused = false;
@@ -289,15 +346,26 @@ public class ArchetypePlayer : MonoBehaviour {
 		);
 		
 	}
-
-	private static IEnumerator SpellBubbleSpeed(int time)
+	
+	private IEnumerator SpellBigShoot(int time)
 	{
-		GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
-		GameConfig.numBubblesInterval /= 2;
+		GUIManager.Instance.DisplayCurrentSpell("Bubble Size Increase");
+		Bubble.transform.localScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 				
 		yield return new WaitForSeconds(time);
 		
-		GameConfig.numBubblesInterval *= 2;
+		Bubble.transform.localScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+		GUIManager.Instance.HideSpell();
+	}
+	
+	private IEnumerator SpellBubbleSpeed(int time)
+	{
+		GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
+		GameConfig.numBubblesInterval /= BubbleSpeedIncrease;
+				
+		yield return new WaitForSeconds(time);
+		
+		GameConfig.numBubblesInterval *= BubbleSpeedIncrease;
 		GUIManager.Instance.HideSpell();
 	}
 

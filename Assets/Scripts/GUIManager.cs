@@ -100,7 +100,7 @@ public class GUIManager
 			_bar.SetActive(false);
 		
 		spellBar.SetActive(true);
-		_spellCount = 1;
+		_spellCount = 0;
 	}
 
 	public void AddSpellJuice(Spells type, GameObject fill)
@@ -111,7 +111,7 @@ public class GUIManager
 		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
 		_spellCount++;
 
-		if (_spellCount == 5)
+		if (_spellCount == GameObject.FindGameObjectWithTag("Player").GetComponent<ArchetypePlayer>().SpellStepCount)
 		{
 			Events.instance.Raise (new SpellEvent(type, true));
 			EmptySpells();
