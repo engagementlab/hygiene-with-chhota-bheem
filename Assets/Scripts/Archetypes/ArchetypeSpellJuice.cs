@@ -69,8 +69,6 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		var fill = spellObject.transform.Find("Background").gameObject;
 		// Update Spell Juice UI
 		GUIManager.Instance.AddSpellJuice(_type, fill);
-		// Add Spell Juice to Inventory
-		Inventory.instance.AddSpellComponent(_type);
 		
 		// Destroy this spell juice
 		Destroy(gameObject);
@@ -81,13 +79,14 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		if(collider.gameObject.tag != "Player") return;
 		
 		var currentSpellObject = GameObject.FindGameObjectWithTag("SpellBar");
-
+		
 		if (currentSpellObject == null || currentSpellObject.GetComponent<ArchetypeSpell>().Type != _type)
 		{
 			var spellBars = GUIManager.Instance.SpellBars;
 			
 			for (int i = 0; i < spellBars.Length; i++)
 			{
+				Debug.Log(spellBars[i].GetComponent<ArchetypeSpell>().Type);
 				if (spellBars[i].GetComponent<ArchetypeSpell>().Type == _type)
 				{
 					currentSpellObject = spellBars[i];
