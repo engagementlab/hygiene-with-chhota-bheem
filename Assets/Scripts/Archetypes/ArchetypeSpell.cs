@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArchetypeSpell : ArchetypeMove {
 
-	public Spells type;
+	public Spells Type;
 
 	public IEnumerator Timer(int time, string power) {
 

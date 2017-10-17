@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class ArchetypeProjectile : MonoBehaviour {
 
-	public Sprite[] bubbleSprites;
-
-	private Camera mainCamera;
+	private Camera _mainCamera;
 
 	// Use this for initialization
 	private void Awake ()
 	{
 
-		mainCamera = Camera.main;
-
-		GetComponent<SpriteRenderer>().sprite = bubbleSprites[Random.Range(0, 2)];
+		_mainCamera = Camera.main;
 		iTween.ScaleFrom(gameObject, iTween.Hash("time", .3f, "scale", Vector3.zero, "easetype", iTween.EaseType.easeOutElastic));
 		
 	}
@@ -23,7 +19,7 @@ public class ArchetypeProjectile : MonoBehaviour {
 	private void Update () {
       
 
-		if(mainCamera.WorldToViewportPoint(transform.position).y > 1)
+		if(_mainCamera.WorldToViewportPoint(transform.position).y > 1)
 			Destroy(gameObject);
 		
 	}

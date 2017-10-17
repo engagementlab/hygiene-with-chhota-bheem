@@ -14,6 +14,7 @@ Created by Engagement Lab @ Emerson College, 2017
 */
 
 #if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -38,17 +39,23 @@ public class ArchetypeMoveGUI : Editor
 			
 			EditorGUILayout.HelpBox(helpTxt, MessageType.Info);
 		}
-    		
-		if(!_archetype.MoveEnabled)
-			_archetype.MoveOnceInCamera = EditorGUILayout.Toggle("Move Once In View", _archetype.MoveOnceInCamera);
+		
 
 		// Draw the default inspector
 		DrawDefaultInspector();
 		if(_archetype.transform.parent != null)
 			_archetype.UseParentSpeed = EditorGUILayout.Toggle("Use Parent's Speed", _archetype.UseParentSpeed);
+    		
+		if(!_archetype.MoveEnabled)
+			_archetype.MoveOnceInCamera = EditorGUILayout.Toggle("Move Once In View", _archetype.MoveOnceInCamera);
 		
 		if(!_archetype.UseParentSpeed || _archetype.transform.parent == null)
 			_archetype.MoveSpeed = EditorGUILayout.Slider("Movement Speed", _archetype.MoveSpeed, 0, 10);
+		
+		// Player can kill bool
+		_archetype.PlayerCanKill = EditorGUILayout.Toggle("Player Can Kill", _archetype.PlayerCanKill);		
+		if(_archetype.PlayerCanKill)
+			_archetype.HitPoints = EditorGUILayout.IntSlider("Hit Points", _archetype.HitPoints, 1, 10);
 		
 		// Animation
 		if(_archetype.HasWaypoints()) {

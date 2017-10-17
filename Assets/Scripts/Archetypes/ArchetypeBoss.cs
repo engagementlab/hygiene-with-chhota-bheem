@@ -11,21 +11,24 @@ Created by Engagement Lab @ Emerson College, 2017
 ==============
 
 */
+
 using UnityEngine;
 
 public class ArchetypeBoss : ArchetypeSpawner
 {
-	public GameObject[] projectiles;
-	public float projectileInterval;
-	public float projectileSpeed = 5f;
-	public ShootModes shootMode;
+	public GameObject[] Projectiles;
+	
+	[Range(0, 20)]
+	public float ProjectileInterval;
+	[Range(0, 10)]
+	public float ProjectileSpeed = 5f;
+	public ShootModes ShootMode;
 
 	public enum ShootModes
 	{
-		down, 
-		atPlayer, 
-		random
-		
+		Down, 
+		AtPlayer, 
+		Random
 	}
 
 	private float _intervalTime;
@@ -33,6 +36,7 @@ public class ArchetypeBoss : ArchetypeSpawner
 
 	private void Awake()
 	{
+		SpawnSelf = true;
 		base.Awake();
 	}
 
@@ -41,35 +45,36 @@ public class ArchetypeBoss : ArchetypeSpawner
 		
 		base.Update();
 
-		if (!gameObject.GetComponent<ArchetypeWizard>().spawned || projectiles != null || projectiles.Length < 1) return;
+		if (!gameObject.GetComponent<ArchetypeWizard>().spawned || Projectiles == null || Projectiles.Length < 1) return;
 
-		if(_intervalTime >= projectileInterval) {
+		if(_intervalTime >= ProjectileInterval) {
 
 			_intervalTime = 0;
 			
 			// Choose Random projectile from list
-			var random = Random.Range(0, projectiles.Length);
+			var random = Random.Range(0, Projectiles.Length);
 			
 			var projectilePos = transform.position;
 			projectilePos.z = 0;
 			Vector2 dir;
 
-			switch (shootMode)
+			// Change heading of projectile based on mode
+			switch (ShootMode)
 			{
-					case ShootModes.down:
+					case ShootModes.Down:
 						dir = new Vector2(0, -1);
 						dir.Normalize();
 
 						break;
 						
-					case ShootModes.atPlayer:
+					case ShootModes.AtPlayer:
 						var heading = Player.transform.position - transform.position;
 						var distance = heading.magnitude;
 						dir = heading / distance;
 						
 						break;
 						
-					case ShootModes.random:
+					case ShootModes.Random:
 						dir = new Vector2(0, -1);
 						dir.Normalize();
 
@@ -80,26 +85,19 @@ public class ArchetypeBoss : ArchetypeSpawner
 							break;
 			}
 
-			var projectile = Instantiate(projectiles[random], projectilePos, Quaternion.identity);
-			projectile.GetComponent<Rigidbody>().velocity = dir * projectileSpeed;
+			var projectile = Instantiate(Projectiles[random], projectilePos, Quaternion.identity);
+			projectile.GetComponent<Rigidbody>().velocity = dir * ProjectileSpeed;
 
-			if (projectile.GetComponent<ArchetypeMove>() != null)
+			var moveComponent = projectile.GetComponent<ArchetypeMove>();
+			if (moveComponent != null)
 			{
-				projectile.GetComponent<ArchetypeMove>().MoveSpeed = projectileSpeed;
-				projectile.GetComponent<ArchetypeMove>().KillsPlayer = true;
+				moveComponent.MoveSpeed = ProjectileSpeed;
+				moveComponent.KillsPlayer = true;
 			}
 		}
 		else
 			_intervalTime += Time.deltaTime;
 		
 	}
-
-	private void Projectile()
-	{
-	
-		
-		
-	}
-	
 	
 }

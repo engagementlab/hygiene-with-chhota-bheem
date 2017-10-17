@@ -13,10 +13,6 @@ Created by Engagement Lab @ Emerson College, 2017
 */
 
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using DefaultNamespace;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 #if UNITY_EDITOR
@@ -25,23 +21,25 @@ using UnityEditor;
 
 public class ArchetypeWizard : MonoBehaviour
 {
-	public int speed;
 
+	[Range(0, 40)]
+	[Tooltip("Time before tiled background stops moving")]
+	public int BackgroundDelay;
+	public RawImage HealthFill;
+	public Movements MovementType;
+	public float Health = 2f;
+	public float SmoothTime = .1f;
+	
+	[HideInInspector]
 	public bool spawned;
 
-	private GameObject player;
-	private GameObject parent;
+	private GameObject _player;
+	private GameObject _parent;
 
-	public Movements Movement;
-
-	private float playerPos;
-	private Vector3 wizardPos;
-
-	public RawImage healthFill;
-	public float health = 2f;
+	private float _playerPos;
+	private Vector3 _wizardPos;
 
 	private Vector3 _velocity;
-	public float SmoothTime = 0.1f;
 	
 	public enum Movements
 	{
@@ -52,15 +50,15 @@ public class ArchetypeWizard : MonoBehaviour
 
 	public void Awake() {
 
-		player = GameObject.FindWithTag("Player");
-		parent = GameObject.FindWithTag("Parent");
+		_player = GameObject.FindWithTag("Player");
+		_parent = GameObject.FindWithTag("Parent");
 		
 	}
 
 	private IEnumerator Spawned()
 	{
-		yield return new WaitForSeconds(1);
-		parent.GetComponent<ArchetypeMove>().MoveEnabled = false;
+		yield return new WaitForSeconds(BackgroundDelay);
+		_parent.GetComponent<ArchetypeMove>().MoveEnabled = false;
 
 	}
 
@@ -75,36 +73,32 @@ public class ArchetypeWizard : MonoBehaviour
 		float width = height * Camera.main.aspect;
 
 		// Check player & wizard position
-		playerPos = player.transform.position.x;
-		wizardPos = gameObject.transform.position;
+		_playerPos = _player.transform.position.x;
+		_wizardPos = gameObject.transform.position;
 
-		var distance = Vector3.Distance(wizardPos, new Vector3(0f, wizardPos.y, wizardPos.z));
+		var distance = Vector3.Distance(_wizardPos, new Vector3(0f, _wizardPos.y, _wizardPos.z));
 
-		switch(Movement)
+		switch(MovementType)
 		{
 			case Movements.Avoid:
+				
 				// move wizard away from bounds & player
-				if(wizardPos.x <= playerPos && wizardPos.x >= playerPos - 1.5f)
+				if(_wizardPos.x <= _playerPos && _wizardPos.x >= _playerPos - 1.5f)
 				{
 					// Move Wizard
 					if(distance >= width / 2.5f)
-					{
-						wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
-					} else
-					{
-						wizardPos = new Vector3(wizardPos.x - 2.0f, wizardPos.y, wizardPos.z);
-					}
+						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
+					else
+						_wizardPos = new Vector3(_wizardPos.x - 2.0f, _wizardPos.y, _wizardPos.z);
 
-				} else if(wizardPos.x >= playerPos && wizardPos.x <= playerPos + 1.5f)
+				}
+				else if(_wizardPos.x >= _playerPos && _wizardPos.x <= _playerPos + 1.5f)
 				{
 					// Move Wizard
 					if(distance >= width / 2.5f)
-					{
-						wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
-					} else
-					{
-						wizardPos = new Vector3(wizardPos.x + 2.0f, wizardPos.y, wizardPos.z);
-					}
+						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
+					else
+						_wizardPos = new Vector3(_wizardPos.x + 2.0f, _wizardPos.y, _wizardPos.z);
 				}
 
 				break;
@@ -112,27 +106,26 @@ public class ArchetypeWizard : MonoBehaviour
 			case Movements.Follow:
 
 				// move wizard away from bounds & towards player
-
-				if(wizardPos.x <= playerPos && wizardPos.x <= playerPos - 1.5f)
+				if(_wizardPos.x <= _playerPos && _wizardPos.x <= _playerPos - 1.5f)
 				{
 					// Move Wizard
 					if(distance >= width / 2.5f)
 					{
-						wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
+						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
 					} else
 					{
-						wizardPos = new Vector3(wizardPos.x + 2.0f, wizardPos.y, wizardPos.z);
+						_wizardPos = new Vector3(_wizardPos.x + 2.0f, _wizardPos.y, _wizardPos.z);
 					}
 
-				} else if(wizardPos.x >= playerPos && wizardPos.x >= playerPos + 1.5f)
+				} else if(_wizardPos.x >= _playerPos && _wizardPos.x >= _playerPos + 1.5f)
 				{
 					// Move Wizard
 					if(distance >= width / 2.5f)
 					{
-						wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
+						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
 					} else
 					{
-						wizardPos = new Vector3(wizardPos.x - 2.0f, wizardPos.y, wizardPos.z);
+						_wizardPos = new Vector3(_wizardPos.x - 2.0f, _wizardPos.y, _wizardPos.z);
 					}
 				}
 
@@ -142,33 +135,33 @@ public class ArchetypeWizard : MonoBehaviour
 
 				// move wizard away from bounds & towards player
 
-				if(wizardPos.x <= playerPos && wizardPos.x <= playerPos - 1.5f)
+				if(_wizardPos.x <= _playerPos && _wizardPos.x <= _playerPos - 1.5f)
 				{
 					// Move Wizard
 					if(distance >= width / 2.5f)
 					{
-						wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
+						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
 					} else
 					{
-						wizardPos = new Vector3(wizardPos.x + 2.0f, wizardPos.y, wizardPos.z);
+						_wizardPos = new Vector3(_wizardPos.x + 2.0f, _wizardPos.y, _wizardPos.z);
 					}
 
-				} else if(wizardPos.x >= playerPos && wizardPos.x >= playerPos + 1.5f)
+				} else if(_wizardPos.x >= _playerPos && _wizardPos.x >= _playerPos + 1.5f)
 				{
 					// Move Wizard
 					if(distance >= width / 2.5f)
 					{
-						wizardPos = new Vector3(0, wizardPos.y, wizardPos.z);
+						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
 					} else
 					{
-						wizardPos = new Vector3(wizardPos.x - 2.0f, wizardPos.y, wizardPos.z);
+						_wizardPos = new Vector3(_wizardPos.x - 2.0f, _wizardPos.y, _wizardPos.z);
 					}
 				}
 
 				break;
 		}
 
-		gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position, wizardPos, ref _velocity, SmoothTime);
+		gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position, _wizardPos, ref _velocity, SmoothTime);
 
 
 	}
@@ -181,11 +174,11 @@ public class ArchetypeWizard : MonoBehaviour
 
 		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
 
-		Vector2 v = healthFill.rectTransform.sizeDelta;
+		Vector2 v = HealthFill.rectTransform.sizeDelta;
 		v.x += .5f;
-		healthFill.rectTransform.sizeDelta = v;
+		HealthFill.rectTransform.sizeDelta = v;
 
-		if(!(Mathf.Abs(v.x - health) <= .1f)) return;
+		if(!(Mathf.Abs(v.x - Health) <= .1f)) return;
 
 		// Destroy Wizard
 		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
