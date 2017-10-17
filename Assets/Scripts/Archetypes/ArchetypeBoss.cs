@@ -11,12 +11,16 @@ Created by Engagement Lab @ Emerson College, 2017
 ==============
 
 */
+
 using UnityEngine;
 
 public class ArchetypeBoss : ArchetypeSpawner
 {
 	public GameObject[] Projectiles;
+	
+	[Range(0, 20)]
 	public float ProjectileInterval;
+	[Range(0, 10)]
 	public float ProjectileSpeed = 5f;
 	public ShootModes ShootMode;
 
@@ -25,7 +29,6 @@ public class ArchetypeBoss : ArchetypeSpawner
 		Down, 
 		AtPlayer, 
 		Random
-		
 	}
 
 	private float _intervalTime;
@@ -33,6 +36,7 @@ public class ArchetypeBoss : ArchetypeSpawner
 
 	private void Awake()
 	{
+		SpawnSelf = true;
 		base.Awake();
 	}
 
@@ -41,7 +45,7 @@ public class ArchetypeBoss : ArchetypeSpawner
 		
 		base.Update();
 
-		if (!gameObject.GetComponent<ArchetypeWizard>().spawned || Projectiles != null || Projectiles.Length < 1) return;
+		if (!gameObject.GetComponent<ArchetypeWizard>().spawned || Projectiles == null || Projectiles.Length < 1) return;
 
 		if(_intervalTime >= ProjectileInterval) {
 
@@ -54,6 +58,7 @@ public class ArchetypeBoss : ArchetypeSpawner
 			projectilePos.z = 0;
 			Vector2 dir;
 
+			// Change heading of projectile based on mode
 			switch (ShootMode)
 			{
 					case ShootModes.Down:
@@ -83,23 +88,16 @@ public class ArchetypeBoss : ArchetypeSpawner
 			var projectile = Instantiate(Projectiles[random], projectilePos, Quaternion.identity);
 			projectile.GetComponent<Rigidbody>().velocity = dir * ProjectileSpeed;
 
-			if (projectile.GetComponent<ArchetypeMove>() != null)
+			var moveComponent = projectile.GetComponent<ArchetypeMove>();
+			if (moveComponent != null)
 			{
-				projectile.GetComponent<ArchetypeMove>().MoveSpeed = ProjectileSpeed;
-				projectile.GetComponent<ArchetypeMove>().KillsPlayer = true;
+				moveComponent.MoveSpeed = ProjectileSpeed;
+				moveComponent.KillsPlayer = true;
 			}
 		}
 		else
 			_intervalTime += Time.deltaTime;
 		
 	}
-
-	private void Projectile()
-	{
-	
-		
-		
-	}
-	
 	
 }

@@ -125,7 +125,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			_spawnObject = gameObject;
 			_spawnObject.GetComponent<SpriteRenderer>().enabled = true;
 
-			if (gameObject.tag == "Wizard")
+			if (gameObject.tag == "Boss")
 				gameObject.GetComponent<ArchetypeWizard>().spawned = true;
 		}
 		else
@@ -144,24 +144,6 @@ public class ArchetypeSpawner : ArchetypeMove
 				_prefabIndex = 0;
 
 			_spawnObject.SetActive(true);
-
-			if (!MoveAfterSpawn)
-			{
-				Vector3 globalPos = MainCamera.transform.InverseTransformPoint(transform.position);
-				globalPos.z = 0;
-
-				transform.parent = null;
-				transform.position = globalPos;
-
-				MoveEnabled = false;
-				SetupWaypoints();
-			}
-			else
-			{
-				// Give spawn parent of spawner if enabled
-				if (UseSpawnerParent)
-					_spawnObject.transform.SetParent(transform.parent, false);
-			}
 
 			// If not repeating and not replacing sprite, destroy now
 			if (!SpawnRepeating && SpriteAfterSpawn == null)
@@ -190,5 +172,25 @@ public class ArchetypeSpawner : ArchetypeMove
 				Destroy(gameObject);
 		}
 
+		if (!MoveAfterSpawn)
+		{
+			Vector3 globalPos = MainCamera.transform.InverseTransformPoint(transform.position);
+			globalPos.z = 0;
+
+			transform.parent = null;
+			transform.position = globalPos;
+
+			if(!SpawnSelf)
+				MoveEnabled = false;
+	
+			SetupWaypoints();
+		}
+		else
+		{
+			// Give spawn parent of spawner if enabled
+			if (UseSpawnerParent)
+				_spawnObject.transform.SetParent(transform.parent, false);
+		}
+		
 	}
 }

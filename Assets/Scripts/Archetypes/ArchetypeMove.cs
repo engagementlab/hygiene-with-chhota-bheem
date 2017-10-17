@@ -242,8 +242,10 @@ public class ArchetypeMove : MonoBehaviour
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));		  
 	  }
-
+	  
+	  if(gameObject.tag == "Boss") return;
 	  if(!PlayerCanKill) return;
+	  
 	  _bubblesHit++;
 		Destroy(collider.gameObject);
 
