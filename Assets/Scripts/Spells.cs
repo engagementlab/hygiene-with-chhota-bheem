@@ -3,5 +3,6 @@
   None,
   Matrix,
   SpeedShoot,
-  ScatterShoot
+  ScatterShoot, 
+  BigShoot
 }
