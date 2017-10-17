@@ -50,7 +50,7 @@ public class ArchetypeFollow : ArchetypeMove
 				AnimateWait = false;
 				Animate();
 			} 
-			else
+			else if(Player != null)
 			{
 				// Chase the Player 
 				_playerPos = Player.transform.position;
