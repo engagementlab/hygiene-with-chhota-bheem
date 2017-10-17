@@ -1,4 +1,4 @@
-﻿/* 
+/* 
 
 Hygiene With Chhota Bheem
 Created by Engagement Lab @ Emerson College, 2017
@@ -43,8 +43,9 @@ public class ArchetypeSpawner : ArchetypeMove
 	private int _spawnCount;
 	private bool _spriteReplaced;
 	private bool _wait = true;
+	
 	private SpriteRenderer _tempRenderer;
-
+	private GameObject _spawnObject;
 	private Material _gizmoMaterial;
 
 	private void Awake()
@@ -55,16 +56,12 @@ public class ArchetypeSpawner : ArchetypeMove
 			gameObject.AddComponent<SpriteRenderer>();
 		else
 		{
+			if(GetComponent<SpriteRenderer>() == null)
+				gameObject.AddComponent<SpriteRenderer>();
+	
 			gameObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
 			gameObject.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("SpriteDefaultMaterial");
 		}
-	}
-
-	private GameObject _spawnObject;
-
-	private void Awake()
-	{
-		base.Awake();
 	}
 
 	// Update is called once per frame
@@ -74,14 +71,8 @@ public class ArchetypeSpawner : ArchetypeMove
 			base.Update();
 		
 		if(!_wait) return;
-<<<<<<< HEAD
-		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) 
-		   || PrefabsToSpawn == null) return;
-
-=======
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabsToSpawn == null) return;
 	
->>>>>>> 8db998c768a396392d48f9cb28606fea4e784d30
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
 			StartCoroutine(DelayedSpawn());
@@ -101,25 +92,27 @@ public class ArchetypeSpawner : ArchetypeMove
 	{
 
 		if(PrefabsToSpawn == null || PrefabsToSpawn.Length < 1 || Application.isPlaying) return;
+		if(PrefabsToSpawn[0] == null) return;
 
 		if(_gizmoMaterial == null)
 			_gizmoMaterial = Resources.Load<Material>("GizmoGreyMaterial");
 
 		var sprite = PrefabsToSpawn[0].GetComponent<SpriteRenderer>();
-	
-		_tempRenderer = GetComponent<SpriteRenderer>() == null ? gameObject.AddComponent<SpriteRenderer>() : gameObject.GetComponent<SpriteRenderer>();
+		
+		if(sprite == null) return;
+
+		if(gameObject.GetComponent<SpriteRenderer>() == null)
+			gameObject.AddComponent<SpriteRenderer>();
+
+		_tempRenderer = gameObject.GetComponent<SpriteRenderer>();
 
 		// Switch to gizmo material
 		if(_tempRenderer.sharedMaterial != null)
 			_tempRenderer.sharedMaterial = _gizmoMaterial;
 
 		if(_tempRenderer.sprite == null)
-		{
-//			_tempRenderer.drawMode = SpriteDrawMode.Sliced;
 			_tempRenderer.sprite = sprite.sprite;
-//			var origSize = _tempRenderer.size;
-//			_tempRenderer.size = new Vector2(origSize.x*.5f, origSize.y*.5f);
-		}
+		
 	}
 #endif
 
@@ -132,19 +125,48 @@ public class ArchetypeSpawner : ArchetypeMove
 
 	private void Spawn()
 	{
+<<<<<<< Updated upstream
+		if(PrefabsToSpawn == null || PrefabsToSpawn.Length == 0)
+		{
+			Debug.LogWarning("No prefabs to spawn from " + gameObject.name + "!!");
+			return;
+		}
+		
 		// WILL REFACTOR -- OLD		
 		if (SpawnSelf)
 		{
 			_spawnObject = gameObject;
 			_spawnObject.GetComponent<SpriteRenderer>().enabled = true;
+=======
+		_spawnObject = Instantiate(
+			PrefabsToSpawn[_prefabIndex],
+			UseSpawnerParent ? transform.localPosition : transform.position,
+			PrefabsToSpawn[_prefabIndex].transform.rotation
+		);
 
-			if (gameObject.tag == "Wizard")
-				gameObject.GetComponent<ArchetypeWizard>().spawned = true;
-		}
+		// Increment or reset index
+		if (_prefabIndex < PrefabsToSpawn.Length - 1)
+			_prefabIndex++;
 		else
-		{
+			_prefabIndex = 0;
+>>>>>>> Stashed changes
 
-			var spawn = Instantiate(
+		_spawnObject.SetActive(true);
+
+		// If not repeating and not replacing sprite, destroy now
+		if (!SpawnRepeating && SpriteAfterSpawn == null)
+		{
+			Destroy(gameObject);
+			return;
+		}
+		// Replace sprite?
+		if (SpriteAfterSpawn != null && !_spriteReplaced)
+		{
+			GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
+			_spriteReplaced = true;
+
+<<<<<<< Updated upstream
+			_spawnObject = Instantiate(
 				PrefabsToSpawn[_prefabIndex],
 				UseSpawnerParent ? transform.localPosition : transform.position,
 				PrefabsToSpawn[_prefabIndex].transform.rotation
@@ -156,25 +178,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			else
 				_prefabIndex = 0;
 
-			spawn.SetActive(true);
-
-			if (!MoveAfterSpawn)
-			{
-				Vector3 globalPos = MainCamera.transform.InverseTransformPoint(transform.position);
-				globalPos.z = 0;
-
-				transform.parent = null;
-				transform.position = globalPos;
-
-				MoveEnabled = false;
-				SetupWaypoints();
-			}
-			else
-			{
-				// Give spawn parent of spawner if enabled
-				if (UseSpawnerParent)
-					_spawnObject.transform.SetParent(transform.parent, false);
-			}
+			_spawnObject.SetActive(true);
 
 			// If not repeating and not replacing sprite, destroy now
 			if (!SpawnRepeating && SpriteAfterSpawn == null)
@@ -182,26 +186,69 @@ public class ArchetypeSpawner : ArchetypeMove
 				Destroy(gameObject);
 				return;
 			}
+			
+			// Increment spawn count
+			_spawnCount++;
+			
 			// Replace sprite?
 			if (SpriteAfterSpawn != null && !_spriteReplaced)
 			{
-				GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
-				_spriteReplaced = true;
+				if(_spawnCount == SpawnRepeatCount || !SpawnRepeating)
+				{
+					GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
+					_spriteReplaced = true;
+				}
 
 			}
-			_spawnCount++;
 
-			if (_spawnCount >= SpawnRepeatCount && SpriteAfterSpawn == null)
+			if (_spawnCount >= SpawnRepeatCount)
 			{
 				CancelInvoke();
-				Destroy(gameObject);
+				
+				if(SpriteAfterSpawn == null)
+					Destroy(gameObject);
+		
 				return;
 			}
 
 			// Destroy once well past camera bounds
 			if (MainCamera.WorldToViewportPoint(transform.position).y < -1.2f)
 				Destroy(gameObject);
+=======
+>>>>>>> Stashed changes
+		}
+		_spawnCount++;
+
+		if (_spawnCount >= SpawnRepeatCount && SpriteAfterSpawn == null)
+		{
+			CancelInvoke();
+			Destroy(gameObject);
+			return;
 		}
 
+		// Destroy once well past camera bounds
+		if (MainCamera.WorldToViewportPoint(transform.position).y < -1.2f)
+			Destroy(gameObject);
+
+		if (!MoveAfterSpawn)
+		{
+			Vector3 globalPos = MainCamera.transform.InverseTransformPoint(transform.position);
+			globalPos.z = 0;
+
+			transform.parent = null;
+			transform.position = globalPos;
+
+			if(!SpawnSelf)
+				MoveEnabled = false;
+	
+			SetupWaypoints();
+		}
+		else
+		{
+			// Give spawn parent of spawner if enabled
+			if (UseSpawnerParent)
+				_spawnObject.transform.SetParent(transform.parent, false);
+		}
+		
 	}
 }

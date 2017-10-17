@@ -97,8 +97,13 @@ public class ArchetypeSpawner : ArchetypeMove
 			_gizmoMaterial = Resources.Load<Material>("GizmoGreyMaterial");
 
 		var sprite = PrefabsToSpawn[0].GetComponent<SpriteRenderer>();
-	
-		_tempRenderer = GetComponent<SpriteRenderer>() == null ? gameObject.AddComponent<SpriteRenderer>() : gameObject.GetComponent<SpriteRenderer>();
+		
+		if(sprite == null) return;
+
+		if(gameObject.GetComponent<SpriteRenderer>() == null)
+			gameObject.AddComponent<SpriteRenderer>();
+
+		_tempRenderer = gameObject.GetComponent<SpriteRenderer>();
 
 		// Switch to gizmo material
 		if(_tempRenderer.sharedMaterial != null)
@@ -108,6 +113,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			_tempRenderer.sprite = sprite.sprite;
 		
 	}
+	
 #endif
 
 	private IEnumerator DelayedSpawn()
@@ -119,17 +125,38 @@ public class ArchetypeSpawner : ArchetypeMove
 
 	private void Spawn()
 	{
-		// WILL REFACTOR -- OLD		
-		if (SpawnSelf)
-		{
-			_spawnObject = gameObject;
-			_spawnObject.GetComponent<SpriteRenderer>().enabled = true;
 
-			if (gameObject.tag == "Boss")
-				gameObject.GetComponent<ArchetypeWizard>().spawned = true;
-		}
-		else
+		if(PrefabsToSpawn == null || PrefabsToSpawn.Length == 0)
 		{
+			Debug.LogWarning("No prefabs to spawn from " + gameObject.name + "!!");
+			return;
+		}
+		
+		_spawnObject = Instantiate(
+			PrefabsToSpawn[_prefabIndex],
+			UseSpawnerParent ? transform.localPosition : transform.position,
+			PrefabsToSpawn[_prefabIndex].transform.rotation
+		);
+
+		// Increment or reset index
+		if (_prefabIndex < PrefabsToSpawn.Length - 1)
+			_prefabIndex++;
+		else
+			_prefabIndex = 0;
+
+		_spawnObject.SetActive(true);
+
+		// If not repeating and not replacing sprite, destroy now
+		if (!SpawnRepeating && SpriteAfterSpawn == null)
+		{
+			Destroy(gameObject);
+			return;
+		}
+		// Replace sprite?
+		if (SpriteAfterSpawn != null && !_spriteReplaced)
+		{
+			GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
+			_spriteReplaced = true;
 
 			_spawnObject = Instantiate(
 				PrefabsToSpawn[_prefabIndex],
@@ -166,11 +193,19 @@ public class ArchetypeSpawner : ArchetypeMove
 				Destroy(gameObject);
 				return;
 			}
-
-			// Destroy once well past camera bounds
-			if (MainCamera.WorldToViewportPoint(transform.position).y < -1.2f)
-				Destroy(gameObject);
+			
 		}
+
+		if (_spawnCount >= SpawnRepeatCount && SpriteAfterSpawn == null)
+		{
+			CancelInvoke();
+			Destroy(gameObject);
+			return;
+		}
+
+		// Destroy once well past camera bounds
+		if (MainCamera.WorldToViewportPoint(transform.position).y < -1.2f)
+			Destroy(gameObject);
 
 		if (!MoveAfterSpawn)
 		{

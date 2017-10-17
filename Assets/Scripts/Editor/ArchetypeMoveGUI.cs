@@ -14,7 +14,6 @@ Created by Engagement Lab @ Emerson College, 2017
 */
 
 #if UNITY_EDITOR
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
