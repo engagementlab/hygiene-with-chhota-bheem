@@ -92,6 +92,7 @@ public class ArchetypeSpawner : ArchetypeMove
 	{
 
 		if(PrefabsToSpawn == null || PrefabsToSpawn.Length < 1 || Application.isPlaying) return;
+		if(PrefabsToSpawn[0] == null) return;
 
 		if(_gizmoMaterial == null)
 			_gizmoMaterial = Resources.Load<Material>("GizmoGreyMaterial");
@@ -119,6 +120,12 @@ public class ArchetypeSpawner : ArchetypeMove
 
 	private void Spawn()
 	{
+		if(PrefabsToSpawn == null || PrefabsToSpawn.Length == 0)
+		{
+			Debug.LogWarning("No prefabs to spawn from " + gameObject.name + "!!");
+			return;
+		}
+		
 		// WILL REFACTOR -- OLD		
 		if (SpawnSelf)
 		{
@@ -151,19 +158,28 @@ public class ArchetypeSpawner : ArchetypeMove
 				Destroy(gameObject);
 				return;
 			}
+			
+			// Increment spawn count
+			_spawnCount++;
+			
 			// Replace sprite?
 			if (SpriteAfterSpawn != null && !_spriteReplaced)
 			{
-				GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
-				_spriteReplaced = true;
+				if(_spawnCount == SpawnRepeatCount || !SpawnRepeating)
+				{
+					GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
+					_spriteReplaced = true;
+				}
 
 			}
-			_spawnCount++;
 
-			if (_spawnCount >= SpawnRepeatCount && SpriteAfterSpawn == null)
+			if (_spawnCount >= SpawnRepeatCount)
 			{
 				CancelInvoke();
-				Destroy(gameObject);
+				
+				if(SpriteAfterSpawn == null)
+					Destroy(gameObject);
+		
 				return;
 			}
 
