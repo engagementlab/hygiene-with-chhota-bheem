@@ -11,6 +11,8 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	public int PowerTime;
 	public bool PowerInfinite;
+
+	public int SpellStepCount;
 	
 	public GameObject Bubble;
 	
@@ -18,7 +20,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public bool PoweredUp;
 
 	public bool WonGame;
-
+	
 	private float _currentBadScore;
 	private float _targetScore;
 	private float _intervalTime;
@@ -34,7 +36,9 @@ public class ArchetypePlayer : MonoBehaviour {
 	private bool _moveDelta;
 	private bool _scatterShootOn;
 
+	[HideInInspector]
 	public int Matrix = 0;
+	
 	private int _scatterShoot = 0;
 	private int _speedShoot = 0;
 	private int _bigShoot = 0;
