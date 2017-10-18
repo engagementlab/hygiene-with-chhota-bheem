@@ -245,9 +245,11 @@ public class ArchetypeMove : MonoBehaviour
 	  
 	  if(gameObject.tag == "Boss") return;
 	  if(!PlayerCanKill) return;
+	  if (collider.gameObject.tag != "Bubble") return;
 	  
 	  _bubblesHit++;
-		Destroy(collider.gameObject);
+	  
+	  Destroy(collider.gameObject);
 
 	  if(_bubblesHit == HitPoints)
 	  {
