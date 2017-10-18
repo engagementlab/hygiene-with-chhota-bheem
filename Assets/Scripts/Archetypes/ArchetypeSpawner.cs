@@ -179,6 +179,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			
 			CancelInvoke();
 			Destroy(gameObject);
+			
 		}
 		
 	}

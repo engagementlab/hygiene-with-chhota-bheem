@@ -52,8 +52,6 @@ public class VillagerObject : ArchetypeMove
 
 		placeholderIndex++;
 
-//		Events.instance.Raise (new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
-
 		Vector2 v = healthFill.rectTransform.sizeDelta;
 		v.x += .5f;
 		healthFill.rectTransform.sizeDelta = v;
