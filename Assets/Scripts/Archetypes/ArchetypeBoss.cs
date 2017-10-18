@@ -73,7 +73,13 @@ public class ArchetypeBoss : ArchetypeMove
 		
 		base.Update();
 
+		// Do nothing before in view
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < .9f)) return;
+		if(MoveEnabled) MoveEnabled = false;
+		
+		// Put at root of scene so it stays still
+		if(transform.parent != null)
+			transform.parent = null;
 
 		if(_wait)
 		{
@@ -81,6 +87,7 @@ public class ArchetypeBoss : ArchetypeMove
 			_wait = false;
 		}
 
+		// Movement pattern call
 		BossMove();
 
 		if(Projectiles == null || Projectiles.Length < 1) return;
@@ -123,21 +130,22 @@ public class ArchetypeBoss : ArchetypeMove
 							break;
 			}
 
+			// Create projectile and give it a velocity
 			var projectile = Instantiate(Projectiles[random], projectilePos, Quaternion.identity);
 			projectile.GetComponent<Rigidbody>().velocity = dir * ProjectileSpeed;
 
+			// Make projectile always kill player
 			var moveComponent = projectile.GetComponent<ArchetypeMove>();
 			if (moveComponent != null)
-			{
-				moveComponent.MoveSpeed = ProjectileSpeed;
 				moveComponent.KillsPlayer = true;
-			}
+		
 		}
 		else
 			_intervalTime += Time.deltaTime;
 		
 	}
 
+	// Disable boss' prior parent from moving after given delay
 	private IEnumerator Spawned()
 	{
 		yield return new WaitForSeconds(BackgroundDelay);
