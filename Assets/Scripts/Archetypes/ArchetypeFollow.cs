@@ -49,6 +49,8 @@ public class ArchetypeFollow : ArchetypeMove
 				_chase = false;
 				AnimateWait = false;
 				Animate();
+				base.Update();
+				
 			} 
 			else if(Player != null)
 			{

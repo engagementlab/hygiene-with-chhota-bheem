@@ -18,7 +18,6 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	public float BubbleSpeedIncrease = 2f;
 	public float BubbleSizeIncrease = 0.1f;
-	public int BubbleCountIncrease = 2;
 	
 	[HideInInspector]
 	public bool PoweredUp;

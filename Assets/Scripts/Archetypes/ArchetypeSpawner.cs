@@ -132,7 +132,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			return;
 		}
 		
-		var spawnPos = UseSpawnerParent ? transform.localPosition : transform.position;
+		var spawnPos = transform.position;
 		
 		_spawnObject = Instantiate(PrefabsToSpawn[_prefabIndex], spawnPos, PrefabsToSpawn[_prefabIndex].transform.rotation);
 		_spawnObject.SetActive(true);
@@ -169,16 +169,19 @@ public class ArchetypeSpawner : ArchetypeMove
 
 		if (_spawnCount >= SpawnRepeatCount)
 		{
-			
+			CancelInvoke();
+
 			// Replace sprite?
-			if(SpriteAfterSpawn != null)
+			if (SpriteAfterSpawn != null)
 			{
 				GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
 				_spriteReplaced = true;
 			}
+			else
+			{
+				Destroy(gameObject);
+			}
 			
-			CancelInvoke();
-			Destroy(gameObject);
 			
 		}
 		
