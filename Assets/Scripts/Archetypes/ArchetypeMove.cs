@@ -243,7 +243,7 @@ public class ArchetypeMove : MonoBehaviour
 			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));		  
 	  }
 	  
-	  if(gameObject.tag == "Boss") return;
+//	  if(gameObject.tag == "Boss") return;
 	  if(!PlayerCanKill) return;
 	  
 	  _bubblesHit++;
