@@ -253,6 +253,7 @@ public class ArchetypePlayer : MonoBehaviour {
 					else
 					{
 						_speedShoot--;
+						GameConfig.numBubblesInterval *= BubbleSpeedIncrease;
 					}
 					
 				
@@ -283,6 +284,7 @@ public class ArchetypePlayer : MonoBehaviour {
 					else
 					{
 						_bigShoot--;
+						Bubble.transform.localScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 					}
 					
 					break;
