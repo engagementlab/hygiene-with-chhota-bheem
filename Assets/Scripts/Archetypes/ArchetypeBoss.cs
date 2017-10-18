@@ -13,6 +13,7 @@ Created by Engagement Lab @ Emerson College, 2017
 */
 
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,9 +43,9 @@ public class ArchetypeBoss : ArchetypeMove
 	
 	public enum Movements
 	{
-		Avoid, 
+		AvoidPlayerPosition, 
 		Follow, 
-		Dodge
+		DodgeProjectiles
 	}
 	
 	public enum ShootModes
@@ -155,99 +156,47 @@ public class ArchetypeBoss : ArchetypeMove
 
 	private void BossMove()
 	{
-		float height = 2f * Camera.main.orthographicSize;
-		float width = height * Camera.main.aspect;
-
 		// Check player & wizard position
 		_playerPos = _player.transform.position.x;
 		_wizardPos = gameObject.transform.position;
-
-		var distance = Vector3.Distance(_wizardPos, new Vector3(0f, _wizardPos.y, _wizardPos.z));
+		var currentSmoothTime = SmoothTime;
 
 		switch(MovementType)
 		{
-			case Movements.Avoid:
+			case Movements.AvoidPlayerPosition:
+
+				// Gradually go to inverse of player x
+				_wizardPos = new Vector3(-_playerPos, _wizardPos.y, _wizardPos.z);
+				currentSmoothTime *= 4;				
 				
-				// move wizard away from bounds & player
-				if(_wizardPos.x <= _playerPos && _wizardPos.x >= _playerPos - 1.5f)
-				{
-					// Move Wizard
-					if(distance >= width / 2.5f)
-						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
-					else
-						_wizardPos = new Vector3(_wizardPos.x - 2.0f, _wizardPos.y, _wizardPos.z);
-
-				}
-				else if(_wizardPos.x >= _playerPos && _wizardPos.x <= _playerPos + 1.5f)
-				{
-					// Move Wizard
-					if(distance >= width / 2.5f)
-						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
-					else
-						_wizardPos = new Vector3(_wizardPos.x + 2.0f, _wizardPos.y, _wizardPos.z);
-				}
-
 				break;
 
 			case Movements.Follow:
 
-				// move wizard away from bounds & towards player
-				if(_wizardPos.x <= _playerPos && _wizardPos.x <= _playerPos - 1.5f)
-				{
-					// Move Wizard
-					if(distance >= width / 2.5f)
-					{
-						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
-					} else
-					{
-						_wizardPos = new Vector3(_wizardPos.x + 2.0f, _wizardPos.y, _wizardPos.z);
-					}
-
-				} else if(_wizardPos.x >= _playerPos && _wizardPos.x >= _playerPos + 1.5f)
-				{
-					// Move Wizard
-					if(distance >= width / 2.5f)
-					{
-						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
-					} else
-					{
-						_wizardPos = new Vector3(_wizardPos.x - 2.0f, _wizardPos.y, _wizardPos.z);
-					}
-				}
+				// Follow player on x
+				_wizardPos = new Vector3(_playerPos, _wizardPos.y, _wizardPos.z);
+				currentSmoothTime *= 2;
 
 				break;
 
-			case Movements.Dodge:
+			case Movements.DodgeProjectiles:
 
-				// move wizard away from bounds & towards player
-
-				if(_wizardPos.x <= _playerPos && _wizardPos.x <= _playerPos - 1.5f)
-				{
-					// Move Wizard
-					if(distance >= width / 2.5f)
-					{
-						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
-					} else
-					{
-						_wizardPos = new Vector3(_wizardPos.x + 2.0f, _wizardPos.y, _wizardPos.z);
-					}
-
-				} else if(_wizardPos.x >= _playerPos && _wizardPos.x >= _playerPos + 1.5f)
-				{
-					// Move Wizard
-					if(distance >= width / 2.5f)
-					{
-						_wizardPos = new Vector3(0, _wizardPos.y, _wizardPos.z);
-					} else
-					{
-						_wizardPos = new Vector3(_wizardPos.x - 2.0f, _wizardPos.y, _wizardPos.z);
-					}
-				}
+				// Move away from current nearest player projectile
+				// Find closest bubbles
+				Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2).ToList().Select(c => c.GetComponent<Collider>())
+																																											 .Where(c => c.tag == "Bubble").OrderBy(c => c.transform.position.y).ToArray();
+				if(hitColliders.Length == 0) return;
+				var xPos = hitColliders[0].transform.position.x;
+				var target = xPos - 3;
+				if(xPos < 0)
+					target = xPos + 3;
+				
+				_wizardPos = new Vector3(target, _wizardPos.y, _wizardPos.z);
 
 				break;
 		}
 
-		gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position, _wizardPos, ref _velocity, SmoothTime);
+		gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position, _wizardPos, ref _velocity, currentSmoothTime);
 	}
 
 
