@@ -169,16 +169,19 @@ public class ArchetypeSpawner : ArchetypeMove
 
 		if (_spawnCount >= SpawnRepeatCount)
 		{
-			
+			CancelInvoke();
+
 			// Replace sprite?
-			if(SpriteAfterSpawn != null)
+			if (SpriteAfterSpawn != null)
 			{
 				GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
 				_spriteReplaced = true;
 			}
+			else
+			{
+				Destroy(gameObject);
+			}
 			
-			CancelInvoke();
-			Destroy(gameObject);
 			
 		}
 		
