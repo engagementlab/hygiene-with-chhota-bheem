@@ -614,7 +614,7 @@ public class ArchetypeMove : MonoBehaviour
 		var spellScript = spellObject.GetComponent<ArchetypeSpellJuice>();
 		
 		spellScript.Type = _powerUpGiven;
-		spellScript.Animate(transform.position);
+		spellScript.StartMovement(transform.position);
 		
 	}
 
