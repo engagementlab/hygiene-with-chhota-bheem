@@ -611,6 +611,7 @@ public class ArchetypeMove : MonoBehaviour
 		
 		// Instantiate Spell Object as the random spell type
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
+		spellObject.transform.parent = GameObject.FindWithTag("Parent").transform;
 		var spellScript = spellObject.GetComponent<ArchetypeSpellJuice>();
 		
 		spellScript.Type = _powerUpGiven;

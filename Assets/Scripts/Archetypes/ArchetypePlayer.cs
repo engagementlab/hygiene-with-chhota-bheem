@@ -49,6 +49,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	private int _bigShoot = 0;
 
 	private Vector3 _velocity;
+	
+	private List<float> dirs;
 
 	/**************
 		UNITY METHODS
@@ -99,21 +101,54 @@ public class ArchetypePlayer : MonoBehaviour {
 			} 
 			else
 			{
-				// Spawn 3 bubbles in different directions for scatter shot
-				var dirs = new[] {-.5f, 0, .5f};
-				for(int bubIndex = 0; bubIndex < 3; bubIndex++)
+				dirs = new List<float>();
+				// Spawn n bubbles in different directions for scatter shot
+				ScatterDirs(_scatterShoot);
+				int bubbleCount = (_scatterShoot * 2) + 1;
+				for(int bubIndex = 0; bubIndex < bubbleCount; bubIndex++)
 				{
 					var projectile = Instantiate(Bubble, transform.position, Quaternion.identity);
 					projectile.GetComponent<Rigidbody>().velocity = new Vector2(dirs[bubIndex], 1) * BubbleSpeed;
 				}	
-				
-				
+
 			}
 
 		}
 		else
 			_intervalTime += Time.deltaTime;
 	  
+	}
+
+	private void ScatterDirs(float n)
+	{
+		float p = (2 * n) + 1; // number of breaks (bubbles)
+		float c = 1 / (n + 1); // find the decimal breaks
+		
+		for (int i = 1; i <= p; i++)
+		{
+			float a = i * c;
+			if (i == n + 1)
+			{
+				a = 0; // The middle is always zero
+			} 
+			else if (a == 1)
+			{
+				a = -c * n; 
+			}
+			else if (a > 1)
+			{
+				a = a - 1;
+			}
+			
+			if (i > n + 1)
+			{
+				a = -a;
+			} 
+			dirs.Add(a);
+			
+		}
+		
+		
 	}
 
 	private void OnDestroy() {
