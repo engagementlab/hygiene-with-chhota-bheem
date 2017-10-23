@@ -25,8 +25,6 @@ public class ArchetypeMoveGUI : Editor
 	public override void OnInspectorGUI()
 	{
 		
-//		if(Application.isPlaying) return;
-  
 		var _archetype = (ArchetypeMove)target;
 
 		if(_archetype.transform.parent != null)
@@ -39,15 +37,27 @@ public class ArchetypeMoveGUI : Editor
 			EditorGUILayout.HelpBox(helpTxt, MessageType.Info);
 		}
 		
-
 		// Draw the default inspector
 		DrawDefaultInspector();
+		
+		_archetype.KillsPlayer = EditorGUILayout.Toggle("Kills Player", _archetype.KillsPlayer);
+		
+		_archetype.SpellRandom = EditorGUILayout.Toggle("Give Random Spell", _archetype.SpellRandom);
+		if(!_archetype.SpellRandom)
+			_archetype.SpellGiven = (Spells)EditorGUILayout.EnumPopup("Spell Given", _archetype.SpellGiven);
+		
 		if(_archetype.transform.parent != null)
 			_archetype.UseParentSpeed = EditorGUILayout.Toggle("Use Parent's Speed", _archetype.UseParentSpeed);
-    		
-		if(!_archetype.MoveEnabled)
-			_archetype.MoveOnceInCamera = EditorGUILayout.Toggle("Move Once In View", _archetype.MoveOnceInCamera);
+
+//		_archetype.LeaveParentInCamera = EditorGUILayout.Toggle("Leave Parent Once In View", _archetype.LeaveParentInCamera);
 		
+		if(!_archetype.MoveEnabled)
+		{
+			_archetype.MoveOnceInCamera = EditorGUILayout.Toggle("Move Once In View", _archetype.MoveOnceInCamera);
+			if(_archetype.MoveOnceInCamera)
+				_archetype.MoveDelay = EditorGUILayout.Slider("Move Delay", _archetype.MoveDelay, 0, 10);
+		}
+
 		if(!_archetype.UseParentSpeed || _archetype.transform.parent == null)
 			_archetype.MoveSpeed = EditorGUILayout.Slider("Movement Speed", _archetype.MoveSpeed, 0, 10);
 		
