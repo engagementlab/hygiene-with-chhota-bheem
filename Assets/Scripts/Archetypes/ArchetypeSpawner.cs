@@ -24,8 +24,6 @@ public class ArchetypeSpawner : ArchetypeMove
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
 	public bool MoveAfterSpawn;
-
-	public bool SpawnSelf;
 	
 	[HideInInspector]
 	public bool UseSpawnerParent = true;

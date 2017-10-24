@@ -47,7 +47,7 @@ public class ArchetypeFollow : ArchetypeMove
 			{
 				// Following done, animate normally
 				_chase = false;
-				AnimateWait = false;
+				AnimateOnlyInCamera = false;
 				Animate();
 				base.Update();
 				
