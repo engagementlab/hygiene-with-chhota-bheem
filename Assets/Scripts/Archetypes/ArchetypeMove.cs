@@ -27,6 +27,7 @@ using UnityEditor;
 public class ArchetypeMove : MonoBehaviour
 {
 
+	[HideInInspector]
 	public bool MoveEnabled = true;
 	public bool AnimateOnlyInCamera = true;
 	

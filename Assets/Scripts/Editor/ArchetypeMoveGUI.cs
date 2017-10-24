@@ -37,9 +37,7 @@ public class ArchetypeMoveGUI : Editor
 			EditorGUILayout.HelpBox(helpTxt, MessageType.Info);
 		}
 		
-		// Draw the default inspector
-		DrawDefaultInspector();
-		
+		_archetype.MoveEnabled = EditorGUILayout.Toggle("Move Enabled", _archetype.MoveEnabled);
 		_archetype.KillsPlayer = EditorGUILayout.Toggle("Kills Player", _archetype.KillsPlayer);
 		
 		_archetype.SpellRandom = EditorGUILayout.Toggle("Give Random Spell", _archetype.SpellRandom);
@@ -65,6 +63,9 @@ public class ArchetypeMoveGUI : Editor
 		_archetype.PlayerCanKill = EditorGUILayout.Toggle("Player Can Kill", _archetype.PlayerCanKill);		
 		if(_archetype.PlayerCanKill)
 			_archetype.HitPoints = EditorGUILayout.IntSlider("Hit Points", _archetype.HitPoints, 1, 10);
+		
+		// Draw the default inspector
+		DrawDefaultInspector();
 		
 		// Animation
 		if(_archetype.HasWaypoints()) {
