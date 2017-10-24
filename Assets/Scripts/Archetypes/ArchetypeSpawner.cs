@@ -130,7 +130,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			return;
 		}
 		
-		var spawnPos = transform.position;
+		var spawnPos = UseSpawnerParent ? transform.localPosition : transform.position;
 		
 		_spawnObject = Instantiate(PrefabsToSpawn[_prefabIndex], spawnPos, PrefabsToSpawn[_prefabIndex].transform.rotation);
 		_spawnObject.SetActive(true);
