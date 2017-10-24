@@ -49,7 +49,7 @@ public class ArchetypeMoveGUI : Editor
 		if(_archetype.transform.parent != null)
 			_archetype.UseParentSpeed = EditorGUILayout.Toggle("Use Parent's Speed", _archetype.UseParentSpeed);
 
-//		_archetype.LeaveParentInCamera = EditorGUILayout.Toggle("Leave Parent Once In View", _archetype.LeaveParentInCamera);
+		_archetype.LeaveParentInCamera = EditorGUILayout.Toggle("Leave Parent Once In View", _archetype.LeaveParentInCamera);
 		
 		if(!_archetype.MoveEnabled)
 		{

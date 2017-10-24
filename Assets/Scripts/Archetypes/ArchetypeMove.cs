@@ -163,9 +163,6 @@ public class ArchetypeMove : MonoBehaviour
 		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
 		if(yPos < 1.04f)
 		{
-//			Debug.Log(MainCamera.WorldToViewportPoint(GetComponent<Renderer>().bounds.max).y);
-			if(LeaveParentInCamera)
-				transform.SetParent(null, true);
 			
 			if(AnimateOnlyInCamera)
 			{
@@ -177,15 +174,29 @@ public class ArchetypeMove : MonoBehaviour
 			if(!MoveEnabled && MoveOnceInCamera)
 			{
 				if(MoveDelay == 0)
-					MoveEnabled = true;
+				{
+					// Unparent object
+					if(LeaveParentInCamera)
+						_movingTransform.SetParent(null, true);
+					else
+						MoveEnabled = true;
+						
+				} 
 				else
 				{
 					// Delayed movement
 					_moveWaitingTime += Time.deltaTime;
 					if(_moveWaitingTime >= MoveDelay)
 					{
-						MoveEnabled = true;
-						_moveWaitingTime = 0;
+						// Unparent object
+						if(LeaveParentInCamera)
+							_movingTransform.SetParent(null, true);
+						else
+						{
+							MoveEnabled = true;
+							_moveWaitingTime = 0;
+						}
+
 					}
 				}
 			}
