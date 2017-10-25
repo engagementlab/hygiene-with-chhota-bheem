@@ -284,7 +284,7 @@ public class ArchetypeMove : MonoBehaviour
 	  if(!PlayerCanKill) return;
 	  if (collider.gameObject.tag != "Bubble") return;
 	  
-	  _bubblesHit++;
+	  _bubblesHit =+ GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().BubbleStrength;
 	  
 	  Destroy(collider.gameObject);
 
