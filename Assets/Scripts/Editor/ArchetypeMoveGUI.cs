@@ -52,7 +52,7 @@ public class ArchetypeMoveGUI : Editor
 		if(!_archetype.MoveEnabled)
 		{
 			_archetype.MoveOnceInCamera = EditorGUILayout.Toggle("Move Once In View", _archetype.MoveOnceInCamera);
-			if(_archetype.MoveOnceInCamera)
+			if(_archetype.MoveOnceInCamera || _archetype.LeaveParentInCamera)
 				_archetype.MoveDelay = EditorGUILayout.Slider("Move Delay", _archetype.MoveDelay, 0, 10);
 		}
 

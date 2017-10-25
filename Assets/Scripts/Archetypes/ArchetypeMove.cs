@@ -187,9 +187,8 @@ public class ArchetypeMove : MonoBehaviour
 						_movingTransform.SetParent(null, true);
 					else
 						MoveEnabled = true;
-						
-				} 
-				else
+
+				} else
 				{
 					// Delayed movement
 					_moveWaitingTime += Time.deltaTime;
@@ -206,6 +205,12 @@ public class ArchetypeMove : MonoBehaviour
 
 					}
 				}
+			} 
+			else
+			{	
+				// Unparent object
+				if(LeaveParentInCamera)
+					_movingTransform.SetParent(null, true);
 			}
 		}
 
