@@ -37,9 +37,7 @@ public class ArchetypeMoveGUI : Editor
 			EditorGUILayout.HelpBox(helpTxt, MessageType.Info);
 		}
 		
-		// Draw the default inspector
-		DrawDefaultInspector();
-		
+		_archetype.MoveEnabled = EditorGUILayout.Toggle("Move Enabled", _archetype.MoveEnabled);
 		_archetype.KillsPlayer = EditorGUILayout.Toggle("Kills Player", _archetype.KillsPlayer);
 		
 		_archetype.SpellRandom = EditorGUILayout.Toggle("Give Random Spell", _archetype.SpellRandom);
@@ -49,7 +47,7 @@ public class ArchetypeMoveGUI : Editor
 		if(_archetype.transform.parent != null)
 			_archetype.UseParentSpeed = EditorGUILayout.Toggle("Use Parent's Speed", _archetype.UseParentSpeed);
 
-//		_archetype.LeaveParentInCamera = EditorGUILayout.Toggle("Leave Parent Once In View", _archetype.LeaveParentInCamera);
+		_archetype.LeaveParentInCamera = EditorGUILayout.Toggle("Leave Parent Once In View", _archetype.LeaveParentInCamera);
 		
 		if(!_archetype.MoveEnabled)
 		{
@@ -66,6 +64,9 @@ public class ArchetypeMoveGUI : Editor
 		if(_archetype.PlayerCanKill)
 			_archetype.HitPoints = EditorGUILayout.IntSlider("Hit Points", _archetype.HitPoints, 1, 10);
 		
+		// Draw the default inspector
+		DrawDefaultInspector();
+		
 		// Animation
 		if(_archetype.HasWaypoints()) {
 			
@@ -76,8 +77,8 @@ public class ArchetypeMoveGUI : Editor
 			_archetype.AnimationType = (ArchetypeMove.AnimType) EditorGUILayout.EnumPopup("Animation Type", _archetype.AnimationType);
 
 			// Animation speed controls
-			_archetype.AnimationUpwardSpeed = EditorGUILayout.Slider("Forward Speed", _archetype.AnimationUpwardSpeed, .01f, 2);
-			_archetype.AnimationDownwardSpeed = EditorGUILayout.Slider("Backward Speed", _archetype.AnimationDownwardSpeed, .01f, 2);
+			_archetype.AnimationUpwardSpeed = EditorGUILayout.Slider("Up Speed", _archetype.AnimationUpwardSpeed, .01f, 2);
+			_archetype.AnimationDownwardSpeed = EditorGUILayout.Slider("Down Speed", _archetype.AnimationDownwardSpeed, .01f, 2);
 
 			_archetype.RotateOnWaypoints = EditorGUILayout.ToggleLeft("Rotate Along Waypoints", _archetype.RotateOnWaypoints);
 			

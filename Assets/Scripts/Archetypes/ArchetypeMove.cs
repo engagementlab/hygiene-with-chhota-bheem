@@ -27,6 +27,7 @@ using UnityEditor;
 public class ArchetypeMove : MonoBehaviour
 {
 
+	[HideInInspector]
 	public bool MoveEnabled = true;
 	public bool AnimateOnlyInCamera = true;
 	
@@ -106,7 +107,7 @@ public class ArchetypeMove : MonoBehaviour
 	private float _reversingAngle;
 	private float _targetAnimSpeed;
 	private float _moveWaitingTime;
-	private int _nextPoint;
+	private int _nextPoint = 1;
 	private int _bubblesHit;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
@@ -142,14 +143,19 @@ public class ArchetypeMove : MonoBehaviour
 		if(transform.parent != null)
 			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
 		
-		if(GetType().Name != "ArchetypeSpawner")
-			SetupWaypoints();
-		
 		// Is background object?
 		if(gameObject.layer == 8)
 			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
 	}
-	
+
+	private void Start()
+	{
+		
+		if(GetType().Name != "ArchetypeSpawner")
+			SetupWaypoints();
+		
+	}
+
 	public void Update () {
 		
 		#if UNITY_ANDROID && !UNITY_EDITOR
@@ -163,13 +169,11 @@ public class ArchetypeMove : MonoBehaviour
 		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
 		if(yPos < 1.04f)
 		{
-//			Debug.Log(MainCamera.WorldToViewportPoint(GetComponent<Renderer>().bounds.max).y);
-			if(LeaveParentInCamera)
-				transform.SetParent(null, true);
 			
 			if(AnimateOnlyInCamera)
 			{
 				AnimateOnlyInCamera = false;
+//				SetupWaypoints();
 				Animate();
 			}
 			
@@ -177,15 +181,29 @@ public class ArchetypeMove : MonoBehaviour
 			if(!MoveEnabled && MoveOnceInCamera)
 			{
 				if(MoveDelay == 0)
-					MoveEnabled = true;
+				{
+					// Unparent object
+					if(LeaveParentInCamera)
+						_movingTransform.SetParent(null, true);
+					else
+						MoveEnabled = true;
+						
+				} 
 				else
 				{
 					// Delayed movement
 					_moveWaitingTime += Time.deltaTime;
 					if(_moveWaitingTime >= MoveDelay)
 					{
-						MoveEnabled = true;
-						_moveWaitingTime = 0;
+						// Unparent object
+						if(LeaveParentInCamera)
+							_movingTransform.SetParent(null, true);
+						else
+						{
+							MoveEnabled = true;
+							_moveWaitingTime = 0;
+						}
+
 					}
 				}
 			}
@@ -430,10 +448,11 @@ public class ArchetypeMove : MonoBehaviour
 		foreach(var tr in waypointTransforms)
 		{
 			if(tr.tag != "Waypoint" || !tr.gameObject.activeInHierarchy) continue;
-			_waypoints.Add(tr);
 
 			// Assign waypoint to parent
 			tr.parent = _waypointsParent;
+			
+			_waypoints.Add(tr);
 		}
 
 		if(_waypoints.Count <= 0)
@@ -497,6 +516,7 @@ public class ArchetypeMove : MonoBehaviour
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+		
 	}
 
 	void Complete()

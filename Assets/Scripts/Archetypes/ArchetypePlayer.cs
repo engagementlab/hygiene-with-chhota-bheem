@@ -108,7 +108,7 @@ public class ArchetypePlayer : MonoBehaviour {
 				for(int bubIndex = 0; bubIndex < bubbleCount; bubIndex++)
 				{
 					var projectile = Instantiate(Bubble, transform.position, Quaternion.identity);
-					projectile.GetComponent<Rigidbody>().velocity = new Vector2(dirs[bubIndex], 1) * BubbleSpeed;
+					projectile.GetComponent<Rigidbody>().velocity = new Vector2(dirs[bubIndex], 1).normalized * BubbleSpeed;
 				}	
 
 			}
