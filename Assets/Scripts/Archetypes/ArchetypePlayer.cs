@@ -18,6 +18,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	public float BubbleSpeedIncrease = 2f;
 	public float BubbleSizeIncrease = 0.1f;
+	public int BubbleStrengthIncrease = 1;
 	
 	[HideInInspector]
 	public bool PoweredUp;
@@ -43,6 +44,8 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	[HideInInspector]
 	public int Matrix = 0;
+
+	public int BubbleStrength = 1;
 	
 	private int _scatterShoot = 0;
 	private int _speedShoot = 0;
@@ -107,7 +110,8 @@ public class ArchetypePlayer : MonoBehaviour {
 				int bubbleCount = (_scatterShoot * 2) + 1;
 				for(int bubIndex = 0; bubIndex < bubbleCount; bubIndex++)
 				{
-					var projectile = Instantiate(Bubble, transform.position, Quaternion.identity);
+					
+					var projectile = Instantiate(Bubble, projectilePos, Quaternion.identity);
 					projectile.GetComponent<Rigidbody>().velocity = new Vector2(dirs[bubIndex], 1).normalized * BubbleSpeed;
 				}	
 
@@ -250,6 +254,7 @@ public class ArchetypePlayer : MonoBehaviour {
 						{
 							GUIManager.Instance.DisplayCurrentSpell("Bigger Shoot");
 							Bubble.transform.localScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+							BubbleStrength += BubbleStrengthIncrease;
 							PoweredUp = true;
 						}
 						else
@@ -313,11 +318,13 @@ public class ArchetypePlayer : MonoBehaviour {
 					{
 						GUIManager.Instance.HideSpell();
 						Bubble.transform.localScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+						BubbleStrength -= BubbleStrengthIncrease;
 						PoweredUp = false;
 					}
 					else
 					{
 						_bigShoot--;
+						BubbleStrength -= BubbleStrengthIncrease;
 						Bubble.transform.localScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 					}
 					
@@ -335,31 +342,33 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		GameConfig.gamePaused = true;
 		GameConfig.gameSpeedModifier = 0;
+		
+		// TO DO - When assets are ready
 				
-		GUIManager.Instance._spellStepsUi.SetActive(true);
+//		GUIManager.Instance._spellStepsUi.SetActive(true);
 
-		foreach (GameObject group in GUIManager.Instance._spellSteps)
-		{
-			if (group.name == spell.ToString())
-			{
-				group.SetActive(true);
-				GUIManager.Instance._spellStepsComponent = group.GetComponentsInChildren<Animator>();
-					
-				for (var i = 0; i <= GUIManager.Instance._spellStepsComponent.Length-1; i++)
-				{
-					GUIManager.Instance._spellStepsComponent[i].Play("SpellStep");
-					animations++;
-			
-					if (animations >= GUIManager.Instance._spellStepsComponent.Length)
-					{
+//		foreach (GameObject group in GUIManager.Instance._spellSteps)
+//		{
+//			if (group.name == spell.ToString())
+//			{
+//				group.SetActive(true);
+//				GUIManager.Instance._spellStepsComponent = group.GetComponentsInChildren<Animator>();
+//					
+//				for (var i = 0; i <= GUIManager.Instance._spellStepsComponent.Length-1; i++)
+//				{
+//					GUIManager.Instance._spellStepsComponent[i].Play("SpellStep");
+//					animations++;
+//			
+//					if (animations >= GUIManager.Instance._spellStepsComponent.Length)
+//					{
 						yield return new WaitForSeconds(1);
-						group.SetActive(false);
-						GUIManager.Instance._spellStepsUi.SetActive(false);
+//						group.SetActive(false);
+//						GUIManager.Instance._spellStepsUi.SetActive(false);
 						GameConfig.gamePaused = false;
-					}
-				}
-			}
-		}
+//					}
+//				}
+//			}
+//		}
 
 	}
  
