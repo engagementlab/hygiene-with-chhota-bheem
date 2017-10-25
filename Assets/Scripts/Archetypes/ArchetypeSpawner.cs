@@ -19,11 +19,14 @@ using UnityEngine;
 public class ArchetypeSpawner : ArchetypeMove
 {
 
-	public GameObject[] PrefabsToSpawn;
+	public SpawnerPrefab[] SpawnedObjects;
 	public Sprite SpriteAfterSpawn;
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
-	public bool MoveAfterSpawn;
+	public bool MoveAfterSpawn = true;
+
+	[Range(0, 20)]
+	public float DelayBeforeLoop;
 	
 	[HideInInspector]
 	public bool UseSpawnerParent = true;
@@ -37,7 +40,7 @@ public class ArchetypeSpawner : ArchetypeMove
 	public float SpawnRepeatDelay;
 	
 	private float _spawnWaitTime;
-	private int _prefabIndex;
+	private int _prefabIndex = -1;
 	private int _spawnCount;
 	private bool _spriteReplaced;
 	private bool _wait = true;
@@ -69,7 +72,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			base.Update();
 		
 		if(!_wait) return;
-		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabsToSpawn == null) return;
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || SpawnedObjects == null) return;
 	
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
@@ -77,8 +80,20 @@ public class ArchetypeSpawner : ArchetypeMove
 		else
 		{
 			// Don't "wait" for spawner from here on out until destroy so we invoke only once
-			_wait = false;
-			InvokeRepeating("Spawn", SpawnDelay, SpawnRepeatDelay);
+//			_wait = false;
+//			InvokeRepeating("Spawn", SpawnDelay, SpawnRepeatDelay);
+
+			_spawnWaitTime += Time.deltaTime;
+			
+			if(_prefabIndex == -1 && _spawnWaitTime < SpawnDelay)
+				return;
+			else if(_prefabIndex == SpawnedObjects.Length-1 && _spawnWaitTime < DelayBeforeLoop)
+				return;
+			else if(_prefabIndex > 0 && _spawnWaitTime < SpawnedObjects[_prefabIndex].DelayBeforeNext)
+				return;
+			
+			_spawnWaitTime = 0;
+			Spawn();
 		}
 
 	}
@@ -89,12 +104,13 @@ public class ArchetypeSpawner : ArchetypeMove
 	private void OnDrawGizmos()
 	{
 
-		if(PrefabsToSpawn == null || PrefabsToSpawn.Length < 1 || Application.isPlaying) return;
+		if(SpawnedObjects == null || SpawnedObjects.Length < 1 || SpawnedObjects[0] == null ||
+		   SpawnedObjects[0].Prefab == null || Application.isPlaying) return;
 
 		if(_gizmoMaterial == null)
 			_gizmoMaterial = Resources.Load<Material>("GizmoGreyMaterial");
 
-		var sprite = PrefabsToSpawn[0].GetComponent<SpriteRenderer>();
+		var sprite = SpawnedObjects[0].Prefab.GetComponent<SpriteRenderer>();
 		
 		if(sprite == null) return;
 
@@ -124,22 +140,22 @@ public class ArchetypeSpawner : ArchetypeMove
 	private void Spawn()
 	{
 
-		if(PrefabsToSpawn == null || PrefabsToSpawn.Length == 0)
+		if(SpawnedObjects == null || SpawnedObjects.Length == 0)
 		{
 			Debug.LogWarning("No prefabs to spawn from " + gameObject.name + "!!");
 			return;
 		}
-		
-		var spawnPos = UseSpawnerParent ? transform.localPosition : transform.position;
-		
-		_spawnObject = Instantiate(PrefabsToSpawn[_prefabIndex], spawnPos, PrefabsToSpawn[_prefabIndex].transform.rotation);
-		_spawnObject.SetActive(true);
 
 		// Increment or reset index
-		if (_prefabIndex < PrefabsToSpawn.Length - 1)
+		if(_prefabIndex < SpawnedObjects.Length - 1)
 			_prefabIndex++;
 		else
 			_prefabIndex = 0;
+		
+		var spawnPos = SpawnedObjects[_prefabIndex].UseSpawnerParent ? transform.localPosition : transform.position;
+		
+		_spawnObject = Instantiate(SpawnedObjects[_prefabIndex].Prefab, spawnPos, SpawnedObjects[_prefabIndex].Prefab.transform.rotation);
+		_spawnObject.SetActive(true);
 
 		_spawnCount++;
 
@@ -161,24 +177,20 @@ public class ArchetypeSpawner : ArchetypeMove
 		else
 		{
 			// Give spawn parent of spawner if enabled
-			if (UseSpawnerParent)
+			if (SpawnedObjects[_prefabIndex].UseSpawnerParent)
 				_spawnObject.transform.SetParent(transform.parent, false);
 		}
 
 		if (_spawnCount >= SpawnRepeatCount)
 		{
-			CancelInvoke();
-
 			// Replace sprite?
 			if (SpriteAfterSpawn != null)
 			{
 				GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
 				_spriteReplaced = true;
 			}
-			else
-			{
+		 	else
 				Destroy(gameObject);
-			}
 			
 			
 		}

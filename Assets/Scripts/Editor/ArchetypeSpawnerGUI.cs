@@ -35,10 +35,10 @@ public class ArchetypeSpawnerGUI : Editor
 		if(_archetype.SpawnRepeating)
 			_archetype.SpawnRepeatCount = EditorGUILayout.IntSlider("Repeat Count", _archetype.SpawnRepeatCount, 0, 50);
 		
-		_archetype.SpawnDelay = EditorGUILayout.Slider("Spawn Delay", _archetype.SpawnDelay, 0, 20);
+		_archetype.SpawnDelay = EditorGUILayout.Slider("Spawn Start Delay", _archetype.SpawnDelay, 0, 20);
 		_archetype.SpawnRepeatDelay = EditorGUILayout.Slider("Spawn Repeat Interval", _archetype.SpawnRepeatDelay, 0, 20);
 		
-		if(_archetype.PrefabsToSpawn == null)
+		if(_archetype.SpawnedObjects == null)
 			EditorGUILayout.HelpBox("Don't forget to assign a prefab!", MessageType.Error);
 
 		// Save the changes back to the object
