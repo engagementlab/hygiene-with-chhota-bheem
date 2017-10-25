@@ -76,7 +76,10 @@ public class ArchetypeSpawner : ArchetypeMove
 	
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
+		{
+			_wait = false;
 			StartCoroutine(DelayedSpawn());
+		} 
 		else
 		{
 			// Don't "wait" for spawner from here on out until destroy so we invoke only once
@@ -84,14 +87,14 @@ public class ArchetypeSpawner : ArchetypeMove
 //			InvokeRepeating("Spawn", SpawnDelay, SpawnRepeatDelay);
 
 			_spawnWaitTime += Time.deltaTime;
-			
+
 			if(_prefabIndex == -1 && _spawnWaitTime < SpawnDelay)
 				return;
-			else if(_prefabIndex == SpawnedObjects.Length-1 && _spawnWaitTime < DelayBeforeLoop)
+			else if(_prefabIndex == SpawnedObjects.Length - 1 && _spawnWaitTime < DelayBeforeLoop)
 				return;
 			else if(_prefabIndex > 0 && _spawnWaitTime < SpawnedObjects[_prefabIndex].DelayBeforeNext)
 				return;
-			
+
 			_spawnWaitTime = 0;
 			Spawn();
 		}
@@ -181,7 +184,7 @@ public class ArchetypeSpawner : ArchetypeMove
 				_spawnObject.transform.SetParent(transform.parent, false);
 		}
 
-		if (_spawnCount >= SpawnRepeatCount)
+		if (_spawnCount >= SpawnRepeatCount || !SpawnRepeating)
 		{
 			// Replace sprite?
 			if (SpriteAfterSpawn != null)
