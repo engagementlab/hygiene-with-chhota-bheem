@@ -173,6 +173,7 @@ public class ArchetypeMove : MonoBehaviour
 			if(AnimateOnlyInCamera)
 			{
 				AnimateOnlyInCamera = false;
+//				SetupWaypoints();
 				Animate();
 			}
 			
@@ -447,10 +448,11 @@ public class ArchetypeMove : MonoBehaviour
 		foreach(var tr in waypointTransforms)
 		{
 			if(tr.tag != "Waypoint" || !tr.gameObject.activeInHierarchy) continue;
-			_waypoints.Add(tr);
 
 			// Assign waypoint to parent
 			tr.parent = _waypointsParent;
+			
+			_waypoints.Add(tr);
 		}
 
 		if(_waypoints.Count <= 0)
@@ -514,6 +516,7 @@ public class ArchetypeMove : MonoBehaviour
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+		
 	}
 
 	void Complete()
