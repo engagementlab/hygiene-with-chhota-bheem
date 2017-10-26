@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class GameLevel : MonoBehaviour
 {
-
-	public bool sandBoxMode;
 	
 	[Range(0, 30)]
 	public float gameSpeed = 1;
@@ -26,50 +24,48 @@ public class GameLevel : MonoBehaviour
 	// Use this for initialization
 	private void Awake ()
 	{
-		GameConfig.sandboxMode = sandBoxMode;
-		
-		if(GameConfig.gameSpeedModifier == 0)
-			GameConfig.gameSpeedModifier = gameSpeed;
+		if(GameConfig.GameSpeedModifier == 0)
+			GameConfig.GameSpeedModifier = gameSpeed;
 	}
 
 	private void Start()
 	{
 		if(speedGainText == null) return;
 		
-		speedGainText.text = GameConfig.numBubblesSpeedGained + "";
-		speedGainSlider.value = GameConfig.numBubblesSpeedGained;
+		speedGainText.text = GameConfig.NumBubblesSpeedGained + "";
+		speedGainSlider.value = GameConfig.NumBubblesSpeedGained;
 
-		intervalText.text = GameConfig.numBubblesInterval + "";
-		intervalSlider.value = GameConfig.numBubblesInterval;
+		intervalText.text = GameConfig.NumBubblesInterval + "";
+		intervalSlider.value = GameConfig.NumBubblesInterval;
 
-		gameSpeedText.text = GameConfig.gameSpeedModifier + "";
-		gameSpeedSlider.value = GameConfig.gameSpeedModifier;
+		gameSpeedText.text = GameConfig.GameSpeedModifier + "";
+		gameSpeedSlider.value = GameConfig.GameSpeedModifier;
 
-		bubbleOffsetText.text = GameConfig.bubbleOffset + "";
-		bubbleOffsetSlider.value = GameConfig.bubbleOffset;
+		bubbleOffsetText.text = GameConfig.BubbleOffset + "";
+		bubbleOffsetSlider.value = GameConfig.BubbleOffset;
 	}
 
 	public void AdjustOffset()
 	{
-		GameConfig.bubbleOffset = bubbleOffsetSlider.value;
+		GameConfig.BubbleOffset = bubbleOffsetSlider.value;
 		bubbleOffsetText.text = bubbleOffsetSlider.value + "";
 	}
 
 	public void AdjustSpeedGain()
 	{
-		GameConfig.numBubblesSpeedGained = speedGainSlider.value;
+		GameConfig.NumBubblesSpeedGained = speedGainSlider.value;
 		speedGainText.text = speedGainSlider.value + "";
 	}
 
 	public void AdjustInterval()
 	{
-		GameConfig.numBubblesInterval = intervalSlider.value;
+		GameConfig.NumBubblesInterval = intervalSlider.value;
 		intervalText.text = intervalSlider.value + "";
 	}
 
 	public void AdjustSpeed()
 	{
-		GameConfig.gameSpeedModifier = gameSpeedSlider.value;
+		GameConfig.GameSpeedModifier = gameSpeedSlider.value;
 		gameSpeedText.text = gameSpeedSlider.value + "";
 	}
 	

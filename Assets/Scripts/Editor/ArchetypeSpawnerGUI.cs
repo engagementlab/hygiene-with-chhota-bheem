@@ -36,40 +36,12 @@ public class ArchetypeSpawnerGUI : Editor
 			_archetype.SpawnRepeatCount = EditorGUILayout.IntSlider("Repeat Count", _archetype.SpawnRepeatCount, 0, 50);
 		
 		_archetype.SpawnDelay = EditorGUILayout.Slider("Spawn Start Delay", _archetype.SpawnDelay, 0, 20);
-		_archetype.SpawnRepeatDelay = EditorGUILayout.Slider("Spawn Repeat Interval", _archetype.SpawnRepeatDelay, 0, 20);
 		
 		if(_archetype.SpawnedObjects == null)
 			EditorGUILayout.HelpBox("Don't forget to assign a prefab!", MessageType.Error);
 
 		// Save the changes back to the object
 		EditorUtility.SetDirty(target);
-
-	}
-	
-	public virtual void OnSceneGUI()
-	{
-		
-		if(!SceneEditor.ShowGizmos || Application.isPlaying) return;
-		
-		var waypointChildren = new List<Transform>();
-
-		foreach(Transform t in ((ArchetypeMove)target).transform)
-		{
-			if(t.tag == "Waypoint")
-				waypointChildren.Add(t);
-		}
-
-		Handles.color = Color.cyan;
-		foreach(var waypoint in waypointChildren)
-		{
-			waypoint.transform.position = Handles.FreeMoveHandle(waypoint.transform.position,
-				Quaternion.identity,
-				0.2f,
-				Vector3.zero, 
-				Handles.CylinderHandleCap);
-		
-			Undo.RecordObject(waypoint.transform, "Waypoint Position");
-		}
 
 	}
     

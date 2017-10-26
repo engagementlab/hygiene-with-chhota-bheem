@@ -16,7 +16,7 @@ Created by Engagement Lab @ Emerson College, 2017
 using System.Collections;
 using UnityEngine;
 
-public class ArchetypeSpawner : ArchetypeMove
+public class ArchetypeSpawner : MonoBehaviour
 {
 
 	public SpawnerPrefab[] SpawnedObjects;
@@ -36,8 +36,6 @@ public class ArchetypeSpawner : ArchetypeMove
 	public int SpawnRepeatCount;
 	[HideInInspector]
 	public float SpawnDelay;
-	[HideInInspector]
-	public float SpawnRepeatDelay;
 	
 	private float _spawnWaitTime;
 	private int _prefabIndex = -1;
@@ -48,10 +46,13 @@ public class ArchetypeSpawner : ArchetypeMove
 	private SpriteRenderer _tempRenderer;
 	private GameObject _spawnObject;
 	private Material _gizmoMaterial;
+	
+	private Camera MainCamera;
 
 	private void Awake()
 	{
-		base.Awake();
+		
+		MainCamera = Camera.main;
 
 		if(SpriteAfterSpawn != null && GetComponent<SpriteRenderer>() == null)
 			gameObject.AddComponent<SpriteRenderer>();
@@ -68,9 +69,6 @@ public class ArchetypeSpawner : ArchetypeMove
 	// Update is called once per frame
 	public void Update () {
 		
-		if(MoveEnabled)
-			base.Update();
-		
 		if(!_wait) return;
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || SpawnedObjects == null) return;
 	
@@ -82,19 +80,22 @@ public class ArchetypeSpawner : ArchetypeMove
 		} 
 		else
 		{
-			// Don't "wait" for spawner from here on out until destroy so we invoke only once
-//			_wait = false;
-//			InvokeRepeating("Spawn", SpawnDelay, SpawnRepeatDelay);
-
+			// Increment spawn wait
 			_spawnWaitTime += Time.deltaTime;
 
+			// Initial spawn
 			if(_prefabIndex == -1 && _spawnWaitTime < SpawnDelay)
 				return;
+			
+			// End of loop
 			else if(_prefabIndex == SpawnedObjects.Length - 1 && _spawnWaitTime < DelayBeforeLoop)
 				return;
+			
+			// Waiting for next prefab in loop
 			else if(_prefabIndex > 0 && _spawnWaitTime < SpawnedObjects[_prefabIndex].DelayBeforeNext)
 				return;
 
+			// Reset time and spawn
 			_spawnWaitTime = 0;
 			Spawn();
 		}
@@ -173,9 +174,6 @@ public class ArchetypeSpawner : ArchetypeMove
 
 			transform.parent = null;
 			transform.position = globalPos;
-			MoveEnabled = false;
-	
-			SetupWaypoints();
 		}
 		else
 		{

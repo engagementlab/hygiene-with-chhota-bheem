@@ -80,14 +80,14 @@ public class ArchetypePlayer : MonoBehaviour {
 		if(Input.touches.Length == 0) return;
 		#endif
 				
-		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.bubbleOffset, -.5f);
+		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.BubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
 	    if(_currentBadScore < _targetScore) {
 		  	_currentBadScore += _targetScore/20;
 	    }
 		
-		if(_intervalTime >= GameConfig.numBubblesInterval) {
+		if(_intervalTime >= GameConfig.NumBubblesInterval) {
 
 			_intervalTime = 0;
 			
@@ -210,12 +210,12 @@ public class ArchetypePlayer : MonoBehaviour {
 						if (_speedShoot <= 0)
 						{
 							GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
-							GameConfig.numBubblesInterval /= BubbleSpeedIncrease;
+							GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
 							PoweredUp = true;
 						}
 						else
 						{
-							GameConfig.numBubblesInterval /= BubbleSpeedIncrease;
+							GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
 						}
 
 						_speedShoot++;
@@ -286,13 +286,13 @@ public class ArchetypePlayer : MonoBehaviour {
 					if (_speedShoot <= 0)
 					{
 						GUIManager.Instance.HideSpell();
-						GameConfig.numBubblesInterval *= BubbleSpeedIncrease;
+						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
 						PoweredUp = false;
 					}
 					else
 					{
 						_speedShoot--;
-						GameConfig.numBubblesInterval *= BubbleSpeedIncrease;
+						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
 					}
 					
 				
@@ -340,8 +340,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	{
 		var animations = 0;
 
-		GameConfig.gamePaused = true;
-		GameConfig.gameSpeedModifier = 0;
+		GameConfig.GamePaused = true;
+		GameConfig.GameSpeedModifier = 0;
 		
 		// TO DO - When assets are ready
 				
@@ -364,7 +364,7 @@ public class ArchetypePlayer : MonoBehaviour {
 						yield return new WaitForSeconds(1);
 //						group.SetActive(false);
 //						GUIManager.Instance._spellStepsUi.SetActive(false);
-						GameConfig.gamePaused = false;
+						GameConfig.GamePaused = false;
 //					}
 //				}
 //			}
@@ -406,11 +406,11 @@ public class ArchetypePlayer : MonoBehaviour {
 	private IEnumerator SpellBubbleSpeed(int time)
 	{
 		GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
-		GameConfig.numBubblesInterval /= BubbleSpeedIncrease;
+		GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
 				
 		yield return new WaitForSeconds(time);
 		
-		GameConfig.numBubblesInterval *= BubbleSpeedIncrease;
+		GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
 		GUIManager.Instance.HideSpell();
 	}
 

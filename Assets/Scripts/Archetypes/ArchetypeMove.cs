@@ -278,7 +278,11 @@ public class ArchetypeMove : MonoBehaviour
 	  {
 		  // Check if player hit an object that ends game 
 		  var die = KillsPlayer;
-
+		  
+		  #if UNITY_EDITOR
+		  if(EditorPrefs.GetBool("GodMode")) die = false;
+		  #endif
+		  
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new DeathEvent(false));
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
@@ -305,7 +309,7 @@ public class ArchetypeMove : MonoBehaviour
 					  case "Fly":
 
 						  Events.instance.Raise(new ScoreEvent(1, ScoreEvent.Type.Fly));
-						  GameConfig.fliesCaught++;
+						  GameConfig.FliesCaught++;
 
 						  break;
 					  case "Poop":
@@ -520,7 +524,7 @@ public class ArchetypeMove : MonoBehaviour
 		_toPoint = toPosition.position;	
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
-		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "islocal", true, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
 		
 	}
 

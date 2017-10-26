@@ -67,7 +67,7 @@ public class VillagerObject : ArchetypeMove
 		StartCoroutine(RemoveVillager());
 
 		IsDestroyed = true;
-		GameConfig.peopleSaved++;
+		GameConfig.PeopleSaved++;
 
 
 	}
