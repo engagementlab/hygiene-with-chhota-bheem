@@ -34,7 +34,7 @@ public class TexturePostProcessor : AssetPostprocessor {
 		importer.filterMode = FilterMode.Trilinear;
 
 		// Set texture settings
-		importer.SetPlatformTextureSettings( "Android", 1024, TextureImporterFormat.DXT5, _qualityGood, false ); //ATC_RGBA8 \\ ETC2_RGBA8 || PVRTC_RGBA4
+		importer.SetPlatformTextureSettings( "Android", 1024, TextureImporterFormat.DXT5, _qualityBest, false ); //ATC_RGBA8 \\ ETC2_RGBA8 || PVRTC_RGBA4
 
 		Object asset = AssetDatabase.LoadAssetAtPath(importer.assetPath, typeof(Texture2D));
 		if (asset)
