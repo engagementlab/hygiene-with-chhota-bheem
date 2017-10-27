@@ -101,6 +101,9 @@ public class ArchetypeMove : MonoBehaviour
 	[CanBeNull] private Transform _waypointsParent;
 	[CanBeNull] private GameObject _localParent;
 
+	[HideInInspector]
+	public GameObject _player;
+
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
@@ -146,6 +149,8 @@ public class ArchetypeMove : MonoBehaviour
 		// Is background object?
 		if(gameObject.layer == 8)
 			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
+
+		_player = GameObject.FindWithTag("Player");
 	}
 
 	private void Start()
@@ -157,10 +162,6 @@ public class ArchetypeMove : MonoBehaviour
 	}
 
 	public void Update () {
-		
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(Input.touches.Length == 0) return;
-		#endif
 
 		// Sanity check
 		if (!_movingTransform)
@@ -293,7 +294,7 @@ public class ArchetypeMove : MonoBehaviour
 	  if(!PlayerCanKill) return;
 	  if (collider.gameObject.tag != "Bubble") return;
 
-	  int increase = GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().BubbleInitialStrength;
+	  int increase = _player.GetComponent<ArchetypePlayer>().BubbleInitialStrength;
 	  _bubblesHit += increase;
 	  
 	  Destroy(collider.gameObject);

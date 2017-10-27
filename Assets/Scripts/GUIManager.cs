@@ -16,8 +16,7 @@ public class GUIManager
 	}
 
 	private GameObject _gameEndScreen;
-	private Animation _gameOverAnim;
-	private Animation[] _gameOverAnimations;
+	private Animator _gameOverAnim;
 		
 	private GameObject _inventoryUi;
 	private GameObject _spellText;
@@ -45,9 +44,10 @@ public class GUIManager
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
-		_gameOverAnim = _gameEndScreen.GetComponent<Animation>();
-		
+		_gameOverAnim = _gameEndScreen.GetComponent<Animator>();
+
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
+		_pauseAnimator = _pauseUi.GetComponent<Animator>();
 		_pauseUi.SetActive(false);
 		
 		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
@@ -153,22 +153,21 @@ public class GUIManager
 
 	public void ShowPause()
 	{
+		_pauseUi.SetActive(true);
 		_pauseAnimator.Play("ShowPause");
 	}
 
 	public void HidePause()
 	{
-//		pauseUI.SetActive(true);
+		
 		_pauseAnimator.Play("HidePause");
 	}
 
 	public void GameEnd(bool win)
 	{
 		_gameEndScreen.SetActive(true);
-		
-		if (win)
-			_gameOverAnim.Play("GameWon");
-		else
-			_gameOverAnim.Play("GameOver");
+
+		_gameOverAnim.SetBool("win", win);
+
 	}
 }
