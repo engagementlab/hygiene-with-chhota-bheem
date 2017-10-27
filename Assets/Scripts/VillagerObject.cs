@@ -55,6 +55,8 @@ public class VillagerObject : ArchetypeMove
 		Vector2 v = healthFill.rectTransform.sizeDelta;
 		v.x += .5f;
 		healthFill.rectTransform.sizeDelta = v;
+		
+		var a = Mathf.Abs(v.x - health) <= .1f;
 
 		if(!(Mathf.Abs(v.x - health) <= .1f)) return;
 		
