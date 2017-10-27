@@ -16,16 +16,17 @@ Created by Engagement Lab @ Emerson College, 2017
 using System.Collections;
 using UnityEngine;
 
-public class ArchetypeSpawner : ArchetypeMove
+public class ArchetypeSpawner : MonoBehaviour
 {
 
-	public GameObject[] PrefabsToSpawn;
+	public SpawnerPrefab[] SpawnedObjects;
 	public Sprite SpriteAfterSpawn;
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
-	public bool MoveAfterSpawn;
+	public bool MoveAfterSpawn = true;
 
-	public bool SpawnSelf;
+	[Range(0, 20)]
+	public float DelayBeforeLoop;
 	
 	[HideInInspector]
 	public bool UseSpawnerParent = true;
@@ -35,11 +36,9 @@ public class ArchetypeSpawner : ArchetypeMove
 	public int SpawnRepeatCount;
 	[HideInInspector]
 	public float SpawnDelay;
-	[HideInInspector]
-	public float SpawnRepeatDelay;
 	
 	private float _spawnWaitTime;
-	private int _prefabIndex;
+	private int _prefabIndex = -1;
 	private int _spawnCount;
 	private bool _spriteReplaced;
 	private bool _wait = true;
@@ -47,10 +46,13 @@ public class ArchetypeSpawner : ArchetypeMove
 	private SpriteRenderer _tempRenderer;
 	private GameObject _spawnObject;
 	private Material _gizmoMaterial;
+	
+	private Camera MainCamera;
 
 	private void Awake()
 	{
-		base.Awake();
+		
+		MainCamera = Camera.main;
 
 		if(SpriteAfterSpawn != null && GetComponent<SpriteRenderer>() == null)
 			gameObject.AddComponent<SpriteRenderer>();
@@ -67,20 +69,35 @@ public class ArchetypeSpawner : ArchetypeMove
 	// Update is called once per frame
 	public void Update () {
 		
-		if(MoveEnabled)
-			base.Update();
-		
 		if(!_wait) return;
-		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || PrefabsToSpawn == null) return;
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || SpawnedObjects == null) return;
 	
 		// If not repeating, spawn and destroy now
 		if(!SpawnRepeating)
+		{
+			_wait = false;
 			StartCoroutine(DelayedSpawn());
+		} 
 		else
 		{
-			// Don't "wait" for spawner from here on out until destroy so we invoke only once
-			_wait = false;
-			InvokeRepeating("Spawn", SpawnDelay, SpawnRepeatDelay);
+			// Increment spawn wait
+			_spawnWaitTime += Time.deltaTime;
+
+			// Initial spawn
+			if(_prefabIndex == -1 && _spawnWaitTime < SpawnDelay)
+				return;
+			
+			// End of loop
+			else if(_prefabIndex == SpawnedObjects.Length - 1 && _spawnWaitTime < DelayBeforeLoop)
+				return;
+			
+			// Waiting for next prefab in loop
+			else if(_prefabIndex > 0 && _spawnWaitTime < SpawnedObjects[_prefabIndex].DelayBeforeNext)
+				return;
+
+			// Reset time and spawn
+			_spawnWaitTime = 0;
+			Spawn();
 		}
 
 	}
@@ -91,14 +108,20 @@ public class ArchetypeSpawner : ArchetypeMove
 	private void OnDrawGizmos()
 	{
 
-		if(PrefabsToSpawn == null || PrefabsToSpawn.Length < 1 || Application.isPlaying) return;
+		if(SpawnedObjects == null || SpawnedObjects.Length < 1 || SpawnedObjects[0] == null ||
+		   SpawnedObjects[0].Prefab == null || Application.isPlaying) return;
 
 		if(_gizmoMaterial == null)
 			_gizmoMaterial = Resources.Load<Material>("GizmoGreyMaterial");
 
-		var sprite = PrefabsToSpawn[0].GetComponent<SpriteRenderer>();
-	
-		_tempRenderer = GetComponent<SpriteRenderer>() == null ? gameObject.AddComponent<SpriteRenderer>() : gameObject.GetComponent<SpriteRenderer>();
+		var sprite = SpawnedObjects[0].Prefab.GetComponent<SpriteRenderer>();
+		
+		if(sprite == null) return;
+
+		if(gameObject.GetComponent<SpriteRenderer>() == null)
+			gameObject.AddComponent<SpriteRenderer>();
+
+		_tempRenderer = gameObject.GetComponent<SpriteRenderer>();
 
 		// Switch to gizmo material
 		if(_tempRenderer.sharedMaterial != null)
@@ -108,6 +131,7 @@ public class ArchetypeSpawner : ArchetypeMove
 			_tempRenderer.sprite = sprite.sprite;
 		
 	}
+	
 #endif
 
 	private IEnumerator DelayedSpawn()
@@ -119,58 +143,29 @@ public class ArchetypeSpawner : ArchetypeMove
 
 	private void Spawn()
 	{
-		// WILL REFACTOR -- OLD		
-		if (SpawnSelf)
-		{
-			_spawnObject = gameObject;
-			_spawnObject.GetComponent<SpriteRenderer>().enabled = true;
 
-			if (gameObject.tag == "Boss")
-				gameObject.GetComponent<ArchetypeWizard>().spawned = true;
+		if(SpawnedObjects == null || SpawnedObjects.Length == 0)
+		{
+			Debug.LogWarning("No prefabs to spawn from " + gameObject.name + "!!");
+			return;
 		}
+
+		// Increment or reset index
+		if(_prefabIndex < SpawnedObjects.Length - 1)
+			_prefabIndex++;
 		else
-		{
+			_prefabIndex = 0;
+		
+		var spawnPos = SpawnedObjects[_prefabIndex].UseSpawnerParent ? transform.localPosition : transform.position;
+		
+		_spawnObject = Instantiate(SpawnedObjects[_prefabIndex].Prefab, spawnPos, SpawnedObjects[_prefabIndex].Prefab.transform.rotation);
+		_spawnObject.SetActive(true);
 
-			_spawnObject = Instantiate(
-				PrefabsToSpawn[_prefabIndex],
-				UseSpawnerParent ? transform.localPosition : transform.position,
-				PrefabsToSpawn[_prefabIndex].transform.rotation
-			);
+		_spawnCount++;
 
-			// Increment or reset index
-			if (_prefabIndex < PrefabsToSpawn.Length - 1)
-				_prefabIndex++;
-			else
-				_prefabIndex = 0;
-
-			_spawnObject.SetActive(true);
-
-			// If not repeating and not replacing sprite, destroy now
-			if (!SpawnRepeating && SpriteAfterSpawn == null)
-			{
-				Destroy(gameObject);
-				return;
-			}
-			// Replace sprite?
-			if (SpriteAfterSpawn != null && !_spriteReplaced)
-			{
-				GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
-				_spriteReplaced = true;
-
-			}
-			_spawnCount++;
-
-			if (_spawnCount >= SpawnRepeatCount && SpriteAfterSpawn == null)
-			{
-				CancelInvoke();
-				Destroy(gameObject);
-				return;
-			}
-
-			// Destroy once well past camera bounds
-			if (MainCamera.WorldToViewportPoint(transform.position).y < -1.2f)
-				Destroy(gameObject);
-		}
+		// Destroy once well past camera bounds
+		if (MainCamera.WorldToViewportPoint(transform.position).y < -1.2f)
+			Destroy(gameObject);
 
 		if (!MoveAfterSpawn)
 		{
@@ -179,17 +174,26 @@ public class ArchetypeSpawner : ArchetypeMove
 
 			transform.parent = null;
 			transform.position = globalPos;
-
-			if(!SpawnSelf)
-				MoveEnabled = false;
-	
-			SetupWaypoints();
 		}
 		else
 		{
 			// Give spawn parent of spawner if enabled
-			if (UseSpawnerParent)
+			if (SpawnedObjects[_prefabIndex].UseSpawnerParent)
 				_spawnObject.transform.SetParent(transform.parent, false);
+		}
+
+		if (_spawnCount >= SpawnRepeatCount || !SpawnRepeating)
+		{
+			// Replace sprite?
+			if (SpriteAfterSpawn != null)
+			{
+				GetComponent<SpriteRenderer>().sprite = SpriteAfterSpawn;
+				_spriteReplaced = true;
+			}
+		 	else
+				Destroy(gameObject);
+			
+			
 		}
 		
 	}

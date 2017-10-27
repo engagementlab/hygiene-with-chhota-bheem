@@ -39,8 +39,8 @@ public class GUIManager
 		_inventoryUi = GameObject.Find("GameUI/SpellJuiceBars");
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
-		_spellText = GameObject.Find("GameUI/SpellJuiceBars/SpellText");
-		_spellText.SetActive(false);
+//		_spellText = GameObject.Find("GameUI/SpellJuiceBars/SpellText");
+//		_spellText.SetActive(false);
 		
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseUi.SetActive(false);
@@ -59,20 +59,20 @@ public class GUIManager
 			var fill = SpellBars[i].transform.Find("Background").GetComponent<RectTransform>();
 			fill.sizeDelta = new Vector2(fill.sizeDelta.x, 0);
 		}
-		
-		_spellStepsUi = GameObject.Find("GameUI/SpellSteps");
-		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
+//		
+//		_spellStepsUi = GameObject.Find("GameUI/SpellSteps");
+//		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
 		
 		_gameEndUi = GameObject.Find("GameUI/GameEndScreen");
 		_gameEndUi.SetActive(false);
 		
-		_spellStepsUi.SetActive(false);
+//		_spellStepsUi.SetActive(false);
 		_spellCount = 0;
 		
-		foreach (GameObject group in _spellSteps)
-		{
-			group.SetActive(false);
-		}
+//		foreach (GameObject group in _spellSteps)
+//		{
+//			group.SetActive(false);
+//		}
 
 	}
 	
@@ -80,15 +80,15 @@ public class GUIManager
 	public void DisplayCurrentSpell(string spellName)
 	{
 		
-		_spellText.GetComponent<Text>().text = "Spell: " + spellName;
-		_spellText.SetActive(true);
+//		_spellText.GetComponent<Text>().text = "Spell: " + spellName;
+//		_spellText.SetActive(true);
 		
 	}
 	
 	public void HideSpell()
 	{
 		
-		_spellText.SetActive(false);
+//		_spellText.SetActive(false);
 		
 	}
 
@@ -100,7 +100,7 @@ public class GUIManager
 			_bar.SetActive(false);
 		
 		spellBar.SetActive(true);
-		_spellCount = 1;
+		_spellCount = 0;
 	}
 
 	public void AddSpellJuice(Spells type, GameObject fill)
@@ -111,7 +111,7 @@ public class GUIManager
 		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
 		_spellCount++;
 
-		if (_spellCount == 5)
+		if (_spellCount == GameObject.FindGameObjectWithTag("Player").GetComponent<ArchetypePlayer>().SpellStepCount)
 		{
 			Events.instance.Raise (new SpellEvent(type, true));
 			EmptySpells();

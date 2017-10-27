@@ -47,10 +47,12 @@ public class ArchetypeFollow : ArchetypeMove
 			{
 				// Following done, animate normally
 				_chase = false;
-				AnimateWait = false;
+				AnimateOnlyInCamera = false;
 				Animate();
+				base.Update();
+				
 			} 
-			else
+			else if(Player != null)
 			{
 				// Chase the Player 
 				_playerPos = Player.transform.position;

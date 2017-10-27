@@ -17,9 +17,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Configuration;
-using System.Runtime.InteropServices;
-using DefaultNamespace;
 using JetBrains.Annotations;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -30,24 +27,31 @@ using UnityEditor;
 public class ArchetypeMove : MonoBehaviour
 {
 
+	[HideInInspector]
 	public bool MoveEnabled = true;
+	public bool AnimateOnlyInCamera = true;
 	
-	public Spells SpellGiven;
-	public bool SpellRandom;
+	[HideInInspector]
 	public bool KillsPlayer;
 	
-	private Spells _powerUpGiven;
+	[HideInInspector]
+	public Spells SpellGiven;
+	[HideInInspector]
+	public bool SpellRandom;
 
 	[HideInInspector]
 	public bool PlayerCanKill;	
 	[HideInInspector]
 	public int HitPoints;
-
 	
 	[HideInInspector]
 	public bool MoveOnceInCamera;
 	[HideInInspector]
+	public bool LeaveParentInCamera;
+	[HideInInspector]
 	public float MoveSpeed;
+	[HideInInspector]
+	public float MoveDelay;
 	[HideInInspector]
 	public Dirs MovementDir = Dirs.Down;
 	
@@ -76,8 +80,6 @@ public class ArchetypeMove : MonoBehaviour
 	
 	[CanBeNull] [HideInInspector]
 	public string SpawnType;
-
-	public GameObject[] SpellJuices;
 	
 	public enum Dirs
 	{
@@ -86,13 +88,14 @@ public class ArchetypeMove : MonoBehaviour
 		Up,
 		Down
 	}
-	
 	public enum AnimType
 	{
 		Once,
 		LoopFromStart,
 		PingPong
 	}
+	
+	private Spells _powerUpGiven;
 
 	[CanBeNull] private List<Transform> _waypoints;
 	[CanBeNull] private Transform _waypointsParent;
@@ -103,7 +106,8 @@ public class ArchetypeMove : MonoBehaviour
 	private bool _reverseAnim;
 	private float _reversingAngle;
 	private float _targetAnimSpeed;
-	private int _nextPoint;
+	private float _moveWaitingTime;
+	private int _nextPoint = 1;
 	private int _bubblesHit;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
@@ -116,7 +120,6 @@ public class ArchetypeMove : MonoBehaviour
 	private Quaternion _startingRotation;
 	
 	internal Camera MainCamera;
-	internal bool AnimateWait = true;
 	internal GameObject Player;
 
 	/**************
@@ -140,14 +143,19 @@ public class ArchetypeMove : MonoBehaviour
 		if(transform.parent != null)
 			_parentMove = transform.parent.GetComponent<ArchetypeMove>();
 		
-		if(GetType().Name != "ArchetypeSpawner")
-			SetupWaypoints();
-		
 		// Is background object?
 		if(gameObject.layer == 8)
 			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
 	}
-	
+
+	private void Start()
+	{
+		
+		if(GetType().Name != "ArchetypeSpawner")
+			SetupWaypoints();
+		
+	}
+
 	public void Update () {
 		
 		#if UNITY_ANDROID && !UNITY_EDITOR
@@ -161,15 +169,49 @@ public class ArchetypeMove : MonoBehaviour
 		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
 		if(yPos < 1.04f)
 		{
-			if(AnimateWait)
+			
+			if(AnimateOnlyInCamera)
 			{
-				AnimateWait = false;
+				AnimateOnlyInCamera = false;
+//				SetupWaypoints();
 				Animate();
 			}
 			
 			// If object waiting to move once in view, check pos
 			if(!MoveEnabled && MoveOnceInCamera)
-				MoveEnabled = true;
+			{
+				if(MoveDelay == 0)
+				{
+					// Unparent object
+					if(LeaveParentInCamera)
+						_movingTransform.SetParent(null, true);
+					else
+						MoveEnabled = true;
+
+				} else
+				{
+					// Delayed movement
+					_moveWaitingTime += Time.deltaTime;
+					if(_moveWaitingTime >= MoveDelay)
+					{
+						// Unparent object
+						if(LeaveParentInCamera)
+							_movingTransform.SetParent(null, true);
+						else
+						{
+							MoveEnabled = true;
+							_moveWaitingTime = 0;
+						}
+
+					}
+				}
+			} 
+			else
+			{	
+				// Unparent object
+				if(LeaveParentInCamera)
+					_movingTransform.SetParent(null, true);
+			}
 		}
 
 		// Not for background layers
@@ -236,19 +278,26 @@ public class ArchetypeMove : MonoBehaviour
 	  {
 		  // Check if player hit an object that ends game 
 		  var die = KillsPlayer;
-
+		  
+		  #if UNITY_EDITOR
+		  if(EditorPrefs.GetBool("GodMode")) die = false;
+		  #endif
+		  
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new DeathEvent(false));
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));		  
 	  }
 	  
-	  if(gameObject.tag == "Boss") return;
+//	  if(gameObject.tag == "Boss") return;
 	  if(!PlayerCanKill) return;
-	  
-	  _bubblesHit++;
-		Destroy(collider.gameObject);
+	  if (collider.gameObject.tag != "Bubble") return;
 
+	  int increase = GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().BubbleInitialStrength;
+	  _bubblesHit += increase;
+	  
+	  Destroy(collider.gameObject);
+	  
 	  if(_bubblesHit == HitPoints)
 	  {
 			Destroy(gameObject);
@@ -261,7 +310,7 @@ public class ArchetypeMove : MonoBehaviour
 					  case "Fly":
 
 						  Events.instance.Raise(new ScoreEvent(1, ScoreEvent.Type.Fly));
-						  GameConfig.fliesCaught++;
+						  GameConfig.FliesCaught++;
 
 						  break;
 					  case "Poop":
@@ -409,10 +458,11 @@ public class ArchetypeMove : MonoBehaviour
 		foreach(var tr in waypointTransforms)
 		{
 			if(tr.tag != "Waypoint" || !tr.gameObject.activeInHierarchy) continue;
-			_waypoints.Add(tr);
 
 			// Assign waypoint to parent
 			tr.parent = _waypointsParent;
+			
+			_waypoints.Add(tr);
 		}
 
 		if(_waypoints.Count <= 0)
@@ -448,7 +498,7 @@ public class ArchetypeMove : MonoBehaviour
 
 		_waypointPositions = _waypoints.ToArray();
 		
-		if(!AnimateWait)
+		if(!AnimateOnlyInCamera)
 			Animate();
 		
 	}
@@ -465,19 +515,24 @@ public class ArchetypeMove : MonoBehaviour
 			_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
 		else
 			_targetAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
-			
+
+		var toPosition = _waypointPositions[_nextPoint];
+		if(toPosition == null)
+			return;
+	
 		// Place object at current %
 		_lastPoint = transform.position;
-		_toPoint = _waypointPositions[_nextPoint].position;	
+		_toPoint = toPosition.position;	
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+		
 	}
 
 	void Complete()
 	{
 
-		if(AnimateWait) return;
+		if(AnimateOnlyInCamera) return;
 
 		if(!_reverseAnim)
 		{
@@ -490,7 +545,7 @@ public class ArchetypeMove : MonoBehaviour
 					_nextPoint++;
 				else
 				{
-					if(AnimationType == AnimType.PingPong)
+					if(AnimationType == AnimType.PingPong && _waypoints.Count > 1)
 					{
 						_reverseAnim = true;
 						_nextPoint--;
@@ -605,10 +660,11 @@ public class ArchetypeMove : MonoBehaviour
 		
 		// Instantiate Spell Object as the random spell type
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
+		spellObject.transform.parent = GameObject.FindWithTag("Parent").transform;
 		var spellScript = spellObject.GetComponent<ArchetypeSpellJuice>();
 		
 		spellScript.Type = _powerUpGiven;
-		spellScript.Animate(transform.position);
+		spellScript.StartMovement(transform.position);
 		
 	}
 

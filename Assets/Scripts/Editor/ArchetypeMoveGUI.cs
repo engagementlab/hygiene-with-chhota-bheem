@@ -14,7 +14,6 @@ Created by Engagement Lab @ Emerson College, 2017
 */
 
 #if UNITY_EDITOR
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -26,8 +25,6 @@ public class ArchetypeMoveGUI : Editor
 	public override void OnInspectorGUI()
 	{
 		
-//		if(Application.isPlaying) return;
-  
 		var _archetype = (ArchetypeMove)target;
 
 		if(_archetype.transform.parent != null)
@@ -40,22 +37,38 @@ public class ArchetypeMoveGUI : Editor
 			EditorGUILayout.HelpBox(helpTxt, MessageType.Info);
 		}
 		
-
-		// Draw the default inspector
-		DrawDefaultInspector();
+		_archetype.MoveEnabled = EditorGUILayout.Toggle("Move Enabled", _archetype.MoveEnabled);
+		_archetype.KillsPlayer = EditorGUILayout.Toggle("Kills Player", _archetype.KillsPlayer);
+		
+		_archetype.SpellRandom = EditorGUILayout.Toggle("Give Random Spell", _archetype.SpellRandom);
+		if(!_archetype.SpellRandom)
+			_archetype.SpellGiven = (Spells)EditorGUILayout.EnumPopup("Spell Given", _archetype.SpellGiven);
+		
 		if(_archetype.transform.parent != null)
 			_archetype.UseParentSpeed = EditorGUILayout.Toggle("Use Parent's Speed", _archetype.UseParentSpeed);
-    		
-		if(!_archetype.MoveEnabled)
-			_archetype.MoveOnceInCamera = EditorGUILayout.Toggle("Move Once In View", _archetype.MoveOnceInCamera);
+
+		_archetype.LeaveParentInCamera = EditorGUILayout.Toggle("Leave Parent Once In View", _archetype.LeaveParentInCamera);
 		
+		if(!_archetype.MoveEnabled)
+		{
+			_archetype.MoveOnceInCamera = EditorGUILayout.Toggle("Move Once In View", _archetype.MoveOnceInCamera);
+			if(_archetype.MoveOnceInCamera || _archetype.LeaveParentInCamera)
+				_archetype.MoveDelay = EditorGUILayout.Slider("Move Delay", _archetype.MoveDelay, 0, 10);
+		}
+
 		if(!_archetype.UseParentSpeed || _archetype.transform.parent == null)
 			_archetype.MoveSpeed = EditorGUILayout.Slider("Movement Speed", _archetype.MoveSpeed, 0, 10);
 		
 		// Player can kill bool
-		_archetype.PlayerCanKill = EditorGUILayout.Toggle("Player Can Kill", _archetype.PlayerCanKill);		
-		if(_archetype.PlayerCanKill)
-			_archetype.HitPoints = EditorGUILayout.IntSlider("Hit Points", _archetype.HitPoints, 1, 10);
+		if(target.GetType().ToString() != "ArchetypeBoss")
+		{
+			_archetype.PlayerCanKill = EditorGUILayout.Toggle("Player Can Kill", _archetype.PlayerCanKill);
+			if(_archetype.PlayerCanKill)
+				_archetype.HitPoints = EditorGUILayout.IntSlider("Hit Points", _archetype.HitPoints, 1, 10);
+		}
+		
+		// Draw the default inspector
+		DrawDefaultInspector();
 		
 		// Animation
 		if(_archetype.HasWaypoints()) {
@@ -67,8 +80,8 @@ public class ArchetypeMoveGUI : Editor
 			_archetype.AnimationType = (ArchetypeMove.AnimType) EditorGUILayout.EnumPopup("Animation Type", _archetype.AnimationType);
 
 			// Animation speed controls
-			_archetype.AnimationUpwardSpeed = EditorGUILayout.Slider("Forward Speed", _archetype.AnimationUpwardSpeed, .01f, 2);
-			_archetype.AnimationDownwardSpeed = EditorGUILayout.Slider("Backward Speed", _archetype.AnimationDownwardSpeed, .01f, 2);
+			_archetype.AnimationUpwardSpeed = EditorGUILayout.Slider("Up Speed", _archetype.AnimationUpwardSpeed, .01f, 2);
+			_archetype.AnimationDownwardSpeed = EditorGUILayout.Slider("Down Speed", _archetype.AnimationDownwardSpeed, .01f, 2);
 
 			_archetype.RotateOnWaypoints = EditorGUILayout.ToggleLeft("Rotate Along Waypoints", _archetype.RotateOnWaypoints);
 			

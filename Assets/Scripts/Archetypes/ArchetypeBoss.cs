@@ -1,22 +1,32 @@
-﻿/* 
+﻿﻿/* 
 
 Hygiene With Chhota Bheem
 Created by Engagement Lab @ Emerson College, 2017
 
 ==============
 	ArchetypeBoss.cs
-	Archetype object for bosses, inheriting logic of spawner.
+	Archetype object for bosses, inheriting logic of archetype move.
 
-	Created by Erica Salling.
+	Created by Erica Salling, Johnny Richardson.
 ==============
 
 */
 
+using System.Collections;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ArchetypeBoss : ArchetypeSpawner
+public class ArchetypeBoss : ArchetypeMove
 {
 	public GameObject[] Projectiles;
+	
+	[Range(0, 1000)]
+	[Tooltip("Time before tiled background stops moving")]
+	public int BackgroundDelay;
+	public Movements MovementType;
+	public float Health = 2f;
+	public float SmoothTime = .1f;
 	
 	[Range(0, 20)]
 	public float ProjectileInterval;
@@ -24,6 +34,20 @@ public class ArchetypeBoss : ArchetypeSpawner
 	public float ProjectileSpeed = 5f;
 	public ShootModes ShootMode;
 
+	private GameObject _player;
+	private GameObject _parent;
+
+	private float _playerPos;
+	private Vector3 _wizardPos;
+	private RawImage HealthFill;
+	
+	public enum Movements
+	{
+		AvoidPlayerPosition, 
+		Follow, 
+		DodgeProjectiles
+	}
+	
 	public enum ShootModes
 	{
 		Down, 
@@ -33,11 +57,16 @@ public class ArchetypeBoss : ArchetypeSpawner
 
 	private float _intervalTime;
 	private Vector3 _velocity;
+	private bool _wait = true;
 
 	private void Awake()
 	{
-		SpawnSelf = true;
 		base.Awake();
+		
+		_player = GameObject.FindWithTag("Player");
+		_parent = GameObject.FindWithTag("Parent");
+		HealthFill = transform.Find("HP/Fill").GetComponent<RawImage>();
+
 	}
 
 	// Update is called once per frame
@@ -45,8 +74,25 @@ public class ArchetypeBoss : ArchetypeSpawner
 		
 		base.Update();
 
-		if (!gameObject.GetComponent<ArchetypeWizard>().spawned || Projectiles == null || Projectiles.Length < 1) return;
+		// Do nothing before in view
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < .9f)) return;
+		if(MoveEnabled) MoveEnabled = false;
+		
+		// Put at root of scene so it stays still
+		if(transform.parent != null)
+			transform.parent = null;
 
+		if(_wait)
+		{
+			StartCoroutine(Spawned());
+			_wait = false;
+		}
+
+		// Movement pattern call
+		BossMove();
+
+		if(Projectiles == null || Projectiles.Length < 1) return;
+		
 		if(_intervalTime >= ProjectileInterval) {
 
 			_intervalTime = 0;
@@ -85,19 +131,106 @@ public class ArchetypeBoss : ArchetypeSpawner
 							break;
 			}
 
+			// Create projectile and give it a velocity
 			var projectile = Instantiate(Projectiles[random], projectilePos, Quaternion.identity);
 			projectile.GetComponent<Rigidbody>().velocity = dir * ProjectileSpeed;
 
+			// Make projectile always kill player
 			var moveComponent = projectile.GetComponent<ArchetypeMove>();
 			if (moveComponent != null)
-			{
-				moveComponent.MoveSpeed = ProjectileSpeed;
 				moveComponent.KillsPlayer = true;
-			}
+		
 		}
 		else
 			_intervalTime += Time.deltaTime;
 		
 	}
-	
+
+	// Disable boss' prior parent from moving after given delay
+	private IEnumerator Spawned()
+	{
+		yield return new WaitForSeconds(BackgroundDelay);
+		_parent.GetComponent<ArchetypeMove>().MoveEnabled = false;
+
+	}
+
+	private void BossMove()
+	{
+		// Check player & wizard position
+		_playerPos = _player.transform.position.x;
+		_wizardPos = gameObject.transform.position;
+		var currentSmoothTime = SmoothTime;
+
+		switch(MovementType)
+		{
+			case Movements.AvoidPlayerPosition:
+
+				// Gradually go to inverse of player x
+				_wizardPos = new Vector3(-_playerPos, _wizardPos.y, _wizardPos.z);
+				currentSmoothTime *= 4;				
+				
+				break;
+
+			case Movements.Follow:
+
+				// Follow player on x
+				_wizardPos = new Vector3(_playerPos, _wizardPos.y, _wizardPos.z);
+				currentSmoothTime *= 2;
+
+				break;
+
+			case Movements.DodgeProjectiles:
+
+				// Move away from current nearest player projectile
+				// Find closest bubbles
+				Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2).ToList().Select(c => c.GetComponent<Collider>())
+																																											 .Where(c => c.tag == "Bubble").OrderBy(c => c.transform.position.y).ToArray();
+				if(hitColliders.Length == 0) return;
+				var xPos = hitColliders[0].transform.position.x;
+				var target = xPos - 3;
+				if(xPos < 0)
+					target = xPos + 3;
+				
+				_wizardPos = new Vector3(target, _wizardPos.y, _wizardPos.z);
+
+				break;
+		}
+
+		gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position, _wizardPos, ref _velocity, currentSmoothTime);
+	}
+
+
+	public void OnTriggerEnter(Collider collider)
+	{
+
+		if(_wait) return;
+		if(collider.gameObject.tag != "Bubble") return;
+
+		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
+
+		Vector2 v = HealthFill.rectTransform.sizeDelta;
+		v.x += .5f;
+		HealthFill.rectTransform.sizeDelta = v;
+
+		if(!(Mathf.Abs(v.x - Health) <= .1f)) return;
+
+		// Destroy Wizard
+		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
+		StartCoroutine(DestroyWizard());
+
+		// You won the game
+		Events.instance.Raise(new ScoreEvent(1, ScoreEvent.Type.Wizard));
+		Events.instance.Raise(new DeathEvent(true));
+
+	}
+
+
+	private IEnumerator DestroyWizard()
+	{
+
+		yield return new WaitForSeconds(1);
+		Destroy(gameObject);
+		
+	}
+
 }

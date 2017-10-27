@@ -16,12 +16,6 @@ public class AppManager : MonoBehaviour
 		StartCoroutine(LocationTest());
 	}
 
-	private void Update()
-	{
-
-		
-	}
-
 	IEnumerator LocationTest()
     {
         // First, check if user has location service enabled

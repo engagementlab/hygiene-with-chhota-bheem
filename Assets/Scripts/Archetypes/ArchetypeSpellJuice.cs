@@ -21,29 +21,25 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	}
 
 	public GameObject CurrentSpell;
-
+	private float _targetAnimSpeed;
+	private int _nextPoint;
+	private Vector3 _startingPos;
+	private Vector3 _lastPoint;
+	private Vector3 _toPoint;
 	private Vector3[] _movementPoints;
 	private Spells _type;
 	private float _percentsPerSecond = .1f;
 	private float _currentPathPercent;
 
-	public void Animate(Vector3 startingPos)
+	public void StartMovement(Vector3 startingPos)
 	{
-		
-		_movementPoints = new Vector3[10];
-		_movementPoints[0] = Utilities.ClampToScreen(startingPos, Camera.main);
-
-		for (int i = 1; i < 10; i++)
-			_movementPoints[i] =
-				Utilities.ClampToScreen(
-					new Vector3(Random.Range(transform.position.x - 1, transform.position.x + 1),
-						Random.Range(transform.position.y - 1, transform.position.y + 1), 0), Camera.main);
-		
+		transform.position = startingPos;
+		_startingPos = startingPos;
+		Animate();
 	}
 
 	private void Awake()
 	{
-		
 		// Pick the spell item
 		var spells = transform.GetComponentsInChildren(typeof(SpriteRenderer), true);
 		int index = Random.Range(0, spells.Length);
@@ -54,13 +50,43 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	private void Update()
 	{
-		if(_movementPoints == null) return;
 	
 		if(_currentPathPercent >= 1)
 			Destroy(gameObject);
 		
 		_currentPathPercent += _percentsPerSecond * Time.deltaTime;
-		iTween.PutOnPath(transform, _movementPoints, _currentPathPercent);
+				
+	}
+	
+	internal void Animate()
+	{
+
+		float x;
+		float y;
+		
+		if (transform.position.x - _startingPos.x >= 1 || transform.position.x - _startingPos.x <= -1)
+			x = Random.Range(_startingPos.x - 1, _startingPos.x + 1);
+		else 
+			x = Random.Range(transform.position.x - 1, transform.position.x + 1);
+		
+		
+		if (transform.position.y - _startingPos.y >= 1 || transform.position.y - _startingPos.y <= -1)
+			y = Random.Range(_startingPos.y - 1, _startingPos.y - 0.5f);
+		else 
+			y = Random.Range(transform.position.y - 1, transform.position.y - 0.5f);
+		
+		// Place object at current %
+		_lastPoint = transform.position;
+		_toPoint = Utilities.ClampToScreen(new Vector3(x, y, 0), Camera.main);	
+		
+		var distance = Vector3.Distance(_toPoint, _lastPoint);
+		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/2, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+	}
+
+	void Complete()
+	{
+		
+		Animate();
 		
 	}
 
@@ -69,8 +95,6 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		var fill = spellObject.transform.Find("Background").gameObject;
 		// Update Spell Juice UI
 		GUIManager.Instance.AddSpellJuice(_type, fill);
-		// Add Spell Juice to Inventory
-		Inventory.instance.AddSpellComponent(_type);
 		
 		// Destroy this spell juice
 		Destroy(gameObject);
@@ -81,13 +105,14 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		if(collider.gameObject.tag != "Player") return;
 		
 		var currentSpellObject = GameObject.FindGameObjectWithTag("SpellBar");
-
+		
 		if (currentSpellObject == null || currentSpellObject.GetComponent<ArchetypeSpell>().Type != _type)
 		{
 			var spellBars = GUIManager.Instance.SpellBars;
 			
 			for (int i = 0; i < spellBars.Length; i++)
 			{
+				Debug.Log(spellBars[i].GetComponent<ArchetypeSpell>().Type);
 				if (spellBars[i].GetComponent<ArchetypeSpell>().Type == _type)
 				{
 					currentSpellObject = spellBars[i];
