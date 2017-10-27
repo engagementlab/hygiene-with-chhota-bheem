@@ -292,11 +292,12 @@ public class ArchetypeMove : MonoBehaviour
 //	  if(gameObject.tag == "Boss") return;
 	  if(!PlayerCanKill) return;
 	  if (collider.gameObject.tag != "Bubble") return;
-	  
-	  _bubblesHit =+ GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().BubbleStrength;
+
+	  int increase = GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().BubbleInitialStrength;
+	  _bubblesHit += increase;
 	  
 	  Destroy(collider.gameObject);
-
+	  
 	  if(_bubblesHit == HitPoints)
 	  {
 			Destroy(gameObject);
@@ -524,7 +525,7 @@ public class ArchetypeMove : MonoBehaviour
 		_toPoint = toPosition.position;	
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
-		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "islocal", true, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
 		
 	}
 

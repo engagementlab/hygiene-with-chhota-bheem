@@ -21,7 +21,7 @@ public class ArchetypeBoss : ArchetypeMove
 {
 	public GameObject[] Projectiles;
 	
-	[Range(0, 40)]
+	[Range(0, 1000)]
 	[Tooltip("Time before tiled background stops moving")]
 	public int BackgroundDelay;
 	public Movements MovementType;
