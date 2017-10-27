@@ -34,7 +34,6 @@ public class ArchetypeBoss : ArchetypeMove
 	public float ProjectileSpeed = 5f;
 	public ShootModes ShootMode;
 
-	private GameObject _player;
 	private GameObject _parent;
 
 	private float _playerPos;

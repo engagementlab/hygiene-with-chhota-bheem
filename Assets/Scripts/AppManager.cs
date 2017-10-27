@@ -10,10 +10,49 @@ public class AppManager : MonoBehaviour
 
 	private float deltaTime;
 	private bool touching = false;
+	private bool paused = false;
+
+	void Update()
+	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		if(Input.touches.Length == 0) 
+			touching = true;
+		else
+			touching = false;
+	
+		if (!touching && !paused)
+		{
+			StartCoroutine(Pause());
+		}
+		#endif
+		
+	}
 
 	private void Awake()
 	{
 		StartCoroutine(LocationTest());
+		
+	}
+
+	public void PauseUI()
+	{
+		StartCoroutine(UnPause());
+	}
+	
+	IEnumerator Pause()
+	{
+		paused = true;
+		GameConfig.GameSpeedModifier = 0;
+		GUIManager.Instance.ShowPause();
+		yield return new WaitForSeconds(1);
+	}
+
+	IEnumerator UnPause()
+	{
+		GUIManager.Instance.HidePause();
+		yield return new WaitForSeconds(1);
+		GameConfig.GameSpeedModifier = 15;
+		paused = false;
 	}
 
 	IEnumerator LocationTest()
@@ -66,9 +105,13 @@ public class AppManager : MonoBehaviour
 
     public void LoadLevel(string level) {
 
-    	if (!System.String.IsNullOrEmpty(level)) 
-			UnityEngine.SceneManagement.SceneManager.LoadScene(level);
-    	else 
+    	if (level == "next")
+	    {
+		    var next = Application.loadedLevel + 1;
+		    UnityEngine.SceneManagement.SceneManager.LoadScene(next);
+	    } else if (!System.String.IsNullOrEmpty(level)) 
+		    UnityEngine.SceneManagement.SceneManager.LoadScene(level);
+	    else 
     		UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
     		
 
