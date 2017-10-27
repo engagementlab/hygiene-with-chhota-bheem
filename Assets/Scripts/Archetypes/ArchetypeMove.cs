@@ -524,7 +524,7 @@ public class ArchetypeMove : MonoBehaviour
 		_toPoint = toPosition.position;	
 		
 		var distance = Vector3.Distance(_toPoint, transform.position);
-		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "islocal", true, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
 		
 	}
 
