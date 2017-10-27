@@ -16,6 +16,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	
 	public GameObject Bubble;
 
+	public int BubbleInitialStrength = 1;
 	public float BubbleSpeedIncrease = 2f;
 	public float BubbleSizeIncrease = 0.1f;
 	public int BubbleStrengthIncrease = 1;
@@ -45,7 +46,6 @@ public class ArchetypePlayer : MonoBehaviour {
 	[HideInInspector]
 	public int Matrix = 0;
 
-	public int BubbleStrength = 1;
 	
 	private int _scatterShoot = 0;
 	private int _speedShoot = 0;
@@ -254,7 +254,7 @@ public class ArchetypePlayer : MonoBehaviour {
 						{
 							GUIManager.Instance.DisplayCurrentSpell("Bigger Shoot");
 							Bubble.transform.localScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-							BubbleStrength += BubbleStrengthIncrease;
+							BubbleInitialStrength += BubbleStrengthIncrease;
 							PoweredUp = true;
 						}
 						else
@@ -318,13 +318,13 @@ public class ArchetypePlayer : MonoBehaviour {
 					{
 						GUIManager.Instance.HideSpell();
 						Bubble.transform.localScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-						BubbleStrength -= BubbleStrengthIncrease;
+						BubbleInitialStrength -= BubbleStrengthIncrease;
 						PoweredUp = false;
 					}
 					else
 					{
 						_bigShoot--;
-						BubbleStrength -= BubbleStrengthIncrease;
+						BubbleInitialStrength -= BubbleStrengthIncrease;
 						Bubble.transform.localScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 					}
 					

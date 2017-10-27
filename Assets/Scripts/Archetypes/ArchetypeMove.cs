@@ -292,11 +292,12 @@ public class ArchetypeMove : MonoBehaviour
 //	  if(gameObject.tag == "Boss") return;
 	  if(!PlayerCanKill) return;
 	  if (collider.gameObject.tag != "Bubble") return;
-	  
-	  _bubblesHit =+ GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().BubbleStrength;
+
+	  int increase = GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().BubbleInitialStrength;
+	  _bubblesHit += increase;
 	  
 	  Destroy(collider.gameObject);
-
+	  
 	  if(_bubblesHit == HitPoints)
 	  {
 			Destroy(gameObject);

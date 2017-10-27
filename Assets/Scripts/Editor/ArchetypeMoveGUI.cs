@@ -60,9 +60,12 @@ public class ArchetypeMoveGUI : Editor
 			_archetype.MoveSpeed = EditorGUILayout.Slider("Movement Speed", _archetype.MoveSpeed, 0, 10);
 		
 		// Player can kill bool
-		_archetype.PlayerCanKill = EditorGUILayout.Toggle("Player Can Kill", _archetype.PlayerCanKill);		
-		if(_archetype.PlayerCanKill)
-			_archetype.HitPoints = EditorGUILayout.IntSlider("Hit Points", _archetype.HitPoints, 1, 10);
+		if(target.GetType().ToString() != "ArchetypeBoss")
+		{
+			_archetype.PlayerCanKill = EditorGUILayout.Toggle("Player Can Kill", _archetype.PlayerCanKill);
+			if(_archetype.PlayerCanKill)
+				_archetype.HitPoints = EditorGUILayout.IntSlider("Hit Points", _archetype.HitPoints, 1, 10);
+		}
 		
 		// Draw the default inspector
 		DrawDefaultInspector();
