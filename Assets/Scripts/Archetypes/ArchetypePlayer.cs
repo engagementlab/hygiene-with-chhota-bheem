@@ -279,7 +279,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		else
 		{
 			// Spell OFF
-			
 			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:

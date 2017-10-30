@@ -22,8 +22,8 @@ public class VillagerObject : ArchetypeMove
 	private IEnumerator RemoveVillager()
 	{
 		yield return new WaitForSeconds(1);
-	    Destroy(gameObject);
-    }
+		Destroy(gameObject);
+	}
 
 	// Use this for initialization
 	private void Awake () {

@@ -124,6 +124,7 @@ public class ArchetypeMove : MonoBehaviour
 	
 	internal Camera MainCamera;
 	internal GameObject Player;
+	internal ArchetypePlayer _playerScript;
 
 	/**************
 		UNITY METHODS
@@ -151,6 +152,7 @@ public class ArchetypeMove : MonoBehaviour
 			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
 
 		_player = GameObject.FindWithTag("Player");
+		_playerScript = _player.GetComponent<ArchetypePlayer>();
 	}
 
 	private void Start()
@@ -284,18 +286,18 @@ public class ArchetypeMove : MonoBehaviour
 		  if(EditorPrefs.GetBool("GodMode")) die = false;
 		  #endif
 		  
+		  // Die immediately if not powered up
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new DeathEvent(false));
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));		  
 	  }
 	  
-//	  if(gameObject.tag == "Boss") return;
 	  if(!PlayerCanKill) return;
 	  if (collider.gameObject.tag != "Bubble") return;
 
-	  int increase = _player.GetComponent<ArchetypePlayer>().BubbleInitialStrength;
-	  _bubblesHit += increase;
+	  int strength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
+	  _bubblesHit += strength;
 	  
 	  Destroy(collider.gameObject);
 	  
