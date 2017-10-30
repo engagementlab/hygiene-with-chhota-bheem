@@ -301,7 +301,8 @@ public class ArchetypeMove : MonoBehaviour
 	  
 	  Destroy(collider.gameObject);
 	  
-	  if(_bubblesHit == HitPoints)
+	  // Hits may exceed HP if strength not evenly divisible by HP, hence greater-or-equal
+	  if(_bubblesHit >= HitPoints)
 	  {
 			Destroy(gameObject);
 
