@@ -14,11 +14,14 @@ public class GUIManager
 			return _instanceInternal;
 		}
 	}
-	
+
+	private GameObject _gameEndScreen;
+	private Animator _gameOverAnim;
+		
 	private GameObject _inventoryUi;
 	private GameObject _spellText;
 	private GameObject _pauseUi;
-	public GameObject _spellStepsUi;
+	public GameObject _spellActivatedUi;
 	public GameObject[] _spellSteps;
 	private GameObject _gameEndUi;
 	private Animator _pauseAnimator;
@@ -39,16 +42,15 @@ public class GUIManager
 		_inventoryUi = GameObject.Find("GameUI/SpellJuiceBars");
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
-//		_spellText = GameObject.Find("GameUI/SpellJuiceBars/SpellText");
-//		_spellText.SetActive(false);
 		
+		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
+		_gameOverAnim = _gameEndScreen.GetComponent<Animator>();
+
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
+		_pauseAnimator = _pauseUi.GetComponent<Animator>();
 		_pauseUi.SetActive(false);
 		
-
-//		_fliesCount = GameObject.Find("GameUI/Score/FlyCount").GetComponent<Text>();
-//		_villagerCount = GameObject.Find("GameUI/Score/VillagerCount").GetComponent<Text>();
-//		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
+		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
 		
 		SpellSize = SpellBars[0].transform.Find("Background").GetComponent<RectTransform>().sizeDelta.y/5;
 
@@ -60,13 +62,13 @@ public class GUIManager
 			fill.sizeDelta = new Vector2(fill.sizeDelta.x, 0);
 		}
 //		
-//		_spellStepsUi = GameObject.Find("GameUI/SpellSteps");
+		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");
 //		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
 		
 		_gameEndUi = GameObject.Find("GameUI/GameEndScreen");
 		_gameEndUi.SetActive(false);
 		
-//		_spellStepsUi.SetActive(false);
+		_spellActivatedUi.SetActive(false);
 		_spellCount = 0;
 		
 //		foreach (GameObject group in _spellSteps)
@@ -151,12 +153,21 @@ public class GUIManager
 
 	public void ShowPause()
 	{
+		_pauseUi.SetActive(true);
 		_pauseAnimator.Play("ShowPause");
 	}
 
 	public void HidePause()
 	{
-//		pauseUI.SetActive(true);
+		
 		_pauseAnimator.Play("HidePause");
+	}
+
+	public void GameEnd(bool win)
+	{
+		_gameEndScreen.SetActive(true);
+
+		_gameOverAnim.SetBool("win", win);
+
 	}
 }

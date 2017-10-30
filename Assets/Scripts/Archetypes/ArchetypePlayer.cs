@@ -279,7 +279,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		else
 		{
 			// Spell OFF
-			
 			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:
@@ -377,13 +376,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		WonGame = e.wonGame;
 
 		gameObject.SetActive(false);
-/*		GameEndScreen.SetActive(true);
-
-		if (WonGame)
-			GameWonText.SetActive(true);
-		else 
-			GameOverText.SetActive(true);*/
-
+		GUIManager.Instance.GameEnd(WonGame);
+		
 		// Send Player Data to Analytics
 		Analytics.CustomEvent("gameEnd",
 			new Dictionary<string, object>

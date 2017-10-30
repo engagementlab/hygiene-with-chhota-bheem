@@ -34,10 +34,10 @@ public class ArchetypeBoss : ArchetypeMove
 	public float ProjectileSpeed = 5f;
 	public ShootModes ShootMode;
 
-	private GameObject _player;
 	private GameObject _parent;
 
 	private float _playerPos;
+	private float _playerHits;
 	private Vector3 _wizardPos;
 	private RawImage HealthFill;
 	
@@ -58,14 +58,17 @@ public class ArchetypeBoss : ArchetypeMove
 	private float _intervalTime;
 	private Vector3 _velocity;
 	private bool _wait = true;
-
+	private int _playerStrength;
+	
 	private void Awake()
 	{
 		base.Awake();
 		
-		_player = GameObject.FindWithTag("Player");
 		_parent = GameObject.FindWithTag("Parent");
+		_playerStrength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
+		
 		HealthFill = transform.Find("HP/Fill").GetComponent<RawImage>();
+		
 
 	}
 
@@ -209,10 +212,13 @@ public class ArchetypeBoss : ArchetypeMove
 		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
 
 		Vector2 v = HealthFill.rectTransform.sizeDelta;
-		v.x += .5f;
+		
+		v.x += _playerStrength;
+		_playerHits += _playerStrength;
+		
+		// Adjust health bar and stop unless boss is dead
 		HealthFill.rectTransform.sizeDelta = v;
-
-		if(!(Mathf.Abs(v.x - Health) <= .1f)) return;
+		if(!(Health - _playerHits <= .1f)) return;
 
 		// Destroy Wizard
 		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
