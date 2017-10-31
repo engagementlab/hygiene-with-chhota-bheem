@@ -344,30 +344,12 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 		// TO DO - When assets are ready
 				
-//		GUIManager.Instance._spellStepsUi.SetActive(true);
+		GUIManager.Instance._spellActivatedUi.SetActive(true);
+		yield return new WaitForSeconds(1);
+		GUIManager.Instance._spellActivatedUi.SetActive(false);
+		GameConfig.GamePaused = false;
+		GameConfig.GameSpeedModifier = 15;
 
-//		foreach (GameObject group in GUIManager.Instance._spellSteps)
-//		{
-//			if (group.name == spell.ToString())
-//			{
-//				group.SetActive(true);
-//				GUIManager.Instance._spellStepsComponent = group.GetComponentsInChildren<Animator>();
-//					
-//				for (var i = 0; i <= GUIManager.Instance._spellStepsComponent.Length-1; i++)
-//				{
-//					GUIManager.Instance._spellStepsComponent[i].Play("SpellStep");
-//					animations++;
-//			
-//					if (animations >= GUIManager.Instance._spellStepsComponent.Length)
-//					{
-						yield return new WaitForSeconds(1);
-//						group.SetActive(false);
-//						GUIManager.Instance._spellStepsUi.SetActive(false);
-						GameConfig.GamePaused = false;
-//					}
-//				}
-//			}
-//		}
 
 	}
  
