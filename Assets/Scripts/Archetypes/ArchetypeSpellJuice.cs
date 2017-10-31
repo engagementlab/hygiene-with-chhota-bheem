@@ -112,7 +112,6 @@ public class ArchetypeSpellJuice : MonoBehaviour
 			
 			for (int i = 0; i < spellBars.Length; i++)
 			{
-				Debug.Log(spellBars[i].GetComponent<ArchetypeSpell>().Type);
 				if (spellBars[i].GetComponent<ArchetypeSpell>().Type == _type)
 				{
 					currentSpellObject = spellBars[i];
