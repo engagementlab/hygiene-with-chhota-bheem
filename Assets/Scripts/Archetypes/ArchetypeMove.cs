@@ -152,7 +152,8 @@ public class ArchetypeMove : MonoBehaviour
 			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
 
 		_player = GameObject.FindWithTag("Player");
-		_playerScript = _player.GetComponent<ArchetypePlayer>();
+		if(_player != null)
+			_playerScript = _player.GetComponent<ArchetypePlayer>();
 	}
 
 	private void Start()
@@ -293,7 +294,7 @@ public class ArchetypeMove : MonoBehaviour
 			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));		  
 	  }
 	  
-	  if(!PlayerCanKill) return;
+	  if(!PlayerCanKill || _playerScript == null) return;
 	  if (collider.gameObject.tag != "Bubble") return;
 
 //	  int strength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
