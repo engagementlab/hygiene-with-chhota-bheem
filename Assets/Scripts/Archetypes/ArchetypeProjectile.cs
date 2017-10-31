@@ -6,7 +6,9 @@ public class ArchetypeProjectile : MonoBehaviour {
 
 	public void Initialize(Vector3 scale, Vector3 velocity)
 	{
+		transform.position = new Vector3(transform.position.x, transform.position.y, -2);
 		transform.localScale = scale;
+		
 		GetComponent<Rigidbody>().velocity = velocity;
 		gameObject.AddComponent<SphereCollider>().isTrigger = true;
 		

@@ -68,4 +68,24 @@ public class Utilities : MonoBehaviour {
 		}
 		#endif
 	}
+
+	public static float GetZPosition(GameObject obj)
+	{
+		float zPos;
+		
+		switch(obj.tag)
+		{
+			case "ScorpionSnake":
+				zPos = -1;
+				break;
+			case "Bubble":
+				zPos = -2;
+				break;
+			default:
+				zPos = 0;
+				break;
+		}
+
+		return zPos;
+	}
 }

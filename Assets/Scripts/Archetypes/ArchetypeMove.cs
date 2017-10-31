@@ -154,6 +154,8 @@ public class ArchetypeMove : MonoBehaviour
 		_player = GameObject.FindWithTag("Player");
 		if(_player != null)
 			_playerScript = _player.GetComponent<ArchetypePlayer>();
+		
+		transform.position = new Vector3(transform.position.x, transform.position.y, Utilities.GetZPosition(gameObject));
 	}
 
 	private void Start()
