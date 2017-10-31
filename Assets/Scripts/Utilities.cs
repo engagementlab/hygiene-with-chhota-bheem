@@ -76,6 +76,7 @@ public class Utilities : MonoBehaviour {
 		switch(obj.tag)
 		{
 			case "ScorpionSnake":
+			case "Fly":
 				zPos = -1;
 				break;
 			case "Bubble":

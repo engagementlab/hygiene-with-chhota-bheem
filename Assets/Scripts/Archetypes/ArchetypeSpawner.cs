@@ -24,9 +24,6 @@ public class ArchetypeSpawner : MonoBehaviour
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
 	public bool MoveAfterSpawn = true;
-
-	[Range(0, 20)]
-	public float DelayBeforeLoop;
 	
 	[HideInInspector]
 	public bool UseSpawnerParent = true;
@@ -90,12 +87,8 @@ public class ArchetypeSpawner : MonoBehaviour
 				return;
 			}
 
-			// End of loop
-			else if(_prefabIndex == SpawnedObjects.Length - 1 && _spawnWaitTime < DelayBeforeLoop) 
-				return;
-
 			// Waiting for next prefab in loop
-			else if(_prefabIndex > 0 && _spawnWaitTime < SpawnedObjects[_prefabIndex].DelayBeforeNext)
+			else if(_prefabIndex >= 0 && _spawnWaitTime < SpawnedObjects[_prefabIndex].DelayBeforeNext)
 				return;
 			
 			if(SpawnRepeating && _prefabIndex == SpawnedObjects.Length - 1)
@@ -162,6 +155,11 @@ public class ArchetypeSpawner : MonoBehaviour
 		// Increment index
 		if(_prefabIndex < SpawnedObjects.Length - 1)
 			_prefabIndex++;
+		
+		#if UNITY_EDITOR
+		Debug.Log("Spawning: " + SpawnedObjects[_prefabIndex].Prefab.name);
+		Debug.Log("Waiting: "  + SpawnedObjects[_prefabIndex].DelayBeforeNext);
+		#endif
 		
 		var spawnPos = SpawnedObjects[_prefabIndex].UseSpawnerParent ? transform.localPosition : transform.position;
 		
