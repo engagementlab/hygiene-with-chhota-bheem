@@ -296,8 +296,8 @@ public class ArchetypeMove : MonoBehaviour
 	  if(!PlayerCanKill) return;
 	  if (collider.gameObject.tag != "Bubble") return;
 
-	  int strength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
-	  _bubblesHit += strength;
+//	  int strength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
+	  _bubblesHit += _playerScript.Strength;
 	  
 	  Destroy(collider.gameObject);
 	  
