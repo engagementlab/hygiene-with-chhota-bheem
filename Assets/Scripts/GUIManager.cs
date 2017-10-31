@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GUIManager
@@ -16,7 +17,8 @@ public class GUIManager
 	}
 
 	private GameObject _gameEndScreen;
-	private Animator _gameOverAnim;
+	private Animator _gameEndAnim;
+	private Text _gameEndScore;
 		
 	private GameObject _inventoryUi;
 	private GameObject _spellText;
@@ -44,7 +46,8 @@ public class GUIManager
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
-		_gameOverAnim = _gameEndScreen.GetComponent<Animator>();
+		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
+		_gameEndScore = _gameEndScreen.transform.Find("Wrapper/Board/Score").GetComponent<Text>();
 
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseAnimator = _pauseUi.GetComponent<Animator>();
@@ -61,7 +64,7 @@ public class GUIManager
 			var fill = SpellBars[i].transform.Find("Background").GetComponent<RectTransform>();
 			fill.sizeDelta = new Vector2(fill.sizeDelta.x, 0);
 		}
-//		
+		
 		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");
 //		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
 		
@@ -70,11 +73,6 @@ public class GUIManager
 		
 		_spellActivatedUi.SetActive(false);
 		_spellCount = 0;
-		
-//		foreach (GameObject group in _spellSteps)
-//		{
-//			group.SetActive(false);
-//		}
 
 	}
 	
@@ -137,17 +135,9 @@ public class GUIManager
 
 	}
 
-	public void UpdateScore(float num, string type) {
+	public void UpdateScore(int num) {
 
-/*
-		if (type == "Villager") {
-			_villagerCount.text = GameConfig.peopleSaved.ToString();
-		} else if (type == "Fly") {
-			_fliesCount.text = GameConfig.fliesCaught.ToString();
-		}
-
-		_score.text = (float.Parse(_score.text) + num).ToString();
-*/
+		_score.text = num.ToString();
 
 	}
 
@@ -167,7 +157,13 @@ public class GUIManager
 	{
 		_gameEndScreen.SetActive(true);
 
-		_gameOverAnim.SetBool("win", win);
+		_gameEndScore.text = "Score: " + GameConfig.Score;
+
+		_gameEndAnim.SetBool("won", win);
+
+		int stars = GameConfig.Score / GameConfig.PossibleScore;
+		
+		_gameEndAnim.SetInteger("stars", stars);
 
 	}
 }

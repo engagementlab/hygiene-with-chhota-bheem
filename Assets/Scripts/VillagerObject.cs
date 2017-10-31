@@ -64,7 +64,7 @@ public class VillagerObject : ArchetypeMove
 		
 		Particles.Play();
 		iTween.ScaleTo(gameObject, Vector3.zero, 1f);
-		Events.instance.Raise (new ScoreEvent(1, ScoreEvent.Type.Villager));
+		Events.instance.Raise (new ScoreEvent(pointsWorth, ScoreEvent.Type.Villager));
 
 		StartCoroutine(RemoveVillager());
 

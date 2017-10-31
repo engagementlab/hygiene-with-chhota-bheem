@@ -194,7 +194,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
   private void OnScoreEvent(ScoreEvent e) {
 
-		GUIManager.Instance.UpdateScore(e.scoreAmount, e.eventType.ToString());
+		GameConfig.UpdateScore(e.scoreAmount);
 
 	}
 	
