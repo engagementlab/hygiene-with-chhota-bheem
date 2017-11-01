@@ -77,10 +77,13 @@ public class Utilities : MonoBehaviour {
 		{
 			case "ScorpionSnake":
 			case "Fly":
-				zPos = -1;
+				zPos = -.1f;
+				break;
+			case "Villager":
+				zPos = -.12f;
 				break;
 			case "Bubble":
-				zPos = -2;
+				zPos = -.2f;
 				break;
 			default:
 				zPos = 0;

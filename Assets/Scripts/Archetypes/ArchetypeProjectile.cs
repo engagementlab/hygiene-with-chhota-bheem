@@ -6,7 +6,7 @@ public class ArchetypeProjectile : MonoBehaviour {
 
 	public void Initialize(Vector3 scale, Vector3 velocity)
 	{
-		transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+		transform.position = new Vector3(transform.position.x, transform.position.y, Utilities.GetZPosition(gameObject));
 		transform.localScale = scale;
 		
 		GetComponent<Rigidbody>().velocity = velocity;
