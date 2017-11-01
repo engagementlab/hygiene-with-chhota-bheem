@@ -28,23 +28,26 @@ public class GameManager : MonoBehaviour
 	private void Update()
 	{
 
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(!Input.GetMouseButton(0) || Input.touches.Length < 0)
+//		#if UNITY_ANDROID && !UNITY_EDITOR
+		if (!GameConfig.GameOver)
 		{
-			if(_touching && !_paused)
+			if(!Input.GetMouseButton(0) || Input.touches.Length < 0)
 			{
-				StartCoroutine(Pause());
-			}
+				if(_touching && !_paused)
+				{
+					StartCoroutine(Pause());
+				}
 
-		} 
-		else
-		{
-			if(!_touching && _paused)
+			} 
+			else
 			{
-				StartCoroutine(UnPause());
+				if(!_touching && _paused)
+				{
+					StartCoroutine(UnPause());
+				}
 			}
 		}
-		#endif
+//		#endif
 		
 		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f; 
 	}

@@ -225,7 +225,7 @@ public class ArchetypeBoss : ArchetypeMove
 		StartCoroutine(DestroyWizard());
 
 		// You won the game
-		Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Wizard));
+		Events.instance.Raise(new ScoreEvent(pointsWorth));
 		Events.instance.Raise(new DeathEvent(true));
 
 	}

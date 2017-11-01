@@ -159,7 +159,8 @@ public class ArchetypeMove : MonoBehaviour
 		
 		transform.position = new Vector3(transform.position.x, transform.position.y, Utilities.GetZPosition(gameObject));
 	
-		GameConfig.PossibleScore += pointsWorth;
+		if (PlayerCanKill)
+			GameConfig.PossibleScore += pointsWorth;
 
 	}
 
@@ -177,7 +178,7 @@ public class ArchetypeMove : MonoBehaviour
 		if (!_movingTransform)
 			return;
 
-		if (GameConfig.GamePaused) return;
+		if (GameConfig.GamePaused || GameConfig.GameOver) return;
 
 		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
 		if(yPos < 1.04f)
@@ -316,37 +317,8 @@ public class ArchetypeMove : MonoBehaviour
 	  {
 		  Destroy(gameObject);
 
-		  switch(collider.gameObject.tag)
-		  {
-			  case "Bubble":
-				  switch(gameObject.tag)
-				  {
-					  case "Fly":
-
-						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Fly));
-						  GameConfig.FliesCaught++;
-
-						  break;
-						  
-					  case "Snake":
-
-						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Snake));
-
-						  break;
-						  
-					  case "Scorpion":
-
-						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Scorpion));
-
-						  break;
-					  case "Poop":
-						  Debug.Log("The Player shot a Poop! Nothing happens.");
-						  break;
-				  }
-
-				  break;
-		  }
-
+		  Events.instance.Raise(new ScoreEvent(pointsWorth));
+		
 	  }
   }
 

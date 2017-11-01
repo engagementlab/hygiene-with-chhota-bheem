@@ -10,6 +10,7 @@ public class GameConfig : MonoBehaviour
   public static float NumBubblesInterval = .5f;
   
 	public static bool GamePaused = true;
+	public static bool GameOver = false;
   
   public static int PowerUpsCount = 0;
   public static int FliesCaught = 0;
@@ -40,7 +41,7 @@ public class GameConfig : MonoBehaviour
 
 	public static void UpdateScore(int worth)
 	{
-		Score =+ worth;
+		Score = Score + worth;
 		GUIManager.Instance.UpdateScore(Score);
 
 	}

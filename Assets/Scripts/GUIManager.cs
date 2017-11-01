@@ -31,6 +31,7 @@ public class GUIManager
 	private Text _fliesCount;
 	private Text _villagerCount;
 	private Text _score;
+	private int _stars;
 
 	public GameObject[] SpellBars;
 	public float SpellSize;
@@ -160,9 +161,20 @@ public class GUIManager
 
 		_gameEndAnim.SetBool("won", win);
 
-		int stars = GameConfig.Score / GameConfig.PossibleScore;
+		if (GameConfig.Score > 0 && GameConfig.Score <= GameConfig.PossibleScore)
+		{
+			_stars = (int)( ( (float)GameConfig.Score / GameConfig.PossibleScore) * 3 );
+		}
+		else if (GameConfig.Score > GameConfig.PossibleScore)
+		{
+			_stars = 3;
+		} 
+		else 
+		{
+			_stars = 0;
+		}
 		
-		_gameEndAnim.SetInteger("stars", stars);
+		_gameEndAnim.SetInteger("stars", _stars);
 
 	}
 }
