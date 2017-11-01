@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,14 +13,12 @@ public class VillagerObject : ArchetypeMove
 {
 
 	public ParticleSystem Particles;
-	public RawImage healthFill;
+//	public RawImage healthFill;
 
-	public int placeholderIndex = 0;
-	public float health = 2f;
-
-	private Camera mainCamera;
-	private Vector3[] movements = new Vector3[4];
-
+	private Camera _mainCamera;
+	private SpriteRenderer _villagerRenderer;
+	private Sprite[] _spriteFrames;
+	
 	private IEnumerator RemoveVillager()
 	{
 		yield return new WaitForSeconds(1);
@@ -29,37 +29,46 @@ public class VillagerObject : ArchetypeMove
 	private void Awake () {
 		
 		base.Awake();
-		mainCamera = Camera.main;
-
+		
+		_mainCamera = Camera.main;
+		_villagerRenderer = GetComponent<SpriteRenderer>();
 	}
-	
+
+	private void Start()
+	{
+		
+		// Pick random villager spritesheet and set to first frame
+		_spriteFrames = Resources.LoadAll<Sprite>("Villagers/"+UnityEngine.Random.Range(1, 4));
+		_villagerRenderer.sprite = _spriteFrames[0];
+		
+	}
+
 	// Update is called once per frame
 	private void Update () {
 		
 		base.Update();
 			
-		if(mainCamera.WorldToViewportPoint(transform.position).y < -.5f)
+		if(_mainCamera.WorldToViewportPoint(transform.position).y < -.5f)
 			Destroy(gameObject);
 	
-
 	}
 
 	private void OnTriggerEnter(Collider collider) {
 		
-		base.OnTriggerEnter(collider);
+//		base.OnTriggerEnter(collider);
 		
 		if(collider.gameObject.tag != "Bubble") return;
-
-		placeholderIndex++;
-
-		Vector2 v = healthFill.rectTransform.sizeDelta;
-		v.x += .5f;
-		healthFill.rectTransform.sizeDelta = v;
 		
-		var a = Mathf.Abs(v.x - health) <= .1f;
+		Destroy(collider.gameObject);
+		if(_bubblesHit < HitPoints-1)
+		{
+			_bubblesHit += _playerScript.Strength;
+			
+			if(_bubblesHit <= _spriteFrames.Length)
+				_villagerRenderer.sprite = _spriteFrames[_bubblesHit];
+			return;
+		}
 
-		if(!(Mathf.Abs(v.x - health) <= .1f)) return;
-		
 		SpawnSpellComponent();
 		
 		Particles.Play();

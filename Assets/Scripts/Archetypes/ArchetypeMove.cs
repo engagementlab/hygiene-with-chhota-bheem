@@ -113,7 +113,6 @@ public class ArchetypeMove : MonoBehaviour
 	private float _targetAnimSpeed;
 	private float _moveWaitingTime;
 	private int _nextPoint = 1;
-	private int _bubblesHit;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 	private RectTransform _bgRectTransform;
@@ -124,6 +123,7 @@ public class ArchetypeMove : MonoBehaviour
 	private Transform[] _waypointPositions;
 	private Quaternion _startingRotation;
 	
+	internal int _bubblesHit;
 	internal Camera MainCamera;
 	internal GameObject Player;
 	internal ArchetypePlayer _playerScript;

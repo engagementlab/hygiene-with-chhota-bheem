@@ -62,7 +62,7 @@ public class ArchetypeMoveGUI : Editor
 		// Player can kill bool
 		if(target.GetType().ToString() != "ArchetypeBoss")
 		{
-			_archetype.PlayerCanKill = EditorGUILayout.Toggle("Player Can Kill", _archetype.PlayerCanKill);
+			_archetype.PlayerCanKill = EditorGUILayout.Toggle("Player Can Kill/Remove", _archetype.PlayerCanKill);
 			if(_archetype.PlayerCanKill)
 				_archetype.HitPoints = EditorGUILayout.IntSlider("Hit Points", _archetype.HitPoints, 1, 10);
 		}
