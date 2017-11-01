@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
 	public GameObject VillagerPrefab;
 
 	private float _deltaTime;
-	private bool _touching;
+	private bool _touching = true;
+	private bool _paused = false;
 
 	private void Awake()
 	{
@@ -28,26 +29,43 @@ public class GameManager : MonoBehaviour
 	{
 
 		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(!Input.GetMouseButton(0))
+		if(!Input.GetMouseButton(0) || Input.touches.Length < 0)
 		{
-			if(_touching)
+			if(_touching && !_paused)
 			{
-				_touching = false;
-				GUIManager.Instance.ShowPause();
+				StartCoroutine(Pause());
 			}
 
 		} 
 		else
 		{
-			if(!_touching)
+			if(!_touching && _paused)
 			{
-				_touching = true;
-				GUIManager.Instance.HidePause();
+				StartCoroutine(UnPause());
 			}
 		}
 		#endif
 		
 		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f; 
+	}
+	
+	
+	public IEnumerator Pause()
+	{
+		_touching = false;
+		GameConfig.GamePaused = true;
+		GUIManager.Instance.ShowPause();
+		yield return new WaitForSeconds(1);
+		_paused = true;
+	}
+
+	public IEnumerator UnPause()
+	{
+		_touching = true;
+		GUIManager.Instance.HidePause();
+		yield return new WaitForSeconds(1);
+		_paused = false;
+		GameConfig.GamePaused = false;
 	}
 
 	private void OnGUI()

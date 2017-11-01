@@ -48,6 +48,8 @@ public class GUIManager
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
 		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
 		_gameEndScore = _gameEndScreen.transform.Find("Wrapper/Board/Score").GetComponent<Text>();
+		
+		_gameEndScreen.SetActive(false);
 
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseAnimator = _pauseUi.GetComponent<Animator>();
@@ -67,9 +69,6 @@ public class GUIManager
 		
 		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");
 //		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
-		
-		_gameEndUi = GameObject.Find("GameUI/GameEndScreen");
-		_gameEndUi.SetActive(false);
 		
 		_spellActivatedUi.SetActive(false);
 		_spellCount = 0;

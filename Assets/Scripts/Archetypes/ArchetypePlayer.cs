@@ -83,9 +83,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private void Update() {
 		
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(Input.touches.Length == 0) return;
-		#endif
+		if(GameConfig.GamePaused) return;
 				
 		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.BubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
