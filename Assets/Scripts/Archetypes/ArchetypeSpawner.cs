@@ -24,9 +24,6 @@ public class ArchetypeSpawner : MonoBehaviour
 	
 	[Tooltip("Should spawner object continue to move after spawning prefab?")]
 	public bool MoveAfterSpawn = true;
-
-	[Range(0, 20)]
-	public float DelayBeforeLoop;
 	
 	[HideInInspector]
 	public bool UseSpawnerParent = true;
@@ -85,16 +82,21 @@ public class ArchetypeSpawner : MonoBehaviour
 
 			// Initial spawn
 			if(_prefabIndex == -1 && _spawnWaitTime < SpawnDelay)
+			{
+				_spawnCount = 0;
 				return;
-			
-			// End of loop
-			else if(_prefabIndex == SpawnedObjects.Length - 1 && _spawnWaitTime < DelayBeforeLoop)
-				return;
-			
-			// Waiting for next prefab in loop
-			else if(_prefabIndex > 0 && _spawnWaitTime < SpawnedObjects[_prefabIndex].DelayBeforeNext)
-				return;
+			}
 
+			// Waiting for next prefab in loop
+			else if(_prefabIndex >= 0 && _spawnWaitTime < SpawnedObjects[_prefabIndex].DelayBeforeNext)
+				return;
+			
+			if(SpawnRepeating && _prefabIndex == SpawnedObjects.Length - 1)
+			{
+				_spawnCount++;
+				_prefabIndex = -1;
+			}
+			
 			// Reset time and spawn
 			_spawnWaitTime = 0;
 			Spawn();
@@ -150,18 +152,19 @@ public class ArchetypeSpawner : MonoBehaviour
 			return;
 		}
 
-		// Increment or reset index
+		// Increment index
 		if(_prefabIndex < SpawnedObjects.Length - 1)
 			_prefabIndex++;
-		else
-			_prefabIndex = 0;
+		
+		#if UNITY_EDITOR
+		Debug.Log("Spawning: " + SpawnedObjects[_prefabIndex].Prefab.name);
+		Debug.Log("Waiting: "  + SpawnedObjects[_prefabIndex].DelayBeforeNext);
+		#endif
 		
 		var spawnPos = SpawnedObjects[_prefabIndex].UseSpawnerParent ? transform.localPosition : transform.position;
 		
 		_spawnObject = Instantiate(SpawnedObjects[_prefabIndex].Prefab, spawnPos, SpawnedObjects[_prefabIndex].Prefab.transform.rotation);
 		_spawnObject.SetActive(true);
-
-		_spawnCount++;
 
 		// Destroy once well past camera bounds
 		if (MainCamera.WorldToViewportPoint(transform.position).y < -1.2f)
@@ -192,8 +195,6 @@ public class ArchetypeSpawner : MonoBehaviour
 			}
 		 	else
 				Destroy(gameObject);
-			
-			
 		}
 		
 	}

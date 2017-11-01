@@ -15,11 +15,13 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		
 		GameObject gameUi = (GameObject) Instantiate(Resources.Load("GameUI"));
 		gameUi.name = "GameUI";
 		GUIManager.Instance.Initialiaze();
 
 		Instantiate(Resources.Load("EventSystem"));
+		
 	}
 
 	private void Update()

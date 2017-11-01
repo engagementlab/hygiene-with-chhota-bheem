@@ -18,11 +18,14 @@ public class GameConfig : MonoBehaviour
 	public static float GameSpeedModifier = 15;
 	public static float BubbleOffset = 2;
 
+	public static int Score = 0;
+	public static int PossibleScore;
+
 	// Use this for initialization
 	private void Awake () {
 		
 		DontDestroyOnLoad(this);
-
+		
 	}
 
 	public static void Reset() {
@@ -30,6 +33,15 @@ public class GameConfig : MonoBehaviour
 		NumBubblesInterval = .25f;
 		
 		PowerUpsCount = 0;
+
+		Score = 0;
+
+	}
+
+	public static void UpdateScore(int worth)
+	{
+		Score =+ worth;
+		GUIManager.Instance.UpdateScore(Score);
 
 	}
 

@@ -27,6 +27,8 @@ using UnityEditor;
 public class ArchetypeMove : MonoBehaviour
 {
 
+	public int pointsWorth = 1;
+	
 	[HideInInspector]
 	public bool MoveEnabled = true;
 	public bool AnimateOnlyInCamera = true;
@@ -101,6 +103,9 @@ public class ArchetypeMove : MonoBehaviour
 	[CanBeNull] private Transform _waypointsParent;
 	[CanBeNull] private GameObject _localParent;
 
+	[HideInInspector]
+	public GameObject _player;
+
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
@@ -121,6 +126,7 @@ public class ArchetypeMove : MonoBehaviour
 	
 	internal Camera MainCamera;
 	internal GameObject Player;
+	internal ArchetypePlayer _playerScript;
 
 	/**************
 		UNITY METHODS
@@ -146,6 +152,15 @@ public class ArchetypeMove : MonoBehaviour
 		// Is background object?
 		if(gameObject.layer == 8)
 			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
+
+		_player = GameObject.FindWithTag("Player");
+		if(_player != null)
+			_playerScript = _player.GetComponent<ArchetypePlayer>();
+		
+		transform.position = new Vector3(transform.position.x, transform.position.y, Utilities.GetZPosition(gameObject));
+	
+		GameConfig.PossibleScore += pointsWorth;
+
 	}
 
 	private void Start()
@@ -157,10 +172,6 @@ public class ArchetypeMove : MonoBehaviour
 	}
 
 	public void Update () {
-		
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(Input.touches.Length == 0) return;
-		#endif
 
 		// Sanity check
 		if (!_movingTransform)
@@ -283,24 +294,25 @@ public class ArchetypeMove : MonoBehaviour
 		  if(EditorPrefs.GetBool("GodMode")) die = false;
 		  #endif
 		  
+		  // Die immediately if not powered up
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new DeathEvent(false));
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));		  
 	  }
 	  
-//	  if(gameObject.tag == "Boss") return;
-	  if(!PlayerCanKill) return;
+	  if(!PlayerCanKill || _playerScript == null) return;
 	  if (collider.gameObject.tag != "Bubble") return;
 
-	  int increase = GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().BubbleInitialStrength;
-	  _bubblesHit += increase;
+//	  int strength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
+	  _bubblesHit += _playerScript.Strength;
 	  
 	  Destroy(collider.gameObject);
 	  
-	  if(_bubblesHit == HitPoints)
+	  // Hits may exceed HP if strength not evenly divisible by HP, hence greater-or-equal
+	  if(_bubblesHit >= HitPoints)
 	  {
-			Destroy(gameObject);
+		  Destroy(gameObject);
 
 		  switch(collider.gameObject.tag)
 		  {
@@ -309,8 +321,20 @@ public class ArchetypeMove : MonoBehaviour
 				  {
 					  case "Fly":
 
-						  Events.instance.Raise(new ScoreEvent(1, ScoreEvent.Type.Fly));
+						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Fly));
 						  GameConfig.FliesCaught++;
+
+						  break;
+						  
+					  case "Snake":
+
+						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Snake));
+
+						  break;
+						  
+					  case "Scorpion":
+
+						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Scorpion));
 
 						  break;
 					  case "Poop":
