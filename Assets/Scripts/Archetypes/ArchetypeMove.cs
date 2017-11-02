@@ -175,9 +175,9 @@ public class ArchetypeMove : MonoBehaviour
 	public void Update () {
 
 		// Sanity check
-		if (!_movingTransform)
-			return;
+		if (!_movingTransform) return;
 
+		// Paused/over?
 		if (GameConfig.GamePaused || GameConfig.GameOver) return;
 
 		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;

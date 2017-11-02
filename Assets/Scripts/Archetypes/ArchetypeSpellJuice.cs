@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using DefaultNamespace;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class ArchetypeSpellJuice : MonoBehaviour
@@ -22,14 +18,13 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	public GameObject CurrentSpell;
 	private float _targetAnimSpeed;
+	private float _timeElapsed;
 	private int _nextPoint;
 	private Vector3 _startingPos;
 	private Vector3 _lastPoint;
 	private Vector3 _toPoint;
 	private Vector3[] _movementPoints;
 	private Spells _type;
-	private float _percentsPerSecond = .1f;
-	private float _currentPathPercent;
 
 	public void StartMovement(Vector3 startingPos)
 	{
@@ -51,53 +46,13 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	private void Update()
 	{
 	
-		if(_currentPathPercent >= 1)
+		if(!GameConfig.GamePaused)
+			_timeElapsed += Time.deltaTime;
+		
+		// Destroy this object after 5 seconds
+		if(_timeElapsed >= 5)
 			Destroy(gameObject);
 		
-		_currentPathPercent += _percentsPerSecond * Time.deltaTime;
-				
-	}
-	
-	internal void Animate()
-	{
-
-		float x;
-		float y;
-		
-		if (transform.position.x - _startingPos.x >= 1 || transform.position.x - _startingPos.x <= -1)
-			x = Random.Range(_startingPos.x - 1, _startingPos.x + 1);
-		else 
-			x = Random.Range(transform.position.x - 1, transform.position.x + 1);
-		
-		
-		if (transform.position.y - _startingPos.y >= 1 || transform.position.y - _startingPos.y <= -1)
-			y = Random.Range(_startingPos.y - 1, _startingPos.y - 0.5f);
-		else 
-			y = Random.Range(transform.position.y - 1, transform.position.y - 0.5f);
-		
-		// Place object at current %
-		_lastPoint = transform.position;
-		_toPoint = Utilities.ClampToScreen(new Vector3(x, y, 0), Camera.main);	
-		
-		var distance = Vector3.Distance(_toPoint, _lastPoint);
-		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/2, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
-	}
-
-	void Complete()
-	{
-		
-		Animate();
-		
-	}
-
-	private void JuiceCollected(GameObject spellObject)
-	{
-		var fill = spellObject.transform.Find("Background").gameObject;
-		// Update Spell Juice UI
-		GUIManager.Instance.AddSpellJuice(_type, fill);
-		
-		// Destroy this spell juice
-		Destroy(gameObject);
 	}
 
 	private void OnTriggerEnter(Collider collider) {
@@ -122,12 +77,50 @@ public class ArchetypeSpellJuice : MonoBehaviour
 			}
 		}
 		else if (currentSpellObject.GetComponent<ArchetypeSpell>().Type == _type)
-		{
-//			Debug.Log("Continuing to work towards spell '" + type + "'!");
 			JuiceCollected(currentSpellObject);
 
-		}	
+	}
 
+	private void Animate()
+	{
+
+		float x;
+		float y;
+		
+		if (transform.position.x - _startingPos.x >= 1 || transform.position.x - _startingPos.x <= -1)
+			x = Random.Range(_startingPos.x - 1, _startingPos.x + 1);
+		else 
+			x = Random.Range(transform.position.x - 1, transform.position.x + 1);
+		
+		
+		if (transform.position.y - _startingPos.y >= 1 || transform.position.y - _startingPos.y <= -1)
+			y = Random.Range(_startingPos.y - 1, _startingPos.y - 0.5f);
+		else 
+			y = Random.Range(transform.position.y - 1, transform.position.y - 0.5f);
+		
+		// Place object at current %
+		_lastPoint = transform.position;
+		_toPoint = Utilities.ClampToScreen(new Vector3(x, y, 0), Camera.main);	
+		
+		var distance = Vector3.Distance(_toPoint, _lastPoint);
+		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/2, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+	}
+
+	private void Complete()
+	{
+		
+		Animate();
+		
+	}
+
+	private void JuiceCollected(GameObject spellObject)
+	{
+		var fill = spellObject.transform.Find("Background").gameObject;
+		// Update Spell Juice UI
+		GUIManager.Instance.AddSpellJuice(_type, fill);
+		
+		// Destroy this spell juice
+		Destroy(gameObject);
 	}
 
 }

@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 	
 		if(!GameConfig.GameOver)
 		{
+			// Pause only if player has already touched at some point
 			if(!noInput)
 			{
 				_playerHasTouched = true;
@@ -60,7 +61,6 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
-//		#endif
 		
 		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f; 
 	}
@@ -70,16 +70,20 @@ public class GameManager : MonoBehaviour
 	{
 		_touching = false;
 		GameConfig.GamePaused = true;
+		
 		GUIManager.Instance.ShowPause();
 		yield return new WaitForSeconds(.4f);
+		
 		_paused = true;
 	}
 
 	public IEnumerator UnPause()
 	{
 		_touching = true;
+		
 		GUIManager.Instance.HidePause();
 		yield return new WaitForSeconds(.5f);
+		
 		_paused = false;
 		GameConfig.GamePaused = false;
 	}
@@ -111,16 +115,6 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-	}
-
-	
-	public void LoadLevel(string level) {
-
-		if (!System.String.IsNullOrEmpty(level)) 
-			UnityEngine.SceneManagement.SceneManager.LoadScene(level);
-		else 
-			UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
-    		
 	}
 
 }

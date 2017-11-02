@@ -79,6 +79,9 @@ public class ArchetypeBoss : ArchetypeMove
 
 		// Do nothing before in view
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < .9f)) return;
+		// Paused/over?
+		if (GameConfig.GamePaused || GameConfig.GameOver) return;
+		
 		if(MoveEnabled) MoveEnabled = false;
 		
 		// Put at root of scene so it stays still

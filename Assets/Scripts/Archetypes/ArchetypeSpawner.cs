@@ -66,7 +66,8 @@ public class ArchetypeSpawner : MonoBehaviour
 	// Update is called once per frame
 	public void Update () {
 		
-		if(!_wait) return;
+		// Waiting, paused/over?
+		if(!_wait || GameConfig.GamePaused || GameConfig.GameOver) return;
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || SpawnedObjects == null) return;
 	
 		// If not repeating, spawn and destroy now
