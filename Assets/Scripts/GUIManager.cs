@@ -40,7 +40,7 @@ public class GUIManager
 	public Animator[] _spellStepsComponent;
 
 	// Use this for initialization
-	public void Initialiaze ()
+	public void Initialize ()
 	{ 
 		_inventoryUi = GameObject.Find("GameUI/SpellJuiceBars");
 		
@@ -105,8 +105,6 @@ public class GUIManager
 
 	public void AddSpellJuice(Spells type, GameObject fill)
 	{
-//		Debug.Log("Adding juice for spell '" + type + "'");
-
 		var spellFill = fill.GetComponent<RectTransform>();
 		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
 		_spellCount++;

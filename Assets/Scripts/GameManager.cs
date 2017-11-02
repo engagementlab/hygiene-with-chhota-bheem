@@ -11,15 +11,16 @@ public class GameManager : MonoBehaviour
 	public GameObject VillagerPrefab;
 
 	private float _deltaTime;
+	private bool _playerHasTouched;
 	private bool _touching = true;
-	private bool _paused = false;
+	private bool _paused;
 
 	private void Awake()
 	{
 		
 		GameObject gameUi = (GameObject) Instantiate(Resources.Load("GameUI"));
 		gameUi.name = "GameUI";
-		GUIManager.Instance.Initialiaze();
+		GUIManager.Instance.Initialize();
 
 		Instantiate(Resources.Load("EventSystem"));
 		
@@ -28,10 +29,22 @@ public class GameManager : MonoBehaviour
 	private void Update()
 	{
 
-//		#if UNITY_ANDROID && !UNITY_EDITOR
-		if (!GameConfig.GameOver)
+		bool noInput;
+		#if UNITY_EDITOR
+			noInput = !Input.GetMouseButton(0);
+		#else
+			noInput = Input.touches.Length == 0;
+		#endif
+	
+		if(!GameConfig.GameOver)
 		{
-			if(!Input.GetMouseButton(0) || Input.touches.Length < 0)
+			if(!noInput)
+			{
+				_playerHasTouched = true;
+				GameConfig.GamePaused = false;
+			}
+
+			if(noInput && _playerHasTouched)
 			{
 				if(_touching && !_paused)
 				{
@@ -58,7 +71,7 @@ public class GameManager : MonoBehaviour
 		_touching = false;
 		GameConfig.GamePaused = true;
 		GUIManager.Instance.ShowPause();
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(.4f);
 		_paused = true;
 	}
 
@@ -66,7 +79,7 @@ public class GameManager : MonoBehaviour
 	{
 		_touching = true;
 		GUIManager.Instance.HidePause();
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(.5f);
 		_paused = false;
 		GameConfig.GamePaused = false;
 	}

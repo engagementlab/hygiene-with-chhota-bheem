@@ -64,7 +64,7 @@ public class VillagerObject : ArchetypeMove
 		{
 			_bubblesHit += _playerScript.Strength;
 			
-			if(_bubblesHit <= _spriteFrames.Length)
+			if(_bubblesHit < _spriteFrames.Length)
 				_villagerRenderer.sprite = _spriteFrames[_bubblesHit];
 			return;
 		}
@@ -78,7 +78,7 @@ public class VillagerObject : ArchetypeMove
 		StartCoroutine(RemoveVillager());
 
 		IsDestroyed = true;
-		GameConfig.PeopleSaved++;
+//		GameConfig.PeopleSaved++;
 
 
 	}

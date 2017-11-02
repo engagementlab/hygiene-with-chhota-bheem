@@ -218,9 +218,7 @@ public class ArchetypePlayer : MonoBehaviour {
 							PoweredUp = true;
 						}
 						else
-						{
 							GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
-						}
 
 						_speedShoot++;
 					}
