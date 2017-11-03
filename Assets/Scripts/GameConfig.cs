@@ -17,8 +17,8 @@ public class GameConfig : MonoBehaviour
 	public static float BubbleOffset = 2;
 
 	public static int Score = 200;
-	public static int VillagersSaved = 1;
-	public static int Multiplier = 3;
+	public static int VillagersSaved = 3;
+	public static int Multiplier = 9;
 
 	// Use this for initialization
 	private void Awake () {
@@ -30,7 +30,7 @@ public class GameConfig : MonoBehaviour
 	public static void Reset() {
     
 		NumBubblesInterval = .25f;
-		Score = 200;
+		Score = 0;
 
 	}
 
