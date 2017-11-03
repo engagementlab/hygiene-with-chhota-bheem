@@ -11,6 +11,7 @@ public class VillagerObject : ArchetypeMove
 	private Camera _mainCamera;
 	private SpriteRenderer _villagerRenderer;
 	private Sprite[] _spriteFrames;
+	private bool _spawned;
 	
 	private IEnumerator RemoveVillager()
 	{
@@ -25,6 +26,9 @@ public class VillagerObject : ArchetypeMove
 		
 		_mainCamera = Camera.main;
 		_villagerRenderer = GetComponent<SpriteRenderer>();
+		
+		if (!_spawned)
+			GameConfig.Multiplier++;	
 	}
 
 	private void Start()
@@ -75,7 +79,7 @@ public class VillagerObject : ArchetypeMove
 		StartCoroutine(RemoveVillager());
 
 		IsDestroyed = true;
-//		GameConfig.PeopleSaved++;
+		GameConfig.VillagersSaved++;
 
 
 	}

@@ -158,9 +158,6 @@ public class ArchetypeMove : MonoBehaviour
 			_playerScript = _player.GetComponent<ArchetypePlayer>();
 		
 		transform.position = new Vector3(transform.position.x, transform.position.y, Utilities.GetZPosition(gameObject));
-	
-		if (PlayerCanKill)
-			GameConfig.PossibleScore += pointsWorth;
 
 	}
 
