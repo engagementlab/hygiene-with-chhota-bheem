@@ -61,6 +61,20 @@ public class ArchetypeSpawner : MonoBehaviour
 			gameObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
 			gameObject.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("SpriteDefaultMaterial");
 		}
+
+		if (SpawnedObjects.Length > 0)
+		{
+			foreach (SpawnerPrefab prefab in SpawnedObjects)
+			{
+				if (prefab.Prefab.tag == "Villager")
+				{
+					if (SpawnRepeatCount > 0)
+						GameConfig.Multiplier += SpawnRepeatCount;
+					else
+						GameConfig.Multiplier++;
+				}	
+			}
+		}
 	}
 
 	// Update is called once per frame
