@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Analytics;
 
@@ -20,6 +19,10 @@ public class ArchetypePlayer : MonoBehaviour {
 	public float BubbleSpeedIncrease = 2f;
 	public float BubbleSizeIncrease = 0.1f;
 	public int BubbleStrengthIncrease = 1;
+
+	public AudioClip[] BubbleSounds;
+	public AudioClip GameEndSound;
+	public AudioClip ObstacleSound;
 
 	[HideInInspector] 
 	public int Strength;

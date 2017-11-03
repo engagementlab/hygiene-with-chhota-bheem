@@ -1,19 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MenuUI : MonoBehaviour
 {
 
 	public Animator SettingsAnimator;
-
+	public AudioClip MenuMusic;
+	private AudioSource _audio;
+	
+	
 	// Use this for initialization
 	void Start () {
-		
-	}
 	
-	// Update is called once per frame
-	void Update () {
+		_audio = GetComponent<AudioSource>();
+		// Start menu music
+		_audio.PlayOneShot(MenuMusic);
 		
 	}
 

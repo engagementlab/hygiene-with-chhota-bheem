@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class ScoreEvent : GameEvent {
+﻿public class ScoreEvent : GameEvent {
 
 	public readonly int scoreAmount;
 
