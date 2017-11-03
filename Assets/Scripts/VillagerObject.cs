@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using DefaultNamespace;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class VillagerObject : ArchetypeMove
 {
@@ -67,9 +60,13 @@ public class VillagerObject : ArchetypeMove
 		if(_bubblesHit < HitPoints-1)
 		{
 			_bubblesHit += _playerScript.Strength;
-			
+
 			if(_bubblesHit < _spriteFrames.Length)
+			{
+				bool hiSound = Random.value > .5f;
+				Events.instance.Raise(SoundEvent.WithClip(_playerScript.BubbleSounds[hiSound?0:1]));
 				_villagerRenderer.sprite = _spriteFrames[_bubblesHit];
+			}
 			return;
 		}
 

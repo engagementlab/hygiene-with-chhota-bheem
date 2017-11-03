@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Analytics;
-using System.Linq;
-using JetBrains.Annotations;
 
 public class AppManager : MonoBehaviour
 {

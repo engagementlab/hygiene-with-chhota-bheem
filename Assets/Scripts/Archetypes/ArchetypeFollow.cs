@@ -14,7 +14,7 @@ Created by Engagement Lab @ Emerson College, 2017
 
 using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
 public class ArchetypeFollow : ArchetypeMove

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using System.Text;
 
 [InitializeOnLoad]
 public class CustomHierarchyView

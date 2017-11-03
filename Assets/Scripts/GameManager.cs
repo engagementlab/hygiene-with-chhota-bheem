@@ -1,19 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Analytics;
-using System.Linq;
 using JetBrains.Annotations;
+using UnityEngine.VR.WSA;
 
+[RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
 	[CanBeNull]
 	public GameObject VillagerPrefab;
 
+	private AudioSource _audio;
+
 	private float _deltaTime;
 	private bool _playerHasTouched;
 	private bool _touching = true;
 	private bool _paused;
+
+	private Dictionary<string, AudioClip> _loadedAudio;
 
 	private void Awake()
 	{
@@ -22,8 +26,14 @@ public class GameManager : MonoBehaviour
 		gameUi.name = "GameUI";
 		GUIManager.Instance.Initialize();
 
+		_audio = GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
+		_loadedAudio = new Dictionary<string, AudioClip>();
+
 		Instantiate(Resources.Load("EventSystem"));
 		
+		Events.instance.AddListener<SoundEvent> (OnSoundEvent);
+		// Start level music
+		OnSoundEvent(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
 	}
 
 	private void Update()
@@ -64,29 +74,6 @@ public class GameManager : MonoBehaviour
 		
 		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f; 
 	}
-	
-	
-	public IEnumerator Pause()
-	{
-		_touching = false;
-		GameConfig.GamePaused = true;
-		
-		GUIManager.Instance.ShowPause();
-		yield return new WaitForSeconds(.4f);
-		
-		_paused = true;
-	}
-
-	public IEnumerator UnPause()
-	{
-		_touching = true;
-		
-		GUIManager.Instance.HidePause();
-		yield return new WaitForSeconds(.5f);
-		
-		_paused = false;
-		GameConfig.GamePaused = false;
-	}
 
 	private void OnGUI()
 	{
@@ -115,6 +102,46 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
+	}
+
+	private void OnSoundEvent(SoundEvent e)
+	{
+
+		if(e.SoundFileName != null)
+		{
+			// If sound name provided and clip not loaded, load into dictionary
+			if(!_loadedAudio.ContainsKey(e.SoundFileName))
+				_loadedAudio.Add(e.SoundFileName, Resources.Load<AudioClip>("Audio/" + e.Type + "/" + e.SoundFileName));
+
+			// Play loaded clip
+			_audio.PlayOneShot(_loadedAudio[e.SoundFileName], e.SoundVolume);
+		}
+		// Otherwise, play provided clip
+		else if(e.SoundClip != null) 
+			_audio.PlayOneShot(e.SoundClip, e.SoundVolume);
+		
+	}
+
+	public IEnumerator Pause()
+	{
+		_touching = false;
+		GameConfig.GamePaused = true;
+		
+		GUIManager.Instance.ShowPause();
+		yield return new WaitForSeconds(.4f);
+		
+		_paused = true;
+	}
+
+	public IEnumerator UnPause()
+	{
+		_touching = true;
+		
+		GUIManager.Instance.HidePause();
+		yield return new WaitForSeconds(.5f);
+		
+		_paused = false;
+		GameConfig.GamePaused = false;
 	}
 
 }
