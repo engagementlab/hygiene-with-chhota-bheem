@@ -26,14 +26,22 @@ public class GameManager : MonoBehaviour
 		gameUi.name = "GameUI";
 		GUIManager.Instance.Initialize();
 
-		_audio = GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
-		_loadedAudio = new Dictionary<string, AudioClip>();
-
 		Instantiate(Resources.Load("EventSystem"));
+		
+	}
+
+	private void Start()
+	{
+		_audio = GetComponent<AudioSource>();
+		if(_audio == null)
+			_audio = gameObject.AddComponent<AudioSource>();
+		
+		_loadedAudio = new Dictionary<string, AudioClip>();
 		
 		Events.instance.AddListener<SoundEvent> (OnSoundEvent);
 		// Start level music
 		OnSoundEvent(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
+		
 	}
 
 	private void Update()

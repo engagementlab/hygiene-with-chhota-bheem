@@ -51,7 +51,7 @@ public class GUIManager
 		_gameEndScore = _gameEndScreen.transform.Find("Wrapper/Board/ScoreWrap/Score").GetComponent<Text>();
 		_gameEndVillagers = _gameEndScreen.transform.Find("Wrapper/Board/VillagersMultiplier/Score").GetComponent<Text>();
 		
-//		_gameEndScreen.SetActive(false);
+		_gameEndScreen.SetActive(false);
 
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseAnimator = _pauseUi.GetComponent<Animator>();

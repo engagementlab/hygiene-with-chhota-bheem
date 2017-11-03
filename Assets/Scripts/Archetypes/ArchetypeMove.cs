@@ -65,6 +65,8 @@ public class ArchetypeMove : MonoBehaviour
 	public float AnimationDownwardSpeed = 1;	
 	[HideInInspector]
 	public AnimType AnimationType = AnimType.PingPong;
+	[HideInInspector]
+	public bool DestroyOnEnd;
 	
 	[HideInInspector]
 	public bool UseParentSpeed;
@@ -199,7 +201,8 @@ public class ArchetypeMove : MonoBehaviour
 					else
 						MoveEnabled = true;
 
-				} else
+				} 
+				else
 				{
 					// Delayed movement
 					_moveWaitingTime += Time.deltaTime;
@@ -560,8 +563,14 @@ public class ArchetypeMove : MonoBehaviour
 					}
 				}
 			} 
-			else if(_nextPoint < _waypoints.Count-1)
+			else if(_nextPoint < _waypoints.Count - 1)
 				_nextPoint++;
+			else
+			{
+				// If playing once, destroy if enabled
+				if(DestroyOnEnd) Destroy(gameObject);
+				
+			}
 			
 		}
 		else
