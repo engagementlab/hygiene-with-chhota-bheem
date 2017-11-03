@@ -10,15 +10,12 @@ public class GameConfig : MonoBehaviour
   public static float NumBubblesInterval = .5f;
   
 	public static bool GamePaused = true;
+	public static bool GameOver;
   
-  public static int PowerUpsCount = 0;
-  public static int FliesCaught = 0;
-  public static int PeopleSaved = 0;
-
 	public static float GameSpeedModifier = 15;
 	public static float BubbleOffset = 2;
 
-	public static int Score = 0;
+	public static int Score;
 	public static int PossibleScore;
 
 	// Use this for initialization
@@ -31,16 +28,13 @@ public class GameConfig : MonoBehaviour
 	public static void Reset() {
     
 		NumBubblesInterval = .25f;
-		
-		PowerUpsCount = 0;
-
 		Score = 0;
 
 	}
 
 	public static void UpdateScore(int worth)
 	{
-		Score =+ worth;
+		Score = Score + worth;
 		GUIManager.Instance.UpdateScore(Score);
 
 	}

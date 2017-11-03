@@ -31,6 +31,7 @@ public class GUIManager
 	private Text _fliesCount;
 	private Text _villagerCount;
 	private Text _score;
+	private int _stars;
 
 	public GameObject[] SpellBars;
 	public float SpellSize;
@@ -39,7 +40,7 @@ public class GUIManager
 	public Animator[] _spellStepsComponent;
 
 	// Use this for initialization
-	public void Initialiaze ()
+	public void Initialize ()
 	{ 
 		_inventoryUi = GameObject.Find("GameUI/SpellJuiceBars");
 		
@@ -48,6 +49,8 @@ public class GUIManager
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
 		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
 		_gameEndScore = _gameEndScreen.transform.Find("Wrapper/Board/Score").GetComponent<Text>();
+		
+		_gameEndScreen.SetActive(false);
 
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseAnimator = _pauseUi.GetComponent<Animator>();
@@ -67,9 +70,6 @@ public class GUIManager
 		
 		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");
 //		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
-		
-		_gameEndUi = GameObject.Find("GameUI/GameEndScreen");
-		_gameEndUi.SetActive(false);
 		
 		_spellActivatedUi.SetActive(false);
 		_spellCount = 0;
@@ -105,8 +105,6 @@ public class GUIManager
 
 	public void AddSpellJuice(Spells type, GameObject fill)
 	{
-//		Debug.Log("Adding juice for spell '" + type + "'");
-
 		var spellFill = fill.GetComponent<RectTransform>();
 		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
 		_spellCount++;
@@ -161,9 +159,20 @@ public class GUIManager
 
 		_gameEndAnim.SetBool("won", win);
 
-		int stars = GameConfig.Score / GameConfig.PossibleScore;
+		if (GameConfig.Score > 0 && GameConfig.Score <= GameConfig.PossibleScore)
+		{
+			_stars = (int)( ( (float)GameConfig.Score / GameConfig.PossibleScore) * 3 );
+		}
+		else if (GameConfig.Score > GameConfig.PossibleScore)
+		{
+			_stars = 3;
+		} 
+		else 
+		{
+			_stars = 0;
+		}
 		
-		_gameEndAnim.SetInteger("stars", stars);
+		_gameEndAnim.SetInteger("stars", _stars);
 
 	}
 }

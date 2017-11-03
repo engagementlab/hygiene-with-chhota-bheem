@@ -83,9 +83,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private void Update() {
 		
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(Input.touches.Length == 0) return;
-		#endif
+		if(GameConfig.GamePaused) return;
 				
 		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.BubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
@@ -220,9 +218,7 @@ public class ArchetypePlayer : MonoBehaviour {
 							PoweredUp = true;
 						}
 						else
-						{
 							GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
-						}
 
 						_speedShoot++;
 					}
@@ -366,6 +362,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		WonGame = e.wonGame;
 
 		gameObject.SetActive(false);
+		GameConfig.GameOver = true;
 		GUIManager.Instance.GameEnd(WonGame);
 		
 		// Send Player Data to Analytics

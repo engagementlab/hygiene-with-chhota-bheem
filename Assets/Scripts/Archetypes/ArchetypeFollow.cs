@@ -36,6 +36,8 @@ public class ArchetypeFollow : ArchetypeMove
 	
 	public void Update () {
 		 
+		if (GameConfig.GamePaused || GameConfig.GameOver) return;
+		
 		// Do nothing outside camera
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1)) return;
 

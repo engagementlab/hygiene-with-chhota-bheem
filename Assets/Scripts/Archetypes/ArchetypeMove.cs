@@ -113,7 +113,6 @@ public class ArchetypeMove : MonoBehaviour
 	private float _targetAnimSpeed;
 	private float _moveWaitingTime;
 	private int _nextPoint = 1;
-	private int _bubblesHit;
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 	private RectTransform _bgRectTransform;
@@ -124,6 +123,7 @@ public class ArchetypeMove : MonoBehaviour
 	private Transform[] _waypointPositions;
 	private Quaternion _startingRotation;
 	
+	internal int _bubblesHit;
 	internal Camera MainCamera;
 	internal GameObject Player;
 	internal ArchetypePlayer _playerScript;
@@ -159,7 +159,8 @@ public class ArchetypeMove : MonoBehaviour
 		
 		transform.position = new Vector3(transform.position.x, transform.position.y, Utilities.GetZPosition(gameObject));
 	
-		GameConfig.PossibleScore += pointsWorth;
+		if (PlayerCanKill)
+			GameConfig.PossibleScore += pointsWorth;
 
 	}
 
@@ -174,8 +175,10 @@ public class ArchetypeMove : MonoBehaviour
 	public void Update () {
 
 		// Sanity check
-		if (!_movingTransform)
-			return;
+		if (!_movingTransform) return;
+
+		// Paused/over?
+		if (GameConfig.GamePaused || GameConfig.GameOver) return;
 
 		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
 		if(yPos < 1.04f)
@@ -314,37 +317,8 @@ public class ArchetypeMove : MonoBehaviour
 	  {
 		  Destroy(gameObject);
 
-		  switch(collider.gameObject.tag)
-		  {
-			  case "Bubble":
-				  switch(gameObject.tag)
-				  {
-					  case "Fly":
-
-						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Fly));
-						  GameConfig.FliesCaught++;
-
-						  break;
-						  
-					  case "Snake":
-
-						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Snake));
-
-						  break;
-						  
-					  case "Scorpion":
-
-						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Scorpion));
-
-						  break;
-					  case "Poop":
-						  Debug.Log("The Player shot a Poop! Nothing happens.");
-						  break;
-				  }
-
-				  break;
-		  }
-
+		  Events.instance.Raise(new ScoreEvent(pointsWorth));
+		
 	  }
   }
 

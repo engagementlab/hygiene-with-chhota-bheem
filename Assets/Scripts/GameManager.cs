@@ -11,14 +11,16 @@ public class GameManager : MonoBehaviour
 	public GameObject VillagerPrefab;
 
 	private float _deltaTime;
-	private bool _touching;
+	private bool _playerHasTouched;
+	private bool _touching = true;
+	private bool _paused;
 
 	private void Awake()
 	{
 		
 		GameObject gameUi = (GameObject) Instantiate(Resources.Load("GameUI"));
 		gameUi.name = "GameUI";
-		GUIManager.Instance.Initialiaze();
+		GUIManager.Instance.Initialize();
 
 		Instantiate(Resources.Load("EventSystem"));
 		
@@ -27,27 +29,63 @@ public class GameManager : MonoBehaviour
 	private void Update()
 	{
 
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(!Input.GetMouseButton(0))
+		bool noInput;
+		#if UNITY_EDITOR
+			noInput = !Input.GetMouseButton(0);
+		#else
+			noInput = Input.touches.Length == 0;
+		#endif
+	
+		if(!GameConfig.GameOver)
 		{
-			if(_touching)
+			// Pause only if player has already touched at some point
+			if(!noInput)
 			{
-				_touching = false;
-				GUIManager.Instance.ShowPause();
+				_playerHasTouched = true;
+				GameConfig.GamePaused = false;
 			}
 
-		} 
-		else
-		{
-			if(!_touching)
+			if(noInput && _playerHasTouched)
 			{
-				_touching = true;
-				GUIManager.Instance.HidePause();
+				if(_touching && !_paused)
+				{
+					StartCoroutine(Pause());
+				}
+
+			} 
+			else
+			{
+				if(!_touching && _paused)
+				{
+					StartCoroutine(UnPause());
+				}
 			}
 		}
-		#endif
 		
 		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f; 
+	}
+	
+	
+	public IEnumerator Pause()
+	{
+		_touching = false;
+		GameConfig.GamePaused = true;
+		
+		GUIManager.Instance.ShowPause();
+		yield return new WaitForSeconds(.4f);
+		
+		_paused = true;
+	}
+
+	public IEnumerator UnPause()
+	{
+		_touching = true;
+		
+		GUIManager.Instance.HidePause();
+		yield return new WaitForSeconds(.5f);
+		
+		_paused = false;
+		GameConfig.GamePaused = false;
 	}
 
 	private void OnGUI()
@@ -77,16 +115,6 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-	}
-
-	
-	public void LoadLevel(string level) {
-
-		if (!System.String.IsNullOrEmpty(level)) 
-			UnityEngine.SceneManagement.SceneManager.LoadScene(level);
-		else 
-			UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
-    		
 	}
 
 }
