@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GUIManager
@@ -19,6 +18,7 @@ public class GUIManager
 	private GameObject _gameEndScreen;
 	private Animator _gameEndAnim;
 	private Text _gameEndScore;
+	private Text _gameEndVillagers;
 		
 	private GameObject _inventoryUi;
 	private GameObject _spellText;
@@ -48,7 +48,8 @@ public class GUIManager
 		
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
 		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
-		_gameEndScore = _gameEndScreen.transform.Find("Wrapper/Board/Score").GetComponent<Text>();
+		_gameEndScore = _gameEndScreen.transform.Find("Wrapper/Board/ScoreWrap/Score").GetComponent<Text>();
+		_gameEndVillagers = _gameEndScreen.transform.Find("Wrapper/Board/VillagersMultiplier/Score").GetComponent<Text>();
 		
 		_gameEndScreen.SetActive(false);
 
@@ -154,25 +155,13 @@ public class GUIManager
 	public void GameEnd(bool win)
 	{
 		_gameEndScreen.SetActive(true);
-
-		_gameEndScore.text = "Score: " + GameConfig.Score;
+		
+		_gameEndScore.text = GameConfig.Score.ToString();
+		
+		_gameEndVillagers.text = GameConfig.VillagersSaved.ToString();
 
 		_gameEndAnim.SetBool("won", win);
 
-		if (GameConfig.Score > 0 && GameConfig.Score <= GameConfig.PossibleScore)
-		{
-			_stars = (int)( ( (float)GameConfig.Score / GameConfig.PossibleScore) * 3 );
-		}
-		else if (GameConfig.Score > GameConfig.PossibleScore)
-		{
-			_stars = 3;
-		} 
-		else 
-		{
-			_stars = 0;
-		}
-		
-		_gameEndAnim.SetInteger("stars", _stars);
-
 	}
+
 }

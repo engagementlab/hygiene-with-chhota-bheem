@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ArchetypeProp), true)]

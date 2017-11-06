@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace DefaultNamespace
 {
@@ -14,12 +13,6 @@ namespace DefaultNamespace
             camera = Camera.main;
 
         }
-	
-        // Update is called once per frame
-        void Update () {
-		
-        }
-        
         
         // Pause and unpause the game
         public void Pauser(bool pause)

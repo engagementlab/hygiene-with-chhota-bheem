@@ -65,6 +65,8 @@ public class ArchetypeMove : MonoBehaviour
 	public float AnimationDownwardSpeed = 1;	
 	[HideInInspector]
 	public AnimType AnimationType = AnimType.PingPong;
+	[HideInInspector]
+	public bool DestroyOnEnd;
 	
 	[HideInInspector]
 	public bool UseParentSpeed;
@@ -158,9 +160,6 @@ public class ArchetypeMove : MonoBehaviour
 			_playerScript = _player.GetComponent<ArchetypePlayer>();
 		
 		transform.position = new Vector3(transform.position.x, transform.position.y, Utilities.GetZPosition(gameObject));
-	
-		if (PlayerCanKill)
-			GameConfig.PossibleScore += pointsWorth;
 
 	}
 
@@ -202,7 +201,8 @@ public class ArchetypeMove : MonoBehaviour
 					else
 						MoveEnabled = true;
 
-				} else
+				} 
+				else
 				{
 					// Delayed movement
 					_moveWaitingTime += Time.deltaTime;
@@ -299,9 +299,16 @@ public class ArchetypeMove : MonoBehaviour
 		  
 		  // Die immediately if not powered up
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
+		  {
 			  Events.instance.Raise(new DeathEvent(false));
-		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
-			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));		  
+			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
+		  }
+		  else if(die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
+			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));
+		  // Obstacle does not kill
+		  else
+			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.ObstacleSound));
+			  
 	  }
 	  
 	  if(!PlayerCanKill || _playerScript == null) return;
@@ -556,8 +563,14 @@ public class ArchetypeMove : MonoBehaviour
 					}
 				}
 			} 
-			else if(_nextPoint < _waypoints.Count-1)
+			else if(_nextPoint < _waypoints.Count - 1)
 				_nextPoint++;
+			else
+			{
+				// If playing once, destroy if enabled
+				if(DestroyOnEnd) Destroy(gameObject);
+				
+			}
 			
 		}
 		else

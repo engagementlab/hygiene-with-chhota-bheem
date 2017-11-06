@@ -1,7 +1,4 @@
-﻿using System;
-using System.Security.Policy;
-using DefaultNamespace;
-using UnityEngine;
+﻿using DefaultNamespace;
 
 public class SpellComponentEvent : GameEvent {
 	

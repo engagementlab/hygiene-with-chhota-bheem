@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class GameConfig : MonoBehaviour
 {
@@ -15,8 +12,9 @@ public class GameConfig : MonoBehaviour
 	public static float GameSpeedModifier = 15;
 	public static float BubbleOffset = 2;
 
-	public static int Score;
-	public static int PossibleScore;
+	public static int Score = 200;
+	public static int VillagersSaved = 3;
+	public static int Multiplier = 9;
 
 	// Use this for initialization
 	private void Awake () {
@@ -38,5 +36,32 @@ public class GameConfig : MonoBehaviour
 		GUIManager.Instance.UpdateScore(Score);
 
 	}
+
+	public static int StarCount()
+	{
+		int _stars;
+		
+		if (VillagersSaved > Multiplier)
+		{
+			_stars = 3;
+		} 
+		else if (VillagersSaved > 0 && VillagersSaved <= Multiplier)
+		{
+			_stars = (int)( ( (float)VillagersSaved / Multiplier) * 3 );
+		}
+		else 
+		{
+			_stars = 0;
+		}
+		
+		return _stars;
+	}
+
+	public static int ScoreMultiplier()
+	{
+		Score *= VillagersSaved;
+		return Score;
+	}
+	
 
 }

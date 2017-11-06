@@ -84,6 +84,11 @@ public class ArchetypeMoveGUI : Editor
 			_archetype.AnimationDownwardSpeed = EditorGUILayout.Slider("Down Speed", _archetype.AnimationDownwardSpeed, .01f, 2);
 
 			_archetype.RotateOnWaypoints = EditorGUILayout.ToggleLeft("Rotate Along Waypoints", _archetype.RotateOnWaypoints);
+
+			if(_archetype.AnimationType == ArchetypeMove.AnimType.Once)
+				_archetype.DestroyOnEnd = EditorGUILayout.ToggleLeft("Delete When Done", _archetype.DestroyOnEnd);
+			else
+				_archetype.DestroyOnEnd = false;
 			
 			GUILayout.EndVertical();
 			
