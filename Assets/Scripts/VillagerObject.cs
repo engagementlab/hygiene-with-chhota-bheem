@@ -37,6 +37,8 @@ public class VillagerObject : ArchetypeMove
 	private void Start()
 	{
 		
+		base.Start();
+		
 		// Pick random villager spritesheet and set to first frame
 		_spriteFrames = Resources.LoadAll<Sprite>("Villagers/"+UnityEngine.Random.Range(1, 4));
 		_villagerRenderer.sprite = _spriteFrames[0];

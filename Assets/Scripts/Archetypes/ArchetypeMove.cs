@@ -163,7 +163,7 @@ public class ArchetypeMove : MonoBehaviour
 
 	}
 
-	private void Start()
+	protected void Start()
 	{
 		
 		if(GetType().Name != "ArchetypeSpawner")
