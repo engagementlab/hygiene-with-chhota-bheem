@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 				GameConfig.GamePaused = false;
 			}
 
-			if(noInput && _playerHasTouched)
+			/*if(noInput && _playerHasTouched)
 			{
 				if(_touching && !_paused)
 				{
@@ -78,8 +78,8 @@ public class GameManager : MonoBehaviour
 					StartCoroutine(UnPause());
 				}
 			}
+		*/
 		}
-		
 		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f; 
 	}
 
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 		Rect rect = new Rect(0, 0, w, h * 2 / 100);
 		style.alignment = TextAnchor.UpperLeft;
 		style.fontSize = h * 2 / 100;
-		style.normal.textColor = new Color (0.0f, 0.0f, 0.5f, 1.0f);
+		style.normal.textColor = Color.white;
 		float msec = _deltaTime * 1000.0f;
 		float fps = 1.0f / _deltaTime;
 		string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
@@ -109,6 +109,9 @@ public class GameManager : MonoBehaviour
 				Instantiate(VillagerPrefab, new Vector3(Random.Range(-2, 2), Random.Range(0, 20), 0), Quaternion.identity);
 			}
 		}
+		
+		// God mode toggle
+		GameConfig.GodMode = GUI.Toggle(new Rect(0, 100, 100, 50), GameConfig.GodMode, "God Mode");
 
 	}
 

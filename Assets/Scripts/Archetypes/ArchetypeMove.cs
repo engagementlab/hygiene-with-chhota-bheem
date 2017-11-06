@@ -28,6 +28,7 @@ public class ArchetypeMove : MonoBehaviour
 {
 
 	public int pointsWorth = 1;
+	public bool DontAutoDestroy = true;
 	
 	[HideInInspector]
 	public bool MoveEnabled = true;
@@ -111,6 +112,7 @@ public class ArchetypeMove : MonoBehaviour
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
+	private bool _hasWaypoints;
 	private float _reversingAngle;
 	private float _targetAnimSpeed;
 	private float _moveWaitingTime;
@@ -179,9 +181,17 @@ public class ArchetypeMove : MonoBehaviour
 		// Paused/over?
 		if (GameConfig.GamePaused || GameConfig.GameOver) return;
 
-		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
-		if(yPos < 1.04f)
+		var viewPos = MainCamera.WorldToViewportPoint(_movingTransform.position);
+		if(DontAutoDestroy && !_hasWaypoints && viewPos.y < 1.04f && viewPos.x < 1.05f && viewPos.x > -.05f)
+			DontAutoDestroy = false;
+
+		// Not for background layers; destroy outside cam view
+		if(gameObject.layer != 8 && !DontAutoDestroy && (viewPos.y < -1 || viewPos.x > 1.05f || viewPos.x < -.05f))
+			Destroy(gameObject);
+		
+		if(viewPos.y < 1.04f)
 		{
+			
 			
 			if(AnimateOnlyInCamera)
 			{
@@ -227,10 +237,6 @@ public class ArchetypeMove : MonoBehaviour
 					_movingTransform.SetParent(null, true);
 			}
 		}
-
-		// Not for background layers
-		if(gameObject.layer != 8 && yPos < -1)
-			Destroy(gameObject);
 		
 		else if(gameObject.layer == 8)
 		{
@@ -295,6 +301,9 @@ public class ArchetypeMove : MonoBehaviour
 		  
 		  #if UNITY_EDITOR
 		  if(EditorPrefs.GetBool("GodMode")) die = false;
+		  #endif
+		  #if DEVELOPMENT_BUILD
+		  if(GameConfig.GodMode) die = false;
 		  #endif
 		  
 		  // Die immediately if not powered up
@@ -502,6 +511,7 @@ public class ArchetypeMove : MonoBehaviour
 		transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
 
 		_waypointPositions = _waypoints.ToArray();
+		_hasWaypoints = _waypoints != null && _waypoints.Count > 0;
 		
 		if(!AnimateOnlyInCamera)
 			Animate();
@@ -510,8 +520,8 @@ public class ArchetypeMove : MonoBehaviour
 	
 	internal void Animate()
 	{
-	
-		if(_waypoints == null || _waypoints.Count <= 0) return;
+
+		if(!_hasWaypoints) return;
 		
 		// Calculate current percentage on waypoints path (basically ping pong but time, not frame, based)
 		bool isDownward = transform.InverseTransformDirection(Vector3.up).y < 0;
