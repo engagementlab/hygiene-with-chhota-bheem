@@ -674,6 +674,8 @@ public class ArchetypeMove : MonoBehaviour
 		spellObject.transform.parent = GameObject.FindWithTag("Parent").transform;
 		var spellScript = spellObject.GetComponent<ArchetypeSpellJuice>();
 		
+		Debug.Log("spawn");
+		
 		spellScript.Type = _powerUpGiven;
 		spellScript.StartMovement(transform.position);
 		

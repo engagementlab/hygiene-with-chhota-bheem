@@ -15,8 +15,11 @@ public class VillagerObject : ArchetypeMove
 	
 	private IEnumerator RemoveVillager()
 	{
-		yield return new WaitForSeconds(1);
+		yield return new WaitForEndOfFrame();
+
+		SpawnSpellComponent();
 		Destroy(gameObject);
+
 	}
 
 	// Use this for initialization
@@ -69,8 +72,6 @@ public class VillagerObject : ArchetypeMove
 			}
 			return;
 		}
-
-		SpawnSpellComponent();
 		
 		Particles.Play();
 		iTween.ScaleTo(gameObject, Vector3.zero, 1f);
