@@ -120,7 +120,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		Events.instance.Raise(new SoundEvent("spell_pickup_"+(soundBool?"1":"2"), SoundEvent.SoundType.SFX));
 				
 		// Update Spell Juice UI
-		var fill = spellObject.transform.Find("Background").gameObject;
+		var fill = spellObject;
 		GUIManager.Instance.AddSpellJuice(_type, fill);
 		
 		// Destroy this spell juice

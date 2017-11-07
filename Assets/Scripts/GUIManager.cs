@@ -65,13 +65,13 @@ public class GUIManager
 
 		_steps = GameObject.Find("Player").GetComponent<ArchetypePlayer>().SpellStepCount;
 		
-		SpellSize = SpellBars[0].transform.Find("Background").GetComponent<RectTransform>().sizeDelta.y/_steps;
+		SpellSize = SpellBars[0].GetComponent<RectTransform>().sizeDelta.y/_steps;
 
 		for (int i = 0; i < SpellBars.Length; i++)
 		{
 			SpellBars[i].SetActive(false);
 			
-			var fill = SpellBars[i].transform.Find("Background").GetComponent<RectTransform>();
+			var fill = SpellBars[i].GetComponent<RectTransform>();
 			fill.sizeDelta = new Vector2(fill.sizeDelta.x, 0);
 		}
 		
