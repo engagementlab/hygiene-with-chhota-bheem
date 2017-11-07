@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 	private bool _playerHasTouched;
 	private bool _touching = true;
 	private bool _paused;
+	private bool _slowMo;
 
 	private Dictionary<string, AudioClip> _loadedAudio;
 
@@ -63,24 +64,24 @@ public class GameManager : MonoBehaviour
 				GameConfig.GamePaused = false;
 			}
 
-			/*if(noInput && _playerHasTouched)
+			if(noInput && _playerHasTouched)
 			{
-				if(_touching && !_paused)
-				{
-					StartCoroutine(Pause());
-				}
-
+				if(!_slowMo)
+					SlowMo();
+ 
 			} 
-			else
-			{
-				if(!_touching && _paused)
-				{
-					StartCoroutine(UnPause());
-				}
-			}
-		*/
+//			else
+//			{
+//				if(_slowMo)
+//				{
+//					HideSlowMo();
+//				}
+//			}
+		
 		}
-		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f; 
+		
+		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f;
+		
 	}
 
 	private void OnGUI()
@@ -133,11 +134,32 @@ public class GameManager : MonoBehaviour
 		
 	}
 
+	private void SlowMo()
+	{
+		GUIManager.Instance.ShowSloMo();
+		GameConfig.SlowMo = true;
+		
+		_slowMo = true;
+		Time.timeScale = .1f;
+	}
+
+	public void HideSlowMo()
+	{
+		GUIManager.Instance.HideSloMo();
+		GameConfig.SlowMo = false;
+		
+		_slowMo = false;
+		Time.timeScale = 1f;
+	}
+
 	public IEnumerator Pause()
 	{
 		_touching = false;
 		GameConfig.GamePaused = true;
 		
+		Time.timeScale = 1f;
+	
+		GUIManager.Instance.HideSloMo();	
 		GUIManager.Instance.ShowPause();
 		yield return new WaitForSeconds(.4f);
 		
@@ -148,6 +170,7 @@ public class GameManager : MonoBehaviour
 	{
 		_touching = true;
 		
+		GUIManager.Instance.ShowSloMo();
 		GUIManager.Instance.HidePause();
 		yield return new WaitForSeconds(.5f);
 		

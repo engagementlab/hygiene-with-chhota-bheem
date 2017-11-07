@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -253,30 +254,34 @@ public class ArchetypeMove : MonoBehaviour
 		var target = _movingTransform.position;
 		var deltaPos = Vector3.zero;
 
+		var currentMoveSpeed = MoveSpeed;
+//		if(GameConfig.SlowMo)
+//			currentMoveSpeed = MoveSpeed * .1f;
+
 		switch(MovementDir)
 		{
 			case Dirs.Up:
-				target.y += MoveSpeed;
-				deltaPos.y += MoveSpeed;
+				target.y += currentMoveSpeed;
+				deltaPos.y += currentMoveSpeed;
 				break;
 			case Dirs.Right:
-				target.x += MoveSpeed;
-				deltaPos.x += MoveSpeed;
+				target.x += currentMoveSpeed;
+				deltaPos.x += currentMoveSpeed;
 				break;
 			case Dirs.Left:
-				target.x -= MoveSpeed;
-				deltaPos.x -= MoveSpeed;
+				target.x -= currentMoveSpeed;
+				deltaPos.x -= currentMoveSpeed;
 				break;
 			case Dirs.Down:
-				target.y -= MoveSpeed;
-				deltaPos.y -= MoveSpeed;
+				target.y -= currentMoveSpeed;
+				deltaPos.y -= currentMoveSpeed;
 				break;
 			default:
 				throw new Exception("Unknown movement direction.");
 		}
 
 		// Move to target via lerp if movement allowed
-		if(MoveEnabled && MoveSpeed > 0)
+		if(MoveEnabled && currentMoveSpeed > 0)
 			_movingTransform.position = Vector3.Lerp(_movingTransform.position, target, Time.deltaTime);
 		
 		if(_waypoints == null || _waypoints.Count <= 0) return;
@@ -530,7 +535,7 @@ public class ArchetypeMove : MonoBehaviour
 			_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
 		else
 			_targetAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
-
+		
 		var toPosition = _waypointPositions[_nextPoint];
 		if(toPosition == null)
 			return;
