@@ -26,6 +26,7 @@ public class GUIManager
 	private GameObject _slowMoWrapper;
 	public GameObject _spellActivatedUi;
 	public GameObject[] _spellSteps;
+	
 	private GameObject _gameEndUi;
 	private Animator _pauseAnimator;
 
@@ -33,6 +34,8 @@ public class GUIManager
 	private Text _villagerCount;
 	private Text _score;
 	private int _stars;
+
+	private int _steps;
 
 	public GameObject[] SpellBars;
 	public float SpellSize;
@@ -43,6 +46,7 @@ public class GUIManager
 	// Use this for initialization
 	public void Initialize ()
 	{ 
+		
 		_inventoryUi = GameObject.Find("GameUI/SpellJuiceBars");
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
@@ -62,14 +66,16 @@ public class GUIManager
 		_slowMoWrapper.SetActive(false);
 		
 		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
+
+		_steps = GameObject.Find("Player").GetComponent<ArchetypePlayer>().SpellStepCount;
 		
-		SpellSize = SpellBars[0].transform.Find("Background").GetComponent<RectTransform>().sizeDelta.y/5;
+		SpellSize = SpellBars[0].GetComponent<RectTransform>().sizeDelta.y/_steps;
 
 		for (int i = 0; i < SpellBars.Length; i++)
 		{
 			SpellBars[i].SetActive(false);
 			
-			var fill = SpellBars[i].transform.Find("Background").GetComponent<RectTransform>();
+			var fill = SpellBars[i].GetComponent<RectTransform>();
 			fill.sizeDelta = new Vector2(fill.sizeDelta.x, 0);
 		}
 		
@@ -82,21 +88,6 @@ public class GUIManager
 	}
 	
 
-	public void DisplayCurrentSpell(string spellName)
-	{
-		
-//		_spellText.GetComponent<Text>().text = "Spell: " + spellName;
-//		_spellText.SetActive(true);
-		
-	}
-	
-	public void HideSpell()
-	{
-		
-//		_spellText.SetActive(false);
-		
-	}
-
 	public void NewSpell(GameObject spellBar)
 	{
 		_bar = GameObject.FindGameObjectWithTag("SpellBar");
@@ -105,6 +96,7 @@ public class GUIManager
 			_bar.SetActive(false);
 		
 		spellBar.SetActive(true);
+		
 		_spellCount = 0;
 	}
 

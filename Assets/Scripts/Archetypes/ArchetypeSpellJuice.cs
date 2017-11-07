@@ -80,13 +80,12 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	
 	private void JuiceCollected(GameObject spellObject)
 	{
-		
 		// SFX
 		bool soundBool = Random.value > .5f;
 		Events.instance.Raise(new SoundEvent("spell_pickup_"+(soundBool?"1":"2"), SoundEvent.SoundType.SFX));
-		
-		var fill = spellObject.transform.Find("Background").gameObject;
+				
 		// Update Spell Juice UI
+		var fill = spellObject;
 		GUIManager.Instance.AddSpellJuice(_type, fill);
 		
 		// Destroy this spell juice
