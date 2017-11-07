@@ -106,7 +106,7 @@ public class GUIManager
 		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
 		_spellCount++;
 
-		if (_spellCount == GameObject.FindGameObjectWithTag("Player").GetComponent<ArchetypePlayer>().SpellStepCount)
+		if (_spellCount == _steps)
 		{
 			Events.instance.Raise (new SpellEvent(type, true));
 			EmptySpells();
@@ -119,7 +119,7 @@ public class GUIManager
 		
 		_bar = GameObject.FindGameObjectWithTag("SpellBar");
 				
-		var fill = _bar.transform.Find("Background").GetComponent<RectTransform>();
+		var fill = _bar.GetComponent<RectTransform>();
 		fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);
 
 		_spellCount = 0;

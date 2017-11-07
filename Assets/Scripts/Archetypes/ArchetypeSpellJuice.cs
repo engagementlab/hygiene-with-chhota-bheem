@@ -63,7 +63,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 				{
 					currentSpellObject = spellBars[i];
 					GUIManager.Instance.NewSpell(spellBars[i]);
-					
+
 					JuiceCollected(currentSpellObject);
 				}
 			}
