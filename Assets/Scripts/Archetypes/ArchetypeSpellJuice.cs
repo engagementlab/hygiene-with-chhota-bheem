@@ -20,18 +20,10 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	private float _targetAnimSpeed;
 	private float _timeElapsed;
 	private int _nextPoint;
-	private Vector3 _startingPos;
 	private Vector3 _lastPoint;
 	private Vector3 _toPoint;
 	private Vector3[] _movementPoints;
 	private Spells _type;
-
-	public void StartMovement(Vector3 startingPos)
-	{
-		transform.position = startingPos;
-		_startingPos = startingPos;
-		Animate();
-	}
 
 	private void Awake()
 	{
@@ -81,38 +73,11 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	}
 
-	private void Animate()
+	public void StartMovement(Vector3 startingPos)
 	{
-
-		float x;
-		float y;
-		
-		if (transform.position.x - _startingPos.x >= 1 || transform.position.x - _startingPos.x <= -1)
-			x = Random.Range(_startingPos.x - 1, _startingPos.x + 1);
-		else 
-			x = Random.Range(transform.position.x - 1, transform.position.x + 1);
-		
-		
-		if (transform.position.y - _startingPos.y >= 1 || transform.position.y - _startingPos.y <= -1)
-			y = Random.Range(_startingPos.y - 1, _startingPos.y - 0.5f);
-		else 
-			y = Random.Range(transform.position.y - 1, transform.position.y - 0.5f);
-		
-		// Place object at current %
-		_lastPoint = transform.position;
-		_toPoint = Utilities.ClampToScreen(new Vector3(x, y, 0), Camera.main);	
-		
-		var distance = Vector3.Distance(_toPoint, _lastPoint);
-		iTween.MoveTo(gameObject, iTween.Hash("position", _toPoint, "time", distance/2, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+		transform.position = startingPos;
 	}
-
-	private void Complete()
-	{
-		
-		Animate();
-		
-	}
-
+	
 	private void JuiceCollected(GameObject spellObject)
 	{
 		// SFX

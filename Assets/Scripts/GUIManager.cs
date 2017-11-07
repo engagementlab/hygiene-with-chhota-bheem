@@ -23,6 +23,7 @@ public class GUIManager
 	private GameObject _inventoryUi;
 	private GameObject _spellText;
 	private GameObject _pauseUi;
+	private GameObject _slowMoWrapper;
 	public GameObject _spellActivatedUi;
 	public GameObject[] _spellSteps;
 	
@@ -60,6 +61,9 @@ public class GUIManager
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseAnimator = _pauseUi.GetComponent<Animator>();
 		_pauseUi.SetActive(false);
+
+		_slowMoWrapper = GameObject.Find("GameUI/SlowMoWrap");
+		_slowMoWrapper.SetActive(false);
 		
 		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
 
@@ -110,7 +114,6 @@ public class GUIManager
 
 	}
 
-
 	public void EmptySpells()
 	{
 		
@@ -140,8 +143,17 @@ public class GUIManager
 
 	public void HidePause()
 	{
-		
 		_pauseAnimator.Play("HidePause");
+	}
+
+	public void ShowSloMo()
+	{
+		_slowMoWrapper.SetActive(true);
+	}
+
+	public void HideSloMo()
+	{
+		_slowMoWrapper.SetActive(false);
 	}
 
 	public void GameEnd(bool win)

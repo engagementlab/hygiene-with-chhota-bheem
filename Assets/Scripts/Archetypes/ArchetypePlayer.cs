@@ -90,14 +90,13 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private void Update() {
 		
-		if(GameConfig.GamePaused) return;
+		if(GameConfig.SlowMo || GameConfig.GamePaused) return;
 				
 		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.BubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
-	    if(_currentBadScore < _targetScore) {
-		  	_currentBadScore += _targetScore/20;
-	    }
+		if(_currentBadScore < _targetScore) 
+			_currentBadScore += _targetScore/20;
 		
 		if(_intervalTime >= GameConfig.NumBubblesInterval) {
 

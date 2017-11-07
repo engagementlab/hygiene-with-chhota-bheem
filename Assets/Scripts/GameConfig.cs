@@ -7,7 +7,9 @@ public class GameConfig : MonoBehaviour
   public static float NumBubblesInterval = .5f;
   
 	public static bool GamePaused = true;
+	public static bool SlowMo;
 	public static bool GameOver;
+	public static bool GodMode;
   
 	public static float GameSpeedModifier = 15;
 	public static float BubbleOffset = 2;
