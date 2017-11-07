@@ -403,6 +403,23 @@ public class ArchetypeMove : MonoBehaviour
 	
 #endif
 
+	private void OnDestroy() {
+		
+
+	}
+
+	private void OnDisable()
+	{
+	
+		
+	}
+
+	private void OnEnable()
+	{
+	
+		
+	}
+
 	/**************
 		CUSTOM METHODS
 	***************/

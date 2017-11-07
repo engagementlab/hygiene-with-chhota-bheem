@@ -267,7 +267,6 @@ public class ArchetypePlayer : MonoBehaviour {
 					_bigShoot++;
 					
 					break;
-					
 			}
 		}
 		else
