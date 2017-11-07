@@ -18,7 +18,10 @@ public class GameUI : MonoBehaviour
     // Pause and unpause the game
     public void PauseUnpause(bool pause)
     {
-        StartCoroutine(pause ? game.Pause() : game.UnPause());
+        if(pause)
+            game.Pause();
+        else
+            StartCoroutine(game.UnPause());
     }
 
     public void HideSlowMo()

@@ -21,46 +21,42 @@ public class ArchetypePlayer : MonoBehaviour {
 	public AudioClip GameEndSound;
 	public AudioClip ObstacleSound;
 
+	public bool WonGame;
+
 	[HideInInspector] 
 	public int Strength;
-	
 	[HideInInspector]
 	public bool PoweredUp;
+	[HideInInspector]
+	public Spells SpellsType;
 
-	public bool WonGame;
+	private GameObject _lastBubble;
+	private Camera _mainCamera;
+
+	private ParticleSystem _particles;
+	private ParticleSystem.ColorOverLifetimeModule _particleColor;
 	
 	private float _currentBadScore;
 	private float _targetScore;
 	private float _intervalTime;
 	private float _bossSpawnDelta = 0;
-
-	private GameObject _lastBubble;
-	private Camera _mainCamera;
-	
-	[HideInInspector]
-	public Spells SpellsType;
-
-	private ParticleSystem _particles;
-	private ParticleSystem.ColorOverLifetimeModule _particleColor;
 	
 	private bool _freeMovement = true;
 	private bool _trailEnabled = true;
 	private bool _mouseDrag;
 	private bool _moveDelta;
 	private bool _scatterShootOn;
-
-	[HideInInspector]
-	public int Matrix = 0;
 		
-	private int _scatterShoot = 0;
-	private int _speedShoot = 0;
-	private int _bigShoot = 0;
+	private int _scatterShoot;
+	private int _speedShoot;
+	private int _bigShoot;
 
 	private Vector3 _velocity;
 	private Vector3 _bubbleScale;
 	private SphereCollider _collider;
-	
 	private List<float> dirs;
+
+	private Animator _playerAnimator;
 
 	/**************
 		UNITY METHODS
@@ -74,13 +70,15 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 		
 		_bubbleScale = new Vector3(0.12F, 0.12F, 0.22F);
-
+		
 		var currentRect = GetComponent<RectTransform>().position;
 		currentRect.z = -.5f;
 		GetComponent<RectTransform>().position = currentRect;
 
 		Strength = BubbleInitialStrength;
 
+		_playerAnimator = GetComponent<Animator>();
+		
 		_particles = GetComponent<ParticleSystem>();
 		_particles.Stop();
 
@@ -88,10 +86,23 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	}
 
-	private void Update() {
+	private void Update()
+	{
+
+		if(GameConfig.SlowMo || GameConfig.GamePaused)
+		{
+			if(GameConfig.GamePaused)
+			{
+				_playerAnimator.speed = 0;
+				_particles.Pause();
+			}
+			else
+				_particles.Play();
+			
+			return;
+		} 
+		_playerAnimator.speed = 1;
 		
-		if(GameConfig.SlowMo || GameConfig.GamePaused) return;
-				
 		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.BubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
@@ -244,28 +255,19 @@ public class ArchetypePlayer : MonoBehaviour {
 				case Spells.BigShoot:
 
 					// Make those bubbles bigger
-				
 					if (_bigShoot <= 0)
 					{
 						_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-//							_collider.radius += BubbleSizeIncrease;
 						Strength += BubbleStrengthIncrease;
 						PoweredUp = true;
 					}
 					else
-					{
 						_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-//							_collider.radius += BubbleSizeIncrease;
-					}
 					
 					_bigShoot++;
 					
 					break;
 					
-				case Spells.Matrix:
-
-					Matrix++;
-					break;
 			}
 		}
 		else

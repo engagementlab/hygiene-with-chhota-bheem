@@ -152,18 +152,16 @@ public class GameManager : MonoBehaviour
 		Time.timeScale = 1f;
 	}
 
-	public IEnumerator Pause()
+	public void Pause()
 	{
 		_touching = false;
 		GameConfig.GamePaused = true;
 		
-		Time.timeScale = 1f;
-	
 		GUIManager.Instance.HideSloMo();	
 		GUIManager.Instance.ShowPause();
-		yield return new WaitForSeconds(.4f);
 		
 		_paused = true;
+		Time.timeScale = 1;
 	}
 
 	public IEnumerator UnPause()
@@ -172,10 +170,12 @@ public class GameManager : MonoBehaviour
 		
 		GUIManager.Instance.ShowSloMo();
 		GUIManager.Instance.HidePause();
-		yield return new WaitForSeconds(.5f);
+		yield return new WaitForSeconds(.3f);
 		
 		_paused = false;
 		GameConfig.GamePaused = false;
+		
+		Time.timeScale = .1f;
 	}
 
 }
