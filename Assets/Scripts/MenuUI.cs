@@ -27,4 +27,14 @@ public class MenuUI : MonoBehaviour
 		SettingsAnimator.gameObject.SetActive(true);
 		SettingsAnimator.Play("SettingsOpen");
 	}
+
+	public void CloseMainMenu()
+	{
+		gameObject.GetComponent<Animator>().SetTrigger("MenuClose");
+	}
+
+	public void OpenLevelSelect()
+	{
+		gameObject.GetComponent<Animator>().SetTrigger("Levels");
+	}
 }
