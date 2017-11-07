@@ -114,10 +114,13 @@ public class ArchetypeMove : MonoBehaviour
 	private float _runningTime;
 	private bool _reverseAnim;
 	private bool _hasWaypoints;
+	private bool _queueAnimation;
 	private float _reversingAngle;
 	private float _targetAnimSpeed;
 	private float _moveWaitingTime;
 	private int _nextPoint = 1;
+	internal int _bubblesHit;
+	
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 	private RectTransform _bgRectTransform;
@@ -128,7 +131,6 @@ public class ArchetypeMove : MonoBehaviour
 	private Transform[] _waypointPositions;
 	private Quaternion _startingRotation;
 	
-	internal int _bubblesHit;
 	internal Camera MainCamera;
 	internal GameObject Player;
 	internal ArchetypePlayer _playerScript;
@@ -144,8 +146,6 @@ public class ArchetypeMove : MonoBehaviour
 		MainCamera = Camera.main;
 		AnimationDuration = 10 / AnimationDuration;
 		
-		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
-
 		// For use in Update
 		_movingTransform = transform;
 		_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
@@ -199,6 +199,13 @@ public class ArchetypeMove : MonoBehaviour
 				AnimateOnlyInCamera = false;
 //				SetupWaypoints();
 				Animate();
+			}
+			
+			// Resume animation after game done being paused
+			if(_queueAnimation && !GameConfig.GamePaused)
+			{
+				Animate();
+				_queueAnimation = false;
 			}
 			
 			// If object waiting to move once in view, check pos
@@ -396,26 +403,6 @@ public class ArchetypeMove : MonoBehaviour
 	
 #endif
 
-	private void OnDestroy() {
-		
-		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
-
-	}
-
-	private void OnDisable()
-	{
-	
-		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);		
-		
-	}
-
-	private void OnEnable()
-	{
-	
-		Events.instance.AddListener<SpellEvent> (OnSpellEvent);		
-		
-	}
-
 	/**************
 		CUSTOM METHODS
 	***************/
@@ -519,7 +506,8 @@ public class ArchetypeMove : MonoBehaviour
 		_hasWaypoints = _waypoints != null && _waypoints.Count > 0;
 		
 		if(!AnimateOnlyInCamera)
-			Animate();
+			_queueAnimation = true;
+//			Animate();
 		
 	}
 	
@@ -527,6 +515,10 @@ public class ArchetypeMove : MonoBehaviour
 	{
 
 		if(!_hasWaypoints) return;
+		if(GameConfig.GamePaused)
+		{
+			return;
+		}
 		
 		// Calculate current percentage on waypoints path (basically ping pong but time, not frame, based)
 		bool isDownward = transform.InverseTransformDirection(Vector3.up).y < 0;
@@ -611,53 +603,6 @@ public class ArchetypeMove : MonoBehaviour
 		
 		MoveSpeed *= 2;
 	}
-	
-	
-	private void OnSpellEvent(SpellEvent e)
-	{
-		if (e.powerUp)
-		{
-			// Spell ON
-			switch (e.powerType)
-			{
-
-				case Spells.Matrix:
-					// Slow down the whole world except the player
-					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix <= 0) {
-						MoveSpeed /= 2;
-					}
-					break;
-
-				default:
-
-					break;
-
-			}
-		}
-		else
-		{
-			// Spell OFF
-			switch (e.powerType)
-			{
-
-				case Spells.Matrix:
-
-					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix < 1)
-					{
-						MoveSpeed *= 2;
-					}
-					
-					
-					break;
-
-				default:
-
-					break;
-
-			}
-		}
-
-	}
 
 	protected void SpawnSpellComponent()
 	{
@@ -676,8 +621,6 @@ public class ArchetypeMove : MonoBehaviour
 		var spellObject = Instantiate(Resources.Load("SpellObject") as GameObject, transform.position, Quaternion.identity);
 		spellObject.transform.parent = GameObject.FindWithTag("Parent").transform;
 		var spellScript = spellObject.GetComponent<ArchetypeSpellJuice>();
-		
-		Debug.Log("spawn");
 		
 		spellScript.Type = _powerUpGiven;
 		spellScript.StartMovement(transform.position);
