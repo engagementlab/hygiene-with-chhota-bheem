@@ -141,8 +141,6 @@ public class ArchetypeMove : MonoBehaviour
 		MainCamera = Camera.main;
 		AnimationDuration = 10 / AnimationDuration;
 		
-		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
-
 		// For use in Update
 		_movingTransform = transform;
 		_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
@@ -384,21 +382,18 @@ public class ArchetypeMove : MonoBehaviour
 
 	private void OnDestroy() {
 		
-		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
 
 	}
 
 	private void OnDisable()
 	{
 	
-		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);		
 		
 	}
 
 	private void OnEnable()
 	{
 	
-		Events.instance.AddListener<SpellEvent> (OnSpellEvent);		
 		
 	}
 
@@ -595,53 +590,6 @@ public class ArchetypeMove : MonoBehaviour
 		yield return new WaitForSeconds(5);
 		
 		MoveSpeed *= 2;
-	}
-	
-	
-	private void OnSpellEvent(SpellEvent e)
-	{
-		if (e.powerUp)
-		{
-			// Spell ON
-			switch (e.powerType)
-			{
-
-				case Spells.Matrix:
-					// Slow down the whole world except the player
-					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix <= 0) {
-						MoveSpeed /= 2;
-					}
-					break;
-
-				default:
-
-					break;
-
-			}
-		}
-		else
-		{
-			// Spell OFF
-			switch (e.powerType)
-			{
-
-				case Spells.Matrix:
-
-					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix < 1)
-					{
-						MoveSpeed *= 2;
-					}
-					
-					
-					break;
-
-				default:
-
-					break;
-
-			}
-		}
-
 	}
 
 	protected void SpawnSpellComponent()

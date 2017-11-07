@@ -262,11 +262,6 @@ public class ArchetypePlayer : MonoBehaviour {
 					_bigShoot++;
 					
 					break;
-					
-				case Spells.Matrix:
-
-					Matrix++;
-					break;
 			}
 		}
 		else
