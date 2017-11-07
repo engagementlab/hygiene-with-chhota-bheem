@@ -590,13 +590,11 @@ public class ArchetypeMove : MonoBehaviour
 
 	private IEnumerator SpellMatrixMode()
 	{
-		GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
 		MoveSpeed /= 2;
 		
 		yield return new WaitForSeconds(5);
 		
 		MoveSpeed *= 2;
-		GUIManager.Instance.HideSpell();
 	}
 	
 	
@@ -613,7 +611,6 @@ public class ArchetypeMove : MonoBehaviour
 					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().PowerInfinite)
 					{
 						if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix <= 0) {
-							GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
 							MoveSpeed /= 2;
 						}
 			}
@@ -640,7 +637,6 @@ public class ArchetypeMove : MonoBehaviour
 
 					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix < 1)
 					{
-						GUIManager.Instance.HideSpell();
 						MoveSpeed *= 2;
 					}
 					
