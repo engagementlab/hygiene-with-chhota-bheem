@@ -116,6 +116,8 @@ public class GameManager : MonoBehaviour
 
 	private void OnSoundEvent(SoundEvent e)
 	{
+		
+		if(_audio == null) return;
 
 		if(e.SoundFileName != null)
 		{

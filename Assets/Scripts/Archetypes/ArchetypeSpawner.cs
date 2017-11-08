@@ -66,6 +66,7 @@ public class ArchetypeSpawner : MonoBehaviour
 		{
 			foreach (SpawnerPrefab prefab in SpawnedObjects)
 			{
+				if(prefab.Prefab == null) continue;
 				if (prefab.Prefab.tag == "Villager")
 				{
 					if (SpawnRepeatCount > 0)
