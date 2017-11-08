@@ -37,52 +37,50 @@ public class ArchetypeMove : MonoBehaviour
 	
 	[HideInInspector]
 	public bool KillsPlayer;
-	
-	[HideInInspector]
-	public Spells SpellGiven;
 	[HideInInspector]
 	public bool SpellRandom;
-
 	[HideInInspector]
-	public bool PlayerCanKill;	
-	[HideInInspector]
-	public int HitPoints;
-	
+	public bool PlayerCanKill;
 	[HideInInspector]
 	public bool MoveOnceInCamera;
 	[HideInInspector]
 	public bool LeaveParentInCamera;
 	[HideInInspector]
-	public float MoveSpeed;
-	[HideInInspector]
-	public float MoveDelay;
-	[HideInInspector]
-	public Dirs MovementDir = Dirs.Down;
-	
-	[HideInInspector]
-	public float AnimationDuration = 1;
-	[HideInInspector]
-	public float AnimationUpwardSpeed = 1;	
-	[HideInInspector]
-	public float AnimationDownwardSpeed = 1;	
-	[HideInInspector]
-	public AnimType AnimationType = AnimType.PingPong;
-	[HideInInspector]
 	public bool DestroyOnEnd;
-	
 	[HideInInspector]
 	public bool UseParentSpeed;
 	[HideInInspector]
 	public bool RotateOnWaypoints = true;
 	[HideInInspector]
+	public bool IsDestroyed;
+	[HideInInspector]
+	public bool IsInView;
+	
+	[HideInInspector]
+	public int HitPoints;
+	[HideInInspector]
 	public int SpawnTypeIndex;
 	[HideInInspector]
 	public int Direction;
 	[HideInInspector]
+	public float MoveSpeed;
+	[HideInInspector]
+	public float MoveDelay;
+	[HideInInspector]
+	public float AnimationDuration = 1;
+	[HideInInspector]
+	public float AnimationUpwardSpeed = 1;	
+	[HideInInspector]
+	public float AnimationDownwardSpeed = 1;
+	[HideInInspector]
 	public float CurrentPathPercent;
 	
 	[HideInInspector]
-	public bool IsDestroyed;
+	public Spells SpellGiven;
+	[HideInInspector]
+	public Dirs MovementDir = Dirs.Down;	
+	[HideInInspector]
+	public AnimType AnimationType = AnimType.PingPong;
 	
 	[CanBeNull] [HideInInspector]
 	public string SpawnType;
@@ -178,12 +176,14 @@ public class ArchetypeMove : MonoBehaviour
 
 		// Sanity check
 		if (!_movingTransform) return;
-
 		// Paused/over?
 		if (GameConfig.GamePaused || GameConfig.GameOver) return;
 
 		var viewPos = MainCamera.WorldToViewportPoint(_movingTransform.position);
-		if(DontAutoDestroy && !_hasWaypoints && viewPos.y < 1.04f && viewPos.x < 1.05f && viewPos.x > -.05f)
+//		var isInsideView = viewPos.y < 1.04f && viewPos.x < 1.05f && viewPos.x > -.05f;
+		var hasNoChildren = GetComponentsInChildren<ArchetypeMove>().Length == 1;
+		
+		if(DontAutoDestroy && !_hasWaypoints && IsInView && hasNoChildren)
 			DontAutoDestroy = false;
 
 		// Not for background layers; destroy outside cam view
@@ -193,11 +193,9 @@ public class ArchetypeMove : MonoBehaviour
 		if(viewPos.y < 1.04f)
 		{
 			
-			
 			if(AnimateOnlyInCamera)
 			{
 				AnimateOnlyInCamera = false;
-//				SetupWaypoints();
 				Animate();
 			}
 			
@@ -260,10 +258,7 @@ public class ArchetypeMove : MonoBehaviour
 		// Find target for movement and change target vector based on direction
 		var target = _movingTransform.position;
 		var deltaPos = Vector3.zero;
-
 		var currentMoveSpeed = MoveSpeed;
-//		if(GameConfig.SlowMo)
-//			currentMoveSpeed = MoveSpeed * .1f;
 
 		switch(MovementDir)
 		{
@@ -335,9 +330,7 @@ public class ArchetypeMove : MonoBehaviour
 	  if(!PlayerCanKill || _playerScript == null) return;
 	  if (collider.gameObject.tag != "Bubble") return;
 
-//	  int strength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
 	  _bubblesHit += _playerScript.Strength;
-	  
 	  Destroy(collider.gameObject);
 	  
 	  // Hits may exceed HP if strength not evenly divisible by HP, hence greater-or-equal
@@ -402,23 +395,6 @@ public class ArchetypeMove : MonoBehaviour
 	}
 	
 #endif
-
-	private void OnDestroy() {
-		
-
-	}
-
-	private void OnDisable()
-	{
-	
-		
-	}
-
-	private void OnEnable()
-	{
-	
-		
-	}
 
 	/**************
 		CUSTOM METHODS
