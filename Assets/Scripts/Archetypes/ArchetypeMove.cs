@@ -180,32 +180,36 @@ public class ArchetypeMove : MonoBehaviour
 		if (GameConfig.GamePaused || GameConfig.GameOver) return;
 
 		var viewPos = MainCamera.WorldToViewportPoint(_movingTransform.position);
-//		var isInsideView = viewPos.y < 1.04f && viewPos.x < 1.05f && viewPos.x > -.05f;
 		var hasNoChildren = GetComponentsInChildren<ArchetypeMove>().Length == 1;
 		
-		if(DontAutoDestroy && !_hasWaypoints && IsInView && hasNoChildren)
+		// If object set to not auto-destroy, has no waypoints or children of type Move, and is in view, set to auto-destroy
+		if(DontAutoDestroy && !_hasWaypoints && hasNoChildren && IsInView)
 			DontAutoDestroy = false;
 
-		// Not for background layers; destroy outside cam view
-		if(gameObject.layer != 8 && !DontAutoDestroy && (viewPos.y < -1 || viewPos.x > 1.05f || viewPos.x < -.05f))
-			Destroy(gameObject);
-		
+		// Not for background layers; auto-destroy if object is outside cam view
+		if(gameObject.layer != 8 && !DontAutoDestroy)
+		{
+			if(viewPos.y < -1 || viewPos.x > 1.05f || viewPos.x < -.05f)
+				Destroy(gameObject);
+		}
+			
+		// Resume animation after game done being paused
+		if(_queueAnimation && !GameConfig.GamePaused)
+		{
+			if((IsInView && AnimateOnlyInCamera) || !AnimateOnlyInCamera)
+			{
+				Animate();
+				_queueAnimation = false;
+			}
+		}
+
 		if(viewPos.y < 1.04f)
 		{
-			
 			if(AnimateOnlyInCamera)
 			{
 				AnimateOnlyInCamera = false;
 				Animate();
 			}
-			
-			// Resume animation after game done being paused
-			if(_queueAnimation && !GameConfig.GamePaused)
-			{
-				Animate();
-				_queueAnimation = false;
-			}
-			
 			// If object waiting to move once in view, check pos
 			if(!MoveEnabled && MoveOnceInCamera)
 			{
@@ -499,8 +503,7 @@ public class ArchetypeMove : MonoBehaviour
 		_hasWaypoints = _waypoints != null && _waypoints.Count > 0;
 		
 		if(!AnimateOnlyInCamera)
-			_queueAnimation = true;
-//			Animate();
+			Animate();
 		
 	}
 	
@@ -510,6 +513,7 @@ public class ArchetypeMove : MonoBehaviour
 		if(!_hasWaypoints) return;
 		if(GameConfig.GamePaused)
 		{
+			_queueAnimation = true;
 			return;
 		}
 		

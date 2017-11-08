@@ -11,8 +11,14 @@ public class ArchetypeSpellJuice : MonoBehaviour
 			_type = value;
 			foreach(Transform child in transform)
 				child.gameObject.SetActive(false);
+			var spellTransform = transform.Find(_type.ToString());
+			if(spellTransform == null)
+			{
+				Debug.LogError("Spell transform for " + _type.ToString() + " not found!");
+				return;
+			}
 			
-			transform.Find(_type.ToString()).gameObject.SetActive(true);
+			spellTransform.gameObject.SetActive(true);
 		}
 	}
 

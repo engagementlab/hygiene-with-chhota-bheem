@@ -116,7 +116,9 @@ public class GameManager : MonoBehaviour
 
 	private void OnSoundEvent(SoundEvent e)
 	{
-			
+		
+		if(_audio == null) return;
+		
 		// If this is SFX and the sound is OFF, stop here
 		if (e.Type == SoundEvent.SoundType.SFX && !GameConfig.SoundOn)
 			return;
