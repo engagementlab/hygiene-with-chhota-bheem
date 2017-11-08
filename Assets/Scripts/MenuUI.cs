@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using UnityEngine;
 
 public class MenuUI : MonoBehaviour
 {
@@ -6,7 +9,6 @@ public class MenuUI : MonoBehaviour
 	public Animator SettingsAnimator;
 	public AudioClip MenuMusic;
 	private AudioSource _audio;
-	
 	
 	// Use this for initialization
 	void Start () {
@@ -22,7 +24,7 @@ public class MenuUI : MonoBehaviour
 		
 	}
 
-	public void OpenSettings()
+	public void Settings()
 	{
 		SettingsAnimator.gameObject.SetActive(true);
 		SettingsAnimator.Play("SettingsOpen");
@@ -31,10 +33,23 @@ public class MenuUI : MonoBehaviour
 	public void CloseMainMenu()
 	{
 		gameObject.GetComponent<Animator>().SetTrigger("MenuClose");
+		
 	}
 
-	public void OpenLevelSelect()
+	public void Screen(int num)
 	{
+		gameObject.GetComponent<Animator>().SetInteger("Screen", num);
+	}
+
+	public void Level(int num)
+	{
+		gameObject.GetComponent<Animator>().SetInteger("LevelSelected", num);
+	}
+
+	public void LevelSelectOpen()
+	{
+		Debug.Log("Triggering the level select!");
+		
 		gameObject.GetComponent<Animator>().SetTrigger("Levels");
 	}
 }
