@@ -203,7 +203,7 @@ public class ArchetypeMove : MonoBehaviour
 			}
 		}
 
-		if(IsInView)
+		if(viewPos.y < 1.04f)
 		{
 			if(AnimateOnlyInCamera)
 			{
