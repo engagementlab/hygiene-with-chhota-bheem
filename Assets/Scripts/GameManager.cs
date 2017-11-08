@@ -68,16 +68,7 @@ public class GameManager : MonoBehaviour
 			{
 				if(!_slowMo)
 					SlowMo();
- 
-			} 
-//			else
-//			{
-//				if(_slowMo)
-//				{
-//					HideSlowMo();
-//				}
-//			}
-		
+			}
 		}
 		
 		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f;
@@ -114,6 +105,13 @@ public class GameManager : MonoBehaviour
 		// God mode toggle
 		GameConfig.GodMode = GUI.Toggle(new Rect(0, 100, 100, 50), GameConfig.GodMode, "God Mode");
 
+	}
+
+	// If ArchetypeMove enters cam, mark as in view (more reliable/efficient than asking each object to watch x/y pos) 
+	private void OnTriggerEnter(Collider other)
+	{
+		var archetypeMove = other.GetComponent<ArchetypeMove>();
+		if(archetypeMove != null) archetypeMove.IsInView = true;
 	}
 
 	private void OnSoundEvent(SoundEvent e)
