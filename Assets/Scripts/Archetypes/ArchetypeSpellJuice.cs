@@ -23,13 +23,15 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	}
 
 	public GameObject CurrentSpell;
-	private float _targetAnimSpeed;
-	private float _timeElapsed;
-	private int _nextPoint;
 	private Vector3 _lastPoint;
 	private Vector3 _toPoint;
 	private Vector3[] _movementPoints;
 	private Spells _type;
+	
+	private float _targetAnimSpeed;
+	private float _timeElapsed;
+	private int _nextPoint;
+	private bool _triggered;
 
 	private void Awake()
 	{
@@ -41,21 +43,9 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	}
 
-	private void Update()
-	{
-	
-		if(!GameConfig.GamePaused)
-			_timeElapsed += Time.deltaTime;
-		
-		// Destroy this object after 5 seconds
-		if(_timeElapsed >= 5)
-			Destroy(gameObject);
-		
-	}
-
 	private void OnTriggerEnter(Collider collider) {
 		
-		if(collider.gameObject.tag != "Player") return;
+		if(collider.gameObject.tag != "Player" || _triggered) return;
 		
 		var currentSpellObject = GameObject.FindGameObjectWithTag("SpellBar");
 		
@@ -70,12 +60,16 @@ public class ArchetypeSpellJuice : MonoBehaviour
 					currentSpellObject = spellBars[i];
 					GUIManager.Instance.NewSpell(spellBars[i]);
 
+					_triggered = true;
 					JuiceCollected(currentSpellObject);
 				}
 			}
 		}
-		else if (currentSpellObject.GetComponent<ArchetypeSpell>().Type == _type)
+		else if(currentSpellObject.GetComponent<ArchetypeSpell>().Type == _type)
+		{
+			_triggered = true;
 			JuiceCollected(currentSpellObject);
+		}
 
 	}
 
