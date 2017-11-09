@@ -35,6 +35,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private ParticleSystem _particles;
 	private ParticleSystem.ColorOverLifetimeModule _particleColor;
+	private ParticleSystem.EmissionModule _emission;
 	
 	private float _currentBadScore;
 	private float _targetScore;
@@ -80,6 +81,10 @@ public class ArchetypePlayer : MonoBehaviour {
 		_playerAnimator = GetComponent<Animator>();
 		
 		_particles = GetComponent<ParticleSystem>();
+
+		_emission = _particles.emission;
+		_emission.enabled = false;
+		
 		_particles.Stop();
 
 		_particleColor = _particles.colorOverLifetime;
@@ -228,16 +233,11 @@ public class ArchetypePlayer : MonoBehaviour {
 					// Speed up bubble rate
 					
 					if (_speedShoot <= 0)
-					{
-						GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
 						PoweredUp = true;
-					}
-					else 
-						GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
-
+					
+					GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
 					_speedShoot++;
 					
-				
 					break;
 				case Spells.ScatterShoot:
 					// Make those bubbles scatter
@@ -257,12 +257,11 @@ public class ArchetypePlayer : MonoBehaviour {
 					// Make those bubbles bigger
 					if (_bigShoot <= 0)
 					{
-						_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-						Strength += BubbleStrengthIncrease;
 						PoweredUp = true;
 					}
-					else
-						_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+					
+					_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+					Strength += BubbleStrengthIncrease;
 					
 					_bigShoot++;
 					
@@ -271,23 +270,21 @@ public class ArchetypePlayer : MonoBehaviour {
 		}
 		else
 		{
-			Particles(false, SpellsType);
+			
 			// Spell OFF
 			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:
 					if (_speedShoot <= 0)
 					{
-						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
+						Particles(false, SpellsType);
 						PoweredUp = false;
 					}
 					else
-					{
 						_speedShoot--;
-						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
-					}
 					
-				
+					GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
+
 					break;
 				case Spells.ScatterShoot:
 
@@ -295,11 +292,10 @@ public class ArchetypePlayer : MonoBehaviour {
 					{
 						_scatterShootOn = false;
 						PoweredUp = false;
+						Particles(false, SpellsType);
 					}
 					else
-					{
 						_scatterShoot--;
-					}
 					
 					break;
 					
@@ -307,17 +303,14 @@ public class ArchetypePlayer : MonoBehaviour {
 
 					if (_bigShoot <= 0)
 					{
-						_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-						Strength -= BubbleStrengthIncrease;
 						PoweredUp = false;
+						Particles(false, SpellsType);
 					}
 					else
-					{
 						_bigShoot--;
-						_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-						Strength -= BubbleStrengthIncrease;
-						
-					}
+					
+					_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+					Strength -= BubbleStrengthIncrease;
 					
 					break;
 			}
@@ -363,6 +356,7 @@ public class ArchetypePlayer : MonoBehaviour {
 			}
 			
 			_particleColor.color = new ParticleSystem.MinMaxGradient(Color.white, myColor);
+			_emission.enabled = true;
 			_particles.Play();
 		}
 		
