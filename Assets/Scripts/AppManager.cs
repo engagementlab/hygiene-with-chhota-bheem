@@ -20,6 +20,8 @@ public class AppManager : MonoBehaviour
 	{
 		StartCoroutine(LocationTest());
 		
+		GameConfig.InitializePrefs();
+		
 	}
 
 	IEnumerator LocationTest()
