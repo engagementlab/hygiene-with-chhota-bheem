@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class MenuUI : MonoBehaviour
 	public Animator SettingsAnimator;
 	public AudioClip MenuMusic;
 	private AudioSource _audio;
+
+	public Sprite ToggleOn;
+	public Sprite ToggleOff;
+
+	private Toggle SoundToggle;
+	private Toggle MusicToggle;
 	
 	// Use this for initialization
 	void Start () {
@@ -17,23 +24,13 @@ public class MenuUI : MonoBehaviour
 		// Start menu music
 		_audio.PlayOneShot(MenuMusic);
 		
-	}
+		// Find Toggles
+		SoundToggle = gameObject.transform.Find("Settings/Board/Sound/Toggle").GetComponent<Toggle>();
+		MusicToggle = gameObject.transform.Find("Settings/Board/Music/Toggle").GetComponent<Toggle>();
 
-	public void SettingsButtonDown()
-	{
-		
-	}
-
-	public void Settings()
-	{
-		SettingsAnimator.gameObject.SetActive(true);
-		SettingsAnimator.Play("SettingsOpen");
-	}
-
-	public void CloseMainMenu()
-	{
-		gameObject.GetComponent<Animator>().SetTrigger("MenuClose");
-		
+		// Set Toggles to GameConfig settings
+		SoundToggle.isOn = GameConfig.SoundOn;
+		MusicToggle.isOn = GameConfig.MusicOn;
 	}
 
 	public void Screen(int num)
@@ -46,10 +43,16 @@ public class MenuUI : MonoBehaviour
 		gameObject.GetComponent<Animator>().SetInteger("LevelSelected", num);
 	}
 
-	public void LevelSelectOpen()
+	public void Sound()
 	{
-		Debug.Log("Triggering the level select!");
-		
-		gameObject.GetComponent<Animator>().SetTrigger("Levels");
+		GameConfig.SoundOn = !GameConfig.SoundOn;
+		Debug.Log(GameConfig.SoundOn);
+	}
+
+	public void Music()
+	{
+		GameConfig.MusicOn = !GameConfig.MusicOn;
+
+		Debug.Log(GameConfig.MusicOn);
 	}
 }
