@@ -103,7 +103,16 @@ public class GUIManager
 	public void AddSpellJuice(Spells type, GameObject fill)
 	{
 		var spellFill = fill.GetComponent<RectTransform>();
-		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
+
+		iTween.ValueTo(fill, iTween.Hash(
+				"from", spellFill.sizeDelta.y,
+				"to", spellFill.sizeDelta.y + SpellSize,
+				"time", 1,
+				"easetype", iTween.EaseType.easeOutSine,
+				"onupdate", "AdjustSpellLevel"));
+		// Maybe someday:
+		//		iTween.ShakeRotation(fill.transform.parent.gameObject, Vector3.one*10, 5);
+		
 		_spellCount++;
 
 		if (_spellCount == _steps)
