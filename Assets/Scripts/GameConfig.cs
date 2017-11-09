@@ -10,6 +10,12 @@ public class GameConfig : MonoBehaviour
 	public static bool SlowMo;
 	public static bool GameOver;
 	public static bool GodMode;
+	
+	[Range(0f, 1f)]
+	public static float GlobalVolume = 1f;
+
+	public static bool SoundOn = true;
+	public static bool MusicOn = true;
   
 	public static float GameSpeedModifier = 15;
 	public static float BubbleOffset = 2;

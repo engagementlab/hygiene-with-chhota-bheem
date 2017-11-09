@@ -116,7 +116,17 @@ public class GameManager : MonoBehaviour
 
 	private void OnSoundEvent(SoundEvent e)
 	{
-
+		
+		if(_audio == null) return;
+		
+		// If this is SFX and the sound is OFF, stop here
+		if (e.Type == SoundEvent.SoundType.SFX && !GameConfig.SoundOn)
+			return;
+		
+		// If this is Music and the music is OFF, stop here
+		if (e.Type == SoundEvent.SoundType.Music && !GameConfig.MusicOn)
+			return;
+		
 		if(e.SoundFileName != null)
 		{
 			// If sound name provided and clip not loaded, load into dictionary
@@ -124,7 +134,7 @@ public class GameManager : MonoBehaviour
 				_loadedAudio.Add(e.SoundFileName, Resources.Load<AudioClip>("Audio/" + e.Type + "/" + e.SoundFileName));
 
 			// Play loaded clip
-			_audio.PlayOneShot(_loadedAudio[e.SoundFileName], e.SoundVolume);
+			_audio.PlayOneShot(_loadedAudio[e.SoundFileName], e.SoundVolume * GameConfig.GlobalVolume);
 		}
 		// Otherwise, play provided clip
 		else if(e.SoundClip != null) 
