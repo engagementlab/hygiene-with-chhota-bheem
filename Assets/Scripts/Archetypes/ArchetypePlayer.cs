@@ -108,13 +108,14 @@ public class ArchetypePlayer : MonoBehaviour {
 		}
 		_playerAnimator.speed = 1;
 
+		// Get input pos via mouse/touch
 		#if UNITY_EDITOR
 			var inputPosition = Input.mousePosition;
 		#else
 			var inputPosition = Input.GetTouch(0).position;
 		#endif
 		
-		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(inputPosition).x, Camera.main.ScreenToWorldPoint(inputPosition).y + GameConfig.BubbleOffset, -.5f);
+		var targetPosition = new Vector3(_mainCamera.ScreenToWorldPoint(inputPosition).x, _mainCamera.ScreenToWorldPoint(inputPosition).y + GameConfig.BubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
 		if(_currentBadScore < _targetScore) 
