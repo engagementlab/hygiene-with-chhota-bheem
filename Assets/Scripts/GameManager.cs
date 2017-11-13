@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using UnityEngine.VR.WSA;
 
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour

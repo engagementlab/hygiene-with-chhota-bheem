@@ -20,12 +20,10 @@ public class GUIManager
 	private Text _gameEndScore;
 	private Text _gameEndVillagers;
 		
-	private GameObject _inventoryUi;
 	private GameObject _spellText;
 	private GameObject _pauseUi;
 	private GameObject _slowMoWrapper;
 	public GameObject _spellActivatedUi;
-	public GameObject[] _spellSteps;
 	
 	private GameObject _gameEndUi;
 	private Animator _pauseAnimator;
@@ -33,21 +31,18 @@ public class GUIManager
 	private Text _fliesCount;
 	private Text _villagerCount;
 	private Text _score;
+	
 	private int _stars;
-
 	private int _steps;
 
 	public GameObject[] SpellBars;
-	public float SpellSize;
 	private GameObject _bar;
+	private float _spellSize;
 	private int _spellCount;
-	public Animator[] _spellStepsComponent;
-
+	
 	// Use this for initialization
 	public void Initialize ()
 	{ 
-		
-		_inventoryUi = GameObject.Find("GameUI/SpellJuiceBars");
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
@@ -66,10 +61,8 @@ public class GUIManager
 		_slowMoWrapper.SetActive(false);
 		
 		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
-
-		_steps = GameObject.Find("Player").GetComponent<ArchetypePlayer>().SpellStepCount;
 		
-		SpellSize = SpellBars[0].GetComponent<RectTransform>().sizeDelta.y/_steps;
+		_spellSize = SpellBars[0].GetComponent<RectTransform>().sizeDelta.y/_steps;
 
 		for (int i = 0; i < SpellBars.Length; i++)
 		{
@@ -79,11 +72,13 @@ public class GUIManager
 			fill.sizeDelta = new Vector2(fill.sizeDelta.x, 0);
 		}
 		
-		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");
-//		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
-		
+		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");		
 		_spellActivatedUi.SetActive(false);
 		_spellCount = 0;
+		
+		var playerObj = GameObject.Find("Player");
+		if(playerObj != null)
+			_steps = playerObj.GetComponent<ArchetypePlayer>().SpellStepCount;
 
 	}
 	
@@ -106,7 +101,7 @@ public class GUIManager
 
 		iTween.ValueTo(fill, iTween.Hash(
 				"from", spellFill.sizeDelta.y,
-				"to", spellFill.sizeDelta.y + SpellSize,
+				"to", spellFill.sizeDelta.y + _spellSize,
 				"time", 1,
 				"easetype", iTween.EaseType.easeOutSine,
 				"onupdate", "AdjustSpellLevel"));

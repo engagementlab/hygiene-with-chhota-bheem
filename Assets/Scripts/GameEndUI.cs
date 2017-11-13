@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Net.Mime;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
