@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour
@@ -7,6 +9,10 @@ public class MenuUI : MonoBehaviour
 	public GameObject MainMenu;
 	public GameObject Settings;
 	public GameObject Chapters;
+	public GameObject Levels;
+	public GameObject[] Interstitials;
+
+	private Transform[] _interstitialScreens;
  
 	public AudioClip MenuMusic;
 	private AudioSource _audio;
@@ -101,20 +107,61 @@ public class MenuUI : MonoBehaviour
 
 	public void CloseChapterSelect()
 	{
-
+		
 		iTween.MoveTo(Chapters, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
 		iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
 
 	}
 
-	public void Screen(int num)
+	public void OpenLevelSelect()
 	{
-		gameObject.GetComponent<Animator>().SetInteger("Screen", num);
+		Levels.SetActive(true);
+		iTween.MoveTo(Chapters, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
+
 	}
 
-	public void Level(int num)
+	public void OpenLevelInterstitial(int chapter)
 	{
-		gameObject.GetComponent<Animator>().SetInteger("LevelSelected", num);
+		
+		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		gameObject.transform.Find("Interstitials").gameObject.SetActive(true);
+
+		foreach (GameObject screen in Interstitials)
+		{
+			screen.SetActive(false);
+		}
+		
+		switch (chapter)
+		{
+			case 1:
+				Interstitials[0].gameObject.SetActive(true);
+				iTween.MoveTo(Interstitials[0], iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack) );
+				_interstitialScreens = Interstitials[0].GetComponentsInChildren<Transform>();
+
+				break;
+				
+			case 2:
+				Interstitials[1].gameObject.SetActive(true);
+				iTween.MoveTo(Interstitials[1], iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack) );
+				_interstitialScreens = Interstitials[1].GetComponentsInChildren<Transform>();
+
+				break;
+				
+			case 3:
+				Interstitials[2].gameObject.SetActive(true);
+				iTween.MoveTo(Interstitials[2], iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack) );
+				_interstitialScreens = Interstitials[2].GetComponentsInChildren<Transform>();
+
+				break;
+		}
+				
+	}
+
+	public void NextInterstitial(Transform current)
+	{
+		iTween.MoveTo(current.gameObject, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		
 	}
 
 	public void Volume(float volume)
@@ -124,14 +171,12 @@ public class MenuUI : MonoBehaviour
 		
 		GameConfig.GlobalVolume = volume;
 		GameConfig.UpdatePrefs("volume", null, volume);
-		Debug.Log(GameConfig.GlobalVolume);
 	}
 
 	public void Sound()
 	{
 		GameConfig.SoundOn = !GameConfig.SoundOn;
 		GameConfig.UpdatePrefs("sound", GameConfig.SoundOn == true ? 1 : 0);
-		Debug.Log(GameConfig.SoundOn);
 	}
 
 	public void Music()
