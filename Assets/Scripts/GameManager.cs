@@ -56,8 +56,8 @@ public class GameManager : MonoBehaviour
 	
 		if(!GameConfig.GameOver)
 		{
-			// Pause only if player has already touched at some point
-			if(!noInput)
+			// Pause only if player has already touched at some point, and not in slow-mo mode
+			if(!noInput && !_slowMo)
 			{
 				_playerHasTouched = true;
 				GameConfig.GamePaused = false;

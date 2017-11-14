@@ -7,6 +7,7 @@ public class MenuUI : MonoBehaviour
 	public GameObject MainMenu;
 	public GameObject Settings;
 	public GameObject Chapters;
+	public GameObject Interstitials;
  
 	public AudioClip MenuMusic;
 	private AudioSource _audio;
