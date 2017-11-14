@@ -26,6 +26,8 @@ public class GameConfig : MonoBehaviour
 	public static int Score;
 	public static int VillagersSaved;
 	public static int Multiplier;
+
+	public static bool GameWon;
 	
 	// PlayerPrefs Types List
 	public static List<String> Types;

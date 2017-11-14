@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 		GameObject gameUi = (GameObject) Instantiate(Resources.Load("GameUI"));
 		gameUi.name = "GameUI";
 		GUIManager.Instance.Initialize();
+		
+		GameConfig.InitializePrefs();
 
 		Instantiate(Resources.Load("EventSystem"));
 		
@@ -116,7 +118,8 @@ public class GameManager : MonoBehaviour
 	private void OnSoundEvent(SoundEvent e)
 	{
 		
-		if(_audio == null) return;
+		if(_audio == null) 
+			return;
 		
 		// If this is SFX and the sound is OFF, stop here
 		if (e.Type == SoundEvent.SoundType.SFX && !GameConfig.SoundOn)

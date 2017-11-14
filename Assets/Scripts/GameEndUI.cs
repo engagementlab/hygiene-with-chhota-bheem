@@ -48,8 +48,8 @@ namespace DefaultNamespace
         
         public void ScoreMultiplier()
         {
-            if (GameConfig.VillagersSaved > 0)
-                score = GameConfig.Score * GameConfig.VillagersSaved;
+            if (GameConfig.GameWon)
+                score = GameConfig.Score * (GameConfig.StarCount() + 1);
             else
                 score = GameConfig.Score;
 

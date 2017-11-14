@@ -395,6 +395,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		gameObject.SetActive(false);
 		GameConfig.GameOver = true;
+		GameConfig.GameWon = WonGame;
 		GUIManager.Instance.GameEnd(WonGame);
 		
 		// Send Player Data to Analytics
