@@ -161,7 +161,6 @@ public class MenuUI : MonoBehaviour
 	public void NextInterstitial(Transform current)
 	{
 		iTween.MoveTo(current.gameObject, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
-		
 	}
 
 	public void Volume(float volume)

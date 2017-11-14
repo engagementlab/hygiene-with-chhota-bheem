@@ -31,7 +31,7 @@ public class GameUI : MonoBehaviour
 
     public void LoadLevel(string level)
     {
-
+        GameConfig.SlowMo = false;
         if(level == "next")
         {
             var next = Application.loadedLevel + 1;

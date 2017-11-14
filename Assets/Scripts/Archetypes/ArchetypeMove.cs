@@ -97,6 +97,11 @@ public class ArchetypeMove : MonoBehaviour
 		LoopFromStart,
 		PingPong
 	}
+
+	public bool HasLocalParent
+	{
+		get { return _localParent != null; }
+	}
 	
 	private Spells _powerUpGiven;
 
@@ -326,7 +331,10 @@ public class ArchetypeMove : MonoBehaviour
 			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));
 		  // Obstacle does not kill
 		  else
+		  {
+			  Handheld.Vibrate();
 			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.ObstacleSound));
+		  }
 			  
 	  }
 	  
@@ -347,7 +355,7 @@ public class ArchetypeMove : MonoBehaviour
   }
 
 	#if UNITY_EDITOR
-	public void OnDrawGizmosSelected()
+	public void OnDrawGizmosSelected() 
 	{
 		if(!SceneEditor.ShowGizmos || Application.isPlaying) return;
 		
@@ -402,6 +410,11 @@ public class ArchetypeMove : MonoBehaviour
 	/**************
 		CUSTOM METHODS
 	***************/
+
+	public void DestroyObject()
+	{
+		Destroy(_localParent ?? gameObject);
+	}
 	
 	// Add gameobject of type Waypoint as child of this archetype; used in editor only
 	public void AddWaypoint()
@@ -565,13 +578,15 @@ public class ArchetypeMove : MonoBehaviour
 						transform.rotation = _startingRotation;
 					}
 				}
-			} 
+			}
+			
 			else if(_nextPoint < _waypoints.Count - 1)
 				_nextPoint++;
+			
 			else
 			{
 				// If playing once, destroy if enabled
-				if(DestroyOnEnd) Destroy(gameObject);
+				if(DestroyOnEnd) DestroyObject();
 				
 			}
 			
