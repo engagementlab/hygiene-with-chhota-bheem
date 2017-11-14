@@ -327,16 +327,19 @@ public class ArchetypeMove : MonoBehaviour
 			  Events.instance.Raise(new DeathEvent(false));
 			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
 		  }
-		  else if(die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
+		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
+		  {
+			  Handheld.Vibrate();
 			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));
+		  }
 		  // Obstacle does not kill
 		  else
 		  {
 			  Handheld.Vibrate();
 			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.ObstacleSound));
 		  }
-			  
-	  }
+
+	  } 
 	  
 	  if(!PlayerCanKill || _playerScript == null) return;
 	  if (collider.gameObject.tag != "Bubble") return;
