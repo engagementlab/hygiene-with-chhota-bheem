@@ -8,6 +8,7 @@ namespace DefaultNamespace
 	    private ParticleSystem.ColorOverLifetimeModule _particleColor;
 	    private ParticleSystem.EmissionModule _emission;
 
+	    public bool uniqueColor;
 	    public Color MyColor;
 	    public bool OnAwake;
 
@@ -35,33 +36,40 @@ namespace DefaultNamespace
             if (on) // Turn on new particles
             {
                 Color myColor;
+
+	            if (uniqueColor)
+		            myColor = MyColor;
+	            else
+	            {
+		            // Show spell color particle system
+		            switch (spell)
+		            {
+			            case Spells.BigShoot:
+
+				            myColor = Color.cyan;
+				
+				            break;
+				
+			            case Spells.ScatterShoot:
+					
+				            myColor = Color.yellow;
+				
+				            break;
+				
+			            case Spells.SpeedShoot:
+
+				            myColor = Color.red;
+				
+				            break;
+					
+			            default:
+				            myColor = Color.white;
+
+				            break;
+		            }
+	            }
 			
-                // Show Player spell color particle system
-                switch (spell)
-                {
-                    case Spells.BigShoot:
-
-                        myColor = Color.cyan;
-				
-                        break;
-				
-                    case Spells.ScatterShoot:
-					
-                        myColor = Color.yellow;
-				
-                        break;
-				
-                    case Spells.SpeedShoot:
-
-                        myColor = Color.red;
-				
-                        break;
-					
-                    default:
-                        myColor = Color.white;
-
-                        break;
-                }
+               
 			
                 _particleColor.color = new ParticleSystem.MinMaxGradient(Color.white, myColor);
                 _emission.enabled = true;
