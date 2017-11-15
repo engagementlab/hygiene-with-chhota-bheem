@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
 		GameConfig.SlowMo = true;
 		
 		_slowMo = true;
-		Time.timeScale = .1f;
+		Time.timeScale = 0;
 	}
 
 	public void HideSlowMo()
@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
 		GameConfig.SlowMo = false;
 		
 		_slowMo = false;
-		Time.timeScale = 1f;
+		Time.timeScale = 1;
 	}
 
 	public void Pause()
