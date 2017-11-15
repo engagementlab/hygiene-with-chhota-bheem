@@ -16,10 +16,10 @@ public class VillagerObject : ArchetypeMove
 	private IEnumerator RemoveVillager()
 	{
 		yield return new WaitForEndOfFrame();
-
+		
 		SpawnSpellComponent();
+		
 		Destroy(gameObject);
-
 	}
 
 	// Use this for initialization
@@ -58,6 +58,8 @@ public class VillagerObject : ArchetypeMove
 	private void OnTriggerEnter(Collider collider) {
 		
 //		base.OnTriggerEnter(collider);
+		if (IsDestroyed)
+			return;
 		
 		if(collider.gameObject.tag != "Bubble") return;
 		

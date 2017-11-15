@@ -43,6 +43,9 @@ public class GUIManager
 	// Use this for initialization
 	public void Initialize ()
 	{ 
+		var playerObj = GameObject.Find("Player");
+		if(playerObj != null)
+			_steps = playerObj.GetComponent<ArchetypePlayer>().SpellStepCount;
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
@@ -62,6 +65,8 @@ public class GUIManager
 		
 		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
 		
+		Debug.Log(SpellBars[0].GetComponent<RectTransform>().sizeDelta.y);
+		
 		_spellSize = SpellBars[0].GetComponent<RectTransform>().sizeDelta.y/_steps;
 
 		for (int i = 0; i < SpellBars.Length; i++)
@@ -75,10 +80,6 @@ public class GUIManager
 		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");		
 		_spellActivatedUi.SetActive(false);
 		_spellCount = 0;
-		
-		var playerObj = GameObject.Find("Player");
-		if(playerObj != null)
-			_steps = playerObj.GetComponent<ArchetypePlayer>().SpellStepCount;
 
 	}
 	

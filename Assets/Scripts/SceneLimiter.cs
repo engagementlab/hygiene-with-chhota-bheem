@@ -7,6 +7,6 @@ public class SceneLimiter : MonoBehaviour {
 	{
 		var archetypeMove = other.GetComponent<ArchetypeMove>();
 		if(archetypeMove != null)
-			Destroy(other.gameObject);
+			archetypeMove.DestroyObject();
 	}
 }

@@ -37,8 +37,6 @@ public class GameConfig : MonoBehaviour
 		
 		DontDestroyOnLoad(gameObject);
 
-		
-
 	}
 	
 	public static void Reset() {
@@ -71,12 +69,9 @@ public class GameConfig : MonoBehaviour
 		if (PlayerPrefs.HasKey("volume"))
 		{
 			GlobalVolume = PlayerPrefs.GetFloat("volume");
-			Debug.Log(PlayerPrefs.GetFloat("volume"));
 		}
 		else
 		{
-			Debug.Log(PlayerPrefs.GetFloat("volume"));
-
 			GlobalVolume = 1f;
 			PlayerPrefs.SetFloat("volume", GlobalVolume);
 		}
@@ -147,12 +142,5 @@ public class GameConfig : MonoBehaviour
 		
 		return _stars;
 	}
-
-	public static int ScoreMultiplier()
-	{
-		Score *= VillagersSaved;
-		return Score;
-	}
-	
 
 }
