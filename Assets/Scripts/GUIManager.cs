@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+﻿using DefaultNamespace;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GUIManager
@@ -18,78 +18,63 @@ public class GUIManager
 
 	private GameObject _gameEndScreen;
 	private Animator _gameEndAnim;
-	private Text _gameEndScore;
 		
-	private GameObject _inventoryUi;
 	private GameObject _spellText;
 	private GameObject _pauseUi;
+	private GameObject _slowMoWrapper;
 	public GameObject _spellActivatedUi;
-	public GameObject[] _spellSteps;
+	
 	private GameObject _gameEndUi;
 	private Animator _pauseAnimator;
 
 	private Text _fliesCount;
 	private Text _villagerCount;
 	private Text _score;
+	
+	private int _stars;
+	private int _steps;
 
 	public GameObject[] SpellBars;
-	public float SpellSize;
 	private GameObject _bar;
+	private float _spellSize;
 	private int _spellCount;
-	public Animator[] _spellStepsComponent;
-
+	
 	// Use this for initialization
-	public void Initialiaze ()
+	public void Initialize ()
 	{ 
-		_inventoryUi = GameObject.Find("GameUI/SpellJuiceBars");
+		var playerObj = GameObject.Find("Player");
+		if(playerObj != null)
+			_steps = playerObj.GetComponent<ArchetypePlayer>().SpellStepCount;
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
 		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
-		_gameEndScore = _gameEndScreen.transform.Find("Wrapper/Board/Score").GetComponent<Text>();
+		
+		_gameEndScreen.SetActive(false);
 
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseAnimator = _pauseUi.GetComponent<Animator>();
 		_pauseUi.SetActive(false);
+
+		_slowMoWrapper = GameObject.Find("GameUI/SlowMoWrap");
+		_slowMoWrapper.SetActive(false);
 		
 		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
-		
-		SpellSize = SpellBars[0].transform.Find("Background").GetComponent<RectTransform>().sizeDelta.y/5;
+		_spellSize = SpellBars[0].GetComponent<RectTransform>().sizeDelta.y/_steps;
 
 		for (int i = 0; i < SpellBars.Length; i++)
 		{
 			SpellBars[i].SetActive(false);
 			
-			var fill = SpellBars[i].transform.Find("Background").GetComponent<RectTransform>();
+			var fill = SpellBars[i].GetComponent<RectTransform>();
 			fill.sizeDelta = new Vector2(fill.sizeDelta.x, 0);
 		}
 		
-		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");
-//		_spellSteps = GameObject.FindGameObjectsWithTag("StepGroup");
-		
-		_gameEndUi = GameObject.Find("GameUI/GameEndScreen");
-		_gameEndUi.SetActive(false);
-		
+		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");		
 		_spellActivatedUi.SetActive(false);
 		_spellCount = 0;
 
-	}
-	
-
-	public void DisplayCurrentSpell(string spellName)
-	{
-		
-//		_spellText.GetComponent<Text>().text = "Spell: " + spellName;
-//		_spellText.SetActive(true);
-		
-	}
-	
-	public void HideSpell()
-	{
-		
-//		_spellText.SetActive(false);
-		
 	}
 
 	public void NewSpell(GameObject spellBar)
@@ -100,18 +85,26 @@ public class GUIManager
 			_bar.SetActive(false);
 		
 		spellBar.SetActive(true);
+		
 		_spellCount = 0;
 	}
 
 	public void AddSpellJuice(Spells type, GameObject fill)
 	{
-//		Debug.Log("Adding juice for spell '" + type + "'");
-
 		var spellFill = fill.GetComponent<RectTransform>();
-		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellFill.sizeDelta.y + SpellSize);
+
+		iTween.ValueTo(fill, iTween.Hash(
+				"from", spellFill.sizeDelta.y,
+				"to", spellFill.sizeDelta.y + _spellSize,
+				"time", 1,
+				"easetype", iTween.EaseType.easeOutSine,
+				"onupdate", "AdjustSpellLevel"));
+		// Maybe someday:
+		//		iTween.ShakeRotation(fill.transform.parent.gameObject, Vector3.one*10, 5);
+		
 		_spellCount++;
 
-		if (_spellCount == GameObject.FindGameObjectWithTag("Player").GetComponent<ArchetypePlayer>().SpellStepCount)
+		if (_spellCount == _steps)
 		{
 			Events.instance.Raise (new SpellEvent(type, true));
 			EmptySpells();
@@ -119,13 +112,12 @@ public class GUIManager
 
 	}
 
-
 	public void EmptySpells()
 	{
 		
 		_bar = GameObject.FindGameObjectWithTag("SpellBar");
 				
-		var fill = _bar.transform.Find("Background").GetComponent<RectTransform>();
+		var fill = _bar.GetComponent<RectTransform>();
 		fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);
 
 		_spellCount = 0;
@@ -149,21 +141,26 @@ public class GUIManager
 
 	public void HidePause()
 	{
-		
 		_pauseAnimator.Play("HidePause");
+	}
+
+	public void ShowSloMo()
+	{
+		_slowMoWrapper.SetActive(true);
+	}
+
+	public void HideSloMo()
+	{
+		_slowMoWrapper.SetActive(false);
 	}
 
 	public void GameEnd(bool win)
 	{
 		_gameEndScreen.SetActive(true);
-
-		_gameEndScore.text = "Score: " + GameConfig.Score;
-
-		_gameEndAnim.SetBool("won", win);
-
-		int stars = GameConfig.Score / GameConfig.PossibleScore;
-		
-		_gameEndAnim.SetInteger("stars", stars);
+		_gameEndScreen.GetComponent<GameEndUI>().SetContent(win);
 
 	}
+	
+	
+
 }

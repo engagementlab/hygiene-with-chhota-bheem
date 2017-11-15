@@ -28,6 +28,7 @@ public class ArchetypeMove : MonoBehaviour
 {
 
 	public int pointsWorth = 1;
+	public bool DontAutoDestroy = true;
 	
 	[HideInInspector]
 	public bool MoveEnabled = true;
@@ -35,50 +36,50 @@ public class ArchetypeMove : MonoBehaviour
 	
 	[HideInInspector]
 	public bool KillsPlayer;
-	
-	[HideInInspector]
-	public Spells SpellGiven;
 	[HideInInspector]
 	public bool SpellRandom;
-
 	[HideInInspector]
-	public bool PlayerCanKill;	
-	[HideInInspector]
-	public int HitPoints;
-	
+	public bool PlayerCanKill;
 	[HideInInspector]
 	public bool MoveOnceInCamera;
 	[HideInInspector]
 	public bool LeaveParentInCamera;
 	[HideInInspector]
-	public float MoveSpeed;
-	[HideInInspector]
-	public float MoveDelay;
-	[HideInInspector]
-	public Dirs MovementDir = Dirs.Down;
-	
-	[HideInInspector]
-	public float AnimationDuration = 1;
-	[HideInInspector]
-	public float AnimationUpwardSpeed = 1;	
-	[HideInInspector]
-	public float AnimationDownwardSpeed = 1;	
-	[HideInInspector]
-	public AnimType AnimationType = AnimType.PingPong;
-	
+	public bool DestroyOnEnd;
 	[HideInInspector]
 	public bool UseParentSpeed;
 	[HideInInspector]
 	public bool RotateOnWaypoints = true;
 	[HideInInspector]
+	public bool IsDestroyed;
+	[HideInInspector]
+	public bool IsInView;
+	
+	[HideInInspector]
+	public int HitPoints;
+	[HideInInspector]
 	public int SpawnTypeIndex;
 	[HideInInspector]
 	public int Direction;
 	[HideInInspector]
+	public float MoveSpeed;
+	[HideInInspector]
+	public float MoveDelay;
+	[HideInInspector]
+	public float AnimationDuration = 1;
+	[HideInInspector]
+	public float AnimationUpwardSpeed = 1;	
+	[HideInInspector]
+	public float AnimationDownwardSpeed = 1;
+	[HideInInspector]
 	public float CurrentPathPercent;
 	
 	[HideInInspector]
-	public bool IsDestroyed;
+	public Spells SpellGiven;
+	[HideInInspector]
+	public Dirs MovementDir = Dirs.Down;	
+	[HideInInspector]
+	public AnimType AnimationType = AnimType.PingPong;
 	
 	[CanBeNull] [HideInInspector]
 	public string SpawnType;
@@ -96,6 +97,11 @@ public class ArchetypeMove : MonoBehaviour
 		LoopFromStart,
 		PingPong
 	}
+
+	public bool HasLocalParent
+	{
+		get { return _localParent != null; }
+	}
 	
 	private Spells _powerUpGiven;
 
@@ -109,11 +115,14 @@ public class ArchetypeMove : MonoBehaviour
 	private float _currentPathPercent;
 	private float _runningTime;
 	private bool _reverseAnim;
+	private bool _hasWaypoints;
+	private bool _queueAnimation;
 	private float _reversingAngle;
 	private float _targetAnimSpeed;
 	private float _moveWaitingTime;
 	private int _nextPoint = 1;
-	private int _bubblesHit;
+	internal int _bubblesHit;
+	
 	private ArchetypeMove _parentMove;
 	private Transform _movingTransform;
 	private RectTransform _bgRectTransform;
@@ -139,8 +148,6 @@ public class ArchetypeMove : MonoBehaviour
 		MainCamera = Camera.main;
 		AnimationDuration = 10 / AnimationDuration;
 		
-		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
-
 		// For use in Update
 		_movingTransform = transform;
 		_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
@@ -158,12 +165,10 @@ public class ArchetypeMove : MonoBehaviour
 			_playerScript = _player.GetComponent<ArchetypePlayer>();
 		
 		transform.position = new Vector3(transform.position.x, transform.position.y, Utilities.GetZPosition(gameObject));
-	
-		GameConfig.PossibleScore += pointsWorth;
 
 	}
 
-	private void Start()
+	protected void Start()
 	{
 		
 		if(GetType().Name != "ArchetypeSpawner")
@@ -174,20 +179,41 @@ public class ArchetypeMove : MonoBehaviour
 	public void Update () {
 
 		// Sanity check
-		if (!_movingTransform)
-			return;
+		if (!_movingTransform) return;
+		// Paused/over?
+		if (GameConfig.GamePaused || GameConfig.GameOver) return;
 
-		var yPos = MainCamera.WorldToViewportPoint(_movingTransform.position).y;
-		if(yPos < 1.04f)
+		var viewPos = MainCamera.WorldToViewportPoint(_movingTransform.position);
+		var hasNoChildren = GetComponentsInChildren<ArchetypeMove>().Length == 1;
+		
+		// If object set to not auto-destroy, has no waypoints or children of type Move, and is in view, set to auto-destroy
+		if(DontAutoDestroy && !_hasWaypoints && hasNoChildren && IsInView)
+			DontAutoDestroy = false;
+
+		// Not for background layers; auto-destroy if object is outside cam view
+		if(gameObject.layer != 8 && !DontAutoDestroy)
 		{
+			if(viewPos.y < -1 || viewPos.x > 1.05f || viewPos.x < -.05f)
+				Destroy(gameObject);
+		}
 			
+		// Resume animation after game done being paused
+		if(_queueAnimation && !GameConfig.GamePaused)
+		{
+			if((IsInView && AnimateOnlyInCamera) || !AnimateOnlyInCamera)
+			{
+				Animate();
+				_queueAnimation = false;
+			}
+		}
+
+		if(viewPos.y < 1.04f)
+		{
 			if(AnimateOnlyInCamera)
 			{
 				AnimateOnlyInCamera = false;
-//				SetupWaypoints();
 				Animate();
 			}
-			
 			// If object waiting to move once in view, check pos
 			if(!MoveEnabled && MoveOnceInCamera)
 			{
@@ -199,7 +225,8 @@ public class ArchetypeMove : MonoBehaviour
 					else
 						MoveEnabled = true;
 
-				} else
+				} 
+				else
 				{
 					// Delayed movement
 					_moveWaitingTime += Time.deltaTime;
@@ -224,10 +251,6 @@ public class ArchetypeMove : MonoBehaviour
 					_movingTransform.SetParent(null, true);
 			}
 		}
-
-		// Not for background layers
-		if(gameObject.layer != 8 && yPos < -1)
-			Destroy(gameObject);
 		
 		else if(gameObject.layer == 8)
 		{
@@ -243,31 +266,32 @@ public class ArchetypeMove : MonoBehaviour
 		// Find target for movement and change target vector based on direction
 		var target = _movingTransform.position;
 		var deltaPos = Vector3.zero;
+		var currentMoveSpeed = MoveSpeed;
 
 		switch(MovementDir)
 		{
 			case Dirs.Up:
-				target.y += MoveSpeed;
-				deltaPos.y += MoveSpeed;
+				target.y += currentMoveSpeed;
+				deltaPos.y += currentMoveSpeed;
 				break;
 			case Dirs.Right:
-				target.x += MoveSpeed;
-				deltaPos.x += MoveSpeed;
+				target.x += currentMoveSpeed;
+				deltaPos.x += currentMoveSpeed;
 				break;
 			case Dirs.Left:
-				target.x -= MoveSpeed;
-				deltaPos.x -= MoveSpeed;
+				target.x -= currentMoveSpeed;
+				deltaPos.x -= currentMoveSpeed;
 				break;
 			case Dirs.Down:
-				target.y -= MoveSpeed;
-				deltaPos.y -= MoveSpeed;
+				target.y -= currentMoveSpeed;
+				deltaPos.y -= currentMoveSpeed;
 				break;
 			default:
 				throw new Exception("Unknown movement direction.");
 		}
 
 		// Move to target via lerp if movement allowed
-		if(MoveEnabled && MoveSpeed > 0)
+		if(MoveEnabled && currentMoveSpeed > 0)
 			_movingTransform.position = Vector3.Lerp(_movingTransform.position, target, Time.deltaTime);
 		
 		if(_waypoints == null || _waypoints.Count <= 0) return;
@@ -293,20 +317,34 @@ public class ArchetypeMove : MonoBehaviour
 		  #if UNITY_EDITOR
 		  if(EditorPrefs.GetBool("GodMode")) die = false;
 		  #endif
+		  #if DEVELOPMENT_BUILD
+		  if(GameConfig.GodMode) die = false;
+		  #endif
 		  
 		  // Die immediately if not powered up
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
+		  {
 			  Events.instance.Raise(new DeathEvent(false));
+			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
+		  }
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
-			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));		  
-	  }
+		  {
+			  Handheld.Vibrate();
+			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));
+		  }
+		  // Obstacle does not kill
+		  else
+		  {
+			  Handheld.Vibrate();
+			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.ObstacleSound));
+		  }
+
+	  } 
 	  
 	  if(!PlayerCanKill || _playerScript == null) return;
 	  if (collider.gameObject.tag != "Bubble") return;
 
-//	  int strength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
 	  _bubblesHit += _playerScript.Strength;
-	  
 	  Destroy(collider.gameObject);
 	  
 	  // Hits may exceed HP if strength not evenly divisible by HP, hence greater-or-equal
@@ -314,42 +352,13 @@ public class ArchetypeMove : MonoBehaviour
 	  {
 		  Destroy(gameObject);
 
-		  switch(collider.gameObject.tag)
-		  {
-			  case "Bubble":
-				  switch(gameObject.tag)
-				  {
-					  case "Fly":
-
-						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Fly));
-						  GameConfig.FliesCaught++;
-
-						  break;
-						  
-					  case "Snake":
-
-						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Snake));
-
-						  break;
-						  
-					  case "Scorpion":
-
-						  Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Scorpion));
-
-						  break;
-					  case "Poop":
-						  Debug.Log("The Player shot a Poop! Nothing happens.");
-						  break;
-				  }
-
-				  break;
-		  }
-
+		  Events.instance.Raise(new ScoreEvent(pointsWorth));
+		
 	  }
   }
 
 	#if UNITY_EDITOR
-	public void OnDrawGizmosSelected()
+	public void OnDrawGizmosSelected() 
 	{
 		if(!SceneEditor.ShowGizmos || Application.isPlaying) return;
 		
@@ -401,29 +410,14 @@ public class ArchetypeMove : MonoBehaviour
 	
 #endif
 
-	private void OnDestroy() {
-		
-		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
-
-	}
-
-	private void OnDisable()
-	{
-	
-		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);		
-		
-	}
-
-	private void OnEnable()
-	{
-	
-		Events.instance.AddListener<SpellEvent> (OnSpellEvent);		
-		
-	}
-
 	/**************
 		CUSTOM METHODS
 	***************/
+
+	public void DestroyObject()
+	{
+		Destroy(_localParent ?? gameObject);
+	}
 	
 	// Add gameobject of type Waypoint as child of this archetype; used in editor only
 	public void AddWaypoint()
@@ -521,6 +515,7 @@ public class ArchetypeMove : MonoBehaviour
 		transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
 
 		_waypointPositions = _waypoints.ToArray();
+		_hasWaypoints = _waypoints != null && _waypoints.Count > 0;
 		
 		if(!AnimateOnlyInCamera)
 			Animate();
@@ -529,8 +524,13 @@ public class ArchetypeMove : MonoBehaviour
 	
 	internal void Animate()
 	{
-	
-		if(_waypoints == null || _waypoints.Count <= 0) return;
+
+		if(!_hasWaypoints) return;
+		if(GameConfig.GamePaused)
+		{
+			_queueAnimation = true;
+			return;
+		}
 		
 		// Calculate current percentage on waypoints path (basically ping pong but time, not frame, based)
 		bool isDownward = transform.InverseTransformDirection(Vector3.up).y < 0;
@@ -539,7 +539,7 @@ public class ArchetypeMove : MonoBehaviour
 			_targetAnimSpeed = AnimationDuration * AnimationUpwardSpeed;
 		else
 			_targetAnimSpeed = AnimationDuration * AnimationDownwardSpeed;
-
+		
 		var toPosition = _waypointPositions[_nextPoint];
 		if(toPosition == null)
 			return;
@@ -581,9 +581,17 @@ public class ArchetypeMove : MonoBehaviour
 						transform.rotation = _startingRotation;
 					}
 				}
-			} 
-			else if(_nextPoint < _waypoints.Count-1)
+			}
+			
+			else if(_nextPoint < _waypoints.Count - 1)
 				_nextPoint++;
+			
+			else
+			{
+				// If playing once, destroy if enabled
+				if(DestroyOnEnd) DestroyObject();
+				
+			}
 			
 		}
 		else
@@ -603,70 +611,11 @@ public class ArchetypeMove : MonoBehaviour
 
 	private IEnumerator SpellMatrixMode()
 	{
-		GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
 		MoveSpeed /= 2;
 		
 		yield return new WaitForSeconds(5);
 		
 		MoveSpeed *= 2;
-		GUIManager.Instance.HideSpell();
-	}
-	
-	
-	private void OnSpellEvent(SpellEvent e)
-	{
-		if (e.powerUp)
-		{
-			// Spell ON
-			switch (e.powerType)
-			{
-
-				case Spells.Matrix:
-					// Slow down the whole world except the player
-					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().PowerInfinite)
-					{
-						if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix <= 0) {
-							GUIManager.Instance.DisplayCurrentSpell("Slow Enemies");
-							MoveSpeed /= 2;
-						}
-			}
-					else
-					{
-						StartCoroutine(SpellMatrixMode());
-					}
-					
-					break;
-
-				default:
-
-					break;
-
-			}
-		}
-		else
-		{
-			// Spell OFF
-			switch (e.powerType)
-			{
-
-				case Spells.Matrix:
-
-					if (GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>().Matrix < 1)
-					{
-						GUIManager.Instance.HideSpell();
-						MoveSpeed *= 2;
-					}
-					
-					
-					break;
-
-				default:
-
-					break;
-
-			}
-		}
-
 	}
 
 	protected void SpawnSpellComponent()

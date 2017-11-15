@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class SwipeEvent : GameEvent {
+﻿public class SwipeEvent : GameEvent {
 
 	public readonly TKSwipeDirection dir;
 	public readonly float velocity;

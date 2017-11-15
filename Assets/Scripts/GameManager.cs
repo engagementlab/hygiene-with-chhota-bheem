@@ -1,53 +1,79 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Analytics;
-using System.Linq;
 using JetBrains.Annotations;
 
+[RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
 	[CanBeNull]
 	public GameObject VillagerPrefab;
 
+	private AudioSource _audio;
+
 	private float _deltaTime;
-	private bool _touching;
+	private bool _playerHasTouched;
+	private bool _touching = true;
+	private bool _paused;
+	private bool _slowMo;
+
+	private Dictionary<string, AudioClip> _loadedAudio;
 
 	private void Awake()
 	{
 		
 		GameObject gameUi = (GameObject) Instantiate(Resources.Load("GameUI"));
 		gameUi.name = "GameUI";
-		GUIManager.Instance.Initialiaze();
+		GUIManager.Instance.Initialize();
+		
+		GameConfig.InitializePrefs();
 
 		Instantiate(Resources.Load("EventSystem"));
+		
+	}
+
+	private void Start()
+	{
+		_audio = GetComponent<AudioSource>();
+		if(_audio == null)
+			_audio = gameObject.AddComponent<AudioSource>();
+		
+		_loadedAudio = new Dictionary<string, AudioClip>();
+		
+		Events.instance.AddListener<SoundEvent> (OnSoundEvent);
+		// Start level music
+		OnSoundEvent(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
 		
 	}
 
 	private void Update()
 	{
 
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(!Input.GetMouseButton(0))
+		bool noInput;
+		#if UNITY_EDITOR
+			noInput = !Input.GetMouseButton(0);
+		#else
+			noInput = Input.touches.Length == 0;
+		#endif
+	
+		if(!GameConfig.GameOver)
 		{
-			if(_touching)
+			// Pause only if player has already touched at some point, and not in slow-mo mode
+			if(!noInput && !_slowMo)
 			{
-				_touching = false;
-				GUIManager.Instance.ShowPause();
+				_playerHasTouched = true;
+				GameConfig.GamePaused = false;
 			}
 
-		} 
-		else
-		{
-			if(!_touching)
+			if(noInput && _playerHasTouched)
 			{
-				_touching = true;
-				GUIManager.Instance.HidePause();
+				if(!_slowMo)
+					SlowMo();
 			}
 		}
-		#endif
 		
-		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f; 
+		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f;
+		
 	}
 
 	private void OnGUI()
@@ -63,7 +89,7 @@ public class GameManager : MonoBehaviour
 		Rect rect = new Rect(0, 0, w, h * 2 / 100);
 		style.alignment = TextAnchor.UpperLeft;
 		style.fontSize = h * 2 / 100;
-		style.normal.textColor = new Color (0.0f, 0.0f, 0.5f, 1.0f);
+		style.normal.textColor = Color.white;
 		float msec = _deltaTime * 1000.0f;
 		float fps = 1.0f / _deltaTime;
 		string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
@@ -76,17 +102,90 @@ public class GameManager : MonoBehaviour
 				Instantiate(VillagerPrefab, new Vector3(Random.Range(-2, 2), Random.Range(0, 20), 0), Quaternion.identity);
 			}
 		}
+		
+		// God mode toggle
+		GameConfig.GodMode = GUI.Toggle(new Rect(0, 100, 100, 50), GameConfig.GodMode, "God Mode");
 
 	}
 
-	
-	public void LoadLevel(string level) {
+	// If ArchetypeMove enters cam, mark as in view (more reliable/efficient than asking each object to watch x/y pos) 
+	private void OnTriggerEnter(Collider other)
+	{
+		var archetypeMove = other.GetComponent<ArchetypeMove>();
+		if(archetypeMove != null) archetypeMove.IsInView = true;
+	}
 
-		if (!System.String.IsNullOrEmpty(level)) 
-			UnityEngine.SceneManagement.SceneManager.LoadScene(level);
-		else 
-			UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
-    		
+	private void OnSoundEvent(SoundEvent e)
+	{
+		
+		if(_audio == null) 
+			return;
+		
+		// If this is SFX and the sound is OFF, stop here
+		if (e.Type == SoundEvent.SoundType.SFX && !GameConfig.SoundOn)
+			return;
+		
+		// If this is Music and the music is OFF, stop here
+		if (e.Type == SoundEvent.SoundType.Music && !GameConfig.MusicOn)
+			return;
+		
+		if(e.SoundFileName != null)
+		{
+			// If sound name provided and clip not loaded, load into dictionary
+			if(!_loadedAudio.ContainsKey(e.SoundFileName))
+				_loadedAudio.Add(e.SoundFileName, Resources.Load<AudioClip>("Audio/" + e.Type + "/" + e.SoundFileName));
+
+			// Play loaded clip
+			_audio.PlayOneShot(_loadedAudio[e.SoundFileName], e.SoundVolume * GameConfig.GlobalVolume);
+		}
+		// Otherwise, play provided clip
+		else if(e.SoundClip != null) 
+			_audio.PlayOneShot(e.SoundClip, e.SoundVolume);
+		
+	}
+
+	private void SlowMo()
+	{
+		GUIManager.Instance.ShowSloMo();
+		GameConfig.SlowMo = true;
+		
+		_slowMo = true;
+		Time.timeScale = 0;
+	}
+
+	public void HideSlowMo()
+	{
+		GUIManager.Instance.HideSloMo();
+		GameConfig.SlowMo = false;
+		
+		_slowMo = false;
+		Time.timeScale = 1;
+	}
+
+	public void Pause()
+	{
+		_touching = false;
+		GameConfig.GamePaused = true;
+		
+		GUIManager.Instance.HideSloMo();	
+		GUIManager.Instance.ShowPause();
+		
+		_paused = true;
+		Time.timeScale = 1;
+	}
+
+	public IEnumerator UnPause()
+	{
+		_touching = true;
+		
+		GUIManager.Instance.ShowSloMo();
+		GUIManager.Instance.HidePause();
+		yield return new WaitForSeconds(.3f);
+		
+		_paused = false;
+		GameConfig.GamePaused = false;
+		
+		Time.timeScale = .1f;
 	}
 
 }

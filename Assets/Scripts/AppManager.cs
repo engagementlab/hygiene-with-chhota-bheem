@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Analytics;
-using System.Linq;
-using JetBrains.Annotations;
 
 public class AppManager : MonoBehaviour
 {
@@ -14,17 +12,7 @@ public class AppManager : MonoBehaviour
 
 	void Update()
 	{
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(Input.touches.Length == 0) 
-			touching = true;
-		else
-			touching = false;
-	
-		if (!touching && !paused)
-		{
-			StartCoroutine(Pause());
-		}
-		#endif
+
 		
 	}
 
@@ -32,27 +20,8 @@ public class AppManager : MonoBehaviour
 	{
 		StartCoroutine(LocationTest());
 		
-	}
-
-	public void PauseUI()
-	{
-		StartCoroutine(UnPause());
-	}
-	
-	IEnumerator Pause()
-	{
-		paused = true;
-		GameConfig.GameSpeedModifier = 0;
-		GUIManager.Instance.ShowPause();
-		yield return new WaitForSeconds(1);
-	}
-
-	IEnumerator UnPause()
-	{
-		GUIManager.Instance.HidePause();
-		yield return new WaitForSeconds(1);
-		GameConfig.GameSpeedModifier = 15;
-		paused = false;
+		GameConfig.InitializePrefs();
+		
 	}
 
 	IEnumerator LocationTest()
@@ -103,18 +72,17 @@ public class AppManager : MonoBehaviour
         Input.location.Stop();
     }
 
-    public void LoadLevel(string level) {
+	public void LoadLevel(string level) {
 
-    	if (level == "next")
-	    {
-		    var next = Application.loadedLevel + 1;
-		    UnityEngine.SceneManagement.SceneManager.LoadScene(next);
-	    } else if (!System.String.IsNullOrEmpty(level)) 
-		    UnityEngine.SceneManagement.SceneManager.LoadScene(level);
-	    else 
-    		UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
+		if (level == "next")
+		{
+			var next = Application.loadedLevel + 1;
+			UnityEngine.SceneManagement.SceneManager.LoadScene(next);
+		} else if (!System.String.IsNullOrEmpty(level)) 
+			UnityEngine.SceneManagement.SceneManager.LoadScene(level);
+		else 
+			UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
     		
 
-    }
-
+	}
 }

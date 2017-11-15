@@ -1,18 +1,22 @@
 ﻿using System.Collections;
-using DefaultNamespace;
 using UnityEngine;
 
 public class ArchetypeSpell : ArchetypeMove {
 
 	public Spells Type;
 
+	private RectTransform spellFill;
+	
+	private void Awake()
+	{
+		spellFill = GetComponent<RectTransform>();
+	}
+
 	public IEnumerator Timer(int time, string power) {
 
 		while(time>0){
-			Debug.Log(time--);
 			yield return new WaitForSeconds(1);
 		}
-		Debug.Log("Countdown Complete!");
 
 		if (power == "SpellMatrix") {
 			// Reset game speed
@@ -21,6 +25,11 @@ public class ArchetypeSpell : ArchetypeMove {
 		} else if (power == "SpellScatterShoot") {
 			// Reset shooting
 		}
+
+	}
+	
+	public void AdjustSpellLevel(float spellSize){
+		spellFill.sizeDelta = new Vector2( spellFill.sizeDelta.x, spellSize);
 
 	}
 

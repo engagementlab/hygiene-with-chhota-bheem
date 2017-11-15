@@ -9,9 +9,6 @@ public class ArchetypePlayer : MonoBehaviour {
 	public float SmoothTime = 0.1f;
 	public float BubbleSpeed = 15;
 
-	public int PowerTime;
-	public bool PowerInfinite;
-
 	public int SpellStepCount;
 	
 	public GameObject Bubble;
@@ -21,44 +18,45 @@ public class ArchetypePlayer : MonoBehaviour {
 	public float BubbleSizeIncrease = 0.1f;
 	public int BubbleStrengthIncrease = 1;
 
-	[HideInInspector] 
-	public int Strength;
-	
-	[HideInInspector]
-	public bool PoweredUp;
+	public AudioClip[] BubbleSounds;
+	public AudioClip GameEndSound;
+	public AudioClip ObstacleSound;
 
 	public bool WonGame;
+
+	[HideInInspector] 
+	public int Strength;
+	[HideInInspector]
+	public bool PoweredUp;
+	[HideInInspector]
+	public Spells SpellsType;
+
+	private GameObject _lastBubble;
+	private Camera _mainCamera;
 	
 	private float _currentBadScore;
 	private float _targetScore;
 	private float _intervalTime;
 	private float _bossSpawnDelta = 0;
-
-	private GameObject _lastBubble;
-	private Camera _mainCamera;
 	
-	[HideInInspector]
-	public Spells SpellsType;
-
 	private bool _freeMovement = true;
 	private bool _trailEnabled = true;
 	private bool _mouseDrag;
 	private bool _moveDelta;
 	private bool _scatterShootOn;
-
-	[HideInInspector]
-	public int Matrix = 0;
-
-	
-	private int _scatterShoot = 0;
-	private int _speedShoot = 0;
-	private int _bigShoot = 0;
+		
+	private int _scatterShoot;
+	private int _speedShoot;
+	private int _bigShoot;
 
 	private Vector3 _velocity;
 	private Vector3 _bubbleScale;
 	private SphereCollider _collider;
-	
 	private List<float> dirs;
+
+	private Animator _playerAnimator;
+
+	private Particles _particles;
 
 	/**************
 		UNITY METHODS
@@ -72,27 +70,48 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 		
 		_bubbleScale = new Vector3(0.12F, 0.12F, 0.22F);
-
+		
 		var currentRect = GetComponent<RectTransform>().position;
 		currentRect.z = -.5f;
 		GetComponent<RectTransform>().position = currentRect;
 
 		Strength = BubbleInitialStrength;
 
+		_playerAnimator = GetComponent<Animator>();
+
+		_particles = gameObject.GetComponent<Particles>();
+
 	}
 
-	private void Update() {
-		
-		#if UNITY_ANDROID && !UNITY_EDITOR
-		if(Input.touches.Length == 0) return;
+	private void Update()
+	{
+
+		if(GameConfig.SlowMo || GameConfig.GamePaused)
+		{
+			if(GameConfig.GamePaused)
+			{
+				_playerAnimator.speed = 0;
+				_particles.ParticleSystem.Pause();
+			}
+			else
+				_particles.ParticleSystem.Play();
+			
+			return;
+		}
+		_playerAnimator.speed = 1;
+
+		// Get input pos via mouse/touch
+		#if UNITY_EDITOR
+			var inputPosition = Input.mousePosition;
+		#else
+			var inputPosition = Input.GetTouch(0).position;
 		#endif
-				
-		var targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + GameConfig.BubbleOffset, -.5f);
+		
+		var targetPosition = new Vector3(_mainCamera.ScreenToWorldPoint(inputPosition).x, _mainCamera.ScreenToWorldPoint(inputPosition).y + GameConfig.BubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
-	    if(_currentBadScore < _targetScore) {
-		  	_currentBadScore += _targetScore/20;
-	    }
+		if(_currentBadScore < _targetScore) 
+			_currentBadScore += _targetScore/20;
 		
 		if(_intervalTime >= GameConfig.NumBubblesInterval) {
 
@@ -211,111 +230,71 @@ public class ArchetypePlayer : MonoBehaviour {
 			{
 				case Spells.SpeedShoot:
 					// Speed up bubble rate
-					if (PowerInfinite)
-					{
-						if (_speedShoot <= 0)
-						{
-							GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
-							GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
-							PoweredUp = true;
-						}
-						else
-						{
-							GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
-						}
-
-						_speedShoot++;
-					}
-					else
-					{
-						StartCoroutine(SpellBubbleSpeed(PowerTime));
-					}
-				
+					
+					if (_speedShoot <= 0)
+						PoweredUp = true;
+					
+					GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
+					_speedShoot++;
+					
 					break;
 				case Spells.ScatterShoot:
 					// Make those bubbles scatter
-					if (PowerInfinite)
+					
+					if (_scatterShoot <= 0)
 					{
-						if (_scatterShoot <= 0)
-						{
-							GUIManager.Instance.DisplayCurrentSpell("Scatter Shot");
-							_scatterShootOn = true;
-							PoweredUp = true;
-						}
-						
-						_scatterShoot++;
+						_scatterShootOn = true;
+						PoweredUp = true;
 					}
-					else
-					{
-						StartCoroutine(SpellScatterShoot(PowerTime));
-					}
+					
+					_scatterShoot++;
+					
 					break;
 					
 				case Spells.BigShoot:
 
 					// Make those bubbles bigger
-					if (PowerInfinite)
+					if (_bigShoot <= 0)
 					{
-						if (_bigShoot <= 0)
-						{
-							GUIManager.Instance.DisplayCurrentSpell("Bigger Shoot");
-							_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-//							_collider.radius += BubbleSizeIncrease;
-							Strength += BubbleStrengthIncrease;
-							PoweredUp = true;
-						}
-						else
-						{
-							_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-//							_collider.radius += BubbleSizeIncrease;
-						}
-						
-						_bigShoot++;
+						PoweredUp = true;
 					}
-					else
-					{
-						StartCoroutine(SpellBigShoot(PowerTime));
-					}
-					break;
 					
-				case Spells.Matrix:
-
-					Matrix++;
+					_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+					Strength += BubbleStrengthIncrease;
+					
+					_bigShoot++;
+					
 					break;
 			}
 		}
 		else
 		{
+			
 			// Spell OFF
 			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:
 					if (_speedShoot <= 0)
 					{
-						GUIManager.Instance.HideSpell();
-						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
+						_particles.ParticleControl(false, SpellsType);
 						PoweredUp = false;
 					}
 					else
-					{
 						_speedShoot--;
-						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
-					}
 					
-				
+					GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
+
 					break;
 				case Spells.ScatterShoot:
 
 					if (_scatterShoot <= 0)
 					{
-						GUIManager.Instance.HideSpell();
 						_scatterShootOn = false;
 						PoweredUp = false;
+						_particles.ParticleControl(false, SpellsType);
 					}
 					else
-					{
 						_scatterShoot--;
-					}
 					
 					break;
 					
@@ -323,25 +302,21 @@ public class ArchetypePlayer : MonoBehaviour {
 
 					if (_bigShoot <= 0)
 					{
-						GUIManager.Instance.HideSpell();
-						_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-						Strength -= BubbleStrengthIncrease;
 						PoweredUp = false;
+						_particles.ParticleControl(false, SpellsType);
 					}
 					else
-					{
 						_bigShoot--;
-						_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-						Strength -= BubbleStrengthIncrease;
-					}
+					
+					_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+					Strength -= BubbleStrengthIncrease;
 					
 					break;
 			}
 		}
 		
-
-		
 	}
+
 	
 	private IEnumerator SpellComplete(Spells spell)
 	{
@@ -350,14 +325,16 @@ public class ArchetypePlayer : MonoBehaviour {
 		GameConfig.GamePaused = true;
 		GameConfig.GameSpeedModifier = 0;
 		
-		// TO DO - When assets are ready
+		// TO DO - Spell Steps - When assets are ready
 				
 		GUIManager.Instance._spellActivatedUi.SetActive(true);
 		yield return new WaitForSeconds(1);
 		GUIManager.Instance._spellActivatedUi.SetActive(false);
 		GameConfig.GamePaused = false;
 		GameConfig.GameSpeedModifier = 15;
-
+		
+		// Send Particles
+		_particles.ParticleControl(true, SpellsType);
 
 	}
  
@@ -366,6 +343,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		WonGame = e.wonGame;
 
 		gameObject.SetActive(false);
+		GameConfig.GameOver = true;
+		GameConfig.GameWon = WonGame;
 		GUIManager.Instance.GameEnd(WonGame);
 		
 		// Send Player Data to Analytics
@@ -376,37 +355,5 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 	}
 	
-	private IEnumerator SpellBigShoot(int time)
-	{
-		GUIManager.Instance.DisplayCurrentSpell("Bubble Size Increase");
-		Bubble.transform.localScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-				
-		yield return new WaitForSeconds(time);
-		
-		Bubble.transform.localScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-		GUIManager.Instance.HideSpell();
-	}
-	
-	private IEnumerator SpellBubbleSpeed(int time)
-	{
-		GUIManager.Instance.DisplayCurrentSpell("Bubble Speedup");
-		GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
-				
-		yield return new WaitForSeconds(time);
-		
-		GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
-		GUIManager.Instance.HideSpell();
-	}
-
-	private IEnumerator SpellScatterShoot(int time)
-	{
-		GUIManager.Instance.DisplayCurrentSpell("Scatter Shot");
-		_scatterShootOn = true;
-		
-		yield return new WaitForSeconds(time);
-
-		_scatterShootOn = false;
-		GUIManager.Instance.HideSpell();
-	}
   
 }

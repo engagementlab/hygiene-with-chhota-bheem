@@ -14,7 +14,7 @@ Created by Engagement Lab @ Emerson College, 2017
 
 using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
 public class ArchetypeFollow : ArchetypeMove
@@ -36,6 +36,8 @@ public class ArchetypeFollow : ArchetypeMove
 	
 	public void Update () {
 		 
+		if (GameConfig.GamePaused || GameConfig.GameOver) return;
+		
 		// Do nothing outside camera
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1)) return;
 

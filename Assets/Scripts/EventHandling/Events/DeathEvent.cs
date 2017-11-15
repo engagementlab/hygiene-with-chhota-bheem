@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class DeathEvent : GameEvent
+﻿public class DeathEvent : GameEvent
 {
 
 	public readonly bool wonGame;

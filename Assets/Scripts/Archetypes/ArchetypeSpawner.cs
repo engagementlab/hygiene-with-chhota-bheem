@@ -61,12 +61,28 @@ public class ArchetypeSpawner : MonoBehaviour
 			gameObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
 			gameObject.GetComponent<SpriteRenderer>().material = Resources.Load<Material>("SpriteDefaultMaterial");
 		}
+
+		if (SpawnedObjects.Length > 0)
+		{
+			foreach (SpawnerPrefab prefab in SpawnedObjects)
+			{
+				if(prefab.Prefab == null) continue;
+				if (prefab.Prefab.tag == "Villager")
+				{
+					if (SpawnRepeatCount > 0)
+						GameConfig.Multiplier += SpawnRepeatCount;
+					else
+						GameConfig.Multiplier++;
+				}	
+			}
+		}
 	}
 
 	// Update is called once per frame
 	public void Update () {
 		
-		if(!_wait) return;
+		// Waiting, paused/over?
+		if(!_wait || GameConfig.GamePaused || GameConfig.GameOver) return;
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < 1) || SpawnedObjects == null) return;
 	
 		// If not repeating, spawn and destroy now
@@ -155,14 +171,10 @@ public class ArchetypeSpawner : MonoBehaviour
 		// Increment index
 		if(_prefabIndex < SpawnedObjects.Length - 1)
 			_prefabIndex++;
-		
-		#if UNITY_EDITOR
-		Debug.Log("Spawning: " + SpawnedObjects[_prefabIndex].Prefab.name);
-		Debug.Log("Waiting: "  + SpawnedObjects[_prefabIndex].DelayBeforeNext);
-		#endif
-		
+			
+		if(SpawnedObjects[_prefabIndex].Prefab == null) return;
 		var spawnPos = SpawnedObjects[_prefabIndex].UseSpawnerParent ? transform.localPosition : transform.position;
-		
+
 		_spawnObject = Instantiate(SpawnedObjects[_prefabIndex].Prefab, spawnPos, SpawnedObjects[_prefabIndex].Prefab.transform.rotation);
 		_spawnObject.SetActive(true);
 

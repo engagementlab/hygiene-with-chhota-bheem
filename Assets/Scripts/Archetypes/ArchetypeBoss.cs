@@ -62,13 +62,13 @@ public class ArchetypeBoss : ArchetypeMove
 	
 	private void Awake()
 	{
+		
 		base.Awake();
 		
 		_parent = GameObject.FindWithTag("Parent");
-		_playerStrength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
+//		_playerStrength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
 		
 		HealthFill = transform.Find("HP/Fill").GetComponent<RawImage>();
-		
 
 	}
 
@@ -79,6 +79,9 @@ public class ArchetypeBoss : ArchetypeMove
 
 		// Do nothing before in view
 		if(!(MainCamera.WorldToViewportPoint(transform.position).y < .9f)) return;
+		// Paused/over?
+		if (GameConfig.GamePaused || GameConfig.GameOver) return;
+		
 		if(MoveEnabled) MoveEnabled = false;
 		
 		// Put at root of scene so it stays still
@@ -149,6 +152,33 @@ public class ArchetypeBoss : ArchetypeMove
 		
 	}
 
+	public void OnTriggerEnter(Collider collider)
+	{
+
+		if(_wait) return;
+		if(collider.gameObject.tag != "Bubble") return;
+
+		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
+
+		Vector2 v = HealthFill.rectTransform.sizeDelta;
+		
+		v.x += _playerScript.Strength;
+		_playerHits += _playerScript.Strength;
+		
+		// Adjust health bar and stop unless boss is dead
+		HealthFill.rectTransform.sizeDelta = v;
+		if(!(Health - _playerHits <= .1f)) return;
+
+		// Destroy Wizard
+		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
+		StartCoroutine(DestroyWizard());
+
+		// You won the game
+		Events.instance.Raise(new ScoreEvent(pointsWorth));
+		Events.instance.Raise(new DeathEvent(true));
+
+	}
+
 	// Disable boss' prior parent from moving after given delay
 	private IEnumerator Spawned()
 	{
@@ -159,6 +189,7 @@ public class ArchetypeBoss : ArchetypeMove
 
 	private void BossMove()
 	{
+	
 		// Check player & wizard position
 		_playerPos = _player.transform.position.x;
 		_wizardPos = gameObject.transform.position;
@@ -200,36 +231,8 @@ public class ArchetypeBoss : ArchetypeMove
 		}
 
 		gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position, _wizardPos, ref _velocity, currentSmoothTime);
-	}
-
-
-	public void OnTriggerEnter(Collider collider)
-	{
-
-		if(_wait) return;
-		if(collider.gameObject.tag != "Bubble") return;
-
-		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
-
-		Vector2 v = HealthFill.rectTransform.sizeDelta;
 		
-		v.x += _playerStrength;
-		_playerHits += _playerStrength;
-		
-		// Adjust health bar and stop unless boss is dead
-		HealthFill.rectTransform.sizeDelta = v;
-		if(!(Health - _playerHits <= .1f)) return;
-
-		// Destroy Wizard
-		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
-		StartCoroutine(DestroyWizard());
-
-		// You won the game
-		Events.instance.Raise(new ScoreEvent(pointsWorth, ScoreEvent.Type.Wizard));
-		Events.instance.Raise(new DeathEvent(true));
-
 	}
-
 
 	private IEnumerator DestroyWizard()
 	{

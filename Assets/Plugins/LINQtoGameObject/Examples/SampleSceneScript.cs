@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Linq;
 
-using Unity.Linq; // using LINQ to GameObject
+// using LINQ to GameObject
 
 // This script is attached to Root.
 
