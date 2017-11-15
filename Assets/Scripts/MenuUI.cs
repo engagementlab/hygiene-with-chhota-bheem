@@ -28,11 +28,15 @@ public class MenuUI : MonoBehaviour
 	private GameObject _settingsTitle;
 	private GameObject _settingsBoard;
 	private GameObject _settingsBack;
+	private GameObject[] _settingsLanguages;
 
 	private GameObject _chaptersTitle;
 	private GameObject _chapterSelect;
 	private GameObject _chaptersBack;
 	private GameObject[] _chapterButtons;
+
+	private GameObject objToFadeOut;
+	private GameObject objToFadeIn;
 	
 	// Use this for initialization
 	void Start () {
@@ -45,6 +49,12 @@ public class MenuUI : MonoBehaviour
 		_settingsBoard = Settings.transform.Find("Board").gameObject;
 		_settingsTitle = Settings.transform.Find("Title").gameObject;
 		_settingsBack = Settings.transform.Find("Buttons/Back").gameObject;
+		_settingsLanguages = new[]
+		{
+			_settingsBoard.transform.Find("Language/Selector/Mask/English").gameObject,
+			_settingsBoard.transform.Find("Language/Selector/Mask/Tamil").gameObject
+		};
+		
 		_soundToggle = _settingsBoard.transform.Find("Sound/Toggle").GetComponent<Toggle>();
 		_musicToggle = _settingsBoard.transform.Find("Music/Toggle").GetComponent<Toggle>();
 		_volumeSlider = _settingsBoard.transform.Find("Volume/Slider").GetComponent<Slider>();
@@ -175,13 +185,38 @@ public class MenuUI : MonoBehaviour
 	public void Sound()
 	{
 		GameConfig.SoundOn = !GameConfig.SoundOn;
-		GameConfig.UpdatePrefs("sound", GameConfig.SoundOn == true ? 1 : 0);
+		GameConfig.UpdatePrefs("sound", GameConfig.SoundOn ? 1 : 0);
 	}
 
 	public void Music()
 	{
 		GameConfig.MusicOn = !GameConfig.MusicOn;
-		GameConfig.UpdatePrefs("music", GameConfig.MusicOn == true ? 1 : 0);
-		Debug.Log(GameConfig.MusicOn);
+		GameConfig.UpdatePrefs("music", GameConfig.MusicOn ? 1 : 0);
 	}
+
+	public void ChangeLanguage()
+	{
+		int nextLang = GameConfig.CurrentLanguage == 0 ? 1 : 0;
+		objToFadeOut = _settingsLanguages[GameConfig.CurrentLanguage];
+		objToFadeIn = _settingsLanguages[nextLang];
+		
+		iTween.MoveTo(objToFadeOut, iTween.Hash("position", new Vector3(0, nextLang == 0 ? 35 : -35, 0), "time", .5f, "islocal", true));
+		iTween.MoveTo(objToFadeIn, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true));
+		
+		iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", .2f, "onupdate", "FadeTextOut"));
+		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .2f, "onupdate", "FadeTextIn"));
+		
+		GameConfig.CurrentLanguage = nextLang;
+		Events.instance.Raise (new LanguageChangeEvent());
+	}
+
+	private void FadeTextOut(float alpha)
+	{
+		objToFadeOut.GetComponent<CanvasRenderer>().SetAlpha(alpha);
+	}
+	private void FadeTextIn(float alpha)
+	{
+		objToFadeIn.GetComponent<CanvasRenderer>().SetAlpha(alpha);
+	}
+	
 }
