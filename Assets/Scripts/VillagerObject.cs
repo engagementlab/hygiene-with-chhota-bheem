@@ -5,7 +5,6 @@ using Random = UnityEngine.Random;
 public class VillagerObject : ArchetypeMove
 {
 
-	public ParticleSystem Particles;
 //	public RawImage healthFill;
 
 	private Camera _mainCamera;
@@ -77,7 +76,6 @@ public class VillagerObject : ArchetypeMove
 			return;
 		}
 		
-		Particles.Play();
 		iTween.ScaleTo(gameObject, Vector3.zero, 1f);
 		Events.instance.Raise (new ScoreEvent(pointsWorth));
 

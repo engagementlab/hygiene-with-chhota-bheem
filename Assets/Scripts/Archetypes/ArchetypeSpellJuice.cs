@@ -92,5 +92,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		Destroy(gameObject);
 		
 	}
+	
+	
 
 }
