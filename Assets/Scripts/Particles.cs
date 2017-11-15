@@ -69,8 +69,6 @@ namespace DefaultNamespace
 		            }
 	            }
 			
-               
-			
                 _particleColor.color = new ParticleSystem.MinMaxGradient(Color.white, myColor);
                 _emission.enabled = true;
                 ParticleSystem.Play();
