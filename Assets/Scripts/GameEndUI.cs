@@ -21,6 +21,11 @@ namespace DefaultNamespace
 
         }
 
+        public void Restart()
+        {
+            GameConfig.Reset();
+        }
+
         public void ScoreCount()
         {
             

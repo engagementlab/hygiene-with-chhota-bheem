@@ -64,9 +64,6 @@ public class GUIManager
 		_slowMoWrapper.SetActive(false);
 		
 		_score = GameObject.Find("GameUI/Score/ScoreCount").GetComponent<Text>();
-		
-		Debug.Log(SpellBars[0].GetComponent<RectTransform>().sizeDelta.y);
-		
 		_spellSize = SpellBars[0].GetComponent<RectTransform>().sizeDelta.y/_steps;
 
 		for (int i = 0; i < SpellBars.Length; i++)
@@ -82,7 +79,6 @@ public class GUIManager
 		_spellCount = 0;
 
 	}
-	
 
 	public void NewSpell(GameObject spellBar)
 	{
@@ -172,5 +168,7 @@ public class GUIManager
 		_gameEndAnim.SetBool("won", win);
 
 	}
+	
+	
 
 }

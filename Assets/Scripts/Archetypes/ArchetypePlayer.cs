@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Analytics;
 
@@ -32,10 +33,6 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private GameObject _lastBubble;
 	private Camera _mainCamera;
-
-	private ParticleSystem _particles;
-	private ParticleSystem.ColorOverLifetimeModule _particleColor;
-	private ParticleSystem.EmissionModule _emission;
 	
 	private float _currentBadScore;
 	private float _targetScore;
@@ -59,6 +56,8 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private Animator _playerAnimator;
 
+	private Particles _particles;
+
 	/**************
 		UNITY METHODS
 	***************/
@@ -79,15 +78,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		Strength = BubbleInitialStrength;
 
 		_playerAnimator = GetComponent<Animator>();
-		
-		_particles = GetComponent<ParticleSystem>();
 
-		_emission = _particles.emission;
-		_emission.enabled = false;
-		
-		_particles.Stop();
-
-		_particleColor = _particles.colorOverLifetime;
+		_particles = gameObject.GetComponent<Particles>();
 
 	}
 
@@ -99,10 +91,10 @@ public class ArchetypePlayer : MonoBehaviour {
 			if(GameConfig.GamePaused)
 			{
 				_playerAnimator.speed = 0;
-				_particles.Pause();
+				_particles.ParticleSystem.Pause();
 			}
 			else
-				_particles.Play();
+				_particles.ParticleSystem.Play();
 			
 			return;
 		}
@@ -284,7 +276,7 @@ public class ArchetypePlayer : MonoBehaviour {
 				case Spells.SpeedShoot:
 					if (_speedShoot <= 0)
 					{
-						Particles(false, SpellsType);
+						_particles.ParticleControl(false, SpellsType);
 						PoweredUp = false;
 					}
 					else
@@ -299,7 +291,7 @@ public class ArchetypePlayer : MonoBehaviour {
 					{
 						_scatterShootOn = false;
 						PoweredUp = false;
-						Particles(false, SpellsType);
+						_particles.ParticleControl(false, SpellsType);
 					}
 					else
 						_scatterShoot--;
@@ -311,7 +303,7 @@ public class ArchetypePlayer : MonoBehaviour {
 					if (_bigShoot <= 0)
 					{
 						PoweredUp = false;
-						Particles(false, SpellsType);
+						_particles.ParticleControl(false, SpellsType);
 					}
 					else
 						_bigShoot--;
@@ -325,49 +317,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 	}
 
-	private void Particles(bool on, Spells spell)
-	{
-		
-		// Stop old particles
-		_particles.Stop();
-		
-		if (on) // Turn on new particles
-		{
-			Color myColor;
-			
-			// Show Player spell color particle system
-			switch (spell)
-			{
-				case Spells.BigShoot:
-
-					myColor = Color.blue;
-				
-					break;
-				
-				case Spells.ScatterShoot:
-					
-					myColor = Color.yellow;
-				
-					break;
-				
-				case Spells.SpeedShoot:
-
-					myColor = Color.red;
-				
-					break;
-					
-				default:
-					myColor = Color.white;
-
-					break;
-			}
-			
-			_particleColor.color = new ParticleSystem.MinMaxGradient(Color.white, myColor);
-			_emission.enabled = true;
-			_particles.Play();
-		}
-		
-	}
 	
 	private IEnumerator SpellComplete(Spells spell)
 	{
@@ -385,7 +334,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		GameConfig.GameSpeedModifier = 15;
 		
 		// Send Particles
-		Particles(true, SpellsType);
+		_particles.ParticleControl(true, SpellsType);
 
 	}
  

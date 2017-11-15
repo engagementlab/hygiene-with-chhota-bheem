@@ -7,7 +7,7 @@ public class GameConfig : MonoBehaviour
 {
 
 	public static float NumBubblesSpeedGained = .05f;
-  	public static float NumBubblesInterval = .5f;
+  public static float NumBubblesInterval = .5f;
   
 	public static bool GamePaused = true;
 	public static bool SlowMo;
@@ -23,6 +23,7 @@ public class GameConfig : MonoBehaviour
 	public static float GameSpeedModifier = 15;
 	public static float BubbleOffset = 2;
 
+	public static int CurrentLanguage;
 	public static int Score;
 	public static int VillagersSaved;
 	public static int Multiplier;
@@ -43,6 +44,10 @@ public class GameConfig : MonoBehaviour
     
 		NumBubblesInterval = .25f;
 		Score = 0;
+		GameOver = false;
+		GameWon = false;
+		VillagersSaved = 0;
+		Multiplier = 0;
 
 	}
 
