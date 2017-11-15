@@ -8,9 +8,15 @@ namespace DefaultNamespace
     {
         public float Duration = 2f;
         private Animator _gameEndAnim;
+        
         private Text _score;
         private Text _villagers;
-
+        private Text _endScore;
+        private Text _endVillagers;
+        
+        private GameObject _gameOverImg;
+        private GameObject _superImg;
+        
         private int score;
         
         public void Awake()
@@ -18,6 +24,12 @@ namespace DefaultNamespace
             _gameEndAnim = gameObject.GetComponent<Animator>();
             _score = gameObject.transform.Find("Wrapper/Board/ScoreWrap/Score").GetComponent<Text>();
             _villagers = gameObject.transform.Find("Wrapper/Board/VillagersMultiplier/Score").GetComponent<Text>();
+            
+            _endScore = gameObject.transform.Find("Wrapper/Board/ScoreWrap/Score").GetComponent<Text>();
+            _endVillagers = gameObject.transform.Find("Wrapper/Board/VillagersMultiplier/Score").GetComponent<Text>();
+            
+            _gameOverImg = gameObject.transform.Find("Wrapper/GameOver").gameObject;
+            _superImg = gameObject.transform.Find("Wrapper/Super!").gameObject;
 
         }
 
@@ -68,6 +80,19 @@ namespace DefaultNamespace
             int stars = GameConfig.StarCount();
 		
             _gameEndAnim.SetInteger("stars", stars);
+        }
+
+        public void SetContent(bool win)
+        {
+            _endScore.text = GameConfig.Score.ToString();
+            _endVillagers.text = GameConfig.VillagersSaved.ToString();
+            
+            if(win)
+                _gameOverImg.SetActive(false);
+            else
+                _superImg.SetActive(false);
+            
+            
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DefaultNamespace;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GUIManager
@@ -17,8 +18,6 @@ public class GUIManager
 
 	private GameObject _gameEndScreen;
 	private Animator _gameEndAnim;
-	private Text _gameEndScore;
-	private Text _gameEndVillagers;
 		
 	private GameObject _spellText;
 	private GameObject _pauseUi;
@@ -51,8 +50,6 @@ public class GUIManager
 		
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
 		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
-		_gameEndScore = _gameEndScreen.transform.Find("Wrapper/Board/ScoreWrap/Score").GetComponent<Text>();
-		_gameEndVillagers = _gameEndScreen.transform.Find("Wrapper/Board/VillagersMultiplier/Score").GetComponent<Text>();
 		
 		_gameEndScreen.SetActive(false);
 
@@ -160,12 +157,7 @@ public class GUIManager
 	public void GameEnd(bool win)
 	{
 		_gameEndScreen.SetActive(true);
-		
-		_gameEndScore.text = GameConfig.Score.ToString();
-		
-		_gameEndVillagers.text = GameConfig.VillagersSaved.ToString();
-
-		_gameEndAnim.SetBool("won", win);
+		_gameEndScreen.GetComponent<GameEndUI>().SetContent(win);
 
 	}
 	
