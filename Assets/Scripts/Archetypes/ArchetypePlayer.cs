@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public AudioClip ObstacleSound;
 
 	public bool WonGame;
+	public bool Killed = false;
 
 	[HideInInspector] 
 	public int Strength;
@@ -86,6 +88,9 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void Update()
 	{
 
+		if (Killed)
+			return;
+		
 		if(GameConfig.SlowMo || GameConfig.GamePaused)
 		{
 			if(GameConfig.GamePaused)
@@ -106,7 +111,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		#else
 			var inputPosition = Input.GetTouch(0).position;
 		#endif
-		
+				
 		var targetPosition = new Vector3(_mainCamera.ScreenToWorldPoint(inputPosition).x, _mainCamera.ScreenToWorldPoint(inputPosition).y + GameConfig.BubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
@@ -211,7 +216,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		CUSTOM METHODS
 	***************/
 
-  private void OnScoreEvent(ScoreEvent e) {
+  	private void OnScoreEvent(ScoreEvent e) {
 
 		GameConfig.UpdateScore(e.scoreAmount);
 

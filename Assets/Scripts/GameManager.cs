@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
 			{
 				_playerHasTouched = true;
 				GameConfig.GamePaused = false;
+				GameConfig.SlowMo = false;
 			}
 
 			if(noInput && _playerHasTouched)
