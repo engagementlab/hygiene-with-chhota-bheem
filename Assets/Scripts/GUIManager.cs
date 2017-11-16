@@ -49,7 +49,7 @@ public class GUIManager
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
-		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
+//		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
 		
 		_gameEndScreen.SetActive(false);
 
@@ -156,6 +156,7 @@ public class GUIManager
 
 	public void GameEnd(bool win)
 	{
+		
 		_gameEndScreen.SetActive(true);
 		_gameEndScreen.GetComponent<GameEndUI>().SetContent(win);
 

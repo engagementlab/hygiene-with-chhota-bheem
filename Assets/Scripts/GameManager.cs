@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
 
 	private void OnSoundEvent(SoundEvent e)
 	{
+		GameObject audioPlayer = null;
 		
 		if(_audio == null) 
 			return;
@@ -129,6 +130,17 @@ public class GameManager : MonoBehaviour
 		if (e.Type == SoundEvent.SoundType.Music && !GameConfig.MusicOn)
 			return;
 		
+		// If pitch is altered, play sound on temp audiosource
+		if(e.SoundPitch != 1)
+		{
+			audioPlayer = new GameObject();
+			
+			audioPlayer.AddComponent<AudioSource>();
+			audioPlayer.GetComponent<AudioSource>().pitch = e.SoundPitch;
+		}
+
+		AudioSource player = audioPlayer == null ? _audio : audioPlayer.GetComponent<AudioSource>();
+		
 		if(e.SoundFileName != null)
 		{
 			// If sound name provided and clip not loaded, load into dictionary
@@ -136,12 +148,14 @@ public class GameManager : MonoBehaviour
 				_loadedAudio.Add(e.SoundFileName, Resources.Load<AudioClip>("Audio/" + e.Type + "/" + e.SoundFileName));
 
 			// Play loaded clip
-			_audio.PlayOneShot(_loadedAudio[e.SoundFileName], e.SoundVolume * GameConfig.GlobalVolume);
+			player.PlayOneShot(_loadedAudio[e.SoundFileName], e.SoundVolume * GameConfig.GlobalVolume);
 		}
 		// Otherwise, play provided clip
 		else if(e.SoundClip != null) 
-			_audio.PlayOneShot(e.SoundClip, e.SoundVolume);
+			player.PlayOneShot(e.SoundClip, e.SoundVolume);
 		
+		if(audioPlayer != null)
+			Destroy(audioPlayer, e.SoundClip.length);
 	}
 
 	private void SlowMo()
