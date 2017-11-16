@@ -40,7 +40,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		int index = Random.Range(0, spells.Length);
 		CurrentSpell = spells[index].gameObject;
 		CurrentSpell.SetActive(true);
-
+	
 	}
 
 	private void OnTriggerEnter(Collider collider) {
@@ -71,6 +71,11 @@ public class ArchetypeSpellJuice : MonoBehaviour
 			JuiceCollected(currentSpellObject);
 		}
 
+	}
+
+	public void StartParticles()
+	{
+		gameObject.GetComponent<Particles>().ParticleControl(true, _type);
 	}
 
 	public void StartMovement(Vector3 startingPos)

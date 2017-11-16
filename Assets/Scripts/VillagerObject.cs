@@ -12,6 +12,12 @@ public class VillagerObject : ArchetypeMove
 	private Sprite[] _spriteFrames;
 	private bool _spawned;
 	
+	// Rate for reducing particle cloud on hit
+	private float _rate;
+
+	private ParticleSystem _particles;
+	private ParticleSystem.MainModule _main;
+	
 	private IEnumerator RemoveVillager()
 	{
 		yield return new WaitForEndOfFrame();
@@ -30,7 +36,14 @@ public class VillagerObject : ArchetypeMove
 		_villagerRenderer = GetComponent<SpriteRenderer>();
 		
 		if (!_spawned)
-			GameConfig.Multiplier++;	
+			GameConfig.Multiplier++;
+
+		if (gameObject.GetComponent<ParticleSystem>() == null)
+			gameObject.AddComponent<ParticleSystem>();
+		
+		_particles = gameObject.GetComponent<ParticleSystem>();
+		_main = _particles.main;
+
 	}
 
 	private void Start()
@@ -42,6 +55,8 @@ public class VillagerObject : ArchetypeMove
 		_spriteFrames = Resources.LoadAll<Sprite>("Villagers/"+UnityEngine.Random.Range(1, 4));
 		_villagerRenderer.sprite = _spriteFrames[0];
 		
+		_particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+		
 	}
 
 	// Update is called once per frame
@@ -51,7 +66,18 @@ public class VillagerObject : ArchetypeMove
 			
 		if(_mainCamera.WorldToViewportPoint(transform.position).y < -.5f)
 			Destroy(gameObject);
-	
+
+		if (IsInView && gameObject.GetComponent<ParticleSystem>().isStopped)
+		{
+			gameObject.GetComponent<Particles>().PlayParticles(true);
+			SetParticleRate();
+		}
+
+	}
+
+	private void SetParticleRate()
+	{
+		_rate = (_main.startSize.constant - gameObject.GetComponent<Particles>().Smallest) / HitPoints;
 	}
 
 	private void OnTriggerEnter(Collider collider) {
@@ -66,6 +92,7 @@ public class VillagerObject : ArchetypeMove
 		if(_bubblesHit < HitPoints-1)
 		{
 			_bubblesHit += _playerScript.Strength;
+			gameObject.GetComponent<Particles>().ParticleReduce(_rate);
 
 			if(_bubblesHit < _spriteFrames.Length)
 			{
@@ -83,7 +110,6 @@ public class VillagerObject : ArchetypeMove
 
 		IsDestroyed = true;
 		GameConfig.VillagersSaved++;
-
 
 	}
 
