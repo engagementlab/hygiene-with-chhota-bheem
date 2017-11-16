@@ -7,11 +7,13 @@ public class Particles : MonoBehaviour
 	public ParticleSystem.MainModule Main;
 
 	public bool OnAwake;
-
+	
+	[HideInInspector]
 	public bool UniqueColor;
+	[HideInInspector]
 	public Color MyColor;
 
-	public bool SetLifetime;
+	public bool SetSize;
 
 	public float Smallest;
 	public float Largest;
@@ -48,7 +50,7 @@ public class Particles : MonoBehaviour
 //		if (UniqueColor)
 //			Main.startColor = new ParticleSystem.MinMaxGradient(MyColor);
 
-		if (SetLifetime)
+		if (SetSize)
 			Main.startSize = Largest;
 		
 		_emission.enabled = play;
