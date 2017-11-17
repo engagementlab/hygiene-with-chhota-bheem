@@ -53,6 +53,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private Vector3 _velocity;
 	private Vector3 _bubbleScale;
+	private Vector3 _bubbleDefault;
 	private SphereCollider _collider;
 	private List<float> dirs;
 
@@ -72,6 +73,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 		
 		_bubbleScale = new Vector3(0.12F, 0.12F, 0.22F);
+		_bubbleDefault = _bubbleScale;
 		
 		var currentRect = GetComponent<RectTransform>().position;
 		currentRect.z = -.5f;
@@ -82,6 +84,10 @@ public class ArchetypePlayer : MonoBehaviour {
 		_playerAnimator = GetComponent<Animator>();
 
 		_particles = gameObject.GetComponent<Particles>();
+
+//		var glow = GetComponent("Halo");
+//		glow.GetComponent<Renderer>().sortingLayerName = "Prop";
+//		glow.GetComponent<Renderer>().sortingOrder = 0;
 
 	}
 
@@ -309,13 +315,18 @@ public class ArchetypePlayer : MonoBehaviour {
 					{
 						PoweredUp = false;
 						_particles.ParticleControl(false, SpellsType);
+						_bubbleScale = _bubbleDefault;
+						Strength = BubbleInitialStrength;
 					}
 					else
+					{
 						_bigShoot--;
-					
-					_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
-					Strength -= BubbleStrengthIncrease;
-					
+						_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
+						Strength -= BubbleStrengthIncrease;
+					}
+
+
+
 					break;
 			}
 		}
