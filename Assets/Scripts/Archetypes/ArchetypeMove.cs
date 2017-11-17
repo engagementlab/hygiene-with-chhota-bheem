@@ -335,7 +335,7 @@ public class ArchetypeMove : MonoBehaviour
 		  {
 			  killed = false;
 			  _playerScript.Killed = killed;
-			  Events.instance.Raise(SpellEvent(false, ));
+//			  Events.instance.Raise(SpellEvent(false, ));
 			  StartCoroutine(PlayerHit(collider.gameObject));
 			  Handheld.Vibrate();
 		  }
