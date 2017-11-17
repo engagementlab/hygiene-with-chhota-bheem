@@ -681,8 +681,8 @@ public class ArchetypeMove : MonoBehaviour
 
 		if (die)
 		{
-			
-			player.transform.parent.GetComponent<Animator>().Play("Die");
+			if (transform.parent != null)
+				player.transform.parent.GetComponent<Animator>().Play("Die");
 
 			Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
 

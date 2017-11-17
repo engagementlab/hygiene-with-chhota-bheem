@@ -17,6 +17,8 @@ public class VillagerObject : ArchetypeMove
 
 	private ParticleSystem _particles;
 	private ParticleSystem.MainModule _main;
+
+	private bool _particleReady;
 	
 	private IEnumerator RemoveVillager()
 	{
@@ -37,12 +39,14 @@ public class VillagerObject : ArchetypeMove
 		
 		if (!_spawned)
 			GameConfig.Multiplier++;
-
-		if (gameObject.GetComponent<ParticleSystem>() == null)
-			gameObject.AddComponent<ParticleSystem>();
 		
-		_particles = gameObject.GetComponent<ParticleSystem>();
-		_main = _particles.main;
+		_particleReady = GetComponent<Particles>() != null;
+
+		if (gameObject.GetComponent<ParticleSystem>() != null)
+		{
+			_particles = gameObject.GetComponent<ParticleSystem>();
+			_main = _particles.main;
+		}
 
 	}
 
@@ -55,7 +59,8 @@ public class VillagerObject : ArchetypeMove
 		_spriteFrames = Resources.LoadAll<Sprite>("Villagers/"+UnityEngine.Random.Range(1, 4));
 		_villagerRenderer.sprite = _spriteFrames[0];
 		
-		_particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+		if (GetComponent<ParticleSystem>() != null && _particleReady)
+			_particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 		
 	}
 
@@ -67,17 +72,20 @@ public class VillagerObject : ArchetypeMove
 		if(_mainCamera.WorldToViewportPoint(transform.position).y < -.5f)
 			Destroy(gameObject);
 
-		if (IsInView && gameObject.GetComponent<ParticleSystem>().isStopped)
+		if (_particleReady)
 		{
-			gameObject.GetComponent<Particles>().PlayParticles(true);
-			SetParticleRate();
+			if (IsInView && _particles.isStopped)
+			{
+				GetComponent<Particles>().PlayParticles(true);
+				SetParticleRate();
+			}
 		}
 
 	}
 
 	private void SetParticleRate()
 	{
-		_rate = (_main.startSize.constant - gameObject.GetComponent<Particles>().Smallest) / HitPoints;
+		_rate = (_main.startSize.constant - GetComponent<Particles>().Smallest) / HitPoints;
 	}
 
 	private void OnTriggerEnter(Collider collider) {
@@ -92,7 +100,9 @@ public class VillagerObject : ArchetypeMove
 		if(_bubblesHit < HitPoints-1)
 		{
 			_bubblesHit += _playerScript.Strength;
-			gameObject.GetComponent<Particles>().ParticleReduce(_rate);
+			
+			if (_particleReady)
+				GetComponent<Particles>().ParticleReduce(_rate);
 
 			if(_bubblesHit < _spriteFrames.Length)
 			{
