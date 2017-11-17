@@ -335,6 +335,7 @@ public class ArchetypeMove : MonoBehaviour
 		  {
 			  killed = false;
 			  _playerScript.Killed = killed;
+			  Events.instance.Raise(SpellEvent(false, ));
 			  StartCoroutine(PlayerHit(collider.gameObject));
 			  Handheld.Vibrate();
 		  }
@@ -647,7 +648,7 @@ public class ArchetypeMove : MonoBehaviour
 		spellScript.Type = _powerUpGiven;
 		spellScript.StartMovement(transform.position);
 
-		spellScript.StartParticles();
+//		spellScript.StartParticles();
 
 	}
 
@@ -681,8 +682,8 @@ public class ArchetypeMove : MonoBehaviour
 
 		if (die)
 		{
-			
-			player.transform.parent.GetComponent<Animator>().Play("Die");
+			if (transform.parent != null)
+				player.transform.parent.GetComponent<Animator>().Play("Die");
 
 			Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
 
