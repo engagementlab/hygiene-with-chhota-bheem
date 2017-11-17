@@ -82,7 +82,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		_playerAnimator = GetComponent<Animator>();
 
 		_particles = gameObject.GetComponent<Particles>();
-
 	}
 
 	private void Update()
@@ -229,7 +228,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		if (e.powerUp)
 		{
 			// Spell ON
-			StartCoroutine(SpellComplete(SpellsType));
+			SpellComplete(SpellsType);
 
 			switch(SpellsType)
 			{
@@ -323,7 +322,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	}
 
 	
-	private IEnumerator SpellComplete(Spells spell)
+	private void SpellComplete(Spells spell)
 	{
 		var animations = 0;
 
@@ -331,10 +330,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		GameConfig.GameSpeedModifier = 0;
 		
 		// TO DO - Spell Steps - When assets are ready
-				
-		GUIManager.Instance._spellActivatedUi.SetActive(true);
-		yield return new WaitForSeconds(1);
-		GUIManager.Instance._spellActivatedUi.SetActive(false);
+		StartCoroutine(GUIManager.Instance.ShowSpellActivated());
+		
 		GameConfig.GamePaused = false;
 		GameConfig.GameSpeedModifier = 15;
 		

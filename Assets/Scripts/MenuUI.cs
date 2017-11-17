@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class MenuUI : MonoBehaviour
 
 	public GameObject MainMenu;
 	public GameObject Settings;
+	public GameObject Info;
 	public GameObject Chapters;
 	public GameObject Levels;
 	public GameObject[] Interstitials;
@@ -29,6 +31,10 @@ public class MenuUI : MonoBehaviour
 	private GameObject _settingsBoard;
 	private GameObject _settingsBack;
 	private GameObject[] _settingsLanguages;
+
+	private GameObject _infoBoard;
+	private GameObject _infoVersion;
+	private GameObject _infoBack;
 
 	private GameObject _chaptersTitle;
 	private GameObject _chapterSelect;
@@ -58,6 +64,11 @@ public class MenuUI : MonoBehaviour
 		_soundToggle = _settingsBoard.transform.Find("Sound/Toggle").GetComponent<Toggle>();
 		_musicToggle = _settingsBoard.transform.Find("Music/Toggle").GetComponent<Toggle>();
 		_volumeSlider = _settingsBoard.transform.Find("Volume/Slider").GetComponent<Slider>();
+
+		_infoBoard = Info.transform.Find("Board").gameObject;
+		_infoVersion = _infoBoard.transform.Find("Version").gameObject;
+		_infoVersion.GetComponent<Text>().text = "v"+Application.version;
+		_infoBack = Info.transform.Find("Buttons/Back").gameObject;
 		
 		// Find chapters objects
 		_chaptersTitle = Chapters.transform.Find("Text").gameObject;
@@ -70,10 +81,11 @@ public class MenuUI : MonoBehaviour
 		_volumeSlider.value = PlayerPrefs.GetFloat("volume");
 	}
 
-	public void CloseMainMenu(bool goToSettings)
+	public void CloseMainMenu(string uiToLoad)
 	{
 
-		iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(goToSettings ? 540 : -540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", goToSettings ? "OpenSettings" : "OpenChapterSelect", "oncompletetarget", gameObject));
+		bool moveLeft = uiToLoad == "Settings";
+		iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(moveLeft ? 540 : -540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "Open" + uiToLoad, "oncompletetarget", gameObject));
 
 	}
 
@@ -89,6 +101,17 @@ public class MenuUI : MonoBehaviour
 		
 	}
 
+	void OpenInfo()
+	{
+		
+		Info.SetActive(true);
+		iTween.MoveTo(Info, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+
+		iTween.ScaleFrom(_infoBoard, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .2f));
+		iTween.ScaleFrom(_infoBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .3f));
+		
+	}
+
 	public void CloseSettings()
 	{
 
@@ -97,7 +120,15 @@ public class MenuUI : MonoBehaviour
 
 	}
 
-	void OpenChapterSelect()
+	public void CloseInfo()
+	{
+
+		iTween.MoveTo(Info, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
+
+	}
+
+	void OpenChapters()
 	{
 		
 		Chapters.SetActive(true);
@@ -126,11 +157,23 @@ public class MenuUI : MonoBehaviour
 	public void OpenLevelSelect()
 	{
 		Levels.SetActive(true);
-		iTween.MoveTo(Chapters, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
-		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
+		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		iTween.PunchRotation(_chapterButtons[0], iTween.Hash("z", -90, "time", 1.5f, "delay", .5f));
+		iTween.PunchRotation(_chapterButtons[1], iTween.Hash("z", 90, "time", 1.5f, "delay", .55f));
+		iTween.PunchRotation(_chapterButtons[2], iTween.Hash("z", -90, "time", 1.5f, "delay", .6f));
+		iTween.MoveTo(Chapters, iTween.Hash("position", new Vector3(-540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "delay", .7f));
+		
+		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.5f));
 
 	}
 
+	public void CloseLevelSelect()
+	{
+		
+		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "OpenChapters", "oncompletetarget", gameObject));
+
+	}
+	
 	public void OpenLevelInterstitial(int chapter)
 	{
 		
