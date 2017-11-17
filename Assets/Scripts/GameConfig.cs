@@ -133,17 +133,13 @@ public class GameConfig : MonoBehaviour
 		int _stars;
 		
 		if (VillagersSaved > Multiplier)
-		{
 			_stars = 3;
-		} 
+		
 		else if (VillagersSaved > 0 && VillagersSaved <= Multiplier)
-		{
 			_stars = (int)( ( (float)VillagersSaved / Multiplier) * 3 );
-		}
-		else 
-		{
+		
+		else
 			_stars = 0;
-		}
 		
 		return _stars;
 	}

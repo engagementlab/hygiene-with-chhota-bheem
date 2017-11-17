@@ -132,6 +132,9 @@ public class ArchetypeMove : MonoBehaviour
 	private Vector3 _lerpPoint;
 	private Transform[] _waypointPositions;
 	private Quaternion _startingRotation;
+
+	public bool killed = false;
+	private Vector3 dropVelocity;
 	
 	internal Camera MainCamera;
 	internal GameObject Player;
@@ -324,13 +327,16 @@ public class ArchetypeMove : MonoBehaviour
 		  // Die immediately if not powered up
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
-			  Events.instance.Raise(new DeathEvent(false));
-			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
+			  killed = true;
+			  _playerScript.Killed = killed;
+			  StartCoroutine(PlayerHit(collider.gameObject));
 		  }
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
+			  killed = false;
+			  _playerScript.Killed = killed;
+			  StartCoroutine(PlayerHit(collider.gameObject));
 			  Handheld.Vibrate();
-			  Events.instance.Raise(new SpellEvent(collider.GetComponent<ArchetypePlayer>().SpellsType, false));
 		  }
 		  // Obstacle does not kill
 		  else
@@ -609,6 +615,8 @@ public class ArchetypeMove : MonoBehaviour
 		
 	}
 
+	
+
 	private IEnumerator SpellMatrixMode()
 	{
 		MoveSpeed /= 2;
@@ -638,7 +646,58 @@ public class ArchetypeMove : MonoBehaviour
 		
 		spellScript.Type = _powerUpGiven;
 		spellScript.StartMovement(transform.position);
+
+		spellScript.StartParticles();
+
+	}
+
+	IEnumerator PlayerHit(GameObject player)
+	{
+		int repeat = 3;
+		int times = 0;
 		
+		for (times = 0; times <= repeat; times++)
+		{
+			player.GetComponent<SpriteRenderer>().color = Color.red;
+
+			yield return new WaitForSeconds(0.1f);
+
+			player.GetComponent<SpriteRenderer>().color = Color.clear;
+		
+			yield return new WaitForSeconds(0.1f);
+
+			if (times == repeat)
+			{
+				StartCoroutine(PlayerLifeLoss(player, killed));
+			}
+
+		}
+		
+	}
+//
+	IEnumerator PlayerLifeLoss(GameObject player, bool die)
+	{
+		player.GetComponent<SpriteRenderer>().color = Color.white;
+
+		if (die)
+		{
+			
+			player.transform.parent.GetComponent<Animator>().Play("Die");
+
+			Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
+
+			yield return new WaitForSeconds(1f);
+
+			Events.instance.Raise(new DeathEvent(false));
+
+		}
+		else
+		{
+
+			yield return new WaitForSeconds(0.1f);
+			
+			Events.instance.Raise(new SpellEvent(_playerScript.SpellsType, false));
+		}
 	}
 
 }
