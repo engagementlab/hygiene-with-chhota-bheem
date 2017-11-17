@@ -60,6 +60,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private Animator _playerAnimator;
 
 	private Particles _particles;
+	private GameObject _glow;
 
 	/**************
 		UNITY METHODS
@@ -85,9 +86,8 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		_particles = gameObject.GetComponent<Particles>();
 
-//		var glow = GetComponent("Halo");
-//		glow.GetComponent<Renderer>().sortingLayerName = "Prop";
-//		glow.GetComponent<Renderer>().sortingOrder = 0;
+		_glow = transform.Find("Glow").gameObject;
+		_glow.SetActive(false);
 
 	}
 
@@ -102,10 +102,10 @@ public class ArchetypePlayer : MonoBehaviour {
 			if(GameConfig.GamePaused)
 			{
 				_playerAnimator.speed = 0;
-				_particles.ParticleSystem.Pause();
+//				_particles.ParticleSystem.Pause();
 			}
 			else
-				_particles.ParticleSystem.Play();
+//				_particles.ParticleSystem.Play();
 			
 			return;
 		}
@@ -350,8 +350,38 @@ public class ArchetypePlayer : MonoBehaviour {
 		GameConfig.GameSpeedModifier = 15;
 		
 		// Send Particles
-		_particles.ParticleControl(true, SpellsType);
+		GlowControl(true, SpellsType);
 
+	}
+
+	private void GlowControl(bool on, Spells type)
+	{
+
+		if (on)
+		{
+			switch (type)
+			{
+				case Spells.BigShoot:
+
+					_glow.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 1f, 0.5f);
+					break;
+					
+				case Spells.SpeedShoot: 
+					_glow.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.5f);
+					break;
+					
+				case Spells.ScatterShoot: 
+					_glow.GetComponent<SpriteRenderer>().color = new Color(1f, 0.92f, 0.016f, 0.5f);
+					break;
+			}
+			
+			_glow.SetActive(true);
+		}
+		else
+		{
+			_glow.SetActive(false);
+		}
+		
 	}
  
 	private void OnDeathEvent(DeathEvent e)
