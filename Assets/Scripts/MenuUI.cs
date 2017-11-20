@@ -10,6 +10,7 @@ public class MenuUI : MonoBehaviour
 	public GameObject MainMenu;
 	public GameObject Settings;
 	public GameObject Info;
+	public GameObject ChaptersParent;
 	public GameObject Chapters;
 	public GameObject Levels;
 	public GameObject[] Interstitials;
@@ -41,8 +42,13 @@ public class MenuUI : MonoBehaviour
 	private GameObject _chaptersBack;
 	private GameObject[] _chapterButtons;
 
+	private GameObject _levelsTitle;
+	private Button[] _levelButtons;
+	
 	private GameObject objToFadeOut;
 	private GameObject objToFadeIn;
+
+	private bool _levelsOpen;
 	
 	// Use this for initialization
 	void Start () {
@@ -73,8 +79,12 @@ public class MenuUI : MonoBehaviour
 		// Find chapters objects
 		_chaptersTitle = Chapters.transform.Find("Text").gameObject;
 		_chapterSelect = Chapters.transform.Find("Select").gameObject;
-		_chaptersBack = Chapters.transform.Find("Buttons/Back").gameObject;
-
+		_chaptersBack = ChaptersParent.transform.Find("Buttons/Back").gameObject;
+		
+		// Find levels objects
+		_levelsTitle = Levels.transform.Find("Header").gameObject;
+		_levelButtons = Levels.transform.Find("Select").GetComponentsInChildren<Button>();
+		
 		// Set toggles and sliders to player pref settings
 		_soundToggle.isOn = PlayerPrefs.GetInt("sound") == 1;
 		_musicToggle.isOn = PlayerPrefs.GetInt("music") == 1;
@@ -130,47 +140,58 @@ public class MenuUI : MonoBehaviour
 
 	void OpenChapters()
 	{
-		
+		ChaptersParent.SetActive(true);
 		Chapters.SetActive(true);
+		_levelsTitle.SetActive(false);
 		_chapterButtons = GameObject.FindGameObjectsWithTag("ChapterButton");
 
-		iTween.MoveTo(Chapters, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+		iTween.MoveTo(!_levelsOpen ? ChaptersParent : Chapters, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 
 		iTween.ScaleFrom(_chaptersTitle, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .1f));
-		iTween.MoveFrom(_chapterSelect, iTween.Hash("position", new Vector3(0, -850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
+		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -50, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
 		iTween.PunchRotation(_chapterButtons[0], iTween.Hash("z", 90, "time", 1.5f, "delay", 1.1f));
 		iTween.PunchRotation(_chapterButtons[1], iTween.Hash("z", -90, "time", 1.5f, "delay", 1.15f));
 		iTween.PunchRotation(_chapterButtons[2], iTween.Hash("z", 90, "time", 1.5f, "delay", 1.2f));
-		iTween.ScaleFrom(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.2f));
+		
+		if(!_levelsOpen)
+			iTween.ScaleFrom(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.2f));
+		
+		_levelsOpen = false;
 		
 	}
 	
-
-	public void CloseChapterSelect()
-	{
-		
-		iTween.MoveTo(Chapters, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
-		iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
-
-	}
-
 	public void OpenLevelSelect()
 	{
+		_levelsOpen = true;
+		
 		Levels.SetActive(true);
+		_levelsTitle.SetActive(true);
 		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+
 		iTween.PunchRotation(_chapterButtons[0], iTween.Hash("z", -90, "time", 1.5f, "delay", .5f));
 		iTween.PunchRotation(_chapterButtons[1], iTween.Hash("z", 90, "time", 1.5f, "delay", .55f));
 		iTween.PunchRotation(_chapterButtons[2], iTween.Hash("z", -90, "time", 1.5f, "delay", .6f));
 		iTween.MoveTo(Chapters, iTween.Hash("position", new Vector3(-540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "delay", .7f));
 		
-		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.5f));
+		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		iTween.ScaleFrom(_levelsTitle, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.1f));
+		iTween.MoveFrom(_levelButtons[0].gameObject, iTween.Hash("position", new Vector3(0, 850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 2.1f));
+		iTween.MoveFrom(_levelButtons[1].gameObject, iTween.Hash("position", new Vector3(0, 850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 2.5f));
+		iTween.PunchRotation(_levelButtons[0].gameObject, iTween.Hash("z", 90, "time", 1.5f, "delay", 2.1f));
+		iTween.PunchRotation(_levelButtons[1].gameObject, iTween.Hash("z", -90, "time", 1.5f, "delay", 2.5f));
 
 	}
 
-	public void CloseLevelSelect()
+
+	public void ChaptersGoBack()
 	{
-		
-		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "OpenChapters", "oncompletetarget", gameObject));
+		if(_levelsOpen)
+			iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "OpenChapters", "oncompletetarget", gameObject));
+		else
+		{
+			iTween.MoveTo(ChaptersParent, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+			iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
+		}
 
 	}
 	
@@ -181,9 +202,7 @@ public class MenuUI : MonoBehaviour
 		gameObject.transform.Find("Interstitials").gameObject.SetActive(true);
 
 		foreach (GameObject screen in Interstitials)
-		{
 			screen.SetActive(false);
-		}
 		
 		switch (chapter)
 		{
