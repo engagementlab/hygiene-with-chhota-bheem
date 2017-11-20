@@ -172,7 +172,7 @@ public class MenuUI : MonoBehaviour
 	{
 
 		if(chapter > 0)
-			_selectedChapter = chapter;		
+			GameConfig.CurrentChapter = chapter;		
 		
 		Levels.SetActive(true);
 		_levelsTitle.SetActive(true);
@@ -226,7 +226,7 @@ public class MenuUI : MonoBehaviour
 		
 		_levelsOpen = false;
 		_interstitialsOpen = true;
-		_selectedLevel = level;
+		GameConfig.CurrentLevel = level;
 		
 		iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
 //		iTween.ScaleFrom(_interstitialsBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .6f));
@@ -275,23 +275,7 @@ public class MenuUI : MonoBehaviour
 
 	public void OpenLevel()
 	{
-		var baseName = "Level";
-		switch(_selectedChapter)
-		{
-			case 0:
-				baseName += "One";
-				break;
-
-			case 1:
-				baseName += "Two";
-				break;
-
-			case 2:
-				baseName += "Three";
-				break;
-		}
-		baseName += _selectedLevel == 0 ? "A" : "B";
-		UnityEngine.SceneManagement.SceneManager.LoadScene(baseName);
+		GameConfig.LoadLevel();
 	}
 
 	public void Volume(float volume)

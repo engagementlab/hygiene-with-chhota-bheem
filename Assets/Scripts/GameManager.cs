@@ -25,8 +25,9 @@ public class GameManager : MonoBehaviour
 		GameObject gameUi = (GameObject) Instantiate(Resources.Load("GameUI"));
 		gameUi.name = "GameUI";
 		GUIManager.Instance.Initialize();
-		
+
 		GameConfig.InitializePrefs();
+		GameConfig.GameOver = false;
 
 		Instantiate(Resources.Load("EventSystem"));
 		
