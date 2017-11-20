@@ -13,6 +13,9 @@ public class GameConfig : MonoBehaviour
 	public static bool SlowMo;
 	public static bool GameOver;
 	public static bool GodMode;
+
+	public static int CurrentLevel;
+	public static int CurrentChapter;
 	
 	[Range(0f, 1f)]
 	public static float GlobalVolume;
@@ -133,19 +136,38 @@ public class GameConfig : MonoBehaviour
 		int _stars;
 		
 		if (VillagersSaved > Multiplier)
-		{
 			_stars = 3;
-		} 
+		
 		else if (VillagersSaved > 0 && VillagersSaved <= Multiplier)
-		{
 			_stars = (int)( ( (float)VillagersSaved / Multiplier) * 3 );
-		}
-		else 
-		{
+		
+		else
 			_stars = 0;
-		}
 		
 		return _stars;
+	}
+
+	public static void LoadLevel()
+	{
+		var baseName = "Level";
+		switch(CurrentChapter)
+		{
+			case 0:
+				baseName += "One";
+				break;
+
+			case 1:
+				baseName += "Two";
+				break;
+
+			case 2:
+				baseName += "Three";
+				break;
+		}
+		if(CurrentLevel == 1)
+			baseName += "B";
+		
+		UnityEngine.SceneManagement.SceneManager.LoadScene(baseName);
 	}
 
 }

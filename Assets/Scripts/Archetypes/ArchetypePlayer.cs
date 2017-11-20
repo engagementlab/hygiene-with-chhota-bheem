@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public AudioClip ObstacleSound;
 
 	public bool WonGame;
+	public bool Killed = false;
 
 	[HideInInspector] 
 	public int Strength;
@@ -80,12 +82,14 @@ public class ArchetypePlayer : MonoBehaviour {
 		_playerAnimator = GetComponent<Animator>();
 
 		_particles = gameObject.GetComponent<Particles>();
-
 	}
 
 	private void Update()
 	{
 
+		if (Killed)
+			return;
+		
 		if(GameConfig.SlowMo || GameConfig.GamePaused)
 		{
 			if(GameConfig.GamePaused)
@@ -106,7 +110,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		#else
 			var inputPosition = Input.GetTouch(0).position;
 		#endif
-		
+				
 		var targetPosition = new Vector3(_mainCamera.ScreenToWorldPoint(inputPosition).x, _mainCamera.ScreenToWorldPoint(inputPosition).y + GameConfig.BubbleOffset, -.5f);
 		transform.position = Utilities.ClampToScreen(Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, SmoothTime), _mainCamera);
 
@@ -211,7 +215,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		CUSTOM METHODS
 	***************/
 
-  private void OnScoreEvent(ScoreEvent e) {
+  	private void OnScoreEvent(ScoreEvent e) {
 
 		GameConfig.UpdateScore(e.scoreAmount);
 
@@ -224,7 +228,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		if (e.powerUp)
 		{
 			// Spell ON
-			StartCoroutine(SpellComplete(SpellsType));
+			SpellComplete(SpellsType);
 
 			switch(SpellsType)
 			{
@@ -318,7 +322,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	}
 
 	
-	private IEnumerator SpellComplete(Spells spell)
+	private void SpellComplete(Spells spell)
 	{
 		var animations = 0;
 
@@ -326,10 +330,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		GameConfig.GameSpeedModifier = 0;
 		
 		// TO DO - Spell Steps - When assets are ready
-				
-		GUIManager.Instance._spellActivatedUi.SetActive(true);
-		yield return new WaitForSeconds(1);
-		GUIManager.Instance._spellActivatedUi.SetActive(false);
+		StartCoroutine(GUIManager.Instance.ShowSpellActivated());
+		
 		GameConfig.GamePaused = false;
 		GameConfig.GameSpeedModifier = 15;
 		

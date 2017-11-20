@@ -7,6 +7,7 @@ public class SoundEvent : GameEvent
   public readonly SoundType Type;
   public readonly AudioClip SoundClip;
   public readonly float SoundVolume;
+  public readonly float SoundPitch;
 
   public enum SoundType
   {
@@ -14,12 +15,13 @@ public class SoundEvent : GameEvent
      Music
   }
 
-  public SoundEvent (string name, SoundType type, AudioClip clip=null, float volume=1)
+  public SoundEvent (string name, SoundType type, AudioClip clip=null, float volume=1, float pitch=1)
   {
     SoundClip = clip;
     Type = type;
     SoundFileName = name;
     SoundVolume = volume;
+    SoundPitch = pitch;
   }
 
   // Use provided audio clip instead of finding Resource

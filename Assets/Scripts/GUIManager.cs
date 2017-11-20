@@ -1,4 +1,5 @@
-﻿using DefaultNamespace;
+﻿using System.Collections;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +23,9 @@ public class GUIManager
 	private GameObject _spellText;
 	private GameObject _pauseUi;
 	private GameObject _slowMoWrapper;
-	public GameObject _spellActivatedUi;
+	
+	private GameObject _spellActivatedUi;
+	private GameObject _spellActivatedBanner;
 	
 	private GameObject _gameEndUi;
 	private Animator _pauseAnimator;
@@ -49,7 +52,7 @@ public class GUIManager
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
-		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
+//		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
 		
 		_gameEndScreen.SetActive(false);
 
@@ -72,9 +75,9 @@ public class GUIManager
 		}
 		
 		_spellActivatedUi = GameObject.Find("GameUI/SpellActivated");		
+		_spellActivatedBanner = _spellActivatedUi.transform.Find("BannerImage").gameObject;		
 		_spellActivatedUi.SetActive(false);
 		_spellCount = 0;
-
 	}
 
 	public void NewSpell(GameObject spellBar)
@@ -133,6 +136,17 @@ public class GUIManager
 
 	}
 
+	public IEnumerator ShowSpellActivated()
+	{
+		_spellActivatedUi.SetActive(true);
+		iTween.MoveFrom(_spellActivatedUi, iTween.Hash("position", new Vector3(0, 200, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutElastic));
+		iTween.PunchScale(_spellActivatedBanner, iTween.Hash("amount", Vector3.one*1.2f, "time", 1.3f, "easetype", iTween.EaseType.easeInOutBounce));
+		
+		yield return new WaitForSeconds(1.5f);
+
+		iTween.MoveTo(_spellActivatedUi, iTween.Hash("position", new Vector3(0, 200, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+	}
+
 	public void ShowPause()
 	{
 		_pauseUi.SetActive(true);
@@ -156,6 +170,7 @@ public class GUIManager
 
 	public void GameEnd(bool win)
 	{
+		
 		_gameEndScreen.SetActive(true);
 		_gameEndScreen.GetComponent<GameEndUI>().SetContent(win);
 

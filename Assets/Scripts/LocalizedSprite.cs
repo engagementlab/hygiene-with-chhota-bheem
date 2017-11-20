@@ -14,6 +14,7 @@ Created by Engagement Lab @ Emerson College, 2017
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class LocalizedSprite : Image
 {
 
@@ -23,7 +24,14 @@ public class LocalizedSprite : Image
 	// Use this for initialization
 	private void Start ()
 	{
+		
+		// Allows for multiple image sizes
+		type = Type.Filled;
+		fillMethod = FillMethod.Horizontal;
+		preserveAspect = true;
+		
 		base.Start();
+		
 		UpdateSprite();
 
 		Events.instance.AddListener<LanguageChangeEvent> (UpdateSprite);
@@ -37,6 +45,11 @@ public class LocalizedSprite : Image
 
 	private void UpdateSprite(LanguageChangeEvent e=null)
 	{
+		if(TamilSprite == null)
+		{
+			sprite = EnglishSprite;
+			return;
+		}
 		sprite = GameConfig.CurrentLanguage == 1 ? TamilSprite : EnglishSprite;
 	}
 }

@@ -34,8 +34,15 @@ public class GameUI : MonoBehaviour
         GameConfig.SlowMo = false;
         if(level == "next")
         {
-            var next = Application.loadedLevel + 1;
-            UnityEngine.SceneManagement.SceneManager.LoadScene(next);
+            if(GameConfig.CurrentLevel == 0)
+                GameConfig.CurrentLevel = 1;
+            else
+            {
+                GameConfig.CurrentLevel = 0;
+                if(GameConfig.CurrentChapter < 2)
+                    GameConfig.CurrentChapter++;
+            }
+            GameConfig.LoadLevel();
         }
         else if(!System.String.IsNullOrEmpty(level))
             UnityEngine.SceneManagement.SceneManager.LoadScene(level);
