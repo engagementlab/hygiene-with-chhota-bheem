@@ -328,14 +328,11 @@ public class ArchetypeMove : MonoBehaviour
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = true;
-			  _playerScript.Killed = killed;
 			  StartCoroutine(PlayerHit(collider.gameObject));
 		  }
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = false;
-			  _playerScript.Killed = killed;
-//			  Events.instance.Raise(SpellEvent(false, ));
 			  StartCoroutine(PlayerHit(collider.gameObject));
 			  Handheld.Vibrate();
 		  }
@@ -654,25 +651,21 @@ public class ArchetypeMove : MonoBehaviour
 
 	IEnumerator PlayerHit(GameObject player)
 	{
-		int repeat = 3;
-		int times = 0;
+		int times;
+
+		StartCoroutine(PlayerLifeLoss(player, killed));
 		
-		for (times = 0; times <= repeat; times++)
+		for (times = 0; times <= 3; times++)
 		{
 			player.GetComponent<SpriteRenderer>().color = Color.red;
 
 			yield return new WaitForSeconds(0.1f);
-
 			player.GetComponent<SpriteRenderer>().color = Color.clear;
-		
+
 			yield return new WaitForSeconds(0.1f);
 
-			if (times == repeat)
-			{
-				StartCoroutine(PlayerLifeLoss(player, killed));
-			}
-
 		}
+		_playerScript.Killed = killed;
 		
 	}
 //
@@ -687,7 +680,7 @@ public class ArchetypeMove : MonoBehaviour
 
 			Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
 
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(.5f);
 
 			Events.instance.Raise(new DeathEvent(false));
 
