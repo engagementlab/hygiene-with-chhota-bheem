@@ -100,12 +100,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		if(GameConfig.SlowMo || GameConfig.GamePaused)
 		{
 			if(GameConfig.GamePaused)
-			{
 				_playerAnimator.speed = 0;
-//				_particles.ParticleSystem.Pause();
-			}
-			else
-//				_particles.ParticleSystem.Play();
 			
 			return;
 		}
