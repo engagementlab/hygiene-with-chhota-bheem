@@ -29,7 +29,7 @@ public class TexturePostProcessor : AssetPostprocessor {
 		TextureImporter importer = assetImporter as TextureImporter;
 
 		importer.anisoLevel = 0;
-		importer.isReadable = false;
+		importer.isReadable = true;
 		importer.mipmapEnabled = false;
 		importer.filterMode = FilterMode.Trilinear;
 

@@ -71,8 +71,6 @@ public class GameConfig : MonoBehaviour
 			PlayerPrefs.SetInt("music", 1);
 			MusicOn = true;
 		}
-		
-		Debug.Log(PlayerPrefs.HasKey("volume"));
 
 		if (PlayerPrefs.HasKey("volume"))
 		{

@@ -27,6 +27,8 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	private Vector3 _toPoint;
 	private Vector3[] _movementPoints;
 	private Spells _type;
+
+	private GameObject _glow;
 	
 	private float _targetAnimSpeed;
 	private float _timeElapsed;
@@ -40,7 +42,14 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		int index = Random.Range(0, spells.Length);
 		CurrentSpell = spells[index].gameObject;
 		CurrentSpell.SetActive(true);
-	
+
+		_glow = transform.Find("Glow").gameObject;
+
+	}
+
+	private void Start()
+	{
+		GlowControl(_type);
 	}
 
 	private void OnTriggerEnter(Collider collider) {
@@ -73,9 +82,27 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	}
 
-	public void StartParticles()
+	private void GlowControl(Spells type)
 	{
-		gameObject.GetComponent<Particles>().ParticleControl(true, _type);
+
+		switch (type)
+		{
+			case Spells.BigShoot:
+
+				_glow.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 1f, 0.5f);
+				break;
+				
+			case Spells.SpeedShoot: 
+				_glow.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.5f);
+				break;
+				
+			case Spells.ScatterShoot: 
+				_glow.GetComponent<SpriteRenderer>().color = new Color(1f, 0.92f, 0.016f, 0.5f);
+				break;
+		}
+		
+		_glow.SetActive(true);
+		
 	}
 
 	public void StartMovement(Vector3 startingPos)
