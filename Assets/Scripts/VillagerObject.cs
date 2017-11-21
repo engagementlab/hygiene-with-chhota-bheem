@@ -19,6 +19,7 @@ public class VillagerObject : ArchetypeMove
 	private ParticleSystem.MainModule _main;
 
 	private bool _particleReady;
+	private int _animSpeed = 1;
 
 	private Vector3 _toPosition;
 	
@@ -38,8 +39,13 @@ public class VillagerObject : ArchetypeMove
 
 		}
 		var distance = Vector3.Distance(_toPosition, transform.position);
-//		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/_animSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "CompleteWalkOff"));
 
+	}
+
+	private void CompleteWalkOff()
+	{
+		Destroy(gameObject);
 	}
 
 	// Use this for initialization
@@ -126,7 +132,6 @@ public class VillagerObject : ArchetypeMove
 			return;
 		}
 		
-		iTween.ScaleTo(gameObject, Vector3.zero, 1f);
 		Events.instance.Raise (new ScoreEvent(pointsWorth));
 
 		StartCoroutine(RemoveVillager());
