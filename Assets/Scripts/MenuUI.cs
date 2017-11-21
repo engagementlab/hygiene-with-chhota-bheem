@@ -17,11 +17,6 @@ public class MenuUI : MonoBehaviour
 	public GameObject InterstitialsParent;
 	public GameObject[] Interstitials;
 	public GameObject[] InterstitialScreens;
-
-	private GameObject _interstitialScreen;
-	private int _interstitialScreenCount;
-
-	private Sprite[] _interstitialImages;
 //	private List<Transform> _interstitialScreens;
  
 	public AudioClip MenuMusic;
@@ -55,6 +50,11 @@ public class MenuUI : MonoBehaviour
 	private Button[] _levelButtons;
 	
 	private GameObject _interstitialsBack;
+	private GameObject _interstitialsBackground;
+	private Image _interstitialScreen;
+	private int _interstitialScreenCount;
+
+	private Sprite[] _interstitialImages;
 	
 	private GameObject objToFadeOut;
 	private GameObject objToFadeIn;
@@ -242,17 +242,8 @@ public class MenuUI : MonoBehaviour
 		_interstitialsOpen = true;
 		GameConfig.CurrentLevel = level;
 		
-		iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
-//		iTween.ScaleFrom(_interstitialsBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .6f));
-		
-		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
-		gameObject.transform.Find("Interstitials").gameObject.SetActive(true);
-		
-		gameObject.transform.Find("Interstitials/PlayButton").gameObject.SetActive(false);
-		gameObject.transform.Find("Interstitials/NextButton").gameObject.SetActive(true);
-
-		_interstitialScreen = gameObject.transform.Find("Interstitials/Background/Image").gameObject;
-		Debug.Log(_interstitialScreen.GetComponent<Image>().sprite.name);
+		_interstitialsBackground = gameObject.transform.Find("Interstitials/Background").gameObject;
+		_interstitialScreen = _interstitialsBackground.transform.Find("Image").gameObject.GetComponent<Image>();
 		_interstitialScreenCount = 0;
 		
 		switch (level)
@@ -269,34 +260,36 @@ public class MenuUI : MonoBehaviour
 				_interstitialImages = Resources.LoadAll<Sprite>("ChapThreeInterstitials");
 				break;
 		}
+		_interstitialScreen.sprite = _interstitialImages[_interstitialScreenCount];
 		
-		_interstitialScreen.GetComponent<Image>().sprite = _interstitialImages[_interstitialScreenCount];
-//		_interstitialScreen.GetComponent<Image>().color = Color.Lerp(Color.clear, Color.white, Mathf.PingPong(Time.time, 1));
-				
-		iTween.ScaleFrom(gameObject.transform.Find("Interstitials/NextButton").gameObject, iTween.Hash("scale", Vector3.zero, "time", 0.3, "easetype", iTween.EaseType.easeOutElastic, "delay", 0.2f));
-				
+		iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));;
+		
+		InterstitialsParent.SetActive(true);
+		
+		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		iTween.MoveFrom(InterstitialsParent, iTween.Hash("position", new Vector3(0, 970, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1));
+		
 	}
 
 	public void NextInterstitial()
 	{
-//		_interstitialScreen.GetComponent<Image>().color = Color.Lerp(Color.white, Color.clear, Mathf.PingPong(Time.time, 1));
-
 		_interstitialScreenCount++;
+		iTween.MoveTo(_interstitialsBackground, iTween.Hash("position", new Vector3(540, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "InterstitialSwap", "oncompletetarget", gameObject));
+	}
+
+	private void InterstitialSwap()
+	{
+		
+		_interstitialScreen.GetComponent<Image>().sprite = _interstitialImages[_interstitialScreenCount];
 
 		if (_interstitialScreenCount == 3) // Final screen 
 		{
 			// Show play button
-			gameObject.transform.Find("Interstitials/PlayButton").gameObject.SetActive(true);
-			gameObject.transform.Find("Interstitials/NextButton").gameObject.SetActive(false);
+			InterstitialsParent.transform.Find("PlayButton").gameObject.SetActive(true);
+			InterstitialsParent.transform.Find("NextButton").gameObject.SetActive(false);
 		}
-		
-		_interstitialScreen.GetComponent<Image>().sprite = _interstitialImages[_interstitialScreenCount];
-//		_interstitialScreen.GetComponent<Image>().color = Color.Lerp(Color.clear, Color.white, Mathf.PingPong(Time.time, 1));
 
-	}
-
-	private void InterstitialColor()
-	{
+		iTween.MoveTo(_interstitialsBackground, iTween.Hash("position", new Vector3(0, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 		
 	}
 
