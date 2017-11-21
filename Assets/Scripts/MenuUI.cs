@@ -246,17 +246,17 @@ public class MenuUI : MonoBehaviour
 		_interstitialScreen = _interstitialsBackground.transform.Find("Image").gameObject.GetComponent<Image>();
 		_interstitialScreenCount = 0;
 		
-		switch (level)
+		switch (GameConfig.CurrentChapter)
 		{
-			case 1:
+			case 0:
 				_interstitialImages = Resources.LoadAll<Sprite>("ChapOneInterstitials");
 				break;
 				
-			case 2:
+			case 1:
 				_interstitialImages = Resources.LoadAll<Sprite>("ChapTwoInterstitials");
 				break;
 				
-			case 3:
+			case 2:
 				_interstitialImages = Resources.LoadAll<Sprite>("ChapThreeInterstitials");
 				break;
 		}
