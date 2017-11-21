@@ -324,16 +324,21 @@ public class ArchetypeMove : MonoBehaviour
 		  if(GameConfig.GodMode) die = false;
 		  #endif
 		  
+		  Debug.Log(collider.GetComponent<ArchetypePlayer>().PoweredUp);
+		  
 		  // Die immediately if not powered up
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = true;
-			  StartCoroutine(PlayerHit(collider.gameObject));
+			  _playerScript.Killed = killed;
+			  StartCoroutine(PlayerHit(collider.gameObject, true));
 		  }
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = false;
-			  StartCoroutine(PlayerHit(collider.gameObject));
+
+			  _playerScript.Killed = killed;
+			  StartCoroutine(PlayerHit(collider.gameObject, false));
 			  Handheld.Vibrate();
 		  }
 		  // Obstacle does not kill
@@ -649,7 +654,7 @@ public class ArchetypeMove : MonoBehaviour
 
 	}
 
-	IEnumerator PlayerHit(GameObject player)
+	IEnumerator PlayerHit(GameObject player, bool killed)
 	{
 		int times;
 
@@ -662,20 +667,16 @@ public class ArchetypeMove : MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 			player.GetComponent<SpriteRenderer>().color = Color.clear;
 
-			yield return new WaitForSeconds(0.1f);
-
 		}
-		_playerScript.Killed = killed;
-		
+				
 	}
 //
 	IEnumerator PlayerLifeLoss(GameObject player, bool die)
 	{
-		player.GetComponent<SpriteRenderer>().color = Color.white;
 
 		if (die)
 		{
-			if (transform.parent != null)
+			if (player.transform.parent != null)
 				player.transform.parent.GetComponent<Animator>().Play("Die");
 
 			Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
