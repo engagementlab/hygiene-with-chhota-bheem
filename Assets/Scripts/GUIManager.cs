@@ -139,12 +139,12 @@ public class GUIManager
 	public IEnumerator ShowSpellActivated()
 	{
 		_spellActivatedUi.SetActive(true);
-		iTween.MoveFrom(_spellActivatedUi, iTween.Hash("position", new Vector3(0, 200, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutElastic));
+		iTween.MoveFrom(_spellActivatedUi, iTween.Hash("position", new Vector3(0, -500, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutElastic));
 		iTween.PunchScale(_spellActivatedBanner, iTween.Hash("amount", Vector3.one*1.2f, "time", 1.3f, "easetype", iTween.EaseType.easeInOutBounce));
 		
 		yield return new WaitForSeconds(1.5f);
 
-		iTween.MoveTo(_spellActivatedUi, iTween.Hash("position", new Vector3(0, 200, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		iTween.MoveTo(_spellActivatedUi, iTween.Hash("position", new Vector3(0, -500, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
 	}
 
 	public void ShowPause()
