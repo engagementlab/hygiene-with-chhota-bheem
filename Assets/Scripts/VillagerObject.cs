@@ -19,14 +19,27 @@ public class VillagerObject : ArchetypeMove
 	private ParticleSystem.MainModule _main;
 
 	private bool _particleReady;
+
+	private Vector3 _toPosition;
 	
 	private IEnumerator RemoveVillager()
 	{
 		yield return new WaitForEndOfFrame();
 		
 		SpawnSpellComponent();
-		
-		Destroy(gameObject);
+
+		if (gameObject.transform.position.x > 0)
+		{
+			_toPosition = new Vector3(gameObject.transform.position.x + 500, gameObject.transform.position.y - 100, 0);
+		}
+		else
+		{
+			_toPosition = new Vector3(gameObject.transform.position.x - 500, gameObject.transform.position.y - 100, 0);
+
+		}
+		var distance = Vector3.Distance(_toPosition, transform.position);
+//		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/_targetAnimSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "Complete"));
+
 	}
 
 	// Use this for initialization
@@ -74,7 +87,7 @@ public class VillagerObject : ArchetypeMove
 
 		if (_particleReady)
 		{
-			if (IsInView && _particles.isStopped)
+			if (_particles.isStopped)
 			{
 				GetComponent<Particles>().PlayParticles(true);
 				SetParticleRate();
