@@ -111,7 +111,7 @@ namespace DefaultNamespace
             iTween.MoveFrom(_objToFadeIn, iTween.Hash("position", new Vector3(0, -23, 0), "time", 1, "islocal", true));
             iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "onupdate", "FadeTextIn"));
 
-            InvokeRepeating("SetScoreText", 1, .02f);
+            InvokeRepeating("SetScoreText", 1, 1.0f/totalScore);
         }
 
         public void StarsCount()

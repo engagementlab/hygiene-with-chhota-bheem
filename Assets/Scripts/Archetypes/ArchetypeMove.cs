@@ -324,19 +324,21 @@ public class ArchetypeMove : MonoBehaviour
 		  if(GameConfig.GodMode) die = false;
 		  #endif
 		  
+		  Debug.Log(collider.GetComponent<ArchetypePlayer>().PoweredUp);
+		  
 		  // Die immediately if not powered up
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = true;
 			  _playerScript.Killed = killed;
-			  StartCoroutine(PlayerHit(collider.gameObject));
+			  StartCoroutine(PlayerHit(collider.gameObject, true));
 		  }
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = false;
+
 			  _playerScript.Killed = killed;
-//			  Events.instance.Raise(SpellEvent(false, ));
-			  StartCoroutine(PlayerHit(collider.gameObject));
+			  StartCoroutine(PlayerHit(collider.gameObject, false));
 			  Handheld.Vibrate();
 		  }
 		  // Obstacle does not kill
@@ -652,42 +654,34 @@ public class ArchetypeMove : MonoBehaviour
 
 	}
 
-	IEnumerator PlayerHit(GameObject player)
+	IEnumerator PlayerHit(GameObject player, bool killed)
 	{
-		int repeat = 3;
-		int times = 0;
+		int times;
+
+		StartCoroutine(PlayerLifeLoss(player, killed));
 		
-		for (times = 0; times <= repeat; times++)
+		for (times = 0; times <= 3; times++)
 		{
 			player.GetComponent<SpriteRenderer>().color = Color.red;
 
 			yield return new WaitForSeconds(0.1f);
-
 			player.GetComponent<SpriteRenderer>().color = Color.clear;
-		
-			yield return new WaitForSeconds(0.1f);
-
-			if (times == repeat)
-			{
-				StartCoroutine(PlayerLifeLoss(player, killed));
-			}
 
 		}
-		
+				
 	}
 //
 	IEnumerator PlayerLifeLoss(GameObject player, bool die)
 	{
-		player.GetComponent<SpriteRenderer>().color = Color.white;
 
 		if (die)
 		{
-			if (transform.parent != null)
+			if (player.transform.parent != null)
 				player.transform.parent.GetComponent<Animator>().Play("Die");
 
 			Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
 
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(.5f);
 
 			Events.instance.Raise(new DeathEvent(false));
 

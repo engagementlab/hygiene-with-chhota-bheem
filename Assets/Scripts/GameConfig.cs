@@ -45,7 +45,7 @@ public class GameConfig : MonoBehaviour
 	
 	public static void Reset() {
     
-		NumBubblesInterval = .25f;
+		NumBubblesInterval = .5f;
 		Score = 0;
 		GameOver = false;
 		GameWon = false;
