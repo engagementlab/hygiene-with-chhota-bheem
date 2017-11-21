@@ -666,6 +666,14 @@ public class ArchetypeMove : MonoBehaviour
 
 			yield return new WaitForSeconds(0.1f);
 			player.GetComponent<SpriteRenderer>().color = Color.clear;
+			 		
+			yield return new WaitForSeconds(0.1f);
+			player.GetComponent<SpriteRenderer>().color = Color.white;
+ 
+			if (times++ >= 3)
+			{
+				StartCoroutine(PlayerLifeLoss(player, killed));
+			}
 
 		}
 				
