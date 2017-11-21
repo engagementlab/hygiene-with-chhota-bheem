@@ -331,14 +331,14 @@ public class ArchetypeMove : MonoBehaviour
 		  {
 			  killed = true;
 			  _playerScript.Killed = killed;
-			  StartCoroutine(PlayerHit(collider.gameObject, true));
+			  StartCoroutine(_playerScript.PlayerHit(true));
 		  }
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = false;
 
 			  _playerScript.Killed = killed;
-			  StartCoroutine(PlayerHit(collider.gameObject, false));
+			  StartCoroutine(_playerScript.PlayerHit(false));
 			  Handheld.Vibrate();
 		  }
 		  // Obstacle does not kill
@@ -652,55 +652,6 @@ public class ArchetypeMove : MonoBehaviour
 
 //		spellScript.StartParticles();
 
-	}
-
-	IEnumerator PlayerHit(GameObject player, bool killed)
-	{
-		int times;
-
-		StartCoroutine(PlayerLifeLoss(player, killed));
-		
-		for (times = 0; times <= 3; times++)
-		{
-			player.GetComponent<SpriteRenderer>().color = Color.red;
-
-			yield return new WaitForSeconds(0.1f);
-			player.GetComponent<SpriteRenderer>().color = Color.clear;
-			 		
-			yield return new WaitForSeconds(0.1f);
-			player.GetComponent<SpriteRenderer>().color = Color.white;
- 
-			if (times++ >= 3)
-			{
-				StartCoroutine(PlayerLifeLoss(player, killed));
-			}
-
-		}
-				
-	}
-//
-	IEnumerator PlayerLifeLoss(GameObject player, bool die)
-	{
-
-		if (die)
-		{
-			if (player.transform.parent != null)
-				player.transform.parent.GetComponent<Animator>().Play("Die");
-
-			Events.instance.Raise(SoundEvent.WithClip(_playerScript.GameEndSound));
-
-			yield return new WaitForSeconds(.5f);
-
-			Events.instance.Raise(new DeathEvent(false));
-
-		}
-		else
-		{
-
-			yield return new WaitForSeconds(0.1f);
-			
-			Events.instance.Raise(new SpellEvent(_playerScript.SpellsType, false));
-		}
 	}
 
 }
