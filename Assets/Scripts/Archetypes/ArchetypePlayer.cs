@@ -24,7 +24,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public AudioClip ObstacleSound;
 
 	public bool WonGame;
-	public bool Killed = false;
+	public bool Killed;
 
 	[HideInInspector] 
 	public int Strength;
