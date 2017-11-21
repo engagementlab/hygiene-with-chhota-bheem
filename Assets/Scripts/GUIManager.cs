@@ -162,7 +162,6 @@ public class GUIManager
 	public void ShowSloMo()
 	{
 		_slowMoWrapper.SetActive(true);
-		_pauseAnimator.Play("FingerMove");
 
 	}
 

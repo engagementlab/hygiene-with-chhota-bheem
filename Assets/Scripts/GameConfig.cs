@@ -132,6 +132,9 @@ public class GameConfig : MonoBehaviour
 	public static int StarCount()
 	{
 		int _stars;
+
+		if (!GameWon)
+			return 0;
 		
 		if (VillagersSaved > Multiplier)
 			_stars = 3;
