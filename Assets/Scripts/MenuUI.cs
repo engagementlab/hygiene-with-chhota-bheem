@@ -243,16 +243,15 @@ public class MenuUI : MonoBehaviour
 		GameConfig.CurrentLevel = level;
 		
 		iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
-//		iTween.ScaleFrom(_interstitialsBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .6f));
 		
 		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		iTween.MoveFrom(InterstitialsParent, iTween.Hash("position", new Vector3(0, 850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1));
 		gameObject.transform.Find("Interstitials").gameObject.SetActive(true);
 		
 		gameObject.transform.Find("Interstitials/PlayButton").gameObject.SetActive(false);
 		gameObject.transform.Find("Interstitials/NextButton").gameObject.SetActive(true);
 
 		_interstitialScreen = gameObject.transform.Find("Interstitials/Background/Image").gameObject;
-		Debug.Log(_interstitialScreen.GetComponent<Image>().sprite.name);
 		_interstitialScreenCount = 0;
 		
 		switch (level)
