@@ -41,7 +41,9 @@ public class InterstitialUI : MonoBehaviour
 		}
 		_interstitialScreen.sprite = _interstitialImages[_interstitialScreenCount];
 		
-		iTween.ScaleTo(BackButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
+		if(BackButton != null)
+			iTween.ScaleTo(BackButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
+	
 		gameObject.SetActive(true);
 		
 		iTween.MoveTo(PreviousScreen, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
