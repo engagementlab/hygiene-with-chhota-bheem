@@ -162,6 +162,8 @@ public class GameManager : MonoBehaviour
 
 	private void SlowMo()
 	{
+		if(GameConfig.GameOver) return;
+		
 		GUIManager.Instance.ShowSloMo();
 		GameConfig.SlowMo = true;
 		

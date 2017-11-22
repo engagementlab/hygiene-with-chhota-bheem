@@ -7,10 +7,7 @@ namespace DefaultNamespace
 {
     public class GameEndUI : MonoBehaviour
     {
-        public float Duration = 2f;
-
         public AudioClip StarPopSound;
-//        private Animator _gameEndAnim;
 
         private GameObject _headerContainer;
         private GameObject _boardContainer;
@@ -59,8 +56,17 @@ namespace DefaultNamespace
 		
             iTween.ScaleFrom(_lowerButtons[1].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 1));
             iTween.ScaleFrom(_lowerButtons[2].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.6f));
-            iTween.ScaleFrom(_lowerButtons[3].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.2f));
             
+            if(GameConfig.CurrentChapter == 2 && GameConfig.CurrentLevel == 1)
+                _lowerButtons[3].gameObject.SetActive(false);
+            else
+                iTween.ScaleFrom(_lowerButtons[3].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.2f));
+            
+        }
+
+        public void LoadLevel()
+        {
+            GameConfig.LoadLevel();
         }
 
         public void Restart()
