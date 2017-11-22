@@ -54,7 +54,7 @@ public class ArchetypeFollow : ArchetypeMove
 				base.Update();
 				
 			} 
-			else if(Player != null)
+			else if(_player != null)
 			{
 				// Chase the Player 
 				_playerPos = Player.transform.position;
