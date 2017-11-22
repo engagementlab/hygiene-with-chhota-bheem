@@ -45,7 +45,7 @@ public class GUIManager
 	// Use this for initialization
 	public void Initialize ()
 	{ 
-		var playerObj = GameObject.Find("Player");
+		var playerObj = GameObject.FindGameObjectWithTag("Player");
 		if(playerObj != null)
 			_steps = playerObj.GetComponent<ArchetypePlayer>().SpellStepCount;
 		

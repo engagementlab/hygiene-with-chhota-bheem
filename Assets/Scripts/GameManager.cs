@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 				GameConfig.SlowMo = false;
 			}
 
-			if(noInput && _playerHasTouched)
+			if(noInput)
 			{
 				if(!_slowMo)
 					SlowMo();
@@ -162,6 +162,8 @@ public class GameManager : MonoBehaviour
 
 	private void SlowMo()
 	{
+		if(GameConfig.GameOver) return;
+		
 		GUIManager.Instance.ShowSloMo();
 		GameConfig.SlowMo = true;
 		
