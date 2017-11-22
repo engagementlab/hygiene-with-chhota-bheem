@@ -95,7 +95,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void Update()
 	{
 
-		if (Killed)
+		if (Killed || GameConfig.GameOver)
 			return;
 		
 		if(GameConfig.SlowMo || GameConfig.GamePaused)
@@ -253,12 +253,16 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		if (die)
 		{
+			
+			Killed = true;
+			GameConfig.GameOver = true;
+
 			if (transform.parent != null)
 				transform.parent.GetComponent<Animator>().Play("Die");
 
 			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
 
-			yield return new WaitForSeconds(.5f);
+			yield return new WaitForSeconds(1.5f);
 
 			Events.instance.Raise(new DeathEvent(false));
 
@@ -270,7 +274,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		}
 	}
 	
-  private void OnScoreEvent(ScoreEvent e) {
+  	private void OnScoreEvent(ScoreEvent e) {
 
 		GameConfig.UpdateScore(e.scoreAmount);
 
@@ -435,7 +439,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		WonGame = e.wonGame;
 
 		gameObject.SetActive(false);
-		GameConfig.GameOver = true;
 		GameConfig.GameWon = WonGame;
 		
 		GUIManager.Instance.GameEnd(WonGame);

@@ -147,7 +147,10 @@ public class ArchetypeMove : MonoBehaviour
 	public void Awake()
 	{
 		
-		Player = GameObject.FindGameObjectWithTag("Player");
+		_player = GameObject.FindWithTag("Player");
+		if(_player != null)
+			_playerScript = _player.GetComponent<ArchetypePlayer>();
+		
 		MainCamera = Camera.main;
 		AnimationDuration = 10 / AnimationDuration;
 		
@@ -162,10 +165,6 @@ public class ArchetypeMove : MonoBehaviour
 		// Is background object?
 		if(gameObject.layer == 8)
 			_bgRectTransform = gameObject.GetComponentInChildren<RectTransform>();
-
-		_player = GameObject.FindWithTag("Player");
-		if(_player != null)
-			_playerScript = _player.GetComponent<ArchetypePlayer>();
 		
 		transform.position = new Vector3(transform.position.x, transform.position.y, Utilities.GetZPosition(gameObject));
 
