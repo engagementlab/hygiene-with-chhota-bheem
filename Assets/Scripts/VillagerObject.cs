@@ -38,6 +38,10 @@ public class VillagerObject : ArchetypeMove
 			_toPosition = new Vector3(gameObject.transform.position.x - 500, gameObject.transform.position.y - 100, 0);
 
 		}
+		
+		_particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+		GetComponent<Particles>().PlayParticles(false);
+		
 		var distance = Vector3.Distance(_toPosition, transform.position);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/_animSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "CompleteWalkOff"));
 

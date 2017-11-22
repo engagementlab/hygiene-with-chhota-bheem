@@ -176,10 +176,10 @@ public class MenuUI : MonoBehaviour
 		
 	}
 	
-	public void OpenLevelSelect(int chapter=0)
+	public void OpenLevelSelect(int chapter=-1)
 	{
 
-		if(chapter > 0)
+		if(chapter > -1)
 			GameConfig.CurrentChapter = chapter;		
 		
 		Levels.SetActive(true);
@@ -262,8 +262,7 @@ public class MenuUI : MonoBehaviour
 		}
 		_interstitialScreen.sprite = _interstitialImages[_interstitialScreenCount];
 		
-		iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));;
-		
+		iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
 		InterstitialsParent.SetActive(true);
 		
 		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
