@@ -39,7 +39,7 @@ public class ArchetypeBoss : ArchetypeMove
 	private float _playerPos;
 	private float _playerHits;
 	private Vector3 _wizardPos;
-	private RawImage HealthFill;
+	private RectTransform HealthFill;
 	
 	public enum Movements
 	{
@@ -56,6 +56,7 @@ public class ArchetypeBoss : ArchetypeMove
 	}
 
 	private float _intervalTime;
+	private float _startingHpWidth;
 	private Vector3 _velocity;
 	private bool _wait = true;
 	private int _playerStrength;
@@ -68,12 +69,15 @@ public class ArchetypeBoss : ArchetypeMove
 		_parent = GameObject.FindWithTag("Parent");
 //		_playerStrength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
 		
-		HealthFill = transform.Find("HP/Fill").GetComponent<RawImage>();
-
+		HealthFill = transform.Find("HP").GetComponent<RectTransform>();
+		_startingHpWidth = HealthFill.sizeDelta.x;
 	}
 
 	// Update is called once per frame
 	private void Update () {
+		
+		// Sanity check
+		if(transform == null) return;
 		
 		base.Update();
 
@@ -160,13 +164,14 @@ public class ArchetypeBoss : ArchetypeMove
 
 		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
 
-		Vector2 v = HealthFill.rectTransform.sizeDelta;
+		Vector2 v = HealthFill.sizeDelta;
+		float amtHit = _startingHpWidth / (Health / _playerScript.Strength);
 		
-		v.x += _playerScript.Strength;
+		v.x -= amtHit;
 		_playerHits += _playerScript.Strength;
 		
 		// Adjust health bar and stop unless boss is dead
-		HealthFill.rectTransform.sizeDelta = v;
+		HealthFill.sizeDelta = v;
 		if(!(Health - _playerHits <= .1f)) return;
 
 		// Destroy Wizard
