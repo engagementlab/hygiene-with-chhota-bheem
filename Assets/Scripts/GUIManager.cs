@@ -117,11 +117,8 @@ public class GUIManager
 
 	public void EmptySpells()
 	{
-		
+
 		_bar = GameObject.FindGameObjectWithTag("SpellBar");
-				
-		var fill = _bar.GetComponent<RectTransform>();
-		fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);
 
 		_spellCount = 0;
 		

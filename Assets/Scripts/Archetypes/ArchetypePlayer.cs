@@ -225,8 +225,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 		_lifeLossRunning = true;
 		int times;
-
-		StartCoroutine(PlayerLifeLoss(killed));
 		
 		for (times = 0; times <= 3; times++)
 		{
