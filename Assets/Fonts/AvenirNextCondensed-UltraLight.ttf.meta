@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f2233f201b8fe40459989d3e52e3ddd3
+timeCreated: 1510699100
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Avenir Next Condensed
+  fontNames:
+  - Avenir Next Condensed
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

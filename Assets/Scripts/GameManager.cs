@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 				GameConfig.SlowMo = false;
 			}
 
-			if(noInput && _playerHasTouched)
+			if(noInput)
 			{
 				if(!_slowMo)
 					SlowMo();
