@@ -124,7 +124,7 @@ public class ArchetypeBoss : ArchetypeMove
 						break;
 						
 					case ShootModes.AtPlayer:
-						var heading = Player.transform.position - transform.position;
+						var heading = _player.transform.position - transform.position;
 						var distance = heading.magnitude;
 						dir = heading / distance;
 						
@@ -179,6 +179,7 @@ public class ArchetypeBoss : ArchetypeMove
 		StartCoroutine(DestroyWizard());
 
 		// You won the game
+		GameConfig.GameOver = true;
 		Events.instance.Raise(new ScoreEvent(pointsWorth));
 		Events.instance.Raise(new DeathEvent(true));
 
