@@ -269,7 +269,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		}
 		else
 		{
-			yield return new WaitForSeconds(0.1f);	
+			yield return new WaitForSeconds(.1f);	
 			Events.instance.Raise(new SpellEvent(SpellsType, false));
 		}
 	}
