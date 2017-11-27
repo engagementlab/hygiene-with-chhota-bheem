@@ -20,6 +20,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public int BubbleStrengthIncrease = 1;
 
 	public AudioClip[] BubbleSounds;
+	public AudioClip[] FightSounds;
 	public AudioClip GameEndSound;
 	public AudioClip ObstacleSound;
 

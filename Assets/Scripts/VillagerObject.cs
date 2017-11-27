@@ -15,7 +15,8 @@ public class VillagerObject : ArchetypeMove
 	// Rate for reducing particle cloud on hit
 	private float _rate;
 
-	private ParticleSystem _particles;
+	private Particles _particles;
+	private ParticleSystem _particleSystem;
 	private ParticleSystem.MainModule _main;
 
 	private bool _particleReady;
@@ -29,20 +30,23 @@ public class VillagerObject : ArchetypeMove
 		
 		SpawnSpellComponent();
 
-		if (gameObject.transform.position.x > 0)
-		{
-			_toPosition = new Vector3(gameObject.transform.position.x + 500, gameObject.transform.position.y - 100, 0);
-		}
-		else
-		{
-			_toPosition = new Vector3(gameObject.transform.position.x - 500, gameObject.transform.position.y - 100, 0);
+		var targetX = 500;
+		var targetY = -100;
 
+		if(gameObject.transform.position.x > 0)
+		{
+			targetX = -500;
+			targetY = 100;
 		}
+
+		_toPosition = new Vector3(gameObject.transform.position.x + targetX, gameObject.transform.position.y + targetY, 0);
 		
-		_particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-		GetComponent<Particles>().PlayParticles(false);
+		_particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+		if (_particleReady)
+			_particles.PlayParticles(false);
 		
 		var distance = Vector3.Distance(_toPosition, transform.position);
+		iTween.Stop(gameObject);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/_animSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "CompleteWalkOff"));
 
 	}
@@ -65,11 +69,13 @@ public class VillagerObject : ArchetypeMove
 		
 		_particleReady = GetComponent<Particles>() != null;
 
-		if (gameObject.GetComponent<ParticleSystem>() != null)
+		if (GetComponent<ParticleSystem>() != null)
 		{
-			_particles = gameObject.GetComponent<ParticleSystem>();
-			_main = _particles.main;
+			_particleSystem = GetComponent<ParticleSystem>();
+			_main = _particleSystem.main;
 		}
+		if(_particleReady)
+			_particles = GetComponent<Particles>();
 
 	}
 
@@ -82,8 +88,8 @@ public class VillagerObject : ArchetypeMove
 		_spriteFrames = Resources.LoadAll<Sprite>("Villagers/"+UnityEngine.Random.Range(1, 4));
 		_villagerRenderer.sprite = _spriteFrames[0];
 		
-		if (GetComponent<ParticleSystem>() != null && _particleReady)
-			_particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+		if (_particleSystem != null && _particleReady)
+			_particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 		
 	}
 
@@ -97,9 +103,9 @@ public class VillagerObject : ArchetypeMove
 
 		if (_particleReady)
 		{
-			if (_particles.isStopped)
+			if (_particleSystem.isStopped)
 			{
-				GetComponent<Particles>().PlayParticles(true);
+				_particles.PlayParticles(true);
 				SetParticleRate();
 			}
 		}
@@ -108,24 +114,22 @@ public class VillagerObject : ArchetypeMove
 
 	private void SetParticleRate()
 	{
-		_rate = (_main.startSize.constant - GetComponent<Particles>().Smallest) / HitPoints;
+		_rate = (_main.startSize.constant - _particles.Smallest) / HitPoints;
 	}
 
 	private void OnTriggerEnter(Collider collider) {
 		
-//		base.OnTriggerEnter(collider);
 		if (IsDestroyed)
 			return;
 		
 		if(collider.gameObject.tag != "Bubble") return;
 		
-		Destroy(collider.gameObject);
 		if(_bubblesHit < HitPoints-1)
 		{
 			_bubblesHit += _playerScript.Strength;
 			
 			if (_particleReady)
-				GetComponent<Particles>().ParticleReduce(_rate);
+				_particles.ParticleReduce(_rate);
 
 			if(_bubblesHit < _spriteFrames.Length)
 			{

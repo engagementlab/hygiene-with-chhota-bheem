@@ -533,7 +533,7 @@ public class ArchetypeMove : MonoBehaviour
 	internal void Animate()
 	{
 
-		if(!_hasWaypoints) return;
+		if(!_hasWaypoints || IsDestroyed) return;
 		if(GameConfig.GamePaused)
 		{
 			_queueAnimation = true;

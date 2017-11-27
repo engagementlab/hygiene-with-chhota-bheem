@@ -162,6 +162,7 @@ public class ArchetypeBoss : ArchetypeMove
 		if(collider.gameObject.tag != "Bubble") return;
 
 		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
+		Events.instance.Raise(SoundEvent.WithClip(_playerScript.FightSounds[Random.Range(0, _playerScript.FightSounds.Length-1)]));
 
 		Vector2 v = HealthFill.sizeDelta;
 		float amtHit = _startingHpWidth / (Health / _playerScript.Strength);
