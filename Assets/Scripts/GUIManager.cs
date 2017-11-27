@@ -16,6 +16,7 @@ public class GUIManager
 			return _instanceInternal;
 		}
 	}
+	public GameObject[] SpellBars;
 
 	private GameObject _gameEndScreen;
 	private Animator _gameEndAnim;
@@ -37,7 +38,6 @@ public class GUIManager
 	private int _stars;
 	private int _steps;
 
-	public GameObject[] SpellBars;
 	private GameObject _bar;
 	private float _spellSize;
 	private int _spellCount;
@@ -52,13 +52,13 @@ public class GUIManager
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
-//		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
-		
 		_gameEndScreen.SetActive(false);
 
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
-		_pauseAnimator = _pauseUi.GetComponent<Animator>();
 		_pauseUi.SetActive(false);
+		_pauseAnimator = _pauseUi.GetComponent<Animator>();
+//		_pauseAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
+		
 
 		_slowMoWrapper = GameObject.Find("GameUI/SlowMoWrap");
 		_slowMoWrapper.SetActive(false);

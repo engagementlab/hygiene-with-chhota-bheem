@@ -163,7 +163,6 @@ public class GameManager : MonoBehaviour
 	private void SlowMo()
 	{
 		if(GameConfig.GameOver) return;
-		
 		GUIManager.Instance.ShowSloMo();
 		GameConfig.SlowMo = true;
 		
@@ -187,9 +186,8 @@ public class GameManager : MonoBehaviour
 		
 		GUIManager.Instance.HideSloMo();	
 		GUIManager.Instance.ShowPause();
-		
+
 		_paused = true;
-		Time.timeScale = 1;
 	}
 
 	public IEnumerator UnPause()
@@ -202,8 +200,6 @@ public class GameManager : MonoBehaviour
 		
 		_paused = false;
 		GameConfig.GamePaused = false;
-		
-		Time.timeScale = .1f;
 	}
 
 }

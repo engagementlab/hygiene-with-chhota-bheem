@@ -77,7 +77,6 @@ public class ArchetypeBoss : ArchetypeMove
 	private void Update () {
 		
 		// Sanity check
-		if(transform == null) return;
 		
 		base.Update();
 
