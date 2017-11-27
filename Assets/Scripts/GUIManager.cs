@@ -16,6 +16,7 @@ public class GUIManager
 			return _instanceInternal;
 		}
 	}
+	public GameObject[] SpellBars;
 
 	private GameObject _gameEndScreen;
 	private Animator _gameEndAnim;
@@ -37,7 +38,6 @@ public class GUIManager
 	private int _stars;
 	private int _steps;
 
-	public GameObject[] SpellBars;
 	private GameObject _bar;
 	private float _spellSize;
 	private int _spellCount;
@@ -45,20 +45,18 @@ public class GUIManager
 	// Use this for initialization
 	public void Initialize ()
 	{ 
-		var playerObj = GameObject.Find("Player");
+		var playerObj = GameObject.FindGameObjectWithTag("Player");
 		if(playerObj != null)
 			_steps = playerObj.GetComponent<ArchetypePlayer>().SpellStepCount;
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
 		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
-//		_gameEndAnim = _gameEndScreen.GetComponent<Animator>();
-		
 		_gameEndScreen.SetActive(false);
 
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
-		_pauseAnimator = _pauseUi.GetComponent<Animator>();
 		_pauseUi.SetActive(false);
+		_pauseAnimator = _pauseUi.GetComponent<Animator>();
 
 		_slowMoWrapper = GameObject.Find("GameUI/SlowMoWrap");
 		_slowMoWrapper.SetActive(false);
@@ -117,11 +115,8 @@ public class GUIManager
 
 	public void EmptySpells()
 	{
-		
+
 		_bar = GameObject.FindGameObjectWithTag("SpellBar");
-				
-		var fill = _bar.GetComponent<RectTransform>();
-		fill.sizeDelta = new Vector2( fill.sizeDelta.x, 0);
 
 		_spellCount = 0;
 		
@@ -151,6 +146,7 @@ public class GUIManager
 	{
 		_pauseUi.SetActive(true);
 		_pauseAnimator.Play("ShowPause");
+		
 	}
 
 	public void HidePause()
@@ -161,6 +157,7 @@ public class GUIManager
 	public void ShowSloMo()
 	{
 		_slowMoWrapper.SetActive(true);
+
 	}
 
 	public void HideSloMo()

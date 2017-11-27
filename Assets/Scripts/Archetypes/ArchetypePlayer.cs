@@ -46,6 +46,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private bool _mouseDrag;
 	private bool _moveDelta;
 	private bool _scatterShootOn;
+	private bool _lifeLossRunning;
 		
 	private int _scatterShoot;
 	private int _speedShoot;
@@ -58,7 +59,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private List<float> dirs;
 
 	private Animator _playerAnimator;
-
+	private SpriteRenderer _sprite;
 	private Particles _particles;
 	private GameObject _glow;
 
@@ -83,8 +84,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		Strength = BubbleInitialStrength;
 
 		_playerAnimator = GetComponent<Animator>();
-
-		_particles = gameObject.GetComponent<Particles>();
+		_sprite = GetComponent<SpriteRenderer>();
+		_particles = GetComponent<Particles>();
 
 		_glow = transform.Find("Glow").gameObject;
 		_glow.SetActive(false);
@@ -94,18 +95,13 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void Update()
 	{
 
-		if (Killed)
+		if (Killed || GameConfig.GameOver)
 			return;
 		
 		if(GameConfig.SlowMo || GameConfig.GamePaused)
 		{
 			if(GameConfig.GamePaused)
-			{
 				_playerAnimator.speed = 0;
-//				_particles.ParticleSystem.Pause();
-			}
-			else
-//				_particles.ParticleSystem.Play();
 			
 			return;
 		}
@@ -222,6 +218,62 @@ public class ArchetypePlayer : MonoBehaviour {
 		CUSTOM METHODS
 	***************/
 
+	public IEnumerator PlayerHit(bool killed)
+	{
+		if(_lifeLossRunning)
+			yield return false;
+		
+		_lifeLossRunning = true;
+		int times;
+		
+//		StartCoroutine(PlayerLifeLoss(killed));
+		
+		for (times = 0; times < 4; times++)
+		{
+			_sprite.color = Color.red;
+
+			yield return new WaitForSeconds(0.1f);
+			_sprite.color = Color.clear;
+			 		
+			yield return new WaitForSeconds(0.1f);
+			_sprite.color = Color.white;
+
+			if(times == 3)
+			{
+				_lifeLossRunning = false;
+				StartCoroutine(PlayerLifeLoss(killed));
+			}
+
+		}
+				
+	}
+	
+	IEnumerator PlayerLifeLoss(bool die)
+	{
+
+		if (die)
+		{
+			
+			Killed = true;
+			GameConfig.GameOver = true;
+
+			if (transform.parent != null)
+				transform.parent.GetComponent<Animator>().Play("Die");
+
+			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
+
+			yield return new WaitForSeconds(.1f);
+
+			Events.instance.Raise(new DeathEvent(false));
+
+		}
+		else
+		{
+			yield return new WaitForSeconds(.1f);	
+			Events.instance.Raise(new SpellEvent(SpellsType, false));
+		}
+	}
+	
   	private void OnScoreEvent(ScoreEvent e) {
 
 		GameConfig.UpdateScore(e.scoreAmount);
@@ -387,7 +439,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		WonGame = e.wonGame;
 
 		gameObject.SetActive(false);
-		GameConfig.GameOver = true;
 		GameConfig.GameWon = WonGame;
 		
 		GUIManager.Instance.GameEnd(WonGame);

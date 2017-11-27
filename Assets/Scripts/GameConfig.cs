@@ -71,8 +71,6 @@ public class GameConfig : MonoBehaviour
 			PlayerPrefs.SetInt("music", 1);
 			MusicOn = true;
 		}
-		
-		Debug.Log(PlayerPrefs.HasKey("volume"));
 
 		if (PlayerPrefs.HasKey("volume"))
 		{
@@ -134,6 +132,9 @@ public class GameConfig : MonoBehaviour
 	public static int StarCount()
 	{
 		int _stars;
+
+		if (!GameWon)
+			return 0;
 		
 		if (VillagersSaved > Multiplier)
 			_stars = 3;

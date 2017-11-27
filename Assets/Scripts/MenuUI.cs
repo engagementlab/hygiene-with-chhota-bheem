@@ -49,13 +49,6 @@ public class MenuUI : MonoBehaviour
 	private GameObject _levelsTitle;
 	private Button[] _levelButtons;
 	
-	private GameObject _interstitialsBack;
-	private GameObject _interstitialsBackground;
-	private Image _interstitialScreen;
-	private int _interstitialScreenCount;
-
-	private Sprite[] _interstitialImages;
-	
 	private GameObject objToFadeOut;
 	private GameObject objToFadeIn;
 
@@ -176,10 +169,10 @@ public class MenuUI : MonoBehaviour
 		
 	}
 	
-	public void OpenLevelSelect(int chapter=0)
+	public void OpenLevelSelect(int chapter=-1)
 	{
 
-		if(chapter > 0)
+		if(chapter > -1)
 			GameConfig.CurrentChapter = chapter;		
 		
 		Levels.SetActive(true);
@@ -233,69 +226,6 @@ public class MenuUI : MonoBehaviour
 			iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
 		}
 
-	}
-	
-	public void OpenLevelInterstitial(int level)
-	{
-		
-		_levelsOpen = false;
-		_interstitialsOpen = true;
-		GameConfig.CurrentLevel = level;
-		
-		_interstitialsBackground = gameObject.transform.Find("Interstitials/Background").gameObject;
-		_interstitialScreen = _interstitialsBackground.transform.Find("Image").gameObject.GetComponent<Image>();
-		_interstitialScreenCount = 0;
-		
-		switch (level)
-		{
-			case 1:
-				_interstitialImages = Resources.LoadAll<Sprite>("ChapOneInterstitials");
-				break;
-				
-			case 2:
-				_interstitialImages = Resources.LoadAll<Sprite>("ChapTwoInterstitials");
-				break;
-				
-			case 3:
-				_interstitialImages = Resources.LoadAll<Sprite>("ChapThreeInterstitials");
-				break;
-		}
-		_interstitialScreen.sprite = _interstitialImages[_interstitialScreenCount];
-		
-		iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));;
-		
-		InterstitialsParent.SetActive(true);
-		
-		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
-		iTween.MoveFrom(InterstitialsParent, iTween.Hash("position", new Vector3(0, 970, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1));
-		
-	}
-
-	public void NextInterstitial()
-	{
-		_interstitialScreenCount++;
-		iTween.MoveTo(_interstitialsBackground, iTween.Hash("position", new Vector3(540, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "InterstitialSwap", "oncompletetarget", gameObject));
-	}
-
-	private void InterstitialSwap()
-	{
-		
-		_interstitialScreen.GetComponent<Image>().sprite = _interstitialImages[_interstitialScreenCount];
-
-		if (_interstitialScreenCount == 3) // Final screen 
-		{
-			// Show play button
-			InterstitialsParent.transform.Find("PlayButton").gameObject.SetActive(true);
-			InterstitialsParent.transform.Find("NextButton").gameObject.SetActive(false);
-		}
-
-		iTween.MoveTo(_interstitialsBackground, iTween.Hash("position", new Vector3(0, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
-		
-	}
-
-	public void PlayLevel()
-	{
-		UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/AlphaScenes/" + LevelToLoad.ToString());
 	}
 
 	public void CloseInterstitials()

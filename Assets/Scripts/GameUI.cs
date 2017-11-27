@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using DefaultNamespace;
+using UnityEngine;
 
 public class GameUI : MonoBehaviour
 {
 
+    public GameEndUI GameEnd;
+    public InterstitialUI Interstitials;
+    
     private Camera camera;
     private GameManager game;
 
@@ -35,14 +39,19 @@ public class GameUI : MonoBehaviour
         if(level == "next")
         {
             if(GameConfig.CurrentLevel == 0)
+            {
                 GameConfig.CurrentLevel = 1;
+                GameConfig.LoadLevel();
+            }
             else
             {
                 GameConfig.CurrentLevel = 0;
                 if(GameConfig.CurrentChapter < 2)
                     GameConfig.CurrentChapter++;
+
+                Interstitials.PreviousScreen = GameEnd.transform.Find("Wrapper").gameObject;
+                Interstitials.OpenLevelInterstitial(GameConfig.CurrentLevel);
             }
-            GameConfig.LoadLevel();
         }
         else if(!System.String.IsNullOrEmpty(level))
             UnityEngine.SceneManagement.SceneManager.LoadScene(level);
