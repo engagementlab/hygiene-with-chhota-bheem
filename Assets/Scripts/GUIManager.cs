@@ -57,8 +57,6 @@ public class GUIManager
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseUi.SetActive(false);
 		_pauseAnimator = _pauseUi.GetComponent<Animator>();
-//		_pauseAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
-		
 
 		_slowMoWrapper = GameObject.Find("GameUI/SlowMoWrap");
 		_slowMoWrapper.SetActive(false);

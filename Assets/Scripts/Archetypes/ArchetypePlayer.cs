@@ -226,7 +226,9 @@ public class ArchetypePlayer : MonoBehaviour {
 		_lifeLossRunning = true;
 		int times;
 		
-		for (times = 0; times <= 3; times++)
+//		StartCoroutine(PlayerLifeLoss(killed));
+		
+		for (times = 0; times < 4; times++)
 		{
 			_sprite.color = Color.red;
 
@@ -236,7 +238,7 @@ public class ArchetypePlayer : MonoBehaviour {
 			yield return new WaitForSeconds(0.1f);
 			_sprite.color = Color.white;
 
-			if(times++ >= 3)
+			if(times == 3)
 			{
 				_lifeLossRunning = false;
 				StartCoroutine(PlayerLifeLoss(killed));
@@ -260,7 +262,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
 
-			yield return new WaitForSeconds(1.5f);
+			yield return new WaitForSeconds(.1f);
 
 			Events.instance.Raise(new DeathEvent(false));
 
