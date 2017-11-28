@@ -15,7 +15,7 @@ public class AppManager : MonoBehaviour
 		StartCoroutine(LocationTest());
 		
 		GameConfig.InitializePrefs();
-		
+				
 	}
 
 	IEnumerator LocationTest()
@@ -74,7 +74,6 @@ public class AppManager : MonoBehaviour
 			UnityEngine.SceneManagement.SceneManager.LoadScene(level);
 		else 
 			UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
-    		
-
+    	
 	}
 }

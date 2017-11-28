@@ -9,15 +9,12 @@ public class GameManager : MonoBehaviour
 	[CanBeNull]
 	public GameObject VillagerPrefab;
 
-	private AudioSource _audio;
-
 	private float _deltaTime;
 	private bool _playerHasTouched;
 	private bool _touching = true;
 	private bool _paused;
 	private bool _slowMo;
 
-	private Dictionary<string, AudioClip> _loadedAudio;
 
 	private void Awake()
 	{
@@ -35,15 +32,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		_audio = GetComponent<AudioSource>();
-		if(_audio == null)
-			_audio = gameObject.AddComponent<AudioSource>();
 		
-		_loadedAudio = new Dictionary<string, AudioClip>();
-		
-		Events.instance.AddListener<SoundEvent> (OnSoundEvent);
-		// Start level music
-		OnSoundEvent(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
 		
 	}
 
@@ -117,48 +106,7 @@ public class GameManager : MonoBehaviour
 		if(archetypeMove != null) archetypeMove.IsInView = true;
 	}
 
-	private void OnSoundEvent(SoundEvent e)
-	{
-		GameObject audioPlayer = null;
-		
-		if(_audio == null) 
-			return;
-		
-		// If this is SFX and the sound is OFF, stop here
-		if (e.Type == SoundEvent.SoundType.SFX && !GameConfig.SoundOn)
-			return;
-		
-		// If this is Music and the music is OFF, stop here
-		if (e.Type == SoundEvent.SoundType.Music && !GameConfig.MusicOn)
-			return;
-		
-		// If pitch is altered, play sound on temp audiosource
-		if(e.SoundPitch != 1)
-		{
-			audioPlayer = new GameObject();
-			
-			audioPlayer.AddComponent<AudioSource>();
-			audioPlayer.GetComponent<AudioSource>().pitch = e.SoundPitch;
-		}
-
-		AudioSource player = audioPlayer == null ? _audio : audioPlayer.GetComponent<AudioSource>();
-		
-		if(e.SoundFileName != null)
-		{
-			// If sound name provided and clip not loaded, load into dictionary
-			if(!_loadedAudio.ContainsKey(e.SoundFileName))
-				_loadedAudio.Add(e.SoundFileName, Resources.Load<AudioClip>("Audio/" + e.Type + "/" + e.SoundFileName));
-
-			// Play loaded clip
-			player.PlayOneShot(_loadedAudio[e.SoundFileName], e.SoundVolume * GameConfig.GlobalVolume);
-		}
-		// Otherwise, play provided clip
-		else if(e.SoundClip != null) 
-			player.PlayOneShot(e.SoundClip, e.SoundVolume);
-		
-		if(audioPlayer != null)
-			Destroy(audioPlayer, e.SoundClip.length);
-	}
+	
 
 	private void SlowMo()
 	{
