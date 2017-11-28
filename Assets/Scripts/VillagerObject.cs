@@ -18,6 +18,7 @@ public class VillagerObject : ArchetypeMove
 	private Particles _particles;
 	private ParticleSystem _particleSystem;
 	private ParticleSystem.MainModule _main;
+	private ParticleSystem.EmissionModule _emission;
 
 	private bool _particleReady;
 	private int _animSpeed = 1;
@@ -26,6 +27,11 @@ public class VillagerObject : ArchetypeMove
 	
 	private IEnumerator RemoveVillager()
 	{
+				
+		_particleSystem.Clear();
+		_particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+		_emission.enabled = false;
+		
 		yield return new WaitForEndOfFrame();
 		
 		SpawnSpellComponent();
@@ -41,11 +47,8 @@ public class VillagerObject : ArchetypeMove
 
 		_toPosition = new Vector3(gameObject.transform.position.x + targetX, gameObject.transform.position.y + targetY, 0);
 		
-		_particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-		if (_particleReady)
-			_particles.PlayParticles(false);
-		
 		var distance = Vector3.Distance(_toPosition, transform.position);
+		
 		iTween.Stop(gameObject);
 		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/_animSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "CompleteWalkOff"));
 
@@ -73,7 +76,9 @@ public class VillagerObject : ArchetypeMove
 		{
 			_particleSystem = GetComponent<ParticleSystem>();
 			_main = _particleSystem.main;
+			_emission = _particleSystem.emission;
 		}
+		
 		if(_particleReady)
 			_particles = GetComponent<Particles>();
 
@@ -101,7 +106,7 @@ public class VillagerObject : ArchetypeMove
 		if(_mainCamera.WorldToViewportPoint(transform.position).y < -.5f)
 			Destroy(gameObject);
 
-		if (_particleReady)
+		if (_particleReady && !IsDestroyed)
 		{
 			if (_particleSystem.isStopped)
 			{
