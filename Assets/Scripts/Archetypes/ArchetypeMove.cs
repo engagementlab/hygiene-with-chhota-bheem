@@ -323,21 +323,19 @@ public class ArchetypeMove : MonoBehaviour
 		  if(GameConfig.GodMode) die = false;
 		  #endif
 		  
-		  Debug.Log(collider.GetComponent<ArchetypePlayer>().PoweredUp);
-		  
 		  // Die immediately if not powered up
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = true;
 			  _playerScript.Killed = killed;
-			  StartCoroutine(_playerScript.PlayerHit(true));
+			  _playerScript.BeginPlayerHit(true);
 		  }
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = false;
 
 			  _playerScript.Killed = killed;
-			  StartCoroutine(_playerScript.PlayerHit(false));
+			  _playerScript.BeginPlayerHit(false);
 			  Handheld.Vibrate();
 		  }
 		  // Obstacle does not kill
