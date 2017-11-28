@@ -219,7 +219,13 @@ public class ArchetypePlayer : MonoBehaviour {
 		CUSTOM METHODS
 	***************/
 
-	public IEnumerator PlayerHit(bool killed)
+	// Calls coroutine for player hit; allows caller to destroy immediately after 
+	public void BeginPlayerHit(bool killed)
+	{
+		StartCoroutine(PlayerHit(killed));
+	}
+
+	private IEnumerator PlayerHit(bool killed)
 	{
 		if(_lifeLossRunning)
 			yield return false;
@@ -249,7 +255,7 @@ public class ArchetypePlayer : MonoBehaviour {
 				
 	}
 	
-	IEnumerator PlayerLifeLoss(bool die)
+	private IEnumerator PlayerLifeLoss(bool die)
 	{
 
 		if (die)
