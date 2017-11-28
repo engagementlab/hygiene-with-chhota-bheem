@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.ComponentModel;
+using UnityEngine;
 
 public class Particles : MonoBehaviour
 { 
@@ -20,6 +21,7 @@ public class Particles : MonoBehaviour
 	
 	private ParticleSystem.ColorOverLifetimeModule _particleColor;
 	private ParticleSystem.EmissionModule _emission;
+	private ParticleSystem.EmitParams _emit;
 
 	private void Awake()
 	{
@@ -54,6 +56,8 @@ public class Particles : MonoBehaviour
 			Main.startSize = Largest;
 		
 		_emission.enabled = play;
+
+		_emit = new ParticleSystem.EmitParams();
 		
 		if (!play)
 			ParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -112,12 +116,16 @@ public class Particles : MonoBehaviour
 
 	public void ParticleReduce(float rate)
 	{
+		ParticleSystem.Clear();
+		
+		var size = Main.startSize.constant;
+		size = size - rate;
+		
 		if (Main.startSize.constant <= Smallest)
-			return;
-		
-		var size = Main.startSize;
-		size = Main.startSize.constant - rate;
-		
-		Main.startSize = size;
+			size = Smallest;
+
+		_emit.startSize = size;
+
+		ParticleSystem.Emit(_emit, 10);
 	}
 }
