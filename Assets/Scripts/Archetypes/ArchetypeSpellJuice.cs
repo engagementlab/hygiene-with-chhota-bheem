@@ -116,9 +116,13 @@ public class ArchetypeSpellJuice : MonoBehaviour
 		bool soundBool = Random.value > .5f;
 		Events.instance.Raise(new SoundEvent("spell_pickup_"+(soundBool?"1":"2"), SoundEvent.SoundType.SFX));
 				
-		// Update Spell Juice UI
+		// Update Spell Juice UI, and load in particles
 		var fill = spellObject;
-		GUIManager.Instance.AddSpellJuice(_type, fill);
+		var spellParticles = Instantiate(Resources.Load<GameObject>("SpellParticles"), transform.position, Quaternion.identity);
+		
+		// Destroy particles soon
+		Destroy(spellParticles, 3.1f);
+		GUIManager.Instance.AddSpellJuice(_type, fill, spellParticles);
 		
 		// Destroy this spell juice
 		Destroy(gameObject);

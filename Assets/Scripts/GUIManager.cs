@@ -90,18 +90,20 @@ public class GUIManager
 		_spellCount = 0;
 	}
 
-	public void AddSpellJuice(Spells type, GameObject fill)
+	public void AddSpellJuice(Spells type, GameObject fill, GameObject particlesObj)
 	{
 		var spellFill = fill.GetComponent<RectTransform>();
 
+		iTween.MoveTo(particlesObj, iTween.Hash("position", Camera.main.ScreenToWorldPoint(spellFill.transform.position), "time", 3, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+		
 		iTween.ValueTo(fill, iTween.Hash(
 				"from", spellFill.sizeDelta.y,
 				"to", spellFill.sizeDelta.y + _spellSize,
 				"time", 1,
+				"delay", 1,
 				"easetype", iTween.EaseType.easeOutSine,
 				"onupdate", "AdjustSpellLevel"));
-		// Maybe someday:
-		//		iTween.ShakeRotation(fill.transform.parent.gameObject, Vector3.one*10, 5);
+		iTween.PunchRotation(fill.transform.parent.gameObject, iTween.Hash("amount", Vector3.one*50, "time", 5, "delay", 1));
 		
 		_spellCount++;
 
