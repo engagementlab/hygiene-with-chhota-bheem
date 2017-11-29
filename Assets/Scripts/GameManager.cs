@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		
+		// Start level music
+		Events.instance.Raise(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
 		
 	}
 

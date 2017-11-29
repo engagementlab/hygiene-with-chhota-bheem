@@ -63,6 +63,8 @@ public class GameConfig : MonoBehaviour
 			PlayerPrefs.SetInt("sound", 1);
 			SoundOn = true;
 		}
+		
+		Debug.Log("Music: " + PlayerPrefs.GetInt("music"));
 
 		if (PlayerPrefs.HasKey("music"))
 			MusicOn = PlayerPrefs.GetInt("music") == 1;

@@ -14,9 +14,7 @@ public class MainMenu : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-
-//		Hashtable baseParams = iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic);
-
+		
 		iTween.ScaleFrom(SignObject.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInOutElastic));
 		iTween.RotateFrom(SignObject.gameObject, iTween.Hash("z", 190, "time", 2, "easetype", iTween.EaseType.easeOutElastic, "delay", .5f));
 		iTween.ScaleFrom(LogoObject.gameObject, iTween.Hash("scale", Vector3.zero, "time", 2, "easetype", iTween.EaseType.easeOutElastic, "delay", .7f));

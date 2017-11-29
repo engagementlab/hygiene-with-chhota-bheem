@@ -19,18 +19,11 @@ public class AudioControl : MonoBehaviour
         
         Setup();
     }
-    private void Start()
-    {
-        // Start level music
-        OnSoundEvent(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
-    }
-    
     
     private void Setup()
     {        
         _music = transform.Find("Music").GetComponent<AudioSource>();
         _sound = transform.Find("Sound").GetComponent<AudioSource>();
-		
         _loadedAudio = new Dictionary<string, AudioClip>();
 		
         Events.instance.AddListener<SoundEvent> (OnSoundEvent);
@@ -60,8 +53,8 @@ public class AudioControl : MonoBehaviour
             audioPlayer.GetComponent<AudioSource>().pitch = e.SoundPitch;
         }
 
-        AudioSource audio = e.Type == SoundEvent.SoundType.Music ? _music : _sound;
-
+        bool isMusic = e.Type == SoundEvent.SoundType.Music;
+        AudioSource audio = isMusic ? _music : _sound;
         AudioSource player = audioPlayer == null ? audio : audioPlayer.GetComponent<AudioSource>();
 		
         if(e.SoundFileName != null)

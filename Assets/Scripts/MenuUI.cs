@@ -94,6 +94,7 @@ public class MenuUI : MonoBehaviour
 		_soundToggle.isOn = PlayerPrefs.GetInt("sound") == 1;
 		_musicToggle.isOn = PlayerPrefs.GetInt("music") == 1;
 		_volumeSlider.value = PlayerPrefs.GetFloat("volume");
+		
 	}
 
 	public void CloseMainMenu(string uiToLoad)
@@ -247,14 +248,14 @@ public class MenuUI : MonoBehaviour
 
 	public void Sound()
 	{
-		GameConfig.SoundOn = !GameConfig.SoundOn;
+		GameConfig.SoundOn = _soundToggle.isOn;
 		GameConfig.UpdatePrefs("sound", GameConfig.SoundOn ? 1 : 0);
 		GameSound.mute = !GameConfig.SoundOn;
 	}
 
 	public void Music()
 	{
-		GameConfig.MusicOn = !GameConfig.MusicOn;
+		GameConfig.MusicOn = _musicToggle.isOn;
 		GameConfig.UpdatePrefs("music", GameConfig.MusicOn ? 1 : 0);
 		GameMusic.mute = !GameConfig.MusicOn;
 	}
