@@ -17,13 +17,10 @@ public class MenuUI : MonoBehaviour
 	public GameObject InterstitialsParent;
 	public GameObject[] Interstitials;
 	public GameObject[] InterstitialScreens;
-//	private List<Transform> _interstitialScreens;
  
 	public AudioClip MenuMusic;
-	private AudioSource _audio;
-
-	public Sprite ToggleOn;
-	public Sprite ToggleOff;
+	public AudioSource GameSound;
+	public AudioSource GameMusic;
 
 	public Levels LevelToLoad;
 
@@ -59,11 +56,10 @@ public class MenuUI : MonoBehaviour
 	
 
 	// Use this for initialization
-	void Start () {
-	
-		_audio = GetComponent<AudioSource>();
+	void Start ()
+	{
 		// Start menu music
-		_audio.PlayOneShot(MenuMusic);
+		GameMusic.PlayOneShot(MenuMusic);
 		
 		// Find settings objects, toggles and sliders
 		_settingsBoard = Settings.transform.Find("Board").gameObject;
@@ -245,18 +241,22 @@ public class MenuUI : MonoBehaviour
 		
 		GameConfig.GlobalVolume = volume;
 		GameConfig.UpdatePrefs("volume", null, volume);
+		GameSound.volume = volume;
+		GameMusic.volume = volume;
 	}
 
 	public void Sound()
 	{
 		GameConfig.SoundOn = !GameConfig.SoundOn;
 		GameConfig.UpdatePrefs("sound", GameConfig.SoundOn ? 1 : 0);
+		GameSound.mute = !GameConfig.SoundOn;
 	}
 
 	public void Music()
 	{
 		GameConfig.MusicOn = !GameConfig.MusicOn;
 		GameConfig.UpdatePrefs("music", GameConfig.MusicOn ? 1 : 0);
+		GameMusic.mute = !GameConfig.MusicOn;
 	}
 
 	public void ChangeLanguage()
