@@ -27,6 +27,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	public bool WonGame;
 	public bool Killed;
 
+	public float DieSpeed = 15f;
+
 	[HideInInspector] 
 	public int Strength;
 	[HideInInspector]
@@ -52,6 +54,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	private int _scatterShoot;
 	private int _speedShoot;
 	private int _bigShoot;
+	
+	private int _initialShootSpeed;
 
 	private Vector3 _velocity;
 	private Vector3 _bubbleScale;
@@ -219,6 +223,20 @@ public class ArchetypePlayer : MonoBehaviour {
 		CUSTOM METHODS
 	***************/
 
+	// For resetting at new level
+	public void ResetLevel()
+	{
+		// Reset Spell counts
+		_bigShoot = 0;
+		_speedShoot = 0;
+		_scatterShoot = 0;
+		
+		// Reset Shooting
+		GameConfig.NumBubblesInterval = 0.5f;
+		Strength = BubbleInitialStrength;
+		
+	}
+
 	// Calls coroutine for player hit; allows caller to destroy immediately after 
 	public void BeginPlayerHit(bool killed)
 	{
@@ -232,9 +250,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 		_lifeLossRunning = true;
 		int times;
-		
-//		StartCoroutine(PlayerLifeLoss(killed));
-		
+				
 		for (times = 0; times < 4; times++)
 		{
 			_sprite.color = Color.red;
@@ -260,16 +276,21 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		if (die)
 		{
-			
 			Killed = true;
 			GameConfig.GameOver = true;
 
 			if (transform.parent != null)
-				transform.parent.GetComponent<Animator>().Play("Die");
+			{
+				var toPosition = new Vector3(transform.position.x, transform.position.y - 500, 0);
+				var distance = Vector3.Distance(toPosition, transform.position);
+				
+				iTween.Stop(gameObject);
+				iTween.MoveTo(transform.parent.gameObject, iTween.Hash("position", toPosition, "time", distance/DieSpeed, "easetype", iTween.EaseType.linear));
+			}
 
 			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
 
-			yield return new WaitForSeconds(.1f);
+			yield return new WaitForSeconds(1f);
 
 			Events.instance.Raise(new DeathEvent(false));
 
@@ -348,11 +369,15 @@ public class ArchetypePlayer : MonoBehaviour {
 					{
 						_particles.ParticleControl(false, SpellsType);
 						PoweredUp = false;
+						GameConfig.NumBubblesInterval = .5f;
 					}
 					else
+					{
+						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
 						_speedShoot--;
+
+					}
 					
-					GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
 
 					break;
 				case Spells.ScatterShoot:
@@ -383,8 +408,6 @@ public class ArchetypePlayer : MonoBehaviour {
 						_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 						Strength -= BubbleStrengthIncrease;
 					}
-
-
 
 					break;
 			}
@@ -455,7 +478,9 @@ public class ArchetypePlayer : MonoBehaviour {
 			new Dictionary<string, object>
 			{{ "gameState", WonGame }, { "time", Time.timeSinceLevelLoad }}
 		);
-		
+
+		ResetLevel();
+
 	}
 	
   

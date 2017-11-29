@@ -7,7 +7,7 @@ public class GameConfig : MonoBehaviour
 {
 
 	public static float NumBubblesSpeedGained = .05f;
-  public static float NumBubblesInterval = .5f;
+  	public static float NumBubblesInterval = .5f;
   
 	public static bool GamePaused = true;
 	public static bool SlowMo;
@@ -43,8 +43,9 @@ public class GameConfig : MonoBehaviour
 
 	}
 	
-	public static void Reset() {
-    
+	public static void Reset()
+	{
+
 		NumBubblesInterval = .5f;
 		Score = 0;
 		GameOver = false;

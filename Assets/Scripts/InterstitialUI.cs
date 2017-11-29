@@ -13,6 +13,11 @@ public class InterstitialUI : MonoBehaviour
 	private int _interstitialScreenCount;
 
 	private Sprite[] _interstitialImages;
+
+	private Button _nextButton;
+	private Button _playButton;
+
+	private bool _animating;
 	
 	public void OpenLevelInterstitial(int level)
 	{
@@ -24,6 +29,9 @@ public class InterstitialUI : MonoBehaviour
 		_background = transform.Find("Background").gameObject;
 		_interstitialScreen = _background.transform.Find("Image").gameObject.GetComponent<Image>();
 		_interstitialScreenCount = 0;
+		
+		_nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
+		_playButton = transform.Find("PlayButton").gameObject.GetComponent<Button>();
 		
 		switch (GameConfig.CurrentChapter)
 		{
@@ -53,6 +61,11 @@ public class InterstitialUI : MonoBehaviour
 
 	public void NextInterstitial()
 	{
+		if (_animating || _interstitialScreenCount == _interstitialImages.Length - 1)
+			return;
+
+		_animating = true;
+		
 		_interstitialScreenCount++;
 		iTween.MoveTo(_background, iTween.Hash("position", new Vector3(540, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "InterstitialSwap", "oncompletetarget", gameObject));
 	}
@@ -62,15 +75,20 @@ public class InterstitialUI : MonoBehaviour
 		
 		_interstitialScreen.GetComponent<Image>().sprite = _interstitialImages[_interstitialScreenCount];
 
-		if (_interstitialScreenCount == 3) // Final screen 
+		if (_interstitialScreenCount == _interstitialImages.Length - 1) // Final screen 
 		{
 			// Show play button
-			transform.Find("PlayButton").gameObject.SetActive(true);
-			transform.Find("NextButton").gameObject.SetActive(false);
+			_playButton.gameObject.SetActive(true);
+			_nextButton.gameObject.SetActive(false);
 		}
 
-		iTween.MoveTo(_background, iTween.Hash("position", new Vector3(0, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
-		
+		iTween.MoveTo(_background, iTween.Hash("position", new Vector3(0, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "EndAnimation", "oncompletetarget", gameObject));
+
+	}
+
+	private void EndAnimation()
+	{
+		_animating = false;
 	}
 	
 }

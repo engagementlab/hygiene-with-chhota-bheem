@@ -184,10 +184,15 @@ public class GameEndUI : MonoBehaviour
         _totalVillagers = GameConfig.VillagersSaved;
         _villagers.text = "Villagers Saved: " + 0 + "/" + GameConfig.Multiplier;
 
-        if(win)
+        if (win)
+        {
             _gameOverImg.SetActive(false);
+        }
         else
+        {
             _superImg.SetActive(false);
+            _lowerButtons[3].gameObject.SetActive(false);
+        }
 
     }
 
