@@ -76,6 +76,8 @@ public class GUIManager
 		_spellActivatedBanner = _spellActivatedUi.transform.Find("BannerImage").gameObject;		
 		_spellActivatedUi.SetActive(false);
 		_spellCount = 0;
+
+		_score.text = GameConfig.Score + "";
 	}
 
 	public void NewSpell(GameObject spellBar)
@@ -119,7 +121,6 @@ public class GUIManager
 	{
 
 		_bar = GameObject.FindGameObjectWithTag("SpellBar");
-
 		_spellCount = 0;
 		
 		if (_bar != null)

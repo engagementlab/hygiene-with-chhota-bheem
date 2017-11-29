@@ -71,6 +71,8 @@ public class GameEndUI : MonoBehaviour
         if(_score == _totalScore)
         {
             _animateScore = false;
+            GameConfig.Score = (int)_totalScore;
+            
             CancelInvoke("SetScoreText");
             VillagerCount();
         }
