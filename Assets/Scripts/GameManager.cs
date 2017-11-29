@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 	private bool _paused;
 	private bool _slowMo;
 
+	private GameObject _player;
+
 
 	private void Awake()
 	{
@@ -35,7 +37,9 @@ public class GameManager : MonoBehaviour
 		
 		// Start level music
 		Events.instance.Raise(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
-		
+
+		_player = GameObject.FindWithTag("Player");
+
 	}
 
 	private void Update()
@@ -48,7 +52,7 @@ public class GameManager : MonoBehaviour
 			noInput = Input.touches.Length == 0;
 		#endif
 	
-		if(!GameConfig.GameOver)
+		if(!GameConfig.GameOver && !_player.GetComponent<ArchetypePlayer>().Killed)
 		{
 			// Pause only if player has already touched at some point, and not in slow-mo mode
 			if(!noInput && !_slowMo)

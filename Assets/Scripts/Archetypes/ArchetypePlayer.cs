@@ -27,6 +27,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	public bool WonGame;
 	public bool Killed;
 
+	public float DieSpeed = 15f;
+
 	[HideInInspector] 
 	public int Strength;
 	[HideInInspector]
@@ -274,16 +276,21 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		if (die)
 		{
-			
 			Killed = true;
 			GameConfig.GameOver = true;
 
 			if (transform.parent != null)
-				transform.parent.GetComponent<Animator>().Play("Die");
+			{
+				var toPosition = new Vector3(transform.position.x, transform.position.y - 500, 0);
+				var distance = Vector3.Distance(toPosition, transform.position);
+				
+				iTween.Stop(gameObject);
+				iTween.MoveTo(transform.parent.gameObject, iTween.Hash("position", toPosition, "time", distance/DieSpeed, "easetype", iTween.EaseType.linear));
+			}
 
 			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
 
-			yield return new WaitForSeconds(.1f);
+			yield return new WaitForSeconds(1f);
 
 			Events.instance.Raise(new DeathEvent(false));
 
