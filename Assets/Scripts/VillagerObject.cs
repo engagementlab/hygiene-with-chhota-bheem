@@ -126,7 +126,7 @@ public class VillagerObject : ArchetypeMove
 	}
 
 	private void OnTriggerEnter(Collider collider) {
-		
+		Debug.Log("hit:" + collider.name);
 		if (IsDestroyed)
 			return;
 		
@@ -134,6 +134,7 @@ public class VillagerObject : ArchetypeMove
 		
 		if(_bubblesHit < HitPoints-1)
 		{
+			Debug.Log("hit by bubble");
 			_bubblesHit += _playerScript.Strength;
 			
 			if (_particleReady)
