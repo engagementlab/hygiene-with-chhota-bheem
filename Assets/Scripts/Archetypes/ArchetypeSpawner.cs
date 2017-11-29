@@ -69,6 +69,7 @@ public class ArchetypeSpawner : MonoBehaviour
 				if(prefab.Prefab == null) continue;
 				if (prefab.Prefab.tag == "Villager")
 				{
+					
 					if (SpawnRepeatCount > 0)
 						GameConfig.Multiplier += SpawnRepeatCount;
 					else
@@ -176,6 +177,11 @@ public class ArchetypeSpawner : MonoBehaviour
 		var spawnPos = SpawnedObjects[_prefabIndex].UseSpawnerParent ? transform.localPosition : transform.position;
 
 		_spawnObject = Instantiate(SpawnedObjects[_prefabIndex].Prefab, spawnPos, SpawnedObjects[_prefabIndex].Prefab.transform.rotation);
+		
+		// Check if villager, then tell the VillagerObject script that this villager was spawned
+		if (_spawnObject.gameObject.tag == "Villager")
+			_spawnObject.GetComponent<VillagerObject>().Spawned = true;
+		
 		_spawnObject.SetActive(true);
 
 		// Destroy once well past camera bounds
