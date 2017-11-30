@@ -68,6 +68,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private Particles _particles;
 	private GameObject _glow;
 
+	private PowerUpUnderlay _underlay;
 	/**************
 		UNITY METHODS
 	***************/
@@ -92,9 +93,13 @@ public class ArchetypePlayer : MonoBehaviour {
 		_sprite = GetComponent<SpriteRenderer>();
 		_particles = GetComponent<Particles>();
 
-		_glow = transform.Find("Glow").gameObject;
-		_glow.SetActive(false);
-
+//		_glow = transform.Find("Glow").gameObject;
+//		_glow.SetActive(false);
+		
+		_underlay = Instantiate(Resources.Load<PowerUpUnderlay>("PowerUpUnderlay"), Vector3.zero, Quaternion.identity);
+		_underlay.transform.parent = transform;
+		_underlay.GetComponent<RectTransform>().position = Vector3.zero;
+		_underlay.transform.localScale = new Vector3(1.428571f, 1.428571f, 1.428571f);
 	}
 
 	private void Update()
@@ -317,14 +322,19 @@ public class ArchetypePlayer : MonoBehaviour {
 			// Spell ON
 			SpellComplete(SpellsType);
 
+
 			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:
 					// Speed up bubble rate
-					
-					if (_speedShoot <= 0)
+
+					if(_speedShoot <= 0)
+					{
 						PoweredUp = true;
-					
+						_underlay.Setup(Spells.SpeedShoot);
+					}
+					_underlay.Add();
+
 					GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
 					_speedShoot++;
 					
@@ -336,7 +346,9 @@ public class ArchetypePlayer : MonoBehaviour {
 					{
 						_scatterShootOn = true;
 						PoweredUp = true;
+						_underlay.Setup(Spells.ScatterShoot);
 					}
+					_underlay.Add();
 					
 					_scatterShoot++;
 					
@@ -345,10 +357,12 @@ public class ArchetypePlayer : MonoBehaviour {
 				case Spells.BigShoot:
 
 					// Make those bubbles bigger
-					if (_bigShoot <= 0)
+					if(_bigShoot <= 0)
 					{
 						PoweredUp = true;
+						_underlay.Setup(Spells.BigShoot);
 					}
+					_underlay.Add();
 					
 					_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 					Strength += BubbleStrengthIncrease;
@@ -375,9 +389,7 @@ public class ArchetypePlayer : MonoBehaviour {
 					{
 						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
 						_speedShoot--;
-
 					}
-					
 
 					break;
 				case Spells.ScatterShoot:
@@ -411,6 +423,8 @@ public class ArchetypePlayer : MonoBehaviour {
 
 					break;
 			}
+			
+			_underlay.Subtract();
 		}
 		
 	}
@@ -430,7 +444,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		GameConfig.GameSpeedModifier = 15;
 		
 		// Send Particles
-		GlowControl(true, SpellsType);
+//		GlowControl(true, SpellsType);
 
 	}
 
