@@ -98,8 +98,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 		_underlay = Instantiate(Resources.Load<PowerUpUnderlay>("PowerUpUnderlay"), Vector3.zero, Quaternion.identity);
 		_underlay.transform.parent = transform;
-		_underlay.GetComponent<RectTransform>().position = Vector3.zero;
-		_underlay.transform.localScale = new Vector3(1.428571f, 1.428571f, 1.428571f);
+		_underlay.transform.localPosition = Vector3.zero;
 	}
 
 	private void Update()
