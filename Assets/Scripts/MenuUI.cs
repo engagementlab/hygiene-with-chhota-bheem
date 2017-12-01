@@ -102,6 +102,8 @@ public class MenuUI : MonoBehaviour
 		_volumeSlider.value = PlayerPrefs.GetFloat("volume");
 
 		_buttonsDisabled = false;
+		
+		
 
 	}
 

@@ -64,8 +64,11 @@ public class AppManager : MonoBehaviour
         Input.location.Stop();
     }
 
-	public void LoadLevel(string level) {
+	public void LoadLevel(string level)
+	{
 
+		iTween.Stop();
+		
 		if (level == "next")
 		{
 			var next = Application.loadedLevel + 1;
