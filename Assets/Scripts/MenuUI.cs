@@ -53,7 +53,9 @@ public class MenuUI : MonoBehaviour
 	private bool _interstitialsOpen;
 	private int _selectedChapter;
 	private int _selectedLevel;
-	
+
+	private bool _animating;
+	private bool _buttonsDisabled;
 
 	// Use this for initialization
 	void Start ()
@@ -94,7 +96,39 @@ public class MenuUI : MonoBehaviour
 		_soundToggle.isOn = PlayerPrefs.GetInt("sound") == 1;
 		_musicToggle.isOn = PlayerPrefs.GetInt("music") == 1;
 		_volumeSlider.value = PlayerPrefs.GetFloat("volume");
-		
+
+		_buttonsDisabled = false;
+
+	}
+
+	public void Update()
+	{
+		if (_animating && !_buttonsDisabled)
+		{
+			foreach (Button button in _levelButtons)
+			{
+				button.interactable = false;
+			}
+
+			_chaptersBack.GetComponent<Button>().interactable = false;
+			_infoBack.GetComponent<Button>().interactable = false;
+			_settingsBack.GetComponent<Button>().interactable = false;
+
+			_buttonsDisabled = true;
+		}
+		else if (!_animating && _buttonsDisabled)
+		{
+			foreach (Button button in _levelButtons)
+			{
+				button.interactable = true;
+			}
+
+			_chaptersBack.GetComponent<Button>().interactable = true;
+			_infoBack.GetComponent<Button>().interactable = true;
+			_settingsBack.GetComponent<Button>().interactable = true;
+			
+			_buttonsDisabled = false;
+		}
 	}
 
 	public void CloseMainMenu(string uiToLoad)
@@ -157,7 +191,7 @@ public class MenuUI : MonoBehaviour
 		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -50, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
 		iTween.PunchRotation(_chapterButtons[0], iTween.Hash("z", 90, "time", 1.5f, "delay", 1.1f));
 		iTween.PunchRotation(_chapterButtons[1], iTween.Hash("z", -90, "time", 1.5f, "delay", 1.15f));
-		iTween.PunchRotation(_chapterButtons[2], iTween.Hash("z", 90, "time", 1.5f, "delay", 1.2f));
+		iTween.PunchRotation(_chapterButtons[2], iTween.Hash("z", 90, "time", 1.5f, "delay", 1.2f, "oncomplete", "DoneAnimating", "oncompletetarget", gameObject));
 		
 		if(!_levelsOpen)
 			iTween.ScaleFrom(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.2f));
@@ -168,6 +202,11 @@ public class MenuUI : MonoBehaviour
 	
 	public void OpenLevelSelect(int chapter=-1)
 	{
+
+		if (_animating)
+			return;
+
+		_animating = true;
 
 		if(chapter > -1)
 			GameConfig.CurrentChapter = chapter;		
@@ -192,7 +231,7 @@ public class MenuUI : MonoBehaviour
 		iTween.MoveFrom(_levelButtons[0].gameObject, iTween.Hash("position", new Vector3(0, 850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", levelsDelay));
 		iTween.MoveFrom(_levelButtons[1].gameObject, iTween.Hash("position", new Vector3(0, 850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", levelsDelay + .4f));
 		iTween.PunchRotation(_levelButtons[0].gameObject, iTween.Hash("z", 90, "time", 1.5f, "delay", levelsDelay));
-		iTween.PunchRotation(_levelButtons[1].gameObject, iTween.Hash("z", -90, "time", 1.5f, "delay", levelsDelay + .4f));
+		iTween.PunchRotation(_levelButtons[1].gameObject, iTween.Hash("z", -90, "time", 1.5f, "delay", levelsDelay + .4f, "oncomplete", "DoneAnimating", "oncompletetarget", gameObject));
 		
 		if(_interstitialsOpen)
 			iTween.ScaleFrom(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.2f));
@@ -214,13 +253,18 @@ public class MenuUI : MonoBehaviour
 
 	public void ChaptersGoBack()
 	{
+
+		if (_animating)
+			return;
+
+		_animating = true;
 		
 		if(_levelsOpen)
 			iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "OpenChapters", "oncompletetarget", gameObject));
 		else
 		{
 			iTween.MoveTo(ChaptersParent, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
-			iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
+			iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f, "oncomplete", "DoneAnimating", "oncompletetarget", gameObject));
 		}
 
 	}
@@ -283,6 +327,11 @@ public class MenuUI : MonoBehaviour
 	private void FadeTextIn(float alpha)
 	{
 		objToFadeIn.GetComponent<CanvasRenderer>().SetAlpha(alpha);
+	}
+
+	private void DoneAnimating()
+	{
+		_animating = false;
 	}
 	
 }
