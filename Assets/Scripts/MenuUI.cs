@@ -44,11 +44,14 @@ public class MenuUI : MonoBehaviour
 	private GameObject[] _chapterButtons;
 
 	private GameObject _levelsTitle;
+	private Image[] _levelsChapterTitles;
 	private Button[] _levelButtons;
+
+	private GameObject _interstitialsBack;
 	
 	private GameObject objToFadeOut;
 	private GameObject objToFadeIn;
-
+	
 	private bool _levelsOpen;
 	private bool _interstitialsOpen;
 	private int _selectedChapter;
@@ -89,8 +92,9 @@ public class MenuUI : MonoBehaviour
 		
 		// Find levels objects
 		_levelsTitle = Levels.transform.Find("Header").gameObject;
+		_levelsChapterTitles = _levelsTitle.GetComponentsInChildren<Image>(true);
 		_levelButtons = Levels.transform.Find("Select").GetComponentsInChildren<Button>();
-//		_interstitialsBack = InterstitialsParent.transform.Find("Buttons/Back").gameObject;
+		_interstitialsBack = InterstitialsParent.transform.Find("BackButton").gameObject;
 		
 		// Set toggles and sliders to player pref settings
 		_soundToggle.isOn = PlayerPrefs.GetInt("sound") == 1;
@@ -113,6 +117,7 @@ public class MenuUI : MonoBehaviour
 			_chaptersBack.GetComponent<Button>().interactable = false;
 			_infoBack.GetComponent<Button>().interactable = false;
 			_settingsBack.GetComponent<Button>().interactable = false;
+			_interstitialsBack.GetComponent<Button>().interactable = false;
 
 			_buttonsDisabled = true;
 		}
@@ -126,7 +131,8 @@ public class MenuUI : MonoBehaviour
 			_chaptersBack.GetComponent<Button>().interactable = true;
 			_infoBack.GetComponent<Button>().interactable = true;
 			_settingsBack.GetComponent<Button>().interactable = true;
-			
+			_interstitialsBack.GetComponent<Button>().interactable = true;
+
 			_buttonsDisabled = false;
 		}
 	}
@@ -208,8 +214,19 @@ public class MenuUI : MonoBehaviour
 
 		_animating = true;
 
-		if(chapter > -1)
-			GameConfig.CurrentChapter = chapter;		
+		if (chapter > -1)
+		{
+			GameConfig.CurrentChapter = chapter;
+
+			for ( int i = 0; i < _levelsChapterTitles.Length; i++ )
+			{
+				if (i == chapter)
+					_levelsChapterTitles[i].gameObject.SetActive(true);
+				else 
+					_levelsChapterTitles[i].gameObject.SetActive(false);
+			}
+		}
+
 		
 		Levels.SetActive(true);
 		_levelsTitle.SetActive(true);
@@ -232,9 +249,12 @@ public class MenuUI : MonoBehaviour
 		iTween.MoveFrom(_levelButtons[1].gameObject, iTween.Hash("position", new Vector3(0, 850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", levelsDelay + .4f));
 		iTween.PunchRotation(_levelButtons[0].gameObject, iTween.Hash("z", 90, "time", 1.5f, "delay", levelsDelay));
 		iTween.PunchRotation(_levelButtons[1].gameObject, iTween.Hash("z", -90, "time", 1.5f, "delay", levelsDelay + .4f, "oncomplete", "DoneAnimating", "oncompletetarget", gameObject));
-		
-		if(_interstitialsOpen)
-			iTween.ScaleFrom(_chaptersBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.2f));
+
+		if (_interstitialsOpen)
+		{
+			_chaptersBack.GetComponent<Transform>().localScale = Vector3.zero;
+			iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.2f));
+		}
 
 		_interstitialsOpen = false;
 		_levelsOpen = true;
@@ -242,6 +262,7 @@ public class MenuUI : MonoBehaviour
 
 	void OpenSelectedChapter()
 	{
+		_interstitialsOpen = true;
 		OpenLevelSelect(_selectedLevel);
 	}
 
