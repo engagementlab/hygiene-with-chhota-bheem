@@ -153,6 +153,8 @@ public class GameConfig : MonoBehaviour
 
 	public static void LoadLevel()
 	{
+		iTween.Stop();
+
 		var baseName = "Level";
 		switch(CurrentChapter)
 		{

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Unity.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class AudioControl : MonoBehaviour
 {
@@ -27,6 +29,11 @@ public class AudioControl : MonoBehaviour
         _loadedAudio = new Dictionary<string, AudioClip>();
 		
         Events.instance.AddListener<SoundEvent> (OnSoundEvent);
+    }
+
+    void OnSceneLoaded()
+    {
+        _music.Stop();
     }
 
     private void OnSoundEvent(SoundEvent e)
