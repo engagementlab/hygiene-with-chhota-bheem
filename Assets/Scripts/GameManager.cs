@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
 		GameConfig.InitializePrefs();
 		GameConfig.GameOver = false;
+		GameConfig.Reset();
 
 		Instantiate(Resources.Load("EventSystem"));
 		
