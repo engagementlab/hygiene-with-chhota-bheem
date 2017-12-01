@@ -10,7 +10,7 @@ public class PowerUpUnderlay : MonoBehaviour
 	public GameObject RedSpellParent;
 	public GameObject YellowSpellParent;
 
-	private Transform[] _underlayRings;
+	private SpriteRenderer[] _underlayRings;
 	private int _ringIndex = -1;
 
 	// Use this for initialization
@@ -39,7 +39,7 @@ public class PowerUpUnderlay : MonoBehaviour
 		
 		activeParent.SetActive(true);
 		
-		_underlayRings = activeParent.GetComponentsInChildren<Transform>().Skip(1).ToArray();
+		_underlayRings = activeParent.GetComponentsInChildren<SpriteRenderer>().ToArray();
 		
 		foreach(var ring in _underlayRings)
 			ring.gameObject.SetActive(false);
