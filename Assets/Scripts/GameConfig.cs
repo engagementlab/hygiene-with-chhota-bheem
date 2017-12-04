@@ -16,7 +16,7 @@ public class GameConfig : MonoBehaviour
 
 	public static int CurrentLevel;
 	public static int CurrentChapter;
-	
+
 	[Range(0f, 1f)]
 	public static float GlobalVolume;
 
@@ -24,7 +24,7 @@ public class GameConfig : MonoBehaviour
 	public static bool MusicOn;
   
 	public static float GameSpeedModifier = 15;
-	public static float BubbleOffset = 1;
+	public static float BubbleOffset = 1.5f;
 
 	public static int CurrentLanguage;
 	public static int Score;
