@@ -24,7 +24,7 @@ public class GameConfig : MonoBehaviour
 	public static bool MusicOn;
   
 	public static float GameSpeedModifier = 15;
-	public static float BubbleOffset = 2;
+	public static float BubbleOffset = 1;
 
 	public static int CurrentLanguage;
 	public static int Score;
@@ -153,6 +153,8 @@ public class GameConfig : MonoBehaviour
 
 	public static void LoadLevel()
 	{
+		iTween.Stop();
+
 		var baseName = "Level";
 		switch(CurrentChapter)
 		{

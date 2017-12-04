@@ -367,7 +367,7 @@ public class ArchetypePlayer : MonoBehaviour {
 					Strength += BubbleStrengthIncrease;
 					
 					_bigShoot++;
-					
+										
 					break;
 			}
 		}
@@ -378,11 +378,12 @@ public class ArchetypePlayer : MonoBehaviour {
 			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:
-					if (_speedShoot <= 0)
+					if (_speedShoot <= 1)
 					{
 						_particles.ParticleControl(false, SpellsType);
 						PoweredUp = false;
 						GameConfig.NumBubblesInterval = .5f;
+						_speedShoot = 0;
 					}
 					else
 					{
@@ -393,11 +394,12 @@ public class ArchetypePlayer : MonoBehaviour {
 					break;
 				case Spells.ScatterShoot:
 
-					if (_scatterShoot <= 0)
+					if (_scatterShoot <= 1)
 					{
 						_scatterShootOn = false;
 						PoweredUp = false;
 						_particles.ParticleControl(false, SpellsType);
+						_scatterShoot = 0;
 					}
 					else
 						_scatterShoot--;
@@ -406,12 +408,13 @@ public class ArchetypePlayer : MonoBehaviour {
 					
 				case Spells.BigShoot:
 
-					if (_bigShoot <= 0)
+					if (_bigShoot <= 1)
 					{
 						PoweredUp = false;
 						_particles.ParticleControl(false, SpellsType);
 						_bubbleScale = _bubbleDefault;
 						Strength = BubbleInitialStrength;
+						_bigShoot = 0;
 					}
 					else
 					{
@@ -419,7 +422,7 @@ public class ArchetypePlayer : MonoBehaviour {
 						_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 						Strength -= BubbleStrengthIncrease;
 					}
-
+					
 					break;
 			}
 			
