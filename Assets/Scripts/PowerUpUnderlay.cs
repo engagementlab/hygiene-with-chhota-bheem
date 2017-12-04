@@ -52,10 +52,13 @@ public class PowerUpUnderlay : MonoBehaviour
 		if(_ringIndex < 4)
 		{
 			_ringIndex++;
-			_underlayRings[_ringIndex].gameObject.SetActive(true);
+			SpriteRenderer ring = _underlayRings[_ringIndex];
+			ring.transform.localScale = Vector3.zero;
+			ring.gameObject.SetActive(true);
+			
 			int rotAmount = _ringIndex % 2 == 0 ? 2 : -2;
-			iTween.ScaleFrom(_underlayRings[_ringIndex].gameObject, iTween.Hash("scale", Vector3.zero, "time", 4.4f, "easetype", iTween.EaseType.easeOutElastic));
-			iTween.RotateBy(_underlayRings[_ringIndex].gameObject, iTween.Hash("z", rotAmount, "time", 50, "easetype", iTween.EaseType.linear, "looptype", iTween.LoopType.loop));
+			iTween.ScaleTo(ring.gameObject, iTween.Hash("name", "scale"+_ringIndex, "scale", Vector3.one * 1.42f, "time", 2, "easetype", iTween.EaseType.easeOutElastic));
+			iTween.RotateBy(ring.gameObject, iTween.Hash("z", rotAmount, "time", 50, "easetype", iTween.EaseType.linear, "looptype", iTween.LoopType.loop));
 
 		}
 	}
@@ -63,10 +66,14 @@ public class PowerUpUnderlay : MonoBehaviour
 	public void Subtract()
 	{
 		
-		if(_ringIndex > -1)
+		if(_ringIndex >= 0)
 		{
-			iTween.ScaleTo(_underlayRings[_ringIndex].gameObject, iTween.Hash("scale", Vector3.zero, "time", 3.4f, "easetype", iTween.EaseType.easeInElastic));
-			_ringIndex--;
+//			iTween.StopByName("scale"+_ringIndex);
+			iTween.Stop(_underlayRings[_ringIndex].gameObject);
+			iTween.ScaleTo(_underlayRings[_ringIndex].gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
+			
+//			if(_ringIndex > 1)
+				_ringIndex--;
 		}
 	}
 	

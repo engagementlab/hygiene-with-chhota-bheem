@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.VR.WSA.Persistence;
 
 public class ArchetypePlayer : MonoBehaviour {
 
@@ -15,9 +16,9 @@ public class ArchetypePlayer : MonoBehaviour {
 	public GameObject Bubble;
 
 	public int BubbleInitialStrength = 1;
+	public int BubbleStrengthIncrease = 1;
 	public float BubbleSpeedIncrease = 2f;
 	public float BubbleSizeIncrease = 0.1f;
-	public int BubbleStrengthIncrease = 1;
 
 	public AudioClip[] BubbleSounds;
 	public AudioClip[] FightSounds;
@@ -32,9 +33,12 @@ public class ArchetypePlayer : MonoBehaviour {
 	[HideInInspector] 
 	public int Strength;
 	[HideInInspector]
-	public bool PoweredUp;
-	[HideInInspector]
 	public Spells SpellsType;
+
+	public bool PoweredUp
+	{
+		get { return _powerUpState > 0; }
+	}
 
 	private GameObject _lastBubble;
 	private Camera _mainCamera;
@@ -54,6 +58,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private int _scatterShoot;
 	private int _speedShoot;
 	private int _bigShoot;
+	private int _powerUpState;
 	
 	private int _initialShootSpeed;
 
@@ -61,7 +66,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private Vector3 _bubbleScale;
 	private Vector3 _bubbleDefault;
 	private SphereCollider _collider;
-	private List<float> dirs;
+	private List<float> _dirs;
 
 	private Animator _playerAnimator;
 	private SpriteRenderer _sprite;
@@ -69,6 +74,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private GameObject _glow;
 
 	private PowerUpUnderlay _underlay;
+	
 	/**************
 		UNITY METHODS
 	***************/
@@ -146,14 +152,14 @@ public class ArchetypePlayer : MonoBehaviour {
 			} 
 			else
 			{
-				dirs = new List<float>();
+				_dirs = new List<float>();
 				// Spawn n bubbles in different directions for scatter shot
 				ScatterDirs(_scatterShoot);
 				int bubbleCount = (_scatterShoot * 2) + 1;
 				for(int bubIndex = 0; bubIndex < bubbleCount; bubIndex++)
 				{
 					var projectile = Instantiate(Bubble, projectilePos, Quaternion.identity);
-					projectile.GetComponent<ArchetypeProjectile>().Initialize(_bubbleScale, new Vector2(dirs[bubIndex], 1).normalized * BubbleSpeed);
+					projectile.GetComponent<ArchetypeProjectile>().Initialize(_bubbleScale, new Vector2(_dirs[bubIndex], 1).normalized * BubbleSpeed);
 				}	
 
 			}
@@ -189,7 +195,7 @@ public class ArchetypePlayer : MonoBehaviour {
 			{
 				a = -a;
 			} 
-			dirs.Add(a);
+			_dirs.Add(a);
 			
 		}
 		
@@ -249,6 +255,9 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private IEnumerator PlayerHit(bool killed)
 	{
+		if(!killed)
+			_underlay.Subtract();
+
 		if(_lifeLossRunning)
 			yield return false;
 		
@@ -267,8 +276,8 @@ public class ArchetypePlayer : MonoBehaviour {
 
 			if(times == 3)
 			{
-				_lifeLossRunning = false;
 				StartCoroutine(PlayerLifeLoss(killed));
+				_lifeLossRunning = false;
 			}
 
 		}
@@ -301,12 +310,12 @@ public class ArchetypePlayer : MonoBehaviour {
 		}
 		else
 		{
+			OnSpellEvent(new SpellEvent(SpellsType, false));
 			yield return new WaitForSeconds(.1f);	
-			Events.instance.Raise(new SpellEvent(SpellsType, false));
 		}
 	}
 	
-  	private void OnScoreEvent(ScoreEvent e) {
+  private void OnScoreEvent(ScoreEvent e) {
 
 		GameConfig.UpdateScore(e.scoreAmount);
 
@@ -321,19 +330,17 @@ public class ArchetypePlayer : MonoBehaviour {
 			// Spell ON
 			SpellComplete(SpellsType);
 
-
 			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:
 					// Speed up bubble rate
 
 					if(_speedShoot <= 0)
-					{
-						PoweredUp = true;
 						_underlay.Setup(Spells.SpeedShoot);
-					}
+					
 					_underlay.Add();
 
+					_powerUpState++;
 					GameConfig.NumBubblesInterval /= BubbleSpeedIncrease;
 					_speedShoot++;
 					
@@ -344,11 +351,11 @@ public class ArchetypePlayer : MonoBehaviour {
 					if (_scatterShoot <= 0)
 					{
 						_scatterShootOn = true;
-						PoweredUp = true;
 						_underlay.Setup(Spells.ScatterShoot);
 					}
 					_underlay.Add();
 					
+					_powerUpState++;
 					_scatterShoot++;
 					
 					break;
@@ -357,15 +364,14 @@ public class ArchetypePlayer : MonoBehaviour {
 
 					// Make those bubbles bigger
 					if(_bigShoot <= 0)
-					{
-						PoweredUp = true;
 						_underlay.Setup(Spells.BigShoot);
-					}
+					
 					_underlay.Add();
 					
 					_bubbleScale += new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 					Strength += BubbleStrengthIncrease;
 					
+					_powerUpState++;
 					_bigShoot++;
 										
 					break;
@@ -380,8 +386,6 @@ public class ArchetypePlayer : MonoBehaviour {
 				case Spells.SpeedShoot:
 					if (_speedShoot <= 1)
 					{
-						_particles.ParticleControl(false, SpellsType);
-						PoweredUp = false;
 						GameConfig.NumBubblesInterval = .5f;
 						_speedShoot = 0;
 					}
@@ -390,6 +394,8 @@ public class ArchetypePlayer : MonoBehaviour {
 						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
 						_speedShoot--;
 					}
+			
+					_powerUpState--;
 
 					break;
 				case Spells.ScatterShoot:
@@ -397,12 +403,12 @@ public class ArchetypePlayer : MonoBehaviour {
 					if (_scatterShoot <= 1)
 					{
 						_scatterShootOn = false;
-						PoweredUp = false;
-						_particles.ParticleControl(false, SpellsType);
 						_scatterShoot = 0;
 					}
 					else
 						_scatterShoot--;
+					
+					_powerUpState--;
 					
 					break;
 					
@@ -410,8 +416,6 @@ public class ArchetypePlayer : MonoBehaviour {
 
 					if (_bigShoot <= 1)
 					{
-						PoweredUp = false;
-						_particles.ParticleControl(false, SpellsType);
 						_bubbleScale = _bubbleDefault;
 						Strength = BubbleInitialStrength;
 						_bigShoot = 0;
@@ -422,13 +426,17 @@ public class ArchetypePlayer : MonoBehaviour {
 						_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 						Strength -= BubbleStrengthIncrease;
 					}
+						
+					_powerUpState--;
 					
 					break;
 			}
 			
-			_underlay.Subtract();
-		}
 		
+		}
+
+		Debug.Log("Powered: " + _powerUpState);
+
 	}
 
 	

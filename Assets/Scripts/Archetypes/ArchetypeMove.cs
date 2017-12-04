@@ -327,6 +327,7 @@ public class ArchetypeMove : MonoBehaviour
 		  if(die && !collider.GetComponent<ArchetypePlayer>().WonGame && !collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
 			  killed = true;
+			  
 			  _playerScript.Killed = killed;
 			  _playerScript.BeginPlayerHit(true);
 		  }
