@@ -103,8 +103,6 @@ public class MenuUI : MonoBehaviour
 
 		_buttonsDisabled = false;
 		
-		
-
 	}
 
 	public void Update()

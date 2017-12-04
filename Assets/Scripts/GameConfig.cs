@@ -159,19 +159,18 @@ public class GameConfig : MonoBehaviour
 		switch(CurrentChapter)
 		{
 			case 0:
-				baseName += "One";
+				baseName += "1.";
 				break;
 
 			case 1:
-				baseName += "Two";
+				baseName += "2.";
 				break;
 
 			case 2:
-				baseName += "Three";
+				baseName += "3.";
 				break;
 		}
-		if(CurrentLevel == 1)
-			baseName += "B";
+		baseName += CurrentLevel == 1 ? "2" : "1";
 		
 		UnityEngine.SceneManagement.SceneManager.LoadScene(baseName);
 	}
