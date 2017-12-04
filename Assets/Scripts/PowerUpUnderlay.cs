@@ -13,13 +13,6 @@ public class PowerUpUnderlay : MonoBehaviour
 	private SpriteRenderer[] _underlayRings;
 	private int _ringIndex = -1;
 
-	// Use this for initialization
-	void Start () {
-		
-		
-		
-	}
-
 	public void Setup(Spells type)
 	{
 
