@@ -7,7 +7,7 @@ public class GameConfig : MonoBehaviour
 {
 
 	public static float NumBubblesSpeedGained = .05f;
-  	public static float NumBubblesInterval = .5f;
+  public static float NumBubblesInterval = .5f;
   
 	public static bool GamePaused = true;
 	public static bool SlowMo;
@@ -16,6 +16,10 @@ public class GameConfig : MonoBehaviour
 
 	public static int CurrentLevel;
 	public static int CurrentChapter;
+	public static int LevelPlayCount;
+	public static string CurrentScene;
+	public static Dictionary<string, int> DictWonCount = new Dictionary<string, int>();
+	public static Dictionary<string, int> DictLostCount = new Dictionary<string, int>();
 
 	[Range(0f, 1f)]
 	public static float GlobalVolume;
@@ -64,8 +68,6 @@ public class GameConfig : MonoBehaviour
 			PlayerPrefs.SetInt("sound", 1);
 			SoundOn = true;
 		}
-		
-		Debug.Log("Music: " + PlayerPrefs.GetInt("music"));
 
 		if (PlayerPrefs.HasKey("music"))
 			MusicOn = PlayerPrefs.GetInt("music") == 1;
@@ -76,9 +78,7 @@ public class GameConfig : MonoBehaviour
 		}
 
 		if (PlayerPrefs.HasKey("volume"))
-		{
 			GlobalVolume = PlayerPrefs.GetFloat("volume");
-		}
 		else
 		{
 			GlobalVolume = 1f;
@@ -90,39 +90,38 @@ public class GameConfig : MonoBehaviour
 	{
 		if (!PlayerPrefs.HasKey(key))
 			return;
-		else
-		{
-			if (num != null)
-				PrefInts(key, (int)num);
-			else if (floater != null)
-				PrefFloats(key, (float)floater);
-			else if (text != null)
-				PrefStrings(key, text);
-		}
+		
+		if (num != null)
+			PrefInts(key, (int)num);
+		else if (floater != null)
+			PrefFloats(key, (float)floater);
+		else if (text != null)
+			PrefStrings(key, text);
+	
 	}
 
 	public static void PrefInts(string key, int num)
 	{
 		if (!PlayerPrefs.HasKey(key))
 			return;
-		else
-			PlayerPrefs.SetInt(key, num);
+		
+		PlayerPrefs.SetInt(key, num);
 	}
 	
 	public static void PrefFloats(string key, float num)
 	{
 		if (!PlayerPrefs.HasKey(key))
 			return;
-		else
-			PlayerPrefs.SetFloat(key, num);
+		
+		PlayerPrefs.SetFloat(key, num);
 	}
 	
 	public static void PrefStrings(string key, string text)
 	{
 		if (!PlayerPrefs.HasKey(key))
 			return;
-		else
-			PlayerPrefs.SetString(key, text);
+		
+		PlayerPrefs.SetString(key, text);
 	}
 
 	public static void UpdateScore(int worth)
@@ -170,7 +169,16 @@ public class GameConfig : MonoBehaviour
 				baseName += "3.";
 				break;
 		}
+		
 		baseName += CurrentLevel == 1 ? "2" : "1";
+		CurrentScene = baseName;
+		LevelPlayCount = 1;
+		
+		if(!DictWonCount.ContainsKey(baseName))
+			DictWonCount = new Dictionary<string, int>{{baseName, 0}};
+		
+		if(!DictLostCount.ContainsKey(baseName))
+			DictLostCount = new Dictionary<string, int>{{baseName, 0}};
 		
 		UnityEngine.SceneManagement.SceneManager.LoadScene(baseName);
 	}

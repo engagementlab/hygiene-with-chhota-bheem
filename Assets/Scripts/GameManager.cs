@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using UnityEngine.Analytics;
 
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
@@ -30,6 +31,12 @@ public class GameManager : MonoBehaviour
 		GameConfig.Reset();
 
 		Instantiate(Resources.Load("EventSystem"));
+		
+		// Send Player Data to Analytics
+		Analytics.CustomEvent("levelStart",
+			new Dictionary<string, object>
+				{{ "level", GameConfig.CurrentScene }, { "playCount", GameConfig.LevelPlayCount }}
+		);
 		
 	}
 

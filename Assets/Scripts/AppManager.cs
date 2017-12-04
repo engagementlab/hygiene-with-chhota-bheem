@@ -51,14 +51,14 @@ public class AppManager : MonoBehaviour
         else
         {
         	var time = Input.location.lastData.timestamp;
-
-			Analytics.CustomEvent("gameStart", new Dictionary<string, object>
-			{
-			   { "latitude", Input.location.lastData.latitude },
-			   { "longitude", Input.location.lastData.longitude }, 
-			   { "time", time }
-			});
-     }
+	
+				Analytics.CustomEvent("gameStart", new Dictionary<string, object>
+				{
+					 { "latitude", Input.location.lastData.latitude },
+					 { "longitude", Input.location.lastData.longitude }, 
+					 { "time", time }
+				});
+			 }
 
         // Stop service if there is no need to query location updates continuously
         Input.location.Stop();

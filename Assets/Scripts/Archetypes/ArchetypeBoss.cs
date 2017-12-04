@@ -181,7 +181,7 @@ public class ArchetypeBoss : ArchetypeMove
 		// You won the game
 		GameConfig.GameOver = true;
 		Events.instance.Raise(new ScoreEvent(pointsWorth));
-		Events.instance.Raise(new DeathEvent(true));
+		Events.instance.Raise(new GameEndEvent(true));
 
 	}
 

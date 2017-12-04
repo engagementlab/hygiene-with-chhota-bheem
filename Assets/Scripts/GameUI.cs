@@ -40,6 +40,8 @@ public class GameUI : MonoBehaviour
         {
             if(GameConfig.CurrentLevel == 0)
             {
+                
+                GameConfig.LevelPlayCount = 1;
                 GameConfig.CurrentLevel = 1;
                 GameConfig.LoadLevel();
             }
@@ -56,7 +58,10 @@ public class GameUI : MonoBehaviour
         else if(!System.String.IsNullOrEmpty(level))
             UnityEngine.SceneManagement.SceneManager.LoadScene(level);
         else
+        {
+            GameConfig.LevelPlayCount++;
             UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
+        }
 
 
     }

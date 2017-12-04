@@ -82,7 +82,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		_mainCamera = Camera.main;
 
-		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
+		Events.instance.AddListener<GameEndEvent> (OnDeathEvent);
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 		
@@ -204,7 +204,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private void OnDestroy() {
 
-		Events.instance.RemoveListener<DeathEvent> (OnDeathEvent);
+		Events.instance.RemoveListener<GameEndEvent> (OnDeathEvent);
 		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
 		Events.instance.RemoveListener<ScoreEvent> (OnScoreEvent);
 
@@ -213,7 +213,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void OnDisable()
 	{
 		
-		Events.instance.RemoveListener<DeathEvent> (OnDeathEvent);
+		Events.instance.RemoveListener<GameEndEvent> (OnDeathEvent);
 		Events.instance.RemoveListener<SpellEvent> (OnSpellEvent);
 		Events.instance.RemoveListener<ScoreEvent> (OnScoreEvent);
 		
@@ -223,7 +223,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void OnEnable()
 	{
 
-		Events.instance.AddListener<DeathEvent> (OnDeathEvent);
+		Events.instance.AddListener<GameEndEvent> (OnDeathEvent);
 		Events.instance.AddListener<SpellEvent> (OnSpellEvent);
 		Events.instance.AddListener<ScoreEvent> (OnScoreEvent);
 		
@@ -248,12 +248,12 @@ public class ArchetypePlayer : MonoBehaviour {
 	}
 
 	// Calls coroutine for player hit; allows caller to destroy immediately after 
-	public void BeginPlayerHit(bool killed)
+	public void BeginPlayerHit(bool killed, string killerName=null)
 	{
 		StartCoroutine(PlayerHit(killed));
 	}
 
-	private IEnumerator PlayerHit(bool killed)
+	private IEnumerator PlayerHit(bool killed, string killerName=null)
 	{
 		if(!killed)
 			_underlay.Subtract();
@@ -284,7 +284,7 @@ public class ArchetypePlayer : MonoBehaviour {
 				
 	}
 	
-	private IEnumerator PlayerLifeLoss(bool die)
+	private IEnumerator PlayerLifeLoss(bool die, string killerName=null)
 	{
 
 		if (die)
@@ -305,7 +305,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 			yield return new WaitForSeconds(1f);
 
-			Events.instance.Raise(new DeathEvent(false));
+			Events.instance.Raise(new GameEndEvent(false, killerName));
 
 		}
 		else
@@ -488,9 +488,15 @@ public class ArchetypePlayer : MonoBehaviour {
 		
 	}
  
-	private void OnDeathEvent(DeathEvent e)
+	private void OnDeathEvent(GameEndEvent e)
 	{
 		WonGame = e.wonGame;
+
+		// Record win/loss
+		if(WonGame)
+			GameConfig.DictWonCount[GameConfig.CurrentScene]++;
+		else
+			GameConfig.DictLostCount[GameConfig.CurrentScene]++;
 
 		gameObject.SetActive(false);
 		GameConfig.GameWon = WonGame;
@@ -498,10 +504,18 @@ public class ArchetypePlayer : MonoBehaviour {
 		GUIManager.Instance.GameEnd(WonGame);
 		
 		// Send Player Data to Analytics
-		Analytics.CustomEvent("gameEnd",
-			new Dictionary<string, object>
-			{{ "gameState", WonGame }, { "time", Time.timeSinceLevelLoad }}
-		);
+		Dictionary<string, object> analyticsData = new Dictionary<string, object>
+		{
+			{"gameState", WonGame},
+			{"time", Time.timeSinceLevelLoad},
+			{"level", GameConfig.CurrentScene},
+			{"wonCount", GameConfig.DictWonCount[GameConfig.CurrentScene]},
+			{"lostCount", GameConfig.DictLostCount[GameConfig.CurrentScene]}
+		};
+		if(!WonGame)
+			analyticsData["killerName"] = e.killerName;
+		
+		Analytics.CustomEvent("levelEnd", analyticsData);
 
 		ResetLevel();
 

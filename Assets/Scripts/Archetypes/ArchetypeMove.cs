@@ -329,7 +329,7 @@ public class ArchetypeMove : MonoBehaviour
 			  killed = true;
 			  
 			  _playerScript.Killed = killed;
-			  _playerScript.BeginPlayerHit(true);
+			  _playerScript.BeginPlayerHit(true, name);
 		  }
 		  else if (die && collider.GetComponent<ArchetypePlayer>().PoweredUp)
 		  {
