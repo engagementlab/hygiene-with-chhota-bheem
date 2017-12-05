@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
 	private GameObject _player;
 
+	private AudioControl AudioController;
 
 	private void Awake()
 	{
@@ -37,7 +38,9 @@ public class GameManager : MonoBehaviour
 			new Dictionary<string, object>
 				{{ "level", GameConfig.CurrentScene }, { "playCount", GameConfig.LevelPlayCount }}
 		);
-		
+
+		AudioController = GameObject.Find("AudioController").GetComponent<AudioControl>();
+
 	}
 
 	private void Start()
@@ -148,7 +151,20 @@ public class GameManager : MonoBehaviour
 		
 		GUIManager.Instance.HideSloMo();	
 		GUIManager.Instance.ShowPause();
+		
+		// iTween Not working - leaving for future debugging
+//		iTween.AudioTo(AudioController.WhichMusicPlayer().gameObject, 
+//			iTween.Hash(
+//				"audiosource", AudioController.WhichMusicPlayer(), 
+//				"volume", AudioController.WhichMusicPlayer().volume/2, 
+//				"pitch", AudioController.WhichMusicPlayer().pitch/2,
+//				"time", 1f
+//			)
+//		);
+		
 
+		AudioController.WhichMusicPlayer().volume = AudioController.WhichMusicPlayer().volume/2;
+			
 		_paused = true;
 	}
 
@@ -158,10 +174,24 @@ public class GameManager : MonoBehaviour
 		
 		GUIManager.Instance.ShowSloMo();
 		GUIManager.Instance.HidePause();
-		yield return new WaitForSeconds(.3f);
+
+		// iTween Not working - leaving for future debugging
+//		iTween.AudioTo(AudioController.WhichMusicPlayer().gameObject, 
+//			iTween.Hash(
+//				"audiosource", AudioController.WhichMusicPlayer(), 
+//				"volume", AudioController.WhichMusicPlayer().volume*2, 
+//				"pitch", AudioController.WhichMusicPlayer().pitch*2,
+//				"time", 1f
+//			)
+//		);
+		
+		AudioController.WhichMusicPlayer().volume = AudioController.WhichMusicPlayer().volume*2;
 		
 		_paused = false;
 		GameConfig.GamePaused = false;
+		
+		yield return new WaitForSeconds(.3f);
+
 	}
 
 }
