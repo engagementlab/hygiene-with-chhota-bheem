@@ -54,7 +54,9 @@ public class ArchetypePlayer : MonoBehaviour {
 	private bool _mouseDrag;
 	private bool _moveDelta;
 	private bool _scatterShootOn;
-	private bool _lifeLossRunning;
+	
+	[HideInInspector]
+	public bool LifeLossRunning;
 		
 	private int _scatterShoot;
 	private int _speedShoot;
@@ -263,10 +265,10 @@ public class ArchetypePlayer : MonoBehaviour {
 		if(!killed)
 			_underlay.Subtract();
 
-		if(_lifeLossRunning)
+		if(LifeLossRunning)
 			yield return false;
 		
-		_lifeLossRunning = true;
+		LifeLossRunning = true;
 		int times;
 				
 		for (times = 0; times < 4; times++)
@@ -282,7 +284,7 @@ public class ArchetypePlayer : MonoBehaviour {
 			if(times == 3)
 			{
 				StartCoroutine(PlayerLifeLoss(killed));
-				_lifeLossRunning = false;
+				LifeLossRunning = false;
 			}
 
 		}
