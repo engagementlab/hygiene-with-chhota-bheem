@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
 
 	private GameObject _player;
 	
-	
 	[HideInInspector]
 	public AudioControl AudioController;
 
