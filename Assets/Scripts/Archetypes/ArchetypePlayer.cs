@@ -384,58 +384,51 @@ public class ArchetypePlayer : MonoBehaviour {
 			switch(SpellsType)
 			{
 				case Spells.SpeedShoot:
-					if (_speedShoot <= 1)
+					if(_speedShoot <= 1)
 					{
 						GameConfig.NumBubblesInterval = .5f;
 						_speedShoot = 0;
-					}
-					else
+					} else
 					{
 						GameConfig.NumBubblesInterval *= BubbleSpeedIncrease;
 						_speedShoot--;
 					}
-			
+
 					_powerUpState--;
 
 					break;
 				case Spells.ScatterShoot:
 
-					if (_scatterShoot <= 1)
+					if(_scatterShoot <= 1)
 					{
 						_scatterShootOn = false;
 						_scatterShoot = 0;
-					}
-					else
+					} else
 						_scatterShoot--;
-					
+
 					_powerUpState--;
-					
+
 					break;
-					
+
 				case Spells.BigShoot:
 
-					if (_bigShoot <= 1)
+					if(_bigShoot <= 1)
 					{
 						_bubbleScale = _bubbleDefault;
 						Strength = BubbleInitialStrength;
 						_bigShoot = 0;
-					}
-					else
+					} else
 					{
 						_bigShoot--;
 						_bubbleScale -= new Vector3(BubbleSizeIncrease, BubbleSizeIncrease, 0);
 						Strength -= BubbleStrengthIncrease;
 					}
-						
+
 					_powerUpState--;
-					
+
 					break;
 			}
-			
-		
 		}
-
-		Debug.Log("Powered: " + _powerUpState);
 
 	}
 
