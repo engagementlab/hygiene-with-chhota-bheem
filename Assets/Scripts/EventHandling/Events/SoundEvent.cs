@@ -8,6 +8,7 @@ public class SoundEvent : GameEvent
   public readonly AudioClip SoundClip;
   public readonly float SoundVolume;
   public readonly float SoundPitch;
+  public readonly bool ChangeClip;
 
   public enum SoundType
   {

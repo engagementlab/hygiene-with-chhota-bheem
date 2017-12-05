@@ -15,6 +15,11 @@ public class AudioControl : MonoBehaviour
     private AudioSource _sound;
     private AudioSource _music;
 
+    [HideInInspector] 
+    public GameObject audioPlayer;
+    [HideInInspector] 
+    public AudioSource player;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -38,7 +43,7 @@ public class AudioControl : MonoBehaviour
 
     private void OnSoundEvent(SoundEvent e)
     {
-        GameObject audioPlayer = null;
+        audioPlayer = null;
 		
         if(_music == null || _sound == null) 
             return;
@@ -62,8 +67,8 @@ public class AudioControl : MonoBehaviour
 
         bool isMusic = e.Type == SoundEvent.SoundType.Music;
         AudioSource audio = isMusic ? _music : _sound;
-        AudioSource player = audioPlayer == null ? audio : audioPlayer.GetComponent<AudioSource>();
-		
+        player = audioPlayer == null ? audio : audioPlayer.GetComponent<AudioSource>();
+        
         if(e.SoundFileName != null)
         {
             // If sound name provided and clip not loaded, load into dictionary
@@ -80,4 +85,14 @@ public class AudioControl : MonoBehaviour
         if(audioPlayer != null)
             Destroy(audioPlayer, e.SoundClip.length);
     }
+
+    public AudioSource WhichMusicPlayer()
+    {
+        if (audioPlayer != null)
+            return audioPlayer.GetComponent<AudioSource>();
+        else
+            return _music;
+    }
+    
+
 }
