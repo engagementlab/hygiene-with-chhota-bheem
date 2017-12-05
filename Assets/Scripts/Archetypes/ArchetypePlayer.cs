@@ -75,6 +75,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	private GameObject _glow;
 
 	private PowerUpUnderlay _underlay;
+
+	private GameManager _gameManager;
 	
 	/**************
 		UNITY METHODS
@@ -106,6 +108,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		_underlay = Instantiate(Resources.Load<PowerUpUnderlay>("PowerUpUnderlay"), Vector3.zero, Quaternion.identity);
 		_underlay.transform.parent = transform;
 		_underlay.transform.localPosition = Vector3.zero;
+
+		_gameManager = Camera.main.GetComponent<GameManager>();
 	}
 
 	private void Update()
@@ -485,7 +489,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private void OnDeathEvent(GameEndEvent e)
 	{
 		
-		GameObject.Find("AudioController").GetComponent<AudioControl>().Fade(clip);
+		_gameManager.AudioController.Fade(clip);
 
 		WonGame = e.wonGame;
 
