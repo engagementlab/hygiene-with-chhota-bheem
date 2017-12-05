@@ -39,7 +39,13 @@ public class GameManager : MonoBehaviour
 				{{ "level", GameConfig.CurrentScene }, { "playCount", GameConfig.LevelPlayCount }}
 		);
 
-		AudioController = GameObject.Find("AudioController").GetComponent<AudioControl>();
+		if (GameObject.Find("AudioController") == null)
+		{
+			GameObject audio = (GameObject) Instantiate(Resources.Load("AudioController"));
+			AudioController = audio.GetComponent<AudioControl>();
+		}
+		else 
+			AudioController = GameObject.Find("AudioController").GetComponent<AudioControl>();
 
 	}
 

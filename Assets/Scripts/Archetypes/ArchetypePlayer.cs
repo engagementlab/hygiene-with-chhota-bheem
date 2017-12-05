@@ -24,6 +24,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public AudioClip[] FightSounds;
 	public AudioClip GameEndSound;
 	public AudioClip ObstacleSound;
+	public AudioClip clip;
 
 	public bool WonGame;
 	public bool Killed;
@@ -490,6 +491,9 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private void OnDeathEvent(GameEndEvent e)
 	{
+		
+		GameObject.Find("AudioController").GetComponent<AudioControl>().Fade(clip);
+
 		WonGame = e.wonGame;
 
 		gameObject.SetActive(false);

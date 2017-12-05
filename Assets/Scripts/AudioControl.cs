@@ -93,6 +93,12 @@ public class AudioControl : MonoBehaviour
         else
             return _music;
     }
+
+    public void Fade(AudioClip newClip)
+    {
+        AudioClip currentClip = transform.Find("Music").GetComponents<AudioSource>()[0].clip;
+        GetComponentInChildren<DoubleAudioSource>().CrossFade(newClip, 0.4f, 0.5f);
+    }
     
 
 }
