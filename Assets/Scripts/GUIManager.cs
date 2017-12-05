@@ -95,37 +95,19 @@ public class GUIManager
 	public void AddSpellJuice(Spells type, GameObject fill, GameObject particlesObj)
 	{
 		var spellFill = fill.GetComponent<RectTransform>();
+		
 
 		iTween.MoveTo(particlesObj, iTween.Hash("position", Camera.main.ScreenToWorldPoint(spellFill.transform.position), "time", 3, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 		
-		iTween.ValueTo(fill, iTween.Hash(
-				"from", spellFill.sizeDelta.y,
-				"to", spellFill.sizeDelta.y + _spellSize,
-				"time", 1,
-				"delay", 1,
-				"easetype", iTween.EaseType.easeOutSine,
-				"onupdate", "AdjustSpellLevel"));
-		iTween.PunchRotation(fill.transform.parent.gameObject, iTween.Hash("amount", Vector3.one*50, "time", 5, "delay", 1));
-		
 		_spellCount++;
-
-		if (_spellCount == _steps)
-		{
-			Events.instance.Raise (new SpellEvent(type, true));
-			EmptySpells();
-		}
-
+		fill.GetComponent<ArchetypeSpell>().Fill(_spellSize, _spellCount == _steps);
 	}
 
 	public void EmptySpells()
 	{
 
-		_bar = GameObject.FindGameObjectWithTag("SpellBar");
 		_spellCount = 0;
 		
-		if (_bar != null)
-			_bar.SetActive(false);
-
 	}
 
 	public void UpdateScore(int num) {
