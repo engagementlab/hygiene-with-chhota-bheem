@@ -487,16 +487,10 @@ public class ArchetypePlayer : MonoBehaviour {
 		}
 		
 	}
- 
+
 	private void OnDeathEvent(GameEndEvent e)
 	{
 		WonGame = e.wonGame;
-
-		// Record win/loss
-		if(WonGame)
-			GameConfig.DictWonCount[GameConfig.CurrentScene]++;
-		else
-			GameConfig.DictLostCount[GameConfig.CurrentScene]++;
 
 		gameObject.SetActive(false);
 		GameConfig.GameWon = WonGame;
@@ -509,14 +503,35 @@ public class ArchetypePlayer : MonoBehaviour {
 			{"gameState", WonGame},
 			{"time", Time.timeSinceLevelLoad},
 			{"level", GameConfig.CurrentScene},
-			{"wonCount", GameConfig.DictWonCount[GameConfig.CurrentScene]},
-			{"lostCount", GameConfig.DictLostCount[GameConfig.CurrentScene]}
 		};
 		if(!WonGame)
 			analyticsData["killerName"] = e.killerName;
+
+		// Record win/loss
+		if(GameConfig.CurrentScene != null)
+		{
+
+			if(WonGame)
+			{
+				if(GameConfig.DictWonCount.ContainsKey(GameConfig.CurrentScene))
+					GameConfig.DictWonCount[GameConfig.CurrentScene] = 0;
+				else
+					GameConfig.DictWonCount[GameConfig.CurrentScene]++;
+			}
+			else
+			{
+				if(GameConfig.DictLostCount.ContainsKey(GameConfig.CurrentScene))
+					GameConfig.DictLostCount[GameConfig.CurrentScene]++;
+				else
+					GameConfig.DictLostCount[GameConfig.CurrentScene] = 0;
+			}
+			
+			analyticsData["wonCount"] = GameConfig.DictWonCount[GameConfig.CurrentScene];
+			analyticsData["lostCount"] = GameConfig.DictLostCount[GameConfig.CurrentScene];
+
+		}
 		
 		Analytics.CustomEvent("levelEnd", analyticsData);
-
 		ResetLevel();
 
 	}
