@@ -35,6 +35,8 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	private int _nextPoint;
 	private bool _triggered;
 
+	private ArchetypePlayer _playerScript;
+
 	private void Awake()
 	{
 		// Pick the spell item
@@ -45,6 +47,8 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 		_glow = transform.Find("Glow").gameObject;
 
+		_playerScript = GameObject.FindWithTag("Player").GetComponent<ArchetypePlayer>();
+
 	}
 
 	private void Start()
@@ -54,7 +58,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	private void OnTriggerEnter(Collider collider) {
 		
-		if(collider.gameObject.tag != "Player" || _triggered) return;
+		if(collider.gameObject.tag != "Player" || _triggered || _playerScript.LifeLossRunning) return;
 		
 		var currentSpellObject = GameObject.FindGameObjectWithTag("SpellBar");
 		
