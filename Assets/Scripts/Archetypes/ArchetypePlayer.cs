@@ -24,6 +24,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	public AudioClip[] FightSounds;
 	public AudioClip GameEndSound;
 	public AudioClip ObstacleSound;
+	public AudioClip clip;
 
 	public bool WonGame;
 	public bool Killed;
@@ -74,6 +75,8 @@ public class ArchetypePlayer : MonoBehaviour {
 	private GameObject _glow;
 
 	private PowerUpUnderlay _underlay;
+
+	private GameManager _gameManager;
 	
 	/**************
 		UNITY METHODS
@@ -105,6 +108,8 @@ public class ArchetypePlayer : MonoBehaviour {
 		_underlay = Instantiate(Resources.Load<PowerUpUnderlay>("PowerUpUnderlay"), Vector3.zero, Quaternion.identity);
 		_underlay.transform.parent = transform;
 		_underlay.transform.localPosition = Vector3.zero;
+
+		_gameManager = Camera.main.GetComponent<GameManager>();
 	}
 
 	private void Update()
@@ -483,6 +488,9 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private void OnDeathEvent(GameEndEvent e)
 	{
+		
+		_gameManager.AudioController.Fade(clip);
+
 		WonGame = e.wonGame;
 
 		gameObject.SetActive(false);

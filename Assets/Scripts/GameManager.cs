@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 	[CanBeNull]
 	public GameObject VillagerPrefab;
 
+	public AudioClip clip;
+
 	private float _deltaTime;
 	private bool _playerHasTouched;
 	private bool _touching = true;
@@ -17,8 +19,10 @@ public class GameManager : MonoBehaviour
 	private bool _slowMo;
 
 	private GameObject _player;
-
-	private AudioControl AudioController;
+	
+	
+	[HideInInspector]
+	public AudioControl AudioController;
 
 	private void Awake()
 	{
@@ -39,15 +43,21 @@ public class GameManager : MonoBehaviour
 				{{ "level", GameConfig.CurrentScene }, { "playCount", GameConfig.LevelPlayCount }}
 		);
 
-		AudioController = GameObject.Find("AudioController").GetComponent<AudioControl>();
+		if (GameObject.Find("AudioController") == null)
+		{
+			GameObject audio = (GameObject) Instantiate(Resources.Load("AudioController"));
+			AudioController = audio.GetComponent<AudioControl>();
+		}
+		else 
+			AudioController = GameObject.Find("AudioController").GetComponent<AudioControl>();
 
 	}
 
 	private void Start()
 	{
-		
 		// Start level music
-		Events.instance.Raise(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
+//		Events.instance.Raise(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
+		AudioController.Fade(clip);
 
 		_player = GameObject.FindWithTag("Player");
 
