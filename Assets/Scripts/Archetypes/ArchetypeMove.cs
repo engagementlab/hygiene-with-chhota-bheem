@@ -616,8 +616,6 @@ public class ArchetypeMove : MonoBehaviour
 		
 	}
 
-	
-
 	private IEnumerator SpellMatrixMode()
 	{
 		MoveSpeed /= 2;
@@ -647,8 +645,6 @@ public class ArchetypeMove : MonoBehaviour
 		
 		spellScript.Type = _powerUpGiven;
 		spellScript.StartMovement(transform.position);
-
-//		spellScript.StartParticles();
 
 	}
 
