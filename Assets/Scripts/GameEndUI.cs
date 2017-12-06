@@ -56,13 +56,13 @@ public class GameEndUI : MonoBehaviour
         iTween.ScaleFrom(_boardContainer, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "oncomplete", "ScoreMultiplier", "oncompletetarget", gameObject, "delay", .8f));
         iTween.PunchRotation(_headerContainer, iTween.Hash("z", -90, "time", 2));
 
-        iTween.ScaleFrom(_lowerButtons[1].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 1));
-        iTween.ScaleFrom(_lowerButtons[2].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.6f));
+        iTween.ScaleFrom(_lowerButtons[0].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 1));
+        iTween.ScaleFrom(_lowerButtons[1].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.6f));
 
         if(GameConfig.CurrentChapter == 2 && GameConfig.CurrentLevel == 1)
-            _lowerButtons[3].gameObject.SetActive(false);
+            _lowerButtons[2].gameObject.SetActive(false);
         else
-            iTween.ScaleFrom(_lowerButtons[3].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.2f));
+            iTween.ScaleFrom(_lowerButtons[2].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.2f));
 
     }
 
