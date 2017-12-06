@@ -12,6 +12,8 @@ public class InterstitialUI : MonoBehaviour
 	private Image _interstitialScreen;
 	private int _interstitialScreenCount;
 
+	private GameObject _interstitialsParent;
+
 	private Sprite[] _interstitialImages;
 
 	private Button _nextButton;
@@ -21,9 +23,6 @@ public class InterstitialUI : MonoBehaviour
 	
 	public void OpenLevelInterstitial(int level)
 	{
-		
-//		_levelsOpen = false;
-//		_interstitialsOpen = true;
 		GameConfig.CurrentLevel = level;
 		
 		_background = transform.Find("Background").gameObject;
@@ -51,9 +50,9 @@ public class InterstitialUI : MonoBehaviour
 		
 		if(BackButton != null)
 			iTween.ScaleTo(BackButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
-	
-		gameObject.SetActive(true);
 		
+		gameObject.SetActive(true);
+				
 		iTween.MoveTo(PreviousScreen, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
 		iTween.MoveFrom(gameObject, iTween.Hash("position", new Vector3(0, 970, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1));
 		

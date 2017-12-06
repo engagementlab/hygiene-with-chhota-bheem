@@ -34,6 +34,8 @@ public class GameEndUI : MonoBehaviour
 
     private void OnEnable()
     {
+        
+//        GameObject.Find("AudioController").GetComponent<AudioControl>().Fade(MenuMusic);
 
         _boardContainer = transform.Find("Wrapper/Board").gameObject;
         _headerContainer = transform.Find("Wrapper/Header").gameObject;

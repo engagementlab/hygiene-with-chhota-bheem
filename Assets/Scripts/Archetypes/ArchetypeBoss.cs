@@ -20,6 +20,8 @@ using UnityEngine.UI;
 public class ArchetypeBoss : ArchetypeMove
 {
 	public GameObject[] Projectiles;
+
+	public AudioClip BossMusic;
 	
 	[Range(0, 1000)]
 	[Tooltip("Time before tiled background stops moving")]
@@ -81,7 +83,10 @@ public class ArchetypeBoss : ArchetypeMove
 		base.Update();
 
 		// Do nothing before in view
-		if(!(MainCamera.WorldToViewportPoint(transform.position).y < .9f)) return;
+		if(!(MainCamera.WorldToViewportPoint(transform.position).y < .9f)) 
+			return;
+		else
+			GameObject.Find("AudioController").GetComponent<AudioControl>().Fade(BossMusic);
 		// Paused/over?
 		if (GameConfig.GamePaused || GameConfig.GameOver) return;
 		

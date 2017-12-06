@@ -64,7 +64,7 @@ public class MenuUI : MonoBehaviour
 	void Start ()
 	{
 		// Start menu music
-		GameMusic.PlayOneShot(MenuMusic);
+		GameObject.Find("AudioController").GetComponent<AudioControl>().Fade(MenuMusic);
 		
 		// Find settings objects, toggles and sliders
 		_settingsBoard = Settings.transform.Find("Board").gameObject;
@@ -262,6 +262,9 @@ public class MenuUI : MonoBehaviour
 
 	void OpenSelectedChapter()
 	{
+		InterstitialsParent.SetActive(false);
+		InterstitialsParent.transform.position = new Vector3(270.4f, 473.5f, 0.0f);
+		
 		_interstitialsOpen = true;
 		OpenLevelSelect(_selectedLevel);
 	}
@@ -294,6 +297,7 @@ public class MenuUI : MonoBehaviour
 	{
 		iTween.MoveTo(InterstitialsParent, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "OpenSelectedChapter", "oncompletetarget", gameObject));
 	}
+
 
 	public void OpenLevel()
 	{
