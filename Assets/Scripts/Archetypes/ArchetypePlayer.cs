@@ -21,7 +21,9 @@ public class ArchetypePlayer : MonoBehaviour {
 	public AudioClip[] FightSounds;
 	public AudioClip GameEndSound;
 	public AudioClip ObstacleSound;
-	public AudioClip clip;
+	public AudioClip DeathClip;
+	public AudioClip WinClip;
+
 
 	public bool WonGame;
 	public bool Killed;
@@ -51,7 +53,9 @@ public class ArchetypePlayer : MonoBehaviour {
 	private bool _mouseDrag;
 	private bool _moveDelta;
 	private bool _scatterShootOn;
-	private bool _lifeLossRunning;
+	
+	[HideInInspector]
+	public bool LifeLossRunning;
 		
 	private int _scatterShoot;
 	private int _speedShoot;
@@ -260,10 +264,10 @@ public class ArchetypePlayer : MonoBehaviour {
 		if(!killed)
 			_underlay.Subtract();
 
-		if(_lifeLossRunning)
+		if(LifeLossRunning)
 			yield return false;
 		
-		_lifeLossRunning = true;
+		LifeLossRunning = true;
 		int times;
 				
 		for (times = 0; times < 4; times++)
@@ -279,7 +283,7 @@ public class ArchetypePlayer : MonoBehaviour {
 			if(times == 3)
 			{
 				StartCoroutine(PlayerLifeLoss(killed));
-				_lifeLossRunning = false;
+				LifeLossRunning = false;
 			}
 
 		}
@@ -485,10 +489,14 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private void OnDeathEvent(GameEndEvent e)
 	{
-		
-		_gameManager.AudioController.Fade(clip);
 
 		WonGame = e.wonGame;
+		
+		if (WonGame)
+			_gameManager.AudioController.Fade(WinClip);
+		else 
+			_gameManager.AudioController.Fade(DeathClip);
+
 
 		gameObject.SetActive(false);
 		GameConfig.GameWon = WonGame;

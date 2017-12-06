@@ -20,6 +20,8 @@ using UnityEngine.UI;
 public class ArchetypeBoss : ArchetypeMove
 {
 	public GameObject[] Projectiles;
+
+	public AudioClip BossMusic;
 	
 	[Range(0, 1000)]
 	[Tooltip("Time before tiled background stops moving")]

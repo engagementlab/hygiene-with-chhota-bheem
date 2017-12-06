@@ -313,6 +313,8 @@ public class ArchetypeMove : MonoBehaviour
 	  
 	  if(collider.tag == "Player")
 	  {
+		  if (_playerScript.LifeLossRunning)
+			  return;
 		  // Check if player hit an object that ends game 
 		  var die = KillsPlayer;
 		  
