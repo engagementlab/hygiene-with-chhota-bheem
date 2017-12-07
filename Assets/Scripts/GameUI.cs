@@ -28,8 +28,11 @@ public class GameUI : MonoBehaviour
             StartCoroutine(game.UnPause());
     }
 
-    public void HideSlowMo()
+    public void HideSlowMo(bool gameOver)
     {
+        if(gameOver)
+            GameConfig.GameOver = true;
+    
         game.HideSlowMo();
     }
 

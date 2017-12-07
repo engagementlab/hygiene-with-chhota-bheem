@@ -51,7 +51,7 @@ public class GameConfig : MonoBehaviour
 	{
 
 		NumBubblesInterval = .5f;
-		Score = 0;
+//		Score = 0;
 		GameOver = false;
 		GameWon = false;
 		VillagersSaved = 0;
