@@ -301,6 +301,7 @@ public class MenuUI : MonoBehaviour
 
 	public void OpenLevel()
 	{
+		GameConfig.Reset();
 		GameConfig.LoadLevel();
 	}
 

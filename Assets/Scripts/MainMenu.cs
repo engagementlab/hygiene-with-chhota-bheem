@@ -13,11 +13,13 @@ public class MainMenu : MonoBehaviour
 
 	void Awake()
 	{
+		
 		SignObject.localScale = Vector3.zero;
 		LogoObject.localScale = Vector3.zero;
 		PlayObject.localScale = Vector3.zero;
 		SettingsObject.localScale = Vector3.zero;
 		InfoObject.localScale = Vector3.zero;
+		
 	}
 	
 	// Use this for initialization
@@ -31,6 +33,7 @@ public class MainMenu : MonoBehaviour
 		iTween.ScaleTo(PlayObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.1f));
 		iTween.ScaleTo(SettingsObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.7f));
 		iTween.ScaleTo(InfoObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.9f));
-
+		
 	}
+	
 }
