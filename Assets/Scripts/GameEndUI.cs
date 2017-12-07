@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,10 @@ public class GameEndUI : MonoBehaviour
     private Transform[] _lowerButtons;
 
     private Image[] _stars;
+    
+    private GameObject _spellStepsParent;
+    private GameObject[] _stepGroups;
+    private Transform[] _stepsBgImages;
 
     private float _score;
     private float _totalScore;
@@ -34,14 +39,16 @@ public class GameEndUI : MonoBehaviour
 
     private void OnEnable()
     {
-        
-//        GameObject.Find("AudioController").GetComponent<AudioControl>().Fade(MenuMusic);
 
         _boardContainer = transform.Find("Wrapper/Board").gameObject;
         _headerContainer = transform.Find("Wrapper/Header").gameObject;
         _buttonsContainer = transform.Find("Wrapper/Buttons").gameObject;
         _lowerButtons = _buttonsContainer.transform.GetComponentsInChildren<Transform>().Skip(0).ToArray();
-
+        
+        // Spell step objects
+        _spellStepsParent = transform.Find("Wrapper/Chapter1").gameObject;
+//        _stepsBgImages = new Transform { _spellStepsParent.transform.Find("BG1"), _spellStepsParent.transform.Find("BG2") };
+        
         _scoreText = _boardContainer.transform.Find("ScoreWrap/Text").GetComponent<Text>();
         _villagers = _boardContainer.transform.Find("VillagersMultiplier/Text").GetComponent<Text>();
         _scoreText.gameObject.SetActive(false);
@@ -151,6 +158,11 @@ public class GameEndUI : MonoBehaviour
 
         iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "onupdate", "FillInStar", "oncomplete", "OnStarFilled"));
 
+    }
+
+    private void AnimateSteps()
+    {
+        
     }
 
     private void FadeTextIn(float alpha)
