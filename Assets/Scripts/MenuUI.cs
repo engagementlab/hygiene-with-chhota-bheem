@@ -75,7 +75,13 @@ public class MenuUI : MonoBehaviour
 			_settingsBoard.transform.Find("Language/Selector/Mask/English").gameObject,
 			_settingsBoard.transform.Find("Language/Selector/Mask/Tamil").gameObject
 		};
-		
+
+		if(GameConfig.CurrentLanguage == 1)
+		{
+			iTween.MoveTo(_settingsLanguages[0], iTween.Hash("position", new Vector3(0, 35, 0), "time", .001f, "islocal", true));
+			iTween.MoveTo(_settingsLanguages[1], iTween.Hash("position", new Vector3(0, 0, 0), "time", .001f, "islocal", true));
+		}
+
 		_soundToggle = _settingsBoard.transform.Find("Sound/Toggle").GetComponent<Toggle>();
 		_musicToggle = _settingsBoard.transform.Find("Music/Toggle").GetComponent<Toggle>();
 		_volumeSlider = _settingsBoard.transform.Find("Volume/Slider").GetComponent<Slider>();
@@ -124,9 +130,7 @@ public class MenuUI : MonoBehaviour
 		else if (!_animating && _buttonsDisabled)
 		{
 			foreach (Button button in _levelButtons)
-			{
 				button.interactable = true;
-			}
 
 			_chaptersBack.GetComponent<Button>().interactable = true;
 			_infoBack.GetComponent<Button>().interactable = true;
