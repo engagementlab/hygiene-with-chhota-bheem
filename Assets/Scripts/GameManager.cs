@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 			noInput = Input.touches.Length == 0;
 		#endif
 	
-		if(!GameConfig.GameOver && !_player.GetComponent<ArchetypePlayer>().Killed)
+		if(!GameConfig.GameOver && (_player != null && !_player.GetComponent<ArchetypePlayer>().Killed))
 		{
 			// Pause only if player has already touched at some point, and not in slow-mo mode
 			if(!noInput && !_slowMo)
