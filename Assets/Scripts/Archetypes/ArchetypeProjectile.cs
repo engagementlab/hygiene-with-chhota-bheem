@@ -10,7 +10,11 @@ public class ArchetypeProjectile : MonoBehaviour {
 		transform.localScale = scale;
 		
 		GetComponent<Rigidbody>().velocity = velocity;
-		gameObject.AddComponent<SphereCollider>().isTrigger = true;
+		
+		if (gameObject.GetComponent<SphereCollider>() == null)
+			gameObject.AddComponent<SphereCollider>().isTrigger = true;
+		else 
+			gameObject.GetComponent<SphereCollider>().isTrigger = true;
 		
 		iTween.ScaleFrom(gameObject, iTween.Hash("time", .3f, "scale", Vector3.zero, "easetype", iTween.EaseType.easeOutElastic));
 	}
