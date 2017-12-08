@@ -64,6 +64,8 @@ public class GameEndUI : MonoBehaviour
 
         _stars = transform.Find("Wrapper/Board/Wrapper").GetComponentsInChildren<Image>().Skip(0).ToArray();
 
+        StartCoroutine(AnimateSteps());
+
         iTween.ScaleFrom(_headerContainer, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .1f));
         iTween.ScaleFrom(_boardContainer, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "oncomplete", "ScoreMultiplier", "oncompletetarget", gameObject, "delay", .8f));
         iTween.PunchRotation(_headerContainer, iTween.Hash("z", -90, "time", 2));
@@ -75,8 +77,6 @@ public class GameEndUI : MonoBehaviour
             _lowerButtons[2].gameObject.SetActive(false);
         else
             iTween.ScaleFrom(_lowerButtons[2].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.2f));
-
-        StartCoroutine(AnimateSteps());
 
     }
 
@@ -161,19 +161,37 @@ public class GameEndUI : MonoBehaviour
 
     private IEnumerator AnimateSteps()
     {
-        yield return new WaitForSeconds(1);
-        
-        iTween.MoveFrom(_stepsBgImages[0].gameObject, iTween.Hash("position", new Vector3(-700, -200, 0), "time", 3, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
-        iTween.MoveFrom(_stepsBgImages[1].gameObject, iTween.Hash("position", new Vector3(700, -200, 0), "time", 3, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+        iTween.MoveTo(_stepsBgImages[0].gameObject, new Vector3(-700, -101, 0), .001f);
+        iTween.MoveTo(_stepsBgImages[1].gameObject, new Vector3(700, -101, 0), .001f);
 
         for(var i1 = 0; i1 < _stepsGroup1.Length; i1++)
-        {
-            iTween.ScaleFrom(_stepsGroup1[i1].gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .8f*i1));            
-        }
+            iTween.ScaleTo(_stepsGroup1[i1].gameObject, Vector3.zero, .001f);
+        for(var i2 = 0; i2 < _stepsGroup2.Length; i2++)
+            iTween.ScaleTo(_stepsGroup2[i2].gameObject, Vector3.zero, .001f);
         
-//        iTween.MoveBy(_stepsBgImages[0].gameObject, iTween.Hash("z", rotAmount, "time", 50, "easetype", iTween.EaseType.linear, "looptype", iTween.LoopType.loop));
+        yield return new WaitForSeconds(2);
+        
+        iTween.MoveTo(_stepsBgImages[0].gameObject, iTween.Hash("position", new Vector3(0, -101, 0), "time", 2.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+        iTween.MoveTo(_stepsBgImages[1].gameObject, iTween.Hash("position", new Vector3(0, -101, 0), "time", 2.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+
+        for(var i1 = 0; i1 < _stepsGroup1.Length; i1++)
+            iTween.ScaleTo(_stepsGroup1[i1].gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .8f * i1));
+        
+        yield return new WaitForSeconds(_stepsGroup1.Length);
+
+        iTween.MoveTo(_stepGroups[0].gameObject, iTween.Hash("position", new Vector3(-12, 50, 0), "time", .7f, "islocal", true, "easetype", iTween.EaseType.easeInExpo));
+        iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", .7f, "onupdate", "FadeSpellsOut"));
+        
+        for(var i2 = 0; i2 < _stepsGroup2.Length; i2++)
+            iTween.ScaleTo(_stepsGroup2[i2].gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .8f * i2));
+        
     }
 
+    private void FadeSpellsOut(float alpha)
+    {
+        _stepGroups[0].gameObject.GetComponent<CanvasGroup>().alpha = alpha;
+    }
+    
     private IEnumerator ScoreCounter(float score, int start, Text text)
     {
         DefaultNamespace.Counter.Reset((int) score, start, text);
