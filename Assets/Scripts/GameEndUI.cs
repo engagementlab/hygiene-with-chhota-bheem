@@ -24,9 +24,11 @@ public class GameEndUI : MonoBehaviour
     private Image[] _stars;
     
     private GameObject _spellStepsParent;
-    private GameObject[] _stepGroups;
+    private Transform[] _stepGroups;
     private Transform[] _stepsBgImages;
-
+    private Image[] _stepsGroup1;
+    private Image[] _stepsGroup2;
+    
     private float _score;
     private float _totalScore;
     private int _villagerCount;
@@ -46,9 +48,12 @@ public class GameEndUI : MonoBehaviour
         _lowerButtons = _buttonsContainer.transform.GetComponentsInChildren<Transform>().Skip(0).ToArray();
         
         // Spell step objects
-        _spellStepsParent = transform.Find("Wrapper/Chapter1").gameObject;
-//        _stepsBgImages = new Transform { _spellStepsParent.transform.Find("BG1"), _spellStepsParent.transform.Find("BG2") };
-        
+        _spellStepsParent = transform.Find("Wrapper/SpellSteps/Chapter1").gameObject;
+        _stepsBgImages = new []{ _spellStepsParent.transform.Find("BG1"), _spellStepsParent.transform.Find("BG2") };
+        _stepGroups = new []{ _spellStepsParent.transform.Find("Steps/Group1"), _spellStepsParent.transform.Find("Steps/Group2") };
+        _stepsGroup1 = _stepGroups[0].GetComponentsInChildren<Image>();
+        _stepsGroup2 = _stepGroups[1].GetComponentsInChildren<Image>();
+
         _scoreText = _boardContainer.transform.Find("ScoreWrap/Text").GetComponent<Text>();
         _villagers = _boardContainer.transform.Find("VillagersMultiplier/Text").GetComponent<Text>();
         _scoreText.gameObject.SetActive(false);
@@ -70,6 +75,8 @@ public class GameEndUI : MonoBehaviour
             _lowerButtons[2].gameObject.SetActive(false);
         else
             iTween.ScaleFrom(_lowerButtons[2].gameObject, iTween.Hash("scale", Vector3.zero, "time", .6f, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.2f));
+
+        StartCoroutine(AnimateSteps());
 
     }
 
@@ -126,14 +133,6 @@ public class GameEndUI : MonoBehaviour
         InvokeRepeating("SetVillagersText", 1, .04f);
     }
 
-    IEnumerator ScoreCounter(float score, int start, Text text)
-    {
-        DefaultNamespace.Counter.Reset((int) score, start, text);
-        DefaultNamespace.Counter.Update();
-
-        yield return new WaitForSeconds(3);
-    }
-
     public void ScoreMultiplier()
     {
         _scoreText.gameObject.SetActive(true);
@@ -160,9 +159,27 @@ public class GameEndUI : MonoBehaviour
 
     }
 
-    private void AnimateSteps()
+    private IEnumerator AnimateSteps()
     {
+        yield return new WaitForSeconds(1);
         
+        iTween.MoveFrom(_stepsBgImages[0].gameObject, iTween.Hash("position", new Vector3(-700, -200, 0), "time", 3, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+        iTween.MoveFrom(_stepsBgImages[1].gameObject, iTween.Hash("position", new Vector3(700, -200, 0), "time", 3, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+
+        for(var i1 = 0; i1 < _stepsGroup1.Length; i1++)
+        {
+            iTween.ScaleFrom(_stepsGroup1[i1].gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .8f*i1));            
+        }
+        
+//        iTween.MoveBy(_stepsBgImages[0].gameObject, iTween.Hash("z", rotAmount, "time", 50, "easetype", iTween.EaseType.linear, "looptype", iTween.LoopType.loop));
+    }
+
+    private IEnumerator ScoreCounter(float score, int start, Text text)
+    {
+        DefaultNamespace.Counter.Reset((int) score, start, text);
+        DefaultNamespace.Counter.Update();
+
+        yield return new WaitForSeconds(3);
     }
 
     private void FadeTextIn(float alpha)
