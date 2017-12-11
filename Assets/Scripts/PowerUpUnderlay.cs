@@ -59,7 +59,7 @@ public class PowerUpUnderlay : MonoBehaviour
 	public void Subtract()
 	{
 		
-		if(_ringIndex >= 0)
+		if(_ringIndex >= 0 && _ringIndex < _underlayRings.Length)
 		{
 //			iTween.StopByName("scale"+_ringIndex);
 			iTween.Stop(_underlayRings[_ringIndex].gameObject);
