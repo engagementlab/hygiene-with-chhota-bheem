@@ -31,6 +31,8 @@ public class InterstitialUI : MonoBehaviour
 		
 		_nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
 		_playButton = transform.Find("PlayButton").gameObject.GetComponent<Button>();
+		_nextButton.gameObject.SetActive(true);
+		_playButton.gameObject.SetActive(false);
 		
 		switch (GameConfig.CurrentChapter)
 		{
