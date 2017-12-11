@@ -11,6 +11,7 @@ public class GameEndUI : MonoBehaviour
     private GameObject _boardContainer;
     private GameObject _scoreContainer;
     private GameObject _buttonsContainer;
+    private GameObject _finalContainer;
     private Text _scoreText;
     private Text _villagers;
     private Text _endVillagers;
@@ -44,13 +45,21 @@ public class GameEndUI : MonoBehaviour
     private void OnEnable()
     {
 
-        _bubbles = GameObject.FindGameObjectsWithTag("GUIBubble");
-        _bubbleStars = GameObject.FindGameObjectsWithTag("GUIStar");
-
         _boardContainer = transform.Find("Wrapper/Board").gameObject;
         _headerContainer = transform.Find("Wrapper/Header").gameObject;
         _buttonsContainer = transform.Find("Wrapper/Buttons").gameObject;
         _lowerButtons = _buttonsContainer.transform.GetComponentsInChildren<Transform>().Skip(0).ToArray();
+
+        // "Final" screen objects
+        if(GameConfig.GameWon && GameConfig.CurrentChapter == 2 && GameConfig.CurrentLevel == 1)
+        {
+            _finalContainer = transform.Find("Wrapper/Final").gameObject;
+            _finalContainer.SetActive(true);
+            _buttonsContainer.GetComponent<CanvasGroup>().alpha = 0;
+        }
+
+        _bubbles = GameObject.FindGameObjectsWithTag("GUIBubble");
+        _bubbleStars = GameObject.FindGameObjectsWithTag("GUIStar");
         
         // Spell step objects
         /*_spellStepsParent = transform.Find("Wrapper/SpellSteps/Chapter1").gameObject;
@@ -68,6 +77,7 @@ public class GameEndUI : MonoBehaviour
         _superImg = _headerContainer.transform.Find("Super!").gameObject;
 
         _stars = transform.Find("Wrapper/Board/Wrapper").GetComponentsInChildren<Image>().Skip(0).ToArray();
+        
 
 //        StartCoroutine(AnimateSteps());
         StartCoroutine(AnimateBubbles());
@@ -180,9 +190,14 @@ public class GameEndUI : MonoBehaviour
             yield return new WaitForSeconds(1.3f);
         else
             yield break;
-        
+
+        GameObject chhotaBheem = _finalContainer.transform.Find("ChhotaBheem").gameObject;
+        iTween.MoveTo(chhotaBheem, iTween.Hash("position", new Vector3(0, -260.4f, 0), "time", 1.5f, "delay", 2, "islocal", true, "easetype", iTween.EaseType.easeOutExpo));
+        iTween.MoveTo(chhotaBheem, iTween.Hash("position", new Vector3(0, -768.42f, 0), "time", 1, "delay", 4, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+        iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "delay", 6, "onupdate", "FadeButtons"));
+
         for(var b = 0; b < _bubbles.Length; b++)
-            iTween.ScaleTo(_bubbles[b], iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", Random.Range(.3f, .7f) * b));
+            iTween.ScaleTo(_bubbles[b], iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", Random.Range(.3f, .5f) * b*.5f));
 
         yield return new WaitForSeconds(1.3f);
         for(var s = 0; s < _bubbleStars.Length; s++)
@@ -215,16 +230,15 @@ public class GameEndUI : MonoBehaviour
         yield return new WaitForSeconds(_stepsGroup1.Length);
 
         iTween.MoveTo(_stepGroups[0].gameObject, iTween.Hash("position", new Vector3(-12, 50, 0), "time", .7f, "islocal", true, "easetype", iTween.EaseType.easeInExpo));
-        iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", .7f, "onupdate", "FadeSpellsOut"));
         
         for(var i2 = 0; i2 < _stepsGroup2.Length; i2++)
             iTween.ScaleTo(_stepsGroup2[i2].gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .8f * i2));
         
     }
 
-    private void FadeSpellsOut(float alpha)
+    private void FadeButtons(float alpha)
     {
-        _stepGroups[0].gameObject.GetComponent<CanvasGroup>().alpha = alpha;
+        _buttonsContainer.GetComponent<CanvasGroup>().alpha = alpha;
     }
     
     private IEnumerator ScoreCounter(float score, int start, Text text)

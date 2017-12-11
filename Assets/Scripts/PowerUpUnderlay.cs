@@ -37,7 +37,6 @@ public class PowerUpUnderlay : MonoBehaviour
 		foreach(var ring in _underlayRings)
 			ring.gameObject.SetActive(false);
 		
-//		_underlayRings[0].gameObject.SetActive(true);
 	}
 
 	public void Add()
@@ -61,13 +60,12 @@ public class PowerUpUnderlay : MonoBehaviour
 		
 		if(_ringIndex >= 0 && _ringIndex < _underlayRings.Length)
 		{
-//			iTween.StopByName("scale"+_ringIndex);
 			iTween.Stop(_underlayRings[_ringIndex].gameObject);
 			iTween.ScaleTo(_underlayRings[_ringIndex].gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
 			
-//			if(_ringIndex > 1)
 				_ringIndex--;
 		}
+		
 	}
 	
 }
