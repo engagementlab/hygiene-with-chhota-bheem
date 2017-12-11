@@ -125,6 +125,7 @@ public class GameEndUI : MonoBehaviour
     public void Restart()
     {
 
+        GameConfig.Score = 0;
         GameConfig.Reset();
 
     }
