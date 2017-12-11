@@ -53,11 +53,11 @@ public class GameEndUI : MonoBehaviour
         _lowerButtons = _buttonsContainer.transform.GetComponentsInChildren<Transform>().Skip(0).ToArray();
         
         // Spell step objects
-        _spellStepsParent = transform.Find("Wrapper/SpellSteps/Chapter1").gameObject;
+        /*_spellStepsParent = transform.Find("Wrapper/SpellSteps/Chapter1").gameObject;
         _stepsBgImages = new []{ _spellStepsParent.transform.Find("BG1"), _spellStepsParent.transform.Find("BG2") };
         _stepGroups = new []{ _spellStepsParent.transform.Find("Steps/Group1"), _spellStepsParent.transform.Find("Steps/Group2") };
         _stepsGroup1 = _stepGroups[0].GetComponentsInChildren<Image>();
-        _stepsGroup2 = _stepGroups[1].GetComponentsInChildren<Image>();
+        _stepsGroup2 = _stepGroups[1].GetComponentsInChildren<Image>();*/
 
         _scoreText = _boardContainer.transform.Find("ScoreWrap/Text").GetComponent<Text>();
         _villagers = _boardContainer.transform.Find("VillagersMultiplier/Text").GetComponent<Text>();
@@ -69,7 +69,7 @@ public class GameEndUI : MonoBehaviour
 
         _stars = transform.Find("Wrapper/Board/Wrapper").GetComponentsInChildren<Image>().Skip(0).ToArray();
 
-        StartCoroutine(AnimateSteps());
+//        StartCoroutine(AnimateSteps());
         StartCoroutine(AnimateBubbles());
         
         iTween.ScaleFrom(_headerContainer, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .1f));
