@@ -117,28 +117,28 @@ public class ArchetypeBoss : ArchetypeMove
 			// Change heading of projectile based on mode
 			switch (ShootMode)
 			{
-					case ShootModes.Down:
-						dir = new Vector2(0, -1);
-						dir.Normalize();
+				case ShootModes.Down:
+					dir = new Vector2(0, -1);
+					dir.Normalize();
 
-						break;
-						
-					case ShootModes.AtPlayer:
-						var heading = _player.transform.position - transform.position;
-						var distance = heading.magnitude;
-						dir = heading / distance;
-						
-						break;
-						
-					case ShootModes.Random:
-						dir = new Vector2(0, -1);
-						dir.Normalize();
+					break;
+					
+				case ShootModes.AtPlayer:
+					var heading = _player.transform.position - transform.position;
+					var distance = heading.magnitude;
+					dir = heading / distance;
+					
+					break;
+					
+				case ShootModes.Random:
+					dir = new Vector2(0, -1);
+					dir.Normalize();
 
-						break;
-						
-						default:
-							dir = new Vector2(-1, 0);
-							break;
+					break;
+					
+				default:
+						dir = new Vector2(-1, 0);
+					break;
 			}
 
 			// Create projectile and give it a velocity
@@ -162,6 +162,8 @@ public class ArchetypeBoss : ArchetypeMove
 		if(_wait) return;
 		if(collider.gameObject.tag != "Bubble") return;
 
+		collider.gameObject.GetComponent<SphereCollider>().enabled = false;
+
 		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
 		Events.instance.Raise(SoundEvent.WithClip(_playerScript.FightSounds[Random.Range(0, _playerScript.FightSounds.Length-1)]));
 
@@ -182,6 +184,8 @@ public class ArchetypeBoss : ArchetypeMove
 		GameConfig.GameOver = true;
 		Events.instance.Raise(new ScoreEvent(pointsWorth));
 		Events.instance.Raise(new GameEndEvent(true));
+		
+	
 
 	}
 

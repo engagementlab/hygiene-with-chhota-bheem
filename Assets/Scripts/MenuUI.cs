@@ -116,9 +116,7 @@ public class MenuUI : MonoBehaviour
 		if (_animating && !_buttonsDisabled)
 		{
 			foreach (Button button in _levelButtons)
-			{
 				button.interactable = false;
-			}
 
 			_chaptersBack.GetComponent<Button>().interactable = false;
 			_infoBack.GetComponent<Button>().interactable = false;
