@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,6 +27,9 @@ public class GameEndUI : MonoBehaviour
     private Transform[] _stepsBgImages;
     private Image[] _stepsGroup1;
     private Image[] _stepsGroup2;
+
+    private GameObject[] _bubbles;
+    private GameObject[] _bubbleStars;
     
     private float _score;
     private float _totalScore;
@@ -41,6 +43,9 @@ public class GameEndUI : MonoBehaviour
 
     private void OnEnable()
     {
+
+        _bubbles = GameObject.FindGameObjectsWithTag("GUIBubble");
+        _bubbleStars = GameObject.FindGameObjectsWithTag("GUIStar");
 
         _boardContainer = transform.Find("Wrapper/Board").gameObject;
         _headerContainer = transform.Find("Wrapper/Header").gameObject;
@@ -65,7 +70,8 @@ public class GameEndUI : MonoBehaviour
         _stars = transform.Find("Wrapper/Board/Wrapper").GetComponentsInChildren<Image>().Skip(0).ToArray();
 
         StartCoroutine(AnimateSteps());
-
+        StartCoroutine(AnimateBubbles());
+        
         iTween.ScaleFrom(_headerContainer, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .1f));
         iTween.ScaleFrom(_boardContainer, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "oncomplete", "ScoreMultiplier", "oncompletetarget", gameObject, "delay", .8f));
         iTween.PunchRotation(_headerContainer, iTween.Hash("z", -90, "time", 2));
@@ -159,6 +165,35 @@ public class GameEndUI : MonoBehaviour
 
     }
 
+    private IEnumerator AnimateBubbles()
+    {
+        System.Random rnd = new System.Random();
+        _bubbles = _bubbles.OrderBy(x => rnd.Next()).ToArray();
+        _bubbleStars = _bubbleStars.OrderBy(x => rnd.Next()).ToArray();
+
+        foreach(GameObject t in _bubbles)
+            t.transform.localScale = Vector3.zero;
+        foreach(GameObject t in _bubbleStars)
+            t.transform.localScale = Vector3.zero;
+
+        if(GameConfig.GameWon)
+            yield return new WaitForSeconds(1.3f);
+        else
+            yield break;
+        
+        for(var b = 0; b < _bubbles.Length; b++)
+            iTween.ScaleTo(_bubbles[b], iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", Random.Range(.3f, .7f) * b));
+
+        yield return new WaitForSeconds(1.3f);
+        for(var s = 0; s < _bubbleStars.Length; s++)
+        {
+            var delay = Random.Range(.3f, .7f) * s;
+            iTween.ScaleTo(_bubbleStars[s], iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", delay));
+            iTween.PunchRotation(_bubbleStars[0], iTween.Hash("z", 90, "time", 1.2f, "delay", delay));
+        }
+
+    }
+    
     private IEnumerator AnimateSteps()
     {
         iTween.MoveTo(_stepsBgImages[0].gameObject, new Vector3(-700, -101, 0), .001f);
