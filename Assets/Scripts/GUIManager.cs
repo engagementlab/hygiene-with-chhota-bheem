@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Threading;
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,6 +42,9 @@ public class GUIManager
 	private GameObject _bar;
 	private float _spellSize;
 	private int _spellCount;
+
+	private ArchetypeSpell[] _pauseSpells;
+	private float _pauseSpellSize;
 	
 	// Use this for initialization
 	public void Initialize ()
@@ -57,6 +61,17 @@ public class GUIManager
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseUi.SetActive(false);
 		_pauseAnimator = _pauseUi.GetComponent<Animator>();
+		
+		_pauseSpells = _pauseUi.GetComponentsInChildren<ArchetypeSpell>();
+		_pauseSpellSize = _pauseSpells[0].GetComponent<RectTransform>().sizeDelta.y/_steps;
+
+		foreach (ArchetypeSpell spell in _pauseSpells)
+		{
+			spell.gameObject.SetActive(false);
+			
+			var fill = spell.GetComponent<RectTransform>();
+			fill.sizeDelta = new Vector2(fill.sizeDelta.x, 0);
+		}
 
 		_slowMoWrapper = GameObject.Find("GameUI/SlowMoWrap");
 		_slowMoWrapper.SetActive(false);
@@ -95,12 +110,14 @@ public class GUIManager
 	public void AddSpellJuice(Spells type, GameObject fill, GameObject particlesObj)
 	{
 		var spellFill = fill.GetComponent<RectTransform>();
+
 		iTween.MoveTo(particlesObj, iTween.Hash("position", Camera.main.ScreenToWorldPoint(spellFill.transform.position), "time", 3, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 		
 		_spellCount++;
 		
 		Events.instance.Raise(new SoundEvent("soap-pickup-"+(_spellCount==1?"1":"2"), SoundEvent.SoundType.SFX));
 		fill.GetComponent<ArchetypeSpell>().Fill(_spellSize, _spellCount == _steps);
+		
 	}
 
 	public void EmptySpells()
@@ -127,6 +144,23 @@ public class GUIManager
 		yield return new WaitForSeconds(1.5f);
 
 		iTween.MoveTo(_spellActivatedUi, iTween.Hash("position", new Vector3(0, 200, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+	}
+
+	public void UpdatePauseMenu(Spells type, float amount)
+	{
+		
+		foreach (ArchetypeSpell spell in _pauseSpells)
+		{
+			if (spell.Type == type)
+			{
+				spell.gameObject.SetActive(true);
+
+				var size = spell.GetComponent<RectTransform>();
+				
+				size.sizeDelta = new Vector2(size.sizeDelta.x, _pauseSpellSize * _spellCount);
+			}
+		}
+		
 	}
 
 	public void ShowPause()
