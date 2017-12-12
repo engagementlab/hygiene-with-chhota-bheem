@@ -8,7 +8,7 @@ public class SoundEvent : GameEvent
   public readonly AudioClip SoundClip;
   public readonly float SoundVolume;
   public readonly float SoundPitch;
-  public readonly bool ChangeClip;
+  public readonly bool FadeClip;
 
   public enum SoundType
   {
@@ -16,13 +16,16 @@ public class SoundEvent : GameEvent
      Music
   }
 
-  public SoundEvent (string name, SoundType type, AudioClip clip=null, float volume=1, float pitch=1)
+  public SoundEvent (string name, SoundType type, AudioClip clip=null, float volume=1, float pitch=1, bool fade=false)
   {
+    
     SoundClip = clip;
     Type = type;
     SoundFileName = name;
     SoundVolume = volume;
     SoundPitch = pitch;
+    FadeClip = fade;
+    
   }
 
   // Use provided audio clip instead of finding Resource

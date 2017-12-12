@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 	public GameObject VillagerPrefab;
 
 	public AudioClip clip;
+//	public AudioClip clipBoss;
 
 	private float _deltaTime;
 	private bool _playerHasTouched;
@@ -55,8 +56,7 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		// Start level music
-//		Events.instance.Raise(new SoundEvent("song_1_test", SoundEvent.SoundType.Music, null, .3f));
-		AudioController.Fade(clip);
+		AudioController.Fade(clip, true, GameConfig.GlobalVolume);
 
 		_player = GameObject.FindWithTag("Player");
 

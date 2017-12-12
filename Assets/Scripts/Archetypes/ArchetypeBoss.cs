@@ -61,6 +61,7 @@ public class ArchetypeBoss : ArchetypeMove
 	private float _startingHpWidth;
 	private Vector3 _velocity;
 	private bool _wait = true;
+	private bool _musicPlayed;
 	private int _playerStrength;
 	
 	private void Awake()
@@ -80,9 +81,19 @@ public class ArchetypeBoss : ArchetypeMove
 		
 		// Sanity check
 		base.Update();
+		var position = MainCamera.WorldToViewportPoint(transform.position).y;
+		Debug.Log(position);
+
+		if(position < 2 && !_musicPlayed)
+		{
+			// Fade in boss music	
+			var fileName = "chapter_" + System.Convert.ToInt32(GameConfig.CurrentChapter + 1) + "_boss";
+			Events.instance.Raise(new SoundEvent(fileName, SoundEvent.SoundType.Music, null, 1, 1, true));
+			_musicPlayed = true;
+		}
 		
 		// Do nothing before in view
-		if(!(MainCamera.WorldToViewportPoint(transform.position).y < .87f)) return;
+		if(!(position < .87f)) return;
 		// Paused/over?
 		if (GameConfig.GamePaused || GameConfig.GameOver) return;
 		
@@ -91,6 +102,7 @@ public class ArchetypeBoss : ArchetypeMove
 		// Put at root of scene so it stays still
 		if(transform.parent != null)
 			transform.parent = null;
+		
 
 		if(_wait)
 		{
