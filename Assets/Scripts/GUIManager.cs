@@ -110,10 +110,12 @@ public class GUIManager
 	public void AddSpellJuice(Spells type, GameObject fill, GameObject particlesObj)
 	{
 		var spellFill = fill.GetComponent<RectTransform>();
-		
+
 		iTween.MoveTo(particlesObj, iTween.Hash("position", Camera.main.ScreenToWorldPoint(spellFill.transform.position), "time", 3, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 		
 		_spellCount++;
+		
+		Events.instance.Raise(new SoundEvent("soap-pickup-"+(_spellCount==1?"1":"2"), SoundEvent.SoundType.SFX));
 		fill.GetComponent<ArchetypeSpell>().Fill(_spellSize, _spellCount == _steps);
 		
 	}
@@ -133,6 +135,8 @@ public class GUIManager
 
 	public IEnumerator ShowSpellActivated()
 	{
+		Events.instance.Raise(new SoundEvent("spell-activate", SoundEvent.SoundType.SFX));
+		
 		_spellActivatedUi.SetActive(true);
 		iTween.MoveTo(_spellActivatedUi, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutElastic));
 		iTween.PunchScale(_spellActivatedBanner, iTween.Hash("amount", Vector3.one*1.2f, "time", 1.3f, "easetype", iTween.EaseType.easeInOutBounce));

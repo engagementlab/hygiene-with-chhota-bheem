@@ -14,6 +14,7 @@ public class AudioControl : MonoBehaviour
 
     private AudioSource _sound;
     private AudioSource _music;
+    private DoubleAudioSource _doubleAudioSource;
 
     [HideInInspector] 
     public GameObject audioPlayer;
@@ -32,6 +33,8 @@ public class AudioControl : MonoBehaviour
         _music = transform.Find("Music").GetComponent<AudioSource>();
         _sound = transform.Find("Sound").GetComponent<AudioSource>();
         _loadedAudio = new Dictionary<string, AudioClip>();
+
+        _doubleAudioSource = GetComponentInChildren<DoubleAudioSource>();
 		
         Events.instance.AddListener<SoundEvent> (OnSoundEvent);
     }
@@ -67,6 +70,8 @@ public class AudioControl : MonoBehaviour
 
         bool isMusic = e.Type == SoundEvent.SoundType.Music;
         AudioSource audio = isMusic ? _music : _sound;
+        audio.volume = e.SoundVolume * GameConfig.GlobalVolume;
+        
         player = audioPlayer == null ? audio : audioPlayer.GetComponent<AudioSource>();
         
         if(e.SoundFileName != null)
@@ -75,8 +80,19 @@ public class AudioControl : MonoBehaviour
             if(!_loadedAudio.ContainsKey(e.SoundFileName))
                 _loadedAudio.Add(e.SoundFileName, Resources.Load<AudioClip>("Audio/" + e.Type + "/" + e.SoundFileName));
 
-            // Play loaded clip
-            player.PlayOneShot(_loadedAudio[e.SoundFileName], e.SoundVolume * GameConfig.GlobalVolume);
+            if(!e.FadeClip)
+            {
+                // Play loaded clip
+                if(isMusic)
+                {
+                    player.clip = _loadedAudio[e.SoundFileName]; 
+                    player.Play();
+                }
+                else
+                    player.PlayOneShot(_loadedAudio[e.SoundFileName]);
+            } 
+            else
+                Fade(_loadedAudio[e.SoundFileName], isMusic, e.SoundVolume * GameConfig.GlobalVolume);
         }
         // Otherwise, play provided clip
         else if(e.SoundClip != null) 
@@ -84,6 +100,13 @@ public class AudioControl : MonoBehaviour
 		
         if(audioPlayer != null)
             Destroy(audioPlayer, e.SoundClip.length);
+    }
+
+    public void UpdateVolume(float newVolume)
+    {
+        _music.volume = newVolume;
+        _sound.volume = newVolume;
+        _doubleAudioSource.UpdateVolume(newVolume);
     }
 
     public AudioSource WhichMusicPlayer()
@@ -94,10 +117,9 @@ public class AudioControl : MonoBehaviour
             return _music;
     }
 
-    public void Fade(AudioClip newClip)
+    public void Fade(AudioClip newClip, bool loop=false, float volume=1)
     {
-        AudioClip currentClip = transform.Find("Music").GetComponents<AudioSource>()[0].clip;
-        GetComponentInChildren<DoubleAudioSource>().CrossFade(newClip, 1f, 1f);
+        _doubleAudioSource.CrossFade(newClip, volume, 1f, 0, loop);
     }
     
 

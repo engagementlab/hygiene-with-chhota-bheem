@@ -93,15 +93,23 @@ public class DoubleAudioSource : MonoBehaviour
  
     //gradually shifts the sound comming from our audio sources to the this clip:
     // maxVolume should be in 0-to-1 range
-    public void CrossFade(AudioClip clipToPlay, float maxVolume, float fadingTime, float delay_before_crossFade = 0)
+    public void CrossFade(AudioClip clipToPlay, float maxVolume, float fadingTime, float delay_before_crossFade = 0, bool loop=false)
     {
         //var fadeRoutine = StartCoroutine(Fade(clipToPlay, maxVolume, fadingTime, delay_before_crossFade));
-        StartCoroutine(Fade(clipToPlay, maxVolume, fadingTime, delay_before_crossFade));
- 
+        StartCoroutine(Fade(clipToPlay, maxVolume, fadingTime, delay_before_crossFade, loop));
+
     }//end CrossFade()
+    
+    public void UpdateVolume(float newVolume)
+    {
+  
+        _source0.volume = newVolume;
+        _source1.volume = newVolume;
+  
+    }
  
  
-    IEnumerator Fade(AudioClip playMe, float maxVolume, float fadingTime, float delay_before_crossFade = 0)
+    IEnumerator Fade(AudioClip playMe, float maxVolume, float fadingTime, float delay_before_crossFade = 0, bool loop=false)
     {
         if (delay_before_crossFade > 0)
         {
@@ -115,6 +123,7 @@ public class DoubleAudioSource : MonoBehaviour
             curActiveSource = _source0;
             //so launch on _source1
             newActiveSource = _source1;
+            
         }
         else
         {
@@ -123,7 +132,8 @@ public class DoubleAudioSource : MonoBehaviour
             //so play on _source0
             newActiveSource = _source0;
         }
- 
+        // loop audio?
+        newActiveSource.loop = loop;
         //perform the switching
         newActiveSource.clip = playMe;
         newActiveSource.Play();

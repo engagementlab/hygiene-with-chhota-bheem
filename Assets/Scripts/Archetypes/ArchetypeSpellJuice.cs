@@ -116,10 +116,6 @@ public class ArchetypeSpellJuice : MonoBehaviour
 	
 	private void JuiceCollected(GameObject spellObject)
 	{
-		// SFX
-		bool soundBool = Random.value > .5f;
-		Events.instance.Raise(new SoundEvent("spell_pickup_"+(soundBool?"1":"2"), SoundEvent.SoundType.SFX));
-
 		// Update Spell Juice UI, and load in particles
 		var fill = spellObject;
 		var spellParticles = Instantiate(Resources.Load<GameObject>("SpellParticles" + _type), transform.position, Quaternion.identity);

@@ -60,11 +60,14 @@ public class MenuUI : MonoBehaviour
 	private bool _animating;
 	private bool _buttonsDisabled;
 
+	private AudioControl _audioControl;
+
 	// Use this for initialization
 	void Start ()
 	{
 		// Start menu music
-		GameObject.Find("AudioController").GetComponent<AudioControl>().Fade(MenuMusic);
+		_audioControl = GameObject.Find("AudioController").GetComponent<AudioControl>();
+		_audioControl.Fade(MenuMusic, true, GameConfig.GlobalVolume);
 		
 		// Find settings objects, toggles and sliders
 		_settingsBoard = Settings.transform.Find("Board").gameObject;
@@ -314,8 +317,8 @@ public class MenuUI : MonoBehaviour
 		
 		GameConfig.GlobalVolume = volume;
 		GameConfig.UpdatePrefs("volume", null, volume);
-		GameSound.volume = volume;
-		GameMusic.volume = volume;
+		
+		_audioControl.UpdateVolume(volume);
 	}
 
 	public void Sound()
