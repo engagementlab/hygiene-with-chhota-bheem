@@ -41,6 +41,7 @@ public class GameEndUI : MonoBehaviour
     private float _starAudioPitch = 1;
     private float _animationTime;
     private bool _animateScore;
+    private bool _finalLevel;
 
     private void OnEnable()
     {
@@ -50,8 +51,9 @@ public class GameEndUI : MonoBehaviour
         _buttonsContainer = transform.Find("Wrapper/Buttons").gameObject;
         _lowerButtons = _buttonsContainer.transform.GetComponentsInChildren<Transform>().Skip(0).ToArray();
 
+        _finalLevel = GameConfig.CurrentChapter == 2 && GameConfig.CurrentLevel == 1;
         // "Final" screen objects
-        if(GameConfig.GameWon && GameConfig.CurrentChapter == 2 && GameConfig.CurrentLevel == 1)
+        if(GameConfig.GameWon && _finalLevel)
         {
             _finalContainer = transform.Find("Wrapper/Final").gameObject;
             _finalContainer.SetActive(true);
@@ -78,7 +80,6 @@ public class GameEndUI : MonoBehaviour
 
         _stars = transform.Find("Wrapper/Board/Wrapper").GetComponentsInChildren<Image>().Skip(0).ToArray();
         
-
 //        StartCoroutine(AnimateSteps());
         StartCoroutine(AnimateBubbles());
         
@@ -192,9 +193,13 @@ public class GameEndUI : MonoBehaviour
         else
             yield break;
 
-        GameObject chhotaBheem = _finalContainer.transform.Find("ChhotaBheem").gameObject;
-        iTween.MoveTo(chhotaBheem, iTween.Hash("position", new Vector3(0, -260.4f, 0), "time", 1.5f, "delay", 2, "islocal", true, "easetype", iTween.EaseType.easeOutExpo));
-        iTween.MoveTo(chhotaBheem, iTween.Hash("position", new Vector3(0, -768.42f, 0), "time", 1, "delay", 4, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+        // Animate Bheem on last level
+        if(_finalLevel)
+        {
+            GameObject chhotaBheem = _finalContainer.transform.Find("ChhotaBheem").gameObject;
+            iTween.MoveTo(chhotaBheem, iTween.Hash("position", new Vector3(0, -260.4f, 0), "time", 1.5f, "delay", 2, "islocal", true, "easetype", iTween.EaseType.easeOutExpo));
+            iTween.MoveTo(chhotaBheem, iTween.Hash("position", new Vector3(0, -768.42f, 0), "time", 1, "delay", 4, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+        }
         iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "delay", 6, "onupdate", "FadeButtons"));
 
         for(var b = 0; b < _bubbles.Length; b++)
