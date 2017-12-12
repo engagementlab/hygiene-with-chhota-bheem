@@ -68,9 +68,7 @@ public class ArchetypeBoss : ArchetypeMove
 	{
 		
 		base.Awake();
-		
 		_parent = GameObject.FindWithTag("Parent");
-//		_playerStrength = _playerScript.BubbleInitialStrength + _playerScript.BubbleStrengthIncrease;
 		
 		HealthFill = transform.Find("Canvas/HP BG/HP").GetComponent<Image>();
 		_startingHpWidth = HealthFill.fillAmount;
@@ -82,7 +80,6 @@ public class ArchetypeBoss : ArchetypeMove
 		// Sanity check
 		base.Update();
 		var position = MainCamera.WorldToViewportPoint(transform.position).y;
-		Debug.Log(position);
 
 		if(position < 2 && !_musicPlayed)
 		{
@@ -172,6 +169,8 @@ public class ArchetypeBoss : ArchetypeMove
 	{
 
 		if(_wait) return;
+		
+		base.OnTriggerEnter(collider);
 		if(collider.gameObject.tag != "Bubble") return;
 
 		collider.gameObject.GetComponent<SphereCollider>().enabled = false;
