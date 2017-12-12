@@ -56,6 +56,8 @@ public class ArchetypeSpell : ArchetypeMove {
 	public void AdjustSpellLevel(float spellSize){
 		
 		spellFill.sizeDelta = new Vector2(spellFill.sizeDelta.x, spellSize);
+		
+		GUIManager.Instance.UpdatePauseMenu(Type, spellSize);
 
 	}
 
@@ -67,6 +69,7 @@ public class ArchetypeSpell : ArchetypeMove {
 	public void SpellLevelAdjusted(bool full)
 	{
 		isFilling = false;
+		
 		if(!full)
 		{
 			if(queueAmount > 0)
