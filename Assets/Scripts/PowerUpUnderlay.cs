@@ -41,7 +41,7 @@ public class PowerUpUnderlay : MonoBehaviour
 
 	public void Add()
 	{
-		if(_ringIndex < 4)
+		if(_ringIndex < _underlayRings.Length-1)
 		{
 			_ringIndex++;
 			SpriteRenderer ring = _underlayRings[_ringIndex];
@@ -63,7 +63,7 @@ public class PowerUpUnderlay : MonoBehaviour
 			iTween.Stop(_underlayRings[_ringIndex].gameObject);
 			iTween.ScaleTo(_underlayRings[_ringIndex].gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
 			
-				_ringIndex--;
+			_ringIndex--;
 		}
 		
 	}
