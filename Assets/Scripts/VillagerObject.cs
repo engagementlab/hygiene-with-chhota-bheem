@@ -14,6 +14,8 @@ public class VillagerObject : ArchetypeMove
 	[HideInInspector]
 	public bool Spawned = false;
 	
+	public int ExitSpeed = 1;
+	
 	// Rate for reducing particle cloud on hit
 	private float _rate;
 	
@@ -26,7 +28,6 @@ public class VillagerObject : ArchetypeMove
 	private ParticleSystem.EmissionModule _emission;
 
 	private bool _particleReady;
-	private int _animSpeed = 1;
 
 	private Vector3 _toPosition;
 	
@@ -55,7 +56,7 @@ public class VillagerObject : ArchetypeMove
 		var distance = Vector3.Distance(_toPosition, transform.position);
 		
 		iTween.Stop(gameObject);
-		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/_animSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "CompleteWalkOff"));
+		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/ExitSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "CompleteWalkOff"));
 
 	}
 
