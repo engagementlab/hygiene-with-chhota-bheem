@@ -49,7 +49,12 @@ public class GameEndUI : MonoBehaviour
         _boardContainer = transform.Find("Wrapper/Board").gameObject;
         _headerContainer = transform.Find("Wrapper/Header").gameObject;
         _buttonsContainer = transform.Find("Wrapper/Buttons").gameObject;
-        _lowerButtons = _buttonsContainer.transform.GetComponentsInChildren<Transform>().Skip(0).ToArray();
+        _lowerButtons = _buttonsContainer.transform.GetComponentsInChildren<Transform>().Skip(1).ToArray();
+
+        foreach (Transform button in _lowerButtons)
+        {
+            button.localScale = new Vector3(1, 1, 1);
+        }
 
         _finalLevel = GameConfig.CurrentChapter == 2 && GameConfig.CurrentLevel == 1;
         // "Final" screen objects
@@ -295,7 +300,7 @@ public class GameEndUI : MonoBehaviour
         else
         {
             _superImg.SetActive(false);
-            _lowerButtons[3].gameObject.SetActive(false);
+            _lowerButtons[2].gameObject.SetActive(false);
         }
 
     }
