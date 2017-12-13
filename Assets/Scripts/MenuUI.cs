@@ -227,6 +227,9 @@ public class MenuUI : MonoBehaviour
 		if (chapter > -1)
 		{
 			GameConfig.CurrentChapter = chapter;
+			_selectedLevel = chapter;
+			
+			Debug.Log(_selectedLevel);
 
 			for ( int i = 0; i < _levelsChapterTitles.Length; i++ )
 			{

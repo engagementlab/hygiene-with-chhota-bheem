@@ -43,6 +43,8 @@ public class ArchetypeBoss : ArchetypeMove
 	private Vector3 _wizardPos;
 	private Image HealthFill;
 	
+	private bool _lifeLossRunning;
+	
 	public enum Movements
 	{
 		AvoidPlayerPosition, 
@@ -63,6 +65,8 @@ public class ArchetypeBoss : ArchetypeMove
 	private bool _wait = true;
 	private bool _musicPlayed;
 	private int _playerStrength;
+
+	private SpriteRenderer _sprite;
 	
 	private void Awake()
 	{
@@ -72,6 +76,10 @@ public class ArchetypeBoss : ArchetypeMove
 		
 		HealthFill = transform.Find("Canvas/HP BG/HP").GetComponent<Image>();
 		_startingHpWidth = HealthFill.fillAmount;
+
+		_sprite = GetComponent<SpriteRenderer>();
+
+		_lifeLossRunning = false;
 	}
 
 	// Update is called once per frame
@@ -191,10 +199,7 @@ public class ArchetypeBoss : ArchetypeMove
 		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
 		StartCoroutine(DestroyWizard());
 
-		// You won the game
-		GameConfig.GameOver = true;
-		Events.instance.Raise(new ScoreEvent(pointsWorth));
-		Events.instance.Raise(new GameEndEvent(true));
+		
 
 	}
 
@@ -255,9 +260,35 @@ public class ArchetypeBoss : ArchetypeMove
 
 	private IEnumerator DestroyWizard()
 	{
+		if(_lifeLossRunning)
+			yield return false;
+		
+		_lifeLossRunning = true;
+		int times;
+				
+		for (times = 0; times < 6; times++)
+		{
+			_sprite.color = Color.red;
 
-		yield return new WaitForSeconds(1);
-		Destroy(gameObject);
+			yield return new WaitForSeconds(0.1f);
+			_sprite.color = Color.clear;
+			 		
+			yield return new WaitForSeconds(0.1f);
+			_sprite.color = Color.white;
+
+			if(times == 5)
+			{
+				Destroy(gameObject);
+				_lifeLossRunning = false;
+				
+				// You won the game
+				GameConfig.GameOver = true;
+				Events.instance.Raise(new ScoreEvent(pointsWorth));
+				Events.instance.Raise(new GameEndEvent(true));
+			}
+
+		}
+		
 		
 	}
 

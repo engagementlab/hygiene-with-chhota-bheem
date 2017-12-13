@@ -14,8 +14,13 @@ public class VillagerObject : ArchetypeMove
 	[HideInInspector]
 	public bool Spawned = false;
 	
+	public int ExitSpeed = 1;
+	
 	// Rate for reducing particle cloud on hit
 	private float _rate;
+	
+	// Rate for sprite sheet frame swapping
+	private int _frame;
 
 	private Particles _particles;
 	private ParticleSystem _particleSystem;
@@ -23,7 +28,6 @@ public class VillagerObject : ArchetypeMove
 	private ParticleSystem.EmissionModule _emission;
 
 	private bool _particleReady;
-	private int _animSpeed = 1;
 
 	private Vector3 _toPosition;
 	
@@ -52,7 +56,7 @@ public class VillagerObject : ArchetypeMove
 		var distance = Vector3.Distance(_toPosition, transform.position);
 		
 		iTween.Stop(gameObject);
-		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/_animSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "CompleteWalkOff"));
+		iTween.MoveTo(gameObject, iTween.Hash("position", _toPosition, "time", distance/ExitSpeed, "easetype", iTween.EaseType.linear, "oncomplete", "CompleteWalkOff"));
 
 	}
 
@@ -80,7 +84,7 @@ public class VillagerObject : ArchetypeMove
 		
 		if(_particleReady)
 			_particles = GetComponent<Particles>();
-
+		
 	}
 
 	private void Start()
@@ -91,7 +95,8 @@ public class VillagerObject : ArchetypeMove
 		// Pick random villager spritesheet and set to first frame
 		_spriteFrames = Resources.LoadAll<Sprite>("Villagers/"+UnityEngine.Random.Range(1, 4));
 		_villagerRenderer.sprite = _spriteFrames[0];
-		
+		_frame = _spriteFrames.Length / HitPoints;
+
 		if (_particleSystem != null && _particleReady)
 			_particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 		
@@ -138,14 +143,16 @@ public class VillagerObject : ArchetypeMove
 			if (_particleReady)
 				_particles.ParticleReduce(_rate);
 
-			if(_bubblesHit < _spriteFrames.Length)
+			if(_bubblesHit < HitPoints)
 			{
 				bool hiSound = Random.value > .5f;
 				Events.instance.Raise(SoundEvent.WithClip(_playerScript.BubbleSounds[hiSound?0:1]));
-				_villagerRenderer.sprite = _spriteFrames[_bubblesHit];
+				_villagerRenderer.sprite = _spriteFrames[_frame * _bubblesHit];
 			}
 			return;
 		}
+		
+		_villagerRenderer.sprite = _spriteFrames[_spriteFrames.Length - 1];
 		
 		Events.instance.Raise (new ScoreEvent(pointsWorth));
 
