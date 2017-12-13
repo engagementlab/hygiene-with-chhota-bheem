@@ -195,8 +195,6 @@ public class ArchetypeBoss : ArchetypeMove
 		GameConfig.GameOver = true;
 		Events.instance.Raise(new ScoreEvent(pointsWorth));
 		Events.instance.Raise(new GameEndEvent(true));
-		
-	
 
 	}
 

@@ -351,7 +351,7 @@ public class ArchetypeMove : MonoBehaviour
 	  } 
 	  
 	  if(!PlayerCanKill || _playerScript == null) return;
-	  if (collider.gameObject.tag != "Bubble") return;
+	  if (collider.gameObject.tag != "Bubble" || gameObject.tag == "Boss") return;
 
 	  _bubblesHit += _playerScript.Strength;
 	  Destroy(collider.gameObject);
