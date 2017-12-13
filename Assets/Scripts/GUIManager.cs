@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Threading;
-using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
