@@ -112,6 +112,10 @@ public class MenuUI : MonoBehaviour
 
 		_buttonsDisabled = false;
 		
+		// Reset		
+		GameConfig.Score = 0;
+		GameConfig.Reset();
+
 	}
 
 	public void Update()
