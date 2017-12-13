@@ -53,10 +53,16 @@ public class InterstitialUI : MonoBehaviour
 		if(BackButton != null)
 			iTween.ScaleTo(BackButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInElastic));
 		
+		iTween.MoveTo(gameObject, iTween.Hash("position", new Vector3(0, 970, 0), "time", .01f, "islocal", true));
 		gameObject.SetActive(true);
-				
-		iTween.MoveTo(PreviousScreen, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
-		iTween.MoveFrom(gameObject, iTween.Hash("position", new Vector3(0, 970, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1));
+		iTween.MoveTo(PreviousScreen, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "PreviousFinished", "oncompletetarget", gameObject));
+		
+	}
+
+	private void PreviousFinished()
+	{
+		
+		iTween.MoveTo(gameObject, iTween.Hash("position", Vector3.zero, "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 		
 	}
 

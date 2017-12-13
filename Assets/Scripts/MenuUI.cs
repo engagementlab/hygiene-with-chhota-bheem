@@ -59,6 +59,8 @@ public class MenuUI : MonoBehaviour
 
 	private AudioControl _audioControl;
 
+	private Vector3 _chapterSelectDefaultPos;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -94,6 +96,7 @@ public class MenuUI : MonoBehaviour
 		// Find chapters objects
 		_chaptersTitle = Chapters.transform.Find("Text").gameObject;
 		_chapterSelect = Chapters.transform.Find("Select").gameObject;
+		_chapterSelectDefaultPos = _chapterSelect.transform.position;
 		_chaptersBack = ChaptersParent.transform.Find("Buttons/Back").gameObject;
 		
 		// Find levels objects
@@ -197,11 +200,12 @@ public class MenuUI : MonoBehaviour
 		_levelsTitle.SetActive(false);
 		_chapterButtons = GameObject.FindGameObjectsWithTag("ChapterButton");
 
+		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -740, 0), "time", .01f, "islocal", true));
 		iTween.MoveTo(!_levelsOpen ? ChaptersParent : Chapters, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 
 		iTween.ScaleFrom(_chaptersTitle, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .1f));
-		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -50, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
 		iTween.PunchRotation(_chapterButtons[0], iTween.Hash("z", 90, "time", 1.5f, "delay", 1.1f));
+		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -50, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
 		iTween.PunchRotation(_chapterButtons[1], iTween.Hash("z", -90, "time", 1.5f, "delay", 1.15f));
 		iTween.PunchRotation(_chapterButtons[2], iTween.Hash("z", 90, "time", 1.5f, "delay", 1.2f, "oncomplete", "DoneAnimating", "oncompletetarget", gameObject));
 		
@@ -249,7 +253,7 @@ public class MenuUI : MonoBehaviour
 		else
 			levelsDelay = 0;
 		
-		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+		iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", _interstitialsOpen ? iTween.EaseType.easeOutBack : iTween.EaseType.easeInBack));
 		iTween.ScaleFrom(_levelsTitle, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", levelsDelay));
 		iTween.MoveFrom(_levelButtons[0].gameObject, iTween.Hash("position", new Vector3(0, 850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", levelsDelay));
 		iTween.MoveFrom(_levelButtons[1].gameObject, iTween.Hash("position", new Vector3(0, 850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", levelsDelay + .4f));
@@ -268,13 +272,9 @@ public class MenuUI : MonoBehaviour
 
 	void OpenSelectedChapter()
 	{
-		InterstitialsParent.SetActive(false);
-		InterstitialsParent.transform.position = new Vector3(270.4f, 473.5f, 0.0f);
-		
 		_interstitialsOpen = true;
 		OpenLevelSelect(_selectedLevel);
 	}
-
 	
 	public void SaveLevelToLoad(string level)
 	{
@@ -293,7 +293,7 @@ public class MenuUI : MonoBehaviour
 			iTween.MoveTo(Levels, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "OpenChapters", "oncompletetarget", gameObject));
 		else
 		{
-			iTween.MoveTo(ChaptersParent, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+			iTween.MoveTo(ChaptersParent, iTween.Hash("position", new Vector3(570, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
 			iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f, "oncomplete", "DoneAnimating", "oncompletetarget", gameObject));
 		}
 
@@ -301,7 +301,7 @@ public class MenuUI : MonoBehaviour
 
 	public void CloseInterstitials()
 	{
-		iTween.MoveTo(InterstitialsParent, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "OpenSelectedChapter", "oncompletetarget", gameObject));
+		iTween.MoveTo(InterstitialsParent, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "OpenSelectedChapter", "oncompletetarget", gameObject));
 	}
 
 
