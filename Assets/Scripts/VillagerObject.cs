@@ -131,6 +131,7 @@ public class VillagerObject : ArchetypeMove
 	}
 
 	private void OnTriggerEnter(Collider collider) {
+		
 		if (IsDestroyed)
 			return;
 		
