@@ -133,7 +133,7 @@ public class GUIManager
 
 	public IEnumerator ShowSpellActivated()
 	{
-		Events.instance.Raise(new SoundEvent("spell-activate", SoundEvent.SoundType.SFX));
+		Events.instance.Raise(new SoundEvent("spell-activate", SoundEvent.SoundType.SFX, null, .4f));
 		
 		_spellActivatedUi.SetActive(true);
 		iTween.MoveTo(_spellActivatedUi, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutElastic));
