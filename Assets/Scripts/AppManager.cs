@@ -10,11 +10,21 @@ public class AppManager : MonoBehaviour
 	private bool touching = false;
 	private bool paused = false;
 
+	private AudioControl AudioController;
+
 	private void Awake()
 	{
 		StartCoroutine(LocationTest());
 		
 		GameConfig.InitializePrefs();
+		
+		if (GameObject.Find("AudioController") == null)
+		{
+			GameObject audio = (GameObject) Instantiate(Resources.Load("AudioController"));
+			AudioController = audio.GetComponent<AudioControl>();
+		}
+		else 
+			AudioController = GameObject.Find("AudioController").GetComponent<AudioControl>();
 				
 	}
 
