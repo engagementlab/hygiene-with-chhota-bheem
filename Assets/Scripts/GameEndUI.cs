@@ -49,11 +49,15 @@ public class GameEndUI : MonoBehaviour
         _boardContainer = transform.Find("Wrapper/Board").gameObject;
         _headerContainer = transform.Find("Wrapper/Header").gameObject;
         _buttonsContainer = transform.Find("Wrapper/Buttons").gameObject;
-        _lowerButtons = _buttonsContainer.transform.GetComponentsInChildren<Transform>().Skip(1).ToArray();
+        
+        _lowerButtons = _buttonsContainer.transform.GetComponentsInChildren<Transform>(true).Skip(1).ToArray();
 
         foreach (Transform button in _lowerButtons)
         {
             button.localScale = new Vector3(1, 1, 1);
+            
+            if (!button.gameObject.activeSelf)
+                button.gameObject.SetActive(true);
         }
 
         _finalLevel = GameConfig.CurrentChapter == 2 && GameConfig.CurrentLevel == 1;
