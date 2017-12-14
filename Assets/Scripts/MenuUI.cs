@@ -49,6 +49,8 @@ public class MenuUI : MonoBehaviour
 	private GameObject objToFadeOut;
 	private GameObject objToFadeIn;
 	
+	private AudioControl _audioControl;
+	
 	private bool _levelsOpen;
 	private bool _interstitialsOpen;
 	private int _selectedChapter;
@@ -57,15 +59,19 @@ public class MenuUI : MonoBehaviour
 	private bool _animating;
 	private bool _buttonsDisabled;
 
-	private AudioControl _audioControl;
-
-	private Vector3 _chapterSelectDefaultPos;
-
 	// Use this for initialization
 	void Start ()
 	{
+		
+		if (GameObject.Find("AudioController(Clone)") == null)
+		{
+			GameObject audio = (GameObject) Instantiate(Resources.Load("AudioController"));
+			_audioControl = audio.GetComponent<AudioControl>();
+		}
+		else 
+			_audioControl = GameObject.Find("AudioController(Clone)").GetComponent<AudioControl>();
+		
 		// Start menu music
-		_audioControl = GameObject.Find("AudioController").GetComponent<AudioControl>();
 		_audioControl.Fade(MenuMusic, true, GameConfig.GlobalVolume);
 		
 		// Find settings objects, toggles and sliders
@@ -96,7 +102,6 @@ public class MenuUI : MonoBehaviour
 		// Find chapters objects
 		_chaptersTitle = Chapters.transform.Find("Text").gameObject;
 		_chapterSelect = Chapters.transform.Find("Select").gameObject;
-		_chapterSelectDefaultPos = _chapterSelect.transform.position;
 		_chaptersBack = ChaptersParent.transform.Find("Buttons/Back").gameObject;
 		
 		// Find levels objects

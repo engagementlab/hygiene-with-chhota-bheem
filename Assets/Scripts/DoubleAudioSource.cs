@@ -66,8 +66,7 @@ public class DoubleAudioSource : MonoBehaviour
         {
             _source0 = gameObject.AddComponent<AudioSource>();
             _source1 = gameObject.AddComponent<AudioSource>();
-            //DefaultTheSource(_source0);
-            // DefaultTheSource(_source1);  //remove? we do this in editor only
+            
             return;
         }
  
@@ -77,16 +76,15 @@ public class DoubleAudioSource : MonoBehaviour
                 {
                     _source0 = audioSources[0];
                     _source1 = gameObject.AddComponent<AudioSource>();
-                    //DefaultTheSource(_source1);  //TODO remove?  we do this in editor only
                 }
                 break;
             default:
-                { //2 and more
+                {
                     _source0 = audioSources[0];
                     _source1 = audioSources[1];
                 }
                 break;
-        }//end switch
+        }
     }
     #endregion
  
@@ -95,17 +93,15 @@ public class DoubleAudioSource : MonoBehaviour
     // maxVolume should be in 0-to-1 range
     public void CrossFade(AudioClip clipToPlay, float maxVolume, float fadingTime, float delay_before_crossFade = 0, bool loop=false)
     {
-        //var fadeRoutine = StartCoroutine(Fade(clipToPlay, maxVolume, fadingTime, delay_before_crossFade));
         StartCoroutine(Fade(clipToPlay, maxVolume, fadingTime, delay_before_crossFade, loop));
 
-    }//end CrossFade()
+    }
     
     public void UpdateVolume(float newVolume)
     {
-  
         _source0.volume = newVolume;
         _source1.volume = newVolume;
-  
+
     }
  
  
