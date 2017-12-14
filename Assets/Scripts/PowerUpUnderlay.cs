@@ -16,21 +16,21 @@ public class PowerUpUnderlay : MonoBehaviour
 
 		GameObject activeParent = BlueSpellParent;
 		
-			switch (type)
-			{
-					
-				case Spells.SpeedShoot:
-					activeParent = RedSpellParent;
-					break;
-					
-				case Spells.ScatterShoot:
-					activeParent = YellowSpellParent;
-					break;
-			}
+		switch (type)
+		{
+				
+			case Spells.SpeedShoot:
+				activeParent = RedSpellParent;
+				break;
+				
+			case Spells.ScatterShoot:
+				activeParent = YellowSpellParent;
+				break;
+		}
 		
 		activeParent.SetActive(true);
 		
-		_underlayRings = activeParent.GetComponentsInChildren<SpriteRenderer>().ToArray();
+		_underlayRings = activeParent.GetComponentsInChildren<SpriteRenderer>(true).ToArray();
 		
 		foreach(var ring in _underlayRings)
 			ring.gameObject.SetActive(false);
