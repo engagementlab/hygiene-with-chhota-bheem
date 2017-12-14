@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
 public class AudioControl : MonoBehaviour
 {
     private Dictionary<string, AudioClip> _loadedAudio;

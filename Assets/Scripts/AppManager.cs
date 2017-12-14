@@ -17,14 +17,6 @@ public class AppManager : MonoBehaviour
 		StartCoroutine(LocationTest());
 		
 		GameConfig.InitializePrefs();
-		
-		if (GameObject.Find("AudioController") == null)
-		{
-			GameObject audio = (GameObject) Instantiate(Resources.Load("AudioController"));
-			AudioController = audio.GetComponent<AudioControl>();
-		}
-		else 
-			AudioController = GameObject.Find("AudioController").GetComponent<AudioControl>();
 				
 	}
 
