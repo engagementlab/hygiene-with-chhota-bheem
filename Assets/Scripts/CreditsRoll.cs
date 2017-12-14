@@ -1,30 +1,41 @@
-﻿using System.Net.Configuration;
-using System.Timers;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CreditsRoll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
 
-//	public RectTransform Content;
-
 	private ScrollRect _scroll;
+
 	private float scrollDelay = 4;
 	private float delayElapsed;
 	private bool _isDragging;
 	private bool _reverse;
 	
-	// Use this for initialization
-	void Start ()
+	private void OnEnable()
 	{
-		
 		_scroll = GetComponent<ScrollRect>();
+		Invoke("EnableScroll", 1);
+	}
 	
+	private void EnableScroll()
+	{
+		_scroll.movementType = ScrollRect.MovementType.Elastic;
+	}
+
+	public void DisableScroll()
+	{
+		_scroll.movementType = ScrollRect.MovementType.Unrestricted;
+		Invoke("Disable", 1);
+	}
+
+	void Disable()
+	{
+		gameObject.SetActive(false);
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	private void Update ()
 	{
 
 		// Reset delay if dragged
@@ -56,12 +67,11 @@ public class CreditsRoll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
 	}
 
-	void MoveToTop()
+	private void MoveToTop()
 	{
 			scrollDelay = 4;
 			delayElapsed = 0;
 			_reverse = true;
-
 	}
 
 	public void OnBeginDrag(PointerEventData eventData)

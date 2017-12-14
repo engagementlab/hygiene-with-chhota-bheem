@@ -170,6 +170,7 @@ public class MenuUI : MonoBehaviour
 	{
 		
 		Info.SetActive(true);
+		Info.transform.Find("Board/Scroll View").gameObject.SetActive(true);
 		iTween.MoveTo(Info, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 
 		iTween.ScaleFrom(_infoBoard, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .2f));
@@ -190,7 +191,8 @@ public class MenuUI : MonoBehaviour
 
 		iTween.MoveTo(Info, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
 		iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "delay", 1.1f));
-
+		Info.transform.Find("Board/Scroll View").GetComponent<CreditsRoll>().DisableScroll();
+		
 	}
 
 	void OpenChapters()

@@ -22,6 +22,7 @@ public class ArchetypeBoss : ArchetypeMove
 	public GameObject[] Projectiles;
 
 	public AudioClip BossMusic;
+	public AudioClip BossDeathClip;
 	
 	[Range(0, 1000)]
 	[Tooltip("Time before tiled background stops moving")]
@@ -196,7 +197,6 @@ public class ArchetypeBoss : ArchetypeMove
 		if(!(Health - _playerHits <= .1f)) return;
 
 		// Destroy Wizard
-		iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
 		StartCoroutine(DestroyWizard());
 
 		
@@ -264,9 +264,12 @@ public class ArchetypeBoss : ArchetypeMove
 			yield return false;
 		
 		_lifeLossRunning = true;
+		GameConfig.GameOver = true;
 		int times;
-				
-		for (times = 0; times < 6; times++)
+		
+		Events.instance.Raise(new SoundEvent(null, SoundEvent.SoundType.SFX, BossDeathClip, 1, 1, true));
+		
+		for (times = 0; times < 8; times++)
 		{
 			_sprite.color = Color.red;
 
@@ -276,13 +279,16 @@ public class ArchetypeBoss : ArchetypeMove
 			yield return new WaitForSeconds(0.1f);
 			_sprite.color = Color.white;
 
-			if(times == 5)
+			if(times == 7)
 			{
+				iTween.ScaleTo(gameObject, Vector3.zero, 1.0f);
+				
+				yield return new WaitForSeconds(1.0f);
+				
 				Destroy(gameObject);
 				_lifeLossRunning = false;
 				
 				// You won the game
-				GameConfig.GameOver = true;
 				Events.instance.Raise(new ScoreEvent(pointsWorth));
 				Events.instance.Raise(new GameEndEvent(true));
 			}
