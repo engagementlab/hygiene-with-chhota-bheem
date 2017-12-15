@@ -26,6 +26,7 @@ public class InterstitialUI : MonoBehaviour
 	private bool _animating;
 
 	private GameObject[] _steps;
+	private GameObject _step;
 	private GameObject[] _stepGroups;
 	private GameObject _stepParent;
 	private GameObject _stepsVillager;
@@ -162,7 +163,6 @@ public class InterstitialUI : MonoBehaviour
 		if (_interstitialScreenCount > 2)
 		{
 			_stepParent.SetActive(false);
-
 		}
 	}
 
@@ -184,10 +184,34 @@ public class InterstitialUI : MonoBehaviour
 			iTween.ScaleTo(_steps[i], iTween.Hash("scale", new Vector3(2, 2, 2), "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 			
 			yield return new WaitForSeconds(1f);
+
+			if (GameConfig.CurrentChapter == 1)
+			{
+				// Scale Arrow & Hands
+				GameObject hands = _steps[i].transform.Find("Wash").gameObject;
+				GameObject arrow = _steps[i].transform.Find("Arrow").gameObject;
+				_step = _steps[i].transform.Find("SpellStep").gameObject;
+				
+				iTween.ScaleTo(arrow, iTween.Hash("scale", Vector3.zero, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+				iTween.ScaleTo(hands, iTween.Hash("scale", Vector3.zero, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+				
+				yield return new WaitForSeconds(0.5f);
+								
+				arrow.SetActive(false);
+				hands.SetActive(false);
+								
+				// Fix Width of Parent
+				iTween.ValueTo(_steps[i], iTween.Hash("from", _steps[i].GetComponent<RectTransform>().sizeDelta, "to", _step.GetComponent<RectTransform>().sizeDelta, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "onupdate", "UpdateRectSize", "onupdatetarget", gameObject));				
+				iTween.ValueTo(_step, iTween.Hash("from", _step.GetComponent<RectTransform>().anchoredPosition3D, "to", new Vector3(46, -42, 0), "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "onupdate", "UpdateRectShift", "onupdatetarget", gameObject));
+				
+				// Continue
+				yield return new WaitForSeconds(0.5f);
+				
+			}
 			
 			Vector3 position = _stepTargets[i].GetComponent<RectTransform>().anchoredPosition3D;
 			
-			iTween.ValueTo(_steps[i], iTween.Hash("from", _steps[i].GetComponent<RectTransform>().anchoredPosition3D, "to", position, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "onupdate", "UpdateRect", "onupdatetarget", gameObject));
+			iTween.ValueTo(_steps[i], iTween.Hash("from", _steps[i].GetComponent<RectTransform>().anchoredPosition3D, "to", position, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "onupdate", "UpdateRectSteps", "onupdatetarget", gameObject));
 			
 			yield return new WaitForSeconds(0.1f);
 			
@@ -197,10 +221,20 @@ public class InterstitialUI : MonoBehaviour
 		}
 		
 	}
+	
+	private void UpdateRectSize(Vector2 size)
+	{
+		_steps[_currentStep].GetComponent<RectTransform>().sizeDelta = size;
+	}
 
-	private void UpdateRect(Vector3 position)
+	private void UpdateRectSteps(Vector3 position)
 	{
 		_steps[_currentStep].GetComponent<RectTransform>().anchoredPosition3D = position;
+	}
+	
+	private void UpdateRectShift(Vector3 position)
+	{
+		_step.GetComponent<RectTransform>().anchoredPosition3D = position;	
 	}
 
 	private void UpdateAlpha(float alpha)
