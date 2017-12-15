@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,6 +30,9 @@ public class InterstitialUI : MonoBehaviour
 	private GameObject _stepParent;
 	private GameObject _stepsVillager;
 	private GameObject[] _stepsSoap;
+	
+	private GameObject[] _stepTargets;
+	private int _currentStep;
 	
 	public void OpenLevelInterstitial(int level)
 	{
@@ -102,6 +107,8 @@ public class InterstitialUI : MonoBehaviour
 	{
 		_steps = GameObject.FindGameObjectsWithTag("Step");
 
+		_stepTargets = GameObject.FindGameObjectsWithTag("StepTarget");
+
 		foreach (GameObject step in _steps)
 		{
 			step.transform.localScale = Vector3.zero;
@@ -111,15 +118,12 @@ public class InterstitialUI : MonoBehaviour
 		{
 			soap.transform.localScale = Vector3.zero;
 		}
-		
-		_stepsVillager.SetActive(false);
+				
 	}
 
 	private void PreviousFinished()
 	{
-		
 		iTween.MoveTo(gameObject, iTween.Hash("position", Vector3.zero, "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
-		
 	}
 
 	public void NextInterstitial()
@@ -175,16 +179,40 @@ public class InterstitialUI : MonoBehaviour
 
 		for (int i = 0; i < _steps.Length; i++)
 		{
+			_currentStep = i;
+			
+			iTween.ScaleTo(_steps[i], iTween.Hash("scale", new Vector3(2, 2, 2), "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+			
+			yield return new WaitForSeconds(1f);
+			
+			Vector3 position = _stepTargets[i].GetComponent<RectTransform>().anchoredPosition3D;
+			
+			iTween.ValueTo(_steps[i], iTween.Hash("from", _steps[i].GetComponent<RectTransform>().anchoredPosition3D, "to", position, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "onupdate", "UpdateRect", "onupdatetarget", gameObject));
+			
+			yield return new WaitForSeconds(0.1f);
+			
 			iTween.ScaleTo(_steps[i], iTween.Hash("scale", Vector3.one, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "EndStep", "oncompletetarget", gameObject, "oncompleteparams", i));
+
 			yield return new WaitForSeconds(0.5f);
 		}
 		
 	}
+
+	private void UpdateRect(Vector3 position)
+	{
+		_steps[_currentStep].GetComponent<RectTransform>().anchoredPosition3D = position;
+	}
+
+	private void UpdateAlpha(float alpha)
+	{
+		_stepsVillager.GetComponent<Image>().color = new Color(1, 1, 1, alpha);
+	}
 	
 	IEnumerator IntersitialVillagerSoap()
 	{
-		_stepsVillager.SetActive(true);
-		iTween.MoveFrom(_stepsVillager, iTween.Hash("position", new Vector3(0, -500, 0), "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+		yield return new WaitForSeconds(0.5f);
+		
+		iTween.ValueTo(_stepsVillager, iTween.Hash("from", 0, "to", 1, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.linear, "onupdate", "UpdateAlpha", "onupdatetarget", gameObject));
 
 		yield return new WaitForSeconds(0.5f);
 		
