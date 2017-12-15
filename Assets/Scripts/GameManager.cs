@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
 		
 		#if UNITY_EDITOR
 		// Turn shit up
-		if(Input.GetKey(KeyCode.LeftCommand))
+		if(Input.GetKey(KeyCode.RightCommand))
 		{
 			if(Input.GetKeyDown(KeyCode.Equals))
 				GameObject.Find("Scene Container").GetComponent<ArchetypeMove>().MoveSpeed += 1;

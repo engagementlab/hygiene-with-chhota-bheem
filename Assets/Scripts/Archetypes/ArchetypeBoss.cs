@@ -186,12 +186,13 @@ public class ArchetypeBoss : ArchetypeMove
 		
 		base.OnTriggerEnter(collider);
 		if(collider.gameObject.tag != "Bubble") return;
-
+		
 		collider.gameObject.GetComponent<SphereCollider>().enabled = false;
 
 		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
-//		Events.instance.Raise(SoundEvent.WithClip(_playerScript.FightSounds[Random.Range(0, _playerScript.FightSounds.Length-1)]));
 		Events.instance.Raise(SoundEvent.WithClip(BossHitClips[Random.Range(0, BossHitClips.Length-1)]));
+		
+		Destroy(collider.gameObject);
 		
 		float amtHit = _startingHpWidth / (Health / _playerScript.Strength);
 		
@@ -203,8 +204,6 @@ public class ArchetypeBoss : ArchetypeMove
 
 		// Destroy Wizard
 		StartCoroutine(DestroyWizard());
-
-		
 
 	}
 
