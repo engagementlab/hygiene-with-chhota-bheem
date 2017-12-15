@@ -316,7 +316,7 @@ public class ArchetypeMove : MonoBehaviour
 		  if (_playerScript.LifeLossRunning)
 			  return;
 		  // Check if player hit an object that ends game 
-		  var die = KillsPlayer;
+		  var die = KillsPlayer && !GameConfig.GameOver;
 		  
 		  #if UNITY_EDITOR
 		  if(EditorPrefs.GetBool("GodMode")) die = false;

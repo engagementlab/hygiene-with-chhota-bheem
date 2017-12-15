@@ -21,7 +21,6 @@ public class ArchetypeBoss : ArchetypeMove
 {
 	public GameObject[] Projectiles;
 
-	public AudioClip BossMusic;
 	public AudioClip BossDeathClip;
 	
 	[Range(0, 1000)]
