@@ -343,11 +343,13 @@ public class MenuUI : MonoBehaviour
 	{
 		GameConfig.MusicOn = _musicToggle.isOn;
 		GameConfig.UpdatePrefs("music", GameConfig.MusicOn ? 1 : 0);
-		GameMusic.mute = !GameConfig.MusicOn;
+//		GameMusic.mute = !GameConfig.MusicOn;
+		_audioControl.MuteMusicOnOff(!GameConfig.MusicOn); 
 	}
 
 	public void ChangeLanguage()
 	{
+		
 		var nextLang = GameConfig.CurrentLanguage == 0 ? 1 : 0;
 		objToFadeOut = _settingsLanguages[GameConfig.CurrentLanguage];
 		objToFadeIn = _settingsLanguages[nextLang];
@@ -360,6 +362,7 @@ public class MenuUI : MonoBehaviour
 		
 		GameConfig.CurrentLanguage = nextLang;
 		Events.instance.Raise (new LanguageChangeEvent());
+		
 	}
 
 	private void FadeTextOut(float alpha)
