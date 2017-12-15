@@ -146,8 +146,7 @@ public class VillagerObject : ArchetypeMove
 
 			if(_bubblesHit < HitPoints)
 			{
-				bool hiSound = Random.value > .5f;
-				Events.instance.Raise(SoundEvent.WithClip(_playerScript.BubbleSounds[hiSound?0:1]));
+				Events.instance.Raise(SoundEvent.WithClip(_playerScript.VillagerHitSounds[_bubblesHit]));
 				_villagerRenderer.sprite = _spriteFrames[_frame * _bubblesHit];
 			}
 			return;
@@ -155,6 +154,7 @@ public class VillagerObject : ArchetypeMove
 		
 		_villagerRenderer.sprite = _spriteFrames[_spriteFrames.Length - 1];
 		
+		Events.instance.Raise(SoundEvent.WithClip(_playerScript.UnhypnotizeSound));
 		Events.instance.Raise (new ScoreEvent(pointsWorth));
 
 		StartCoroutine(RemoveVillager());
