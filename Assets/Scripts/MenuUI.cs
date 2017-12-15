@@ -207,7 +207,7 @@ public class MenuUI : MonoBehaviour
 		_levelsTitle.SetActive(false);
 		_chapterButtons = GameObject.FindGameObjectsWithTag("ChapterButton");
 
-		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -740, 0), "time", .01f, "islocal", true));
+		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -780, 0), "time", .01f, "islocal", true));
 		iTween.MoveTo(!_levelsOpen ? ChaptersParent : Chapters, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 
 		iTween.ScaleFrom(_chaptersTitle, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .1f));
