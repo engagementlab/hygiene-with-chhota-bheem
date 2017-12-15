@@ -43,13 +43,13 @@ public class GameManager : MonoBehaviour
 				{{ "level", GameConfig.CurrentScene }, { "playCount", GameConfig.LevelPlayCount }}
 		);
 
-		if (GameObject.Find("AudioController(Clone)") == null)
+		if (GameObject.FindGameObjectsWithTag("AudioControl") == null)
 		{
 			GameObject audio = (GameObject) Instantiate(Resources.Load("AudioController"));
 			AudioController = audio.GetComponent<AudioControl>();
 		}
 		else 
-			AudioController = GameObject.Find("AudioController(Clone)").GetComponent<AudioControl>();
+			AudioController = GameObject.FindGameObjectWithTag("AudioControl").GetComponent<AudioControl>();
 
 	}
 
@@ -90,6 +90,15 @@ public class GameManager : MonoBehaviour
 		}
 		
 		_deltaTime += (Time.deltaTime - _deltaTime) * 0.1f;
+		
+		#if UNITY_EDITOR
+		// Turn shit up
+		if(Input.GetKey(KeyCode.LeftCommand))
+		{
+			if(Input.GetKeyDown(KeyCode.Equals))
+				GameObject.Find("Scene Container").GetComponent<ArchetypeMove>().MoveSpeed += 1;
+		}
+		#endif
 		
 	}
 
@@ -162,16 +171,15 @@ public class GameManager : MonoBehaviour
 		GUIManager.Instance.ShowPause();
 		
 		// iTween Not working - leaving for future debugging
-//		iTween.AudioTo(AudioController.WhichMusicPlayer().gameObject, 
-//			iTween.Hash(
-//				"audiosource", AudioController.WhichMusicPlayer(), 
-//				"volume", AudioController.WhichMusicPlayer().volume/2, 
-//				"pitch", AudioController.WhichMusicPlayer().pitch/2,
-//				"time", 1f
-//			)
-//		);
+		/* iTween.AudioTo(AudioController.WhichMusicPlayer().gameObject, 
+			iTween.Hash(
+				"audiosource", AudioController.WhichMusicPlayer(), 
+				"volume", AudioController.WhichMusicPlayer().volume/2, 
+				"pitch", AudioController.WhichMusicPlayer().pitch/2,
+				"time", 1f
+			)
+		);*/
 		
-
 		AudioController.WhichMusicPlayer().volume = AudioController.WhichMusicPlayer().volume/2;
 			
 		_paused = true;
@@ -183,16 +191,6 @@ public class GameManager : MonoBehaviour
 		
 		GUIManager.Instance.ShowSloMo();
 		GUIManager.Instance.HidePause();
-
-		// iTween Not working - leaving for future debugging
-//		iTween.AudioTo(AudioController.WhichMusicPlayer().gameObject, 
-//			iTween.Hash(
-//				"audiosource", AudioController.WhichMusicPlayer(), 
-//				"volume", AudioController.WhichMusicPlayer().volume*2, 
-//				"pitch", AudioController.WhichMusicPlayer().pitch*2,
-//				"time", 1f
-//			)
-//		);
 		
 		AudioController.WhichMusicPlayer().volume = AudioController.WhichMusicPlayer().volume*2;
 		

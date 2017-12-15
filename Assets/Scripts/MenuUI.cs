@@ -63,13 +63,13 @@ public class MenuUI : MonoBehaviour
 	void Start ()
 	{
 		
-		if (GameObject.Find("AudioController(Clone)") == null)
+		if (GameObject.FindGameObjectWithTag("AudioControl") == null)
 		{
 			GameObject audio = (GameObject) Instantiate(Resources.Load("AudioController"));
 			_audioControl = audio.GetComponent<AudioControl>();
 		}
 		else 
-			_audioControl = GameObject.Find("AudioController(Clone)").GetComponent<AudioControl>();
+			_audioControl = GameObject.FindGameObjectWithTag("AudioControl").GetComponent<AudioControl>();
 		
 		// Start menu music
 		_audioControl.Fade(MenuMusic, true, GameConfig.GlobalVolume);

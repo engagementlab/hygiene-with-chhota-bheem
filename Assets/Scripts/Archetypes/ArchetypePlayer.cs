@@ -501,6 +501,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		gameObject.SetActive(false);
 		GameConfig.GameWon = WonGame;
 		
+		_gameManager.AudioController.Fade(null);
 		GUIManager.Instance.GameEnd(WonGame);
 		
 		// Send Player Data to Analytics
