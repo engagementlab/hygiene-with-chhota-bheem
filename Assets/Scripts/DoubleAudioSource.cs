@@ -103,6 +103,12 @@ public class DoubleAudioSource : MonoBehaviour
         _source1.volume = newVolume;
 
     }
+    
+    public void MuteOnOff(bool mute)
+    {
+        _source0.mute = mute;
+        _source1.mute = mute;
+    }
  
  
     IEnumerator Fade(AudioClip playMe, float maxVolume, float fadingTime, float delay_before_crossFade = 0, bool loop=false)

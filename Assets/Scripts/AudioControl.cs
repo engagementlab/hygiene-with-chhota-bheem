@@ -102,6 +102,11 @@ public class AudioControl : MonoBehaviour
         _doubleAudioSource.UpdateVolume(newVolume);
     }
 
+    public void MuteMusicOnOff(bool mute)
+    {
+        _doubleAudioSource.MuteOnOff(mute);
+    }
+
     public AudioSource WhichMusicPlayer()
     {
         if (audioPlayer != null)
