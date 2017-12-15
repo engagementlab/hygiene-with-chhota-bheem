@@ -63,13 +63,13 @@ public class MenuUI : MonoBehaviour
 	void Start ()
 	{
 		
-		if (GameObject.Find("AudioController(Clone)") == null)
+		if (GameObject.FindGameObjectWithTag("AudioControl") == null)
 		{
 			GameObject audio = (GameObject) Instantiate(Resources.Load("AudioController"));
 			_audioControl = audio.GetComponent<AudioControl>();
 		}
 		else 
-			_audioControl = GameObject.Find("AudioController(Clone)").GetComponent<AudioControl>();
+			_audioControl = GameObject.FindGameObjectWithTag("AudioControl").GetComponent<AudioControl>();
 		
 		// Start menu music
 		_audioControl.Fade(MenuMusic, true, GameConfig.GlobalVolume);
@@ -207,7 +207,7 @@ public class MenuUI : MonoBehaviour
 		_levelsTitle.SetActive(false);
 		_chapterButtons = GameObject.FindGameObjectsWithTag("ChapterButton");
 
-		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -740, 0), "time", .01f, "islocal", true));
+		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -780, 0), "time", .01f, "islocal", true));
 		iTween.MoveTo(!_levelsOpen ? ChaptersParent : Chapters, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 
 		iTween.ScaleFrom(_chaptersTitle, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .1f));

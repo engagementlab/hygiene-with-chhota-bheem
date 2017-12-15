@@ -145,16 +145,15 @@ public class DoubleAudioSource : MonoBehaviour
             StopCoroutine(_newSourceFadeRoutine);
         }
  
-        _curSourceFadeRoutine = StartCoroutine(fadeSource(curActiveSource, curActiveSource.volume, 0, fadingTime));
-        _newSourceFadeRoutine = StartCoroutine(fadeSource(newActiveSource, newActiveSource.volume, maxVolume, fadingTime));
+        _curSourceFadeRoutine = StartCoroutine(FadeSource(curActiveSource, curActiveSource.volume, 0, fadingTime));
+        _newSourceFadeRoutine = StartCoroutine(FadeSource(newActiveSource, newActiveSource.volume, maxVolume, fadingTime));
  
         cur_is_source0 = !cur_is_source0;
  
-        yield break;
     }
- 
- 
-    IEnumerator fadeSource(AudioSource sourceToFade, float startVolume, float endVolume, float duration)
+
+
+    private IEnumerator FadeSource(AudioSource sourceToFade, float startVolume, float endVolume, float duration)
     {
         float startTime = Time.time;
  
