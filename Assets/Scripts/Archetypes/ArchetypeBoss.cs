@@ -22,6 +22,7 @@ public class ArchetypeBoss : ArchetypeMove
 	public GameObject[] Projectiles;
 
 	public AudioClip BossDeathClip;
+	public AudioClip[] BossHitClips;
 	
 	[Range(0, 1000)]
 	[Tooltip("Time before tiled background stops moving")]
@@ -189,15 +190,15 @@ public class ArchetypeBoss : ArchetypeMove
 		collider.gameObject.GetComponent<SphereCollider>().enabled = false;
 
 		Events.instance.Raise(new HitEvent(HitEvent.Type.Spawn, collider, collider.gameObject));
-		Events.instance.Raise(SoundEvent.WithClip(_playerScript.FightSounds[Random.Range(0, _playerScript.FightSounds.Length-1)]));
-
+//		Events.instance.Raise(SoundEvent.WithClip(_playerScript.FightSounds[Random.Range(0, _playerScript.FightSounds.Length-1)]));
+		Events.instance.Raise(SoundEvent.WithClip(BossHitClips[Random.Range(0, BossHitClips.Length-1)]));
+		
 		float amtHit = _startingHpWidth / (Health / _playerScript.Strength);
 		
 		HealthFill.fillAmount -= amtHit;
 		_playerHits += _playerScript.Strength;
 		
 		// Adjust health bar and stop unless boss is dead
-//		HealthFill.sizeDelta = v;
 		if(!(Health - _playerHits <= .1f)) return;
 
 		// Destroy Wizard
