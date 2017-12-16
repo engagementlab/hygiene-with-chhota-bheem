@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.UI;
 
