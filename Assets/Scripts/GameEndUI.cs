@@ -76,10 +76,12 @@ public class GameEndUI : MonoBehaviour
             
         }
         if(_finalLevel)
+        {
             _sfxFile += "-end";
+            Events.instance.Raise(SoundEvent.WithClip(VictoryMusic, SoundEvent.SoundType.Music, true));
+        }
 
         Events.instance.Raise(new SoundEvent(_sfxFile, SoundEvent.SoundType.SFX));
-        Events.instance.Raise(SoundEvent.WithClip(VictoryMusic, SoundEvent.SoundType.Music));
         
         _bubbles = GameObject.FindGameObjectsWithTag("GUIBubble");
         _bubbleStars = GameObject.FindGameObjectsWithTag("GUIStar");

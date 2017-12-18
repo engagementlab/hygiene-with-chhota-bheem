@@ -93,7 +93,7 @@ public class ArchetypeBoss : ArchetypeMove
 		base.Update();
 		var position = MainCamera.WorldToViewportPoint(transform.position).y;
 
-		if(position < 2 && !_musicPlayed)
+		if(position < 1 && !_musicPlayed)
 		{
 			// Fade in boss music	
 //			var fileName = "chapter_" + System.Convert.ToInt32(GameConfig.CurrentChapter + 1) + "_boss";
