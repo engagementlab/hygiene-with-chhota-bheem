@@ -12,7 +12,18 @@ TrueTypeFontImporter:
   fontName: Avenir Next Condensed
   fontNames:
   - Avenir Next Condensed
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3825a380ffacb45fe958c3a2ac83a95e, type: 3}
+  - {fileID: 12800000, guid: 28329fa59a5014682927ba9bcbd804f3, type: 3}
+  - {fileID: 12800000, guid: 04d57518ca7e1434c980b0db04d6f142, type: 3}
+  - {fileID: 12800000, guid: 58649bd8da23d4ad985a174166b62d84, type: 3}
+  - {fileID: 12800000, guid: 44afd9098890a42fba17c669f011d2ed, type: 3}
+  - {fileID: 12800000, guid: 6faf44e94ab8f477ca3f7b86270ce939, type: 3}
+  - {fileID: 12800000, guid: 81d031cad3bbd46b08ca283d40899f52, type: 3}
+  - {fileID: 12800000, guid: 30435c4b342a54d9799909ca0a54bca1, type: 3}
+  - {fileID: 12800000, guid: 4e38198b9ae6a44a1902f989beb713a0, type: 3}
+  - {fileID: 12800000, guid: 82cec16db11ae4a06a74fcb66e51e007, type: 3}
+  - {fileID: 12800000, guid: 9fe5a89e737844d139aa424e763206df, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
