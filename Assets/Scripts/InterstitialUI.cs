@@ -178,9 +178,9 @@ public class InterstitialUI : MonoBehaviour
 		{
 			_currentStep = i;
 			
-			iTween.ScaleTo(_steps[i], iTween.Hash("scale", new Vector3(2, 2, 2), "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+			iTween.ScaleTo(_steps[i], iTween.Hash("scale", new Vector3(2, 2, 2), "time", 0.2f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 			
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(.5f);
 
 			if (GameConfig.CurrentChapter == 1)
 			{
@@ -208,13 +208,13 @@ public class InterstitialUI : MonoBehaviour
 			
 			Vector3 position = _stepTargets[i].GetComponent<RectTransform>().anchoredPosition3D;
 			
-			iTween.ValueTo(_steps[i], iTween.Hash("from", _steps[i].GetComponent<RectTransform>().anchoredPosition3D, "to", position, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "onupdate", "UpdateRectSteps", "onupdatetarget", gameObject));
+			iTween.ValueTo(_steps[i], iTween.Hash("from", _steps[i].GetComponent<RectTransform>().anchoredPosition3D, "to", position, "time", 0.1f, "islocal", true, "easetype", iTween.EaseType.easeInOutCirc, "onupdate", "UpdateRectSteps", "onupdatetarget", gameObject));
 			
 			yield return new WaitForSeconds(0.1f);
 			
-			iTween.ScaleTo(_steps[i], iTween.Hash("scale", Vector3.one, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "EndStep", "oncompletetarget", gameObject, "oncompleteparams", i));
+			iTween.ScaleTo(_steps[i], iTween.Hash("scale", Vector3.one, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutElastic, "oncomplete", "EndStep", "oncompletetarget", gameObject, "oncompleteparams", i));
 
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.3f);
 		}
 		
 	}
@@ -241,19 +241,17 @@ public class InterstitialUI : MonoBehaviour
 	
 	IEnumerator IntersitialVillagerSoap()
 	{
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.1f);
 		
 		iTween.ValueTo(_stepsVillager, iTween.Hash("from", 0, "to", 1, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.linear, "onupdate", "UpdateAlpha", "onupdatetarget", gameObject));
+		
+		yield return new WaitForSeconds(0.1f);
+		
+		iTween.ScaleTo(_stepsSoap[0], iTween.Hash("scale", Vector3.one, "time", 0.1f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+		
+		yield return new WaitForSeconds(0.1f);
 
-		yield return new WaitForSeconds(0.5f);
-		
-		iTween.ScaleTo(_stepsSoap[0], iTween.Hash("scale", Vector3.one, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
-		
-		yield return new WaitForSeconds(0.5f);
-
-		iTween.ScaleTo(_stepsSoap[1], iTween.Hash("scale", Vector3.one, "time", 0.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
-		
-		yield return new WaitForSeconds(0.5f);
+		iTween.ScaleTo(_stepsSoap[1], iTween.Hash("scale", Vector3.one, "time", 0.1f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 		
 		_nextButton.interactable = true;
 
