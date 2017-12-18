@@ -355,6 +355,8 @@ public class ArchetypeMove : MonoBehaviour
 
 	  _bubblesHit += _playerScript.Strength;
 	  Destroy(collider.gameObject);
+	  Events.instance.Raise(SoundEvent.WithClip(_playerScript.BubblePopSounds[Random.Range(0, 2)]));
+	  
 	  
 	  // Hits may exceed HP if strength not evenly divisible by HP, hence greater-or-equal
 	  if(_bubblesHit >= HitPoints)

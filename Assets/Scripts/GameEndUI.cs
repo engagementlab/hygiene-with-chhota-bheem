@@ -43,9 +43,12 @@ public class GameEndUI : MonoBehaviour
     private bool _animateScore;
     private bool _finalLevel;
 
+    private string _sfxFile;
+
     private void OnEnable()
     {
-
+        
+        _sfxFile = "level-";
         _boardContainer = transform.Find("Wrapper/Board").gameObject;
         _headerContainer = transform.Find("Wrapper/Header").gameObject;
         _buttonsContainer = transform.Find("Wrapper/Buttons").gameObject;
@@ -61,24 +64,24 @@ public class GameEndUI : MonoBehaviour
         }
 
         _finalLevel = GameConfig.CurrentChapter == 2 && GameConfig.CurrentLevel == 1;
+        _sfxFile += GameConfig.GameWon ? "won" : "lost";
+        
         // "Final" screen objects
         if(GameConfig.GameWon && _finalLevel)
         {
             _finalContainer = transform.Find("Wrapper/Final").gameObject;
             _finalContainer.SetActive(true);
             _buttonsContainer.GetComponent<CanvasGroup>().alpha = 0;
-        }
-
+            
+        }    
+        if(_finalLevel)
+            _sfxFile += "-end";
+        
+        Events.instance.Raise(new SoundEvent(_sfxFile, SoundEvent.SoundType.SFX));
+        
         _bubbles = GameObject.FindGameObjectsWithTag("GUIBubble");
         _bubbleStars = GameObject.FindGameObjectsWithTag("GUIStar");
         
-        // Spell step objects
-        /*_spellStepsParent = transform.Find("Wrapper/SpellSteps/Chapter1").gameObject;
-        _stepsBgImages = new []{ _spellStepsParent.transform.Find("BG1"), _spellStepsParent.transform.Find("BG2") };
-        _stepGroups = new []{ _spellStepsParent.transform.Find("Steps/Group1"), _spellStepsParent.transform.Find("Steps/Group2") };
-        _stepsGroup1 = _stepGroups[0].GetComponentsInChildren<Image>();
-        _stepsGroup2 = _stepGroups[1].GetComponentsInChildren<Image>();*/
-
         _scoreText = _boardContainer.transform.Find("ScoreWrap/Text").GetComponent<Text>();
         _villagers = _boardContainer.transform.Find("VillagersMultiplier/Text").GetComponent<Text>();
         _scoreText.gameObject.SetActive(false);
@@ -89,7 +92,6 @@ public class GameEndUI : MonoBehaviour
 
         _stars = transform.Find("Wrapper/Board/Wrapper").GetComponentsInChildren<Image>().Skip(0).ToArray();
         
-//        StartCoroutine(AnimateSteps());
         StartCoroutine(AnimateBubbles());
         
         iTween.ScaleFrom(_headerContainer, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .1f));

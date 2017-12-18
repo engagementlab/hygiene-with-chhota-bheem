@@ -17,8 +17,10 @@ public class ArchetypePlayer : MonoBehaviour {
 	public float BubbleSpeedIncrease = 2f;
 	public float BubbleSizeIncrease = 0.1f;
 
-	public AudioClip[] BubbleSounds;
+	public AudioClip[] BubblePopSounds;
+	public AudioClip[] VillagerHitSounds;
 	public AudioClip[] FightSounds;
+	public AudioClip UnhypnotizeSound;
 	public AudioClip GameEndSound;
 	public AudioClip ObstacleSound;
 	public AudioClip DeathClip;
@@ -307,7 +309,7 @@ public class ArchetypePlayer : MonoBehaviour {
 				iTween.MoveTo(transform.parent.gameObject, iTween.Hash("position", toPosition, "time", distance/DieSpeed, "easetype", iTween.EaseType.linear));
 			}
 
-			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
+//			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
 
 			yield return new WaitForSeconds(1f);
 
