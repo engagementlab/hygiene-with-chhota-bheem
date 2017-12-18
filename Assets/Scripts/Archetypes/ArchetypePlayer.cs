@@ -309,7 +309,7 @@ public class ArchetypePlayer : MonoBehaviour {
 				iTween.MoveTo(transform.parent.gameObject, iTween.Hash("position", toPosition, "time", distance/DieSpeed, "easetype", iTween.EaseType.linear));
 			}
 
-			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
+//			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
 
 			yield return new WaitForSeconds(1f);
 

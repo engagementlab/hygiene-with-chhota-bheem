@@ -21,6 +21,7 @@ public class ArchetypeBoss : ArchetypeMove
 {
 	public GameObject[] Projectiles;
 
+	public AudioClip BossMusicClip;
 	public AudioClip BossDeathClip;
 	public AudioClip[] BossHitClips;
 	
@@ -92,11 +93,11 @@ public class ArchetypeBoss : ArchetypeMove
 		base.Update();
 		var position = MainCamera.WorldToViewportPoint(transform.position).y;
 
-		if(position < 2 && !_musicPlayed)
+		if(position < 1 && !_musicPlayed)
 		{
 			// Fade in boss music	
-			var fileName = "chapter_" + System.Convert.ToInt32(GameConfig.CurrentChapter + 1) + "_boss";
-			Events.instance.Raise(new SoundEvent(fileName, SoundEvent.SoundType.Music, null, 1, 1, true));
+//			var fileName = "chapter_" + System.Convert.ToInt32(GameConfig.CurrentChapter + 1) + "_boss";
+			Events.instance.Raise(SoundEvent.WithClip(BossMusicClip, SoundEvent.SoundType.Music, true));
 			_musicPlayed = true;
 		}
 		
