@@ -187,6 +187,8 @@ public class GameEndUI : MonoBehaviour
 
         _goToStar = GameConfig.StarCount() * 2;
         if(_goToStar == 0) return;
+        
+        GameConfig.UpdatePrefs(GameConfig.BaseName(), GameConfig.StarCount());
 
         iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "onupdate", "FillInStar", "oncomplete", "OnStarFilled"));
 

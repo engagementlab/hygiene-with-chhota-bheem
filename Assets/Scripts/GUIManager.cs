@@ -58,8 +58,6 @@ public class GUIManager
 		_gameUI = GameObject.Find("GameUI");
 
 		_gameEndScreen = _gameUI.GetComponentInChildren<GameEndUI>(true).gameObject;
-//		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
-//		_gameEndScreen.SetActive(false);
 
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseUi.SetActive(false);

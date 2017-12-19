@@ -88,6 +88,11 @@ public class GameConfig : MonoBehaviour
 			CurrentLanguage = PlayerPrefs.GetInt("language");
 		else
 			PlayerPrefs.SetInt("language", CurrentLanguage);
+
+//		foreach (Levels level in _levels)
+//		{
+//			
+//		}
 		
 	}
 	
@@ -128,7 +133,7 @@ public class GameConfig : MonoBehaviour
 		
 		PlayerPrefs.SetString(key, text);
 	}
-
+	
 	public static void UpdateScore(int worth)
 	{
 		Score = Score + worth;
@@ -157,6 +162,21 @@ public class GameConfig : MonoBehaviour
 
 	public static void LoadLevel()
 	{
+		var baseName = BaseName();
+		CurrentScene = baseName;
+		LevelPlayCount = 1;
+		
+		if(!DictWonCount.ContainsKey(baseName))
+			DictWonCount = new Dictionary<string, int>{{baseName, 0}};
+		
+		if(!DictLostCount.ContainsKey(baseName))
+			DictLostCount = new Dictionary<string, int>{{baseName, 0}};
+		
+		UnityEngine.SceneManagement.SceneManager.LoadScene(baseName);
+	}
+
+	public static string BaseName()
+	{
 		
 		var baseName = "Level";
 		switch(CurrentChapter)
@@ -175,16 +195,9 @@ public class GameConfig : MonoBehaviour
 		}
 		
 		baseName += CurrentLevel == 1 ? "2" : "1";
-		CurrentScene = baseName;
-		LevelPlayCount = 1;
-		
-		if(!DictWonCount.ContainsKey(baseName))
-			DictWonCount = new Dictionary<string, int>{{baseName, 0}};
-		
-		if(!DictLostCount.ContainsKey(baseName))
-			DictLostCount = new Dictionary<string, int>{{baseName, 0}};
-		
-		UnityEngine.SceneManagement.SceneManager.LoadScene(baseName);
+
+		return baseName;
+
 	}
 
 }

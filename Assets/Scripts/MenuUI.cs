@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+
 
 public class MenuUI : MonoBehaviour
 {
@@ -56,6 +58,8 @@ public class MenuUI : MonoBehaviour
 
 	private bool _animating;
 	private bool _buttonsDisabled;
+	
+	private Image[][] _stars;
 
 	// Use this for initialization
 	void Start ()
@@ -246,6 +250,8 @@ public class MenuUI : MonoBehaviour
 		
 		Levels.SetActive(true);
 		_levelsTitle.SetActive(true);
+		
+		SetLevelStars(_selectedChapter);
 		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -850, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
 
 		var levelsDelay = 2.1f;
@@ -320,6 +326,19 @@ public class MenuUI : MonoBehaviour
 	{
 		GameConfig.Reset();
 		GameConfig.LoadLevel();
+	}
+
+	public void SetLevelStars(int chapter)
+	{
+		for (int i = 0; i < _levelButtons.Length; i++)
+		{
+			_stars[i] = _levelButtons[i].transform.Find("Stars").GetComponentsInChildren<Image>().Skip(0).ToArray();
+
+			for (int j = 0; j < GameConfig.StarCount(); j++)
+			{
+				_stars[i][j].fillAmount = 1;
+			}
+		}
 	}
 
 	public void Volume(float volume)
