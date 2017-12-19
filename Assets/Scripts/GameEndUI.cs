@@ -86,17 +86,13 @@ public class GameEndUI : MonoBehaviour
         _bubbles = GameObject.FindGameObjectsWithTag("GUIBubble");
         _bubbleStars = GameObject.FindGameObjectsWithTag("GUIStar");
         
-        _scoreText = _boardContainer.transform.Find("ScoreWrap/Text").GetComponent<Text>();
-        _villagers = _boardContainer.transform.Find("VillagersMultiplier/Text").GetComponent<Text>();
-        _scoreText.gameObject.SetActive(false);
-        _villagers.gameObject.SetActive(false);
-
         _gameOverImg = _headerContainer.transform.Find("GameOver").gameObject;
         _superImg = _headerContainer.transform.Find("Super!").gameObject;
 
         _stars = transform.Find("Wrapper/Board/Wrapper").GetComponentsInChildren<Image>().Skip(0).ToArray();
         
         StartCoroutine(AnimateBubbles());
+        LanguageSetup();
         
         iTween.ScaleFrom(_headerContainer, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .1f));
         iTween.ScaleFrom(_boardContainer, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "oncomplete", "ScoreMultiplier", "oncompletetarget", gameObject, "delay", .8f));
@@ -129,7 +125,8 @@ public class GameEndUI : MonoBehaviour
             // Animate to total over 2s
             _animationTime += Time.deltaTime;
             _score = Mathf.Lerp(0, _totalScore, _animationTime/2);
-            _scoreText.text = "Score: " + (int)_score;
+            
+            _scoreText.text = (GameConfig.CurrentLanguage == 0 ? "Score: " : "") + (int)_score;
         }
     }
 
@@ -157,9 +154,9 @@ public class GameEndUI : MonoBehaviour
     {
 
         _villagers.gameObject.SetActive(true);
-        _objToFadeIn = _villagers.gameObject;
+        _objToFadeIn = _villagers.transform.parent.gameObject;
 
-        iTween.MoveFrom(_objToFadeIn, iTween.Hash("position", new Vector3(0, -33, 0), "time", 1, "islocal", true));
+        iTween.MoveFrom(_objToFadeIn, iTween.Hash("position", new Vector3(0, -200, 0), "time", 1, "islocal", true));
         iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "onupdate", "FadeTextIn"));
 
         StarsCount();
@@ -175,8 +172,8 @@ public class GameEndUI : MonoBehaviour
         else
             _totalScore = GameConfig.Score;
 
-        _objToFadeIn = _scoreText.gameObject;
-        iTween.MoveFrom(_objToFadeIn, iTween.Hash("position", new Vector3(0, -23, 0), "time", 1, "islocal", true));
+        _objToFadeIn = _scoreText.transform.parent.gameObject;
+        iTween.MoveFrom(_objToFadeIn, iTween.Hash("position", new Vector3(0, -100, 0), "time", 1, "islocal", true));
         iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "onupdate", "FadeTextIn"));
 
         _animateScore = true;
@@ -192,6 +189,22 @@ public class GameEndUI : MonoBehaviour
 
     }
 
+    private void LanguageSetup()
+    {
+        var isTamil = GameConfig.CurrentLanguage == 1;
+        if(isTamil)
+        {
+            _scoreText = _boardContainer.transform.Find("ScoreWrap/Tamil").GetComponent<Text>();
+            _villagers = _boardContainer.transform.Find("VillagersMultiplier/Tamil").GetComponent<Text>();
+        } 
+        else
+        {
+            _scoreText = _boardContainer.transform.Find("ScoreWrap/English").GetComponent<Text>();
+            _villagers = _boardContainer.transform.Find("VillagersMultiplier/English").GetComponent<Text>();
+
+        }
+        
+    }
     private IEnumerator AnimateBubbles()
     {
         System.Random rnd = new System.Random();
@@ -229,33 +242,6 @@ public class GameEndUI : MonoBehaviour
         }
 
     }
-    
-    private IEnumerator AnimateSteps()
-    {
-        iTween.MoveTo(_stepsBgImages[0].gameObject, new Vector3(-700, -101, 0), .001f);
-        iTween.MoveTo(_stepsBgImages[1].gameObject, new Vector3(700, -101, 0), .001f);
-
-        for(var i1 = 0; i1 < _stepsGroup1.Length; i1++)
-            iTween.ScaleTo(_stepsGroup1[i1].gameObject, Vector3.zero, .001f);
-        for(var i2 = 0; i2 < _stepsGroup2.Length; i2++)
-            iTween.ScaleTo(_stepsGroup2[i2].gameObject, Vector3.zero, .001f);
-        
-        yield return new WaitForSeconds(2);
-        
-        iTween.MoveTo(_stepsBgImages[0].gameObject, iTween.Hash("position", new Vector3(0, -101, 0), "time", 2.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
-        iTween.MoveTo(_stepsBgImages[1].gameObject, iTween.Hash("position", new Vector3(0, -101, 0), "time", 2.5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
-
-        for(var i1 = 0; i1 < _stepsGroup1.Length; i1++)
-            iTween.ScaleTo(_stepsGroup1[i1].gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .8f * i1));
-        
-        yield return new WaitForSeconds(_stepsGroup1.Length);
-
-        iTween.MoveTo(_stepGroups[0].gameObject, iTween.Hash("position", new Vector3(-12, 50, 0), "time", .7f, "islocal", true, "easetype", iTween.EaseType.easeInExpo));
-        
-        for(var i2 = 0; i2 < _stepsGroup2.Length; i2++)
-            iTween.ScaleTo(_stepsGroup2[i2].gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .8f * i2));
-        
-    }
 
     private void FadeButtons(float alpha)
     {
@@ -272,7 +258,7 @@ public class GameEndUI : MonoBehaviour
 
     private void FadeTextIn(float alpha)
     {
-        _objToFadeIn.GetComponent<CanvasRenderer>().SetAlpha(alpha);
+        _objToFadeIn.GetComponent<CanvasGroup>().alpha = alpha;
     }
 
     private void FillInStar(float fillAmt)
@@ -301,7 +287,7 @@ public class GameEndUI : MonoBehaviour
     {
 
         _totalVillagers = GameConfig.VillagersSaved;
-        _villagers.text = "Villagers Saved: " + 0 + "/" + GameConfig.Multiplier;
+        _villagers.text = (GameConfig.CurrentLanguage == 0 ? "Villagers Saved: " : "") + 0 + "/" + GameConfig.Multiplier;
 
         if (win)
         {
@@ -322,6 +308,6 @@ public class GameEndUI : MonoBehaviour
         else
             _villagerCount++;
 
-        _villagers.text = "Villagers Saved: " + _villagerCount + "/" + GameConfig.Multiplier;
+        _villagers.text = (GameConfig.CurrentLanguage == 0 ? "Villagers Saved: " : "") + _villagerCount + "/" + GameConfig.Multiplier;
     }
 }
