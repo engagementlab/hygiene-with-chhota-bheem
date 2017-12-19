@@ -234,8 +234,6 @@ public class MenuUI : MonoBehaviour
 			GameConfig.CurrentChapter = chapter;
 			_selectedLevel = chapter;
 			
-			Debug.Log(_selectedLevel);
-
 			for ( int i = 0; i < _levelsChapterTitles.Length; i++ )
 			{
 				if (i == chapter)
@@ -321,6 +319,7 @@ public class MenuUI : MonoBehaviour
 
 	public void Volume(float volume)
 	{
+		
 		if (volume > 1f)
 			volume = 1f;
 		
@@ -328,6 +327,7 @@ public class MenuUI : MonoBehaviour
 		GameConfig.UpdatePrefs("volume", null, volume);
 		
 		_audioControl.UpdateVolume(volume);
+		
 	}
 
 	public void Sound()
@@ -341,7 +341,7 @@ public class MenuUI : MonoBehaviour
 	{
 		GameConfig.MusicOn = _musicToggle.isOn;
 		GameConfig.UpdatePrefs("music", GameConfig.MusicOn ? 1 : 0);
-//		GameMusic.mute = !GameConfig.MusicOn;
+		
 		_audioControl.MuteMusicOnOff(!GameConfig.MusicOn); 
 	}
 
@@ -359,6 +359,8 @@ public class MenuUI : MonoBehaviour
 		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .2f, "onupdate", "FadeTextIn"));
 		
 		GameConfig.CurrentLanguage = nextLang;
+		GameConfig.UpdatePrefs("language", nextLang);
+		
 		Events.instance.Raise (new LanguageChangeEvent());
 		
 	}
