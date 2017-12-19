@@ -6,7 +6,6 @@ public class InterstitialUI : MonoBehaviour
 
 	public GameObject PreviousScreen;
 	public Button BackButton;
-	public Button OldBack;
 	
 	private GameObject _interstitialsBack;
 	private GameObject _background;
@@ -22,6 +21,9 @@ public class InterstitialUI : MonoBehaviour
 
 	private bool _animating;
 	
+	private GameObject _oldBack;
+
+	
 	public void OpenLevelInterstitial(int level)
 	{
 		GameConfig.CurrentLevel = level;
@@ -34,7 +36,10 @@ public class InterstitialUI : MonoBehaviour
 		_playButton = transform.Find("PlayButton").gameObject.GetComponent<Button>();
 		_nextButton.gameObject.SetActive(true);
 		_playButton.gameObject.SetActive(false);
-		OldBack.gameObject.SetActive(false);
+		
+		_oldBack = GameObject.Find("MenuUI/ChaptersLevels/Buttons/Back");
+		if (_oldBack != null)
+			_oldBack.gameObject.SetActive(false);
 		
 		switch (GameConfig.CurrentChapter)
 		{
@@ -72,8 +77,12 @@ public class InterstitialUI : MonoBehaviour
 	{
 		if (_animating || _interstitialScreenCount == _interstitialImages.Length - 1)
 			return;
-
+		
 		_animating = true;
+		
+		_nextButton.interactable = false;
+		_playButton.interactable = false;
+		BackButton.interactable = false;
 		
 		_interstitialScreenCount++;
 		iTween.MoveTo(_background, iTween.Hash("position", new Vector3(540, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "InterstitialSwap", "oncompletetarget", gameObject));
@@ -98,6 +107,9 @@ public class InterstitialUI : MonoBehaviour
 	private void EndAnimation()
 	{
 		_animating = false;
+		_nextButton.interactable = true;
+		_playButton.interactable = true;
+		BackButton.interactable = true;
 	}
 	
 }
