@@ -29,9 +29,9 @@ public class SoundEvent : GameEvent
   }
 
   // Use provided audio clip instead of finding Resource
-  public static SoundEvent WithClip(AudioClip clip, SoundType type=SoundType.SFX)
+  public static SoundEvent WithClip(AudioClip clip, SoundType type=SoundType.SFX, bool fade=false)
   {
-    var evt = new SoundEvent(null, type, clip);
+    var evt = new SoundEvent(null, type, clip, 1, 1, fade);
     return evt;
   }
 }

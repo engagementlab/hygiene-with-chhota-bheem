@@ -12,8 +12,6 @@ public class MenuUI : MonoBehaviour
 	public GameObject Chapters;
 	public GameObject Levels;
 	public GameObject InterstitialsParent;
-	public GameObject[] Interstitials;
-	public GameObject[] InterstitialScreens;
  
 	public AudioClip MenuMusic;
 	public AudioSource GameSound;

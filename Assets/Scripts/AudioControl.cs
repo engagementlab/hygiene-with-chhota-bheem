@@ -88,9 +88,14 @@ public class AudioControl : MonoBehaviour
                 Fade(_loadedAudio[e.SoundFileName], isMusic, e.SoundVolume * GameConfig.GlobalVolume);
         }
         // Otherwise, play provided clip
-        else if(e.SoundClip != null) 
-            player.PlayOneShot(e.SoundClip, e.SoundVolume * GameConfig.GlobalVolume);
-		
+        else if(e.SoundClip != null)
+        {
+            if(!e.FadeClip)
+                player.PlayOneShot(e.SoundClip, e.SoundVolume * GameConfig.GlobalVolume);
+            else
+                Fade(e.SoundClip, isMusic, e.SoundVolume * GameConfig.GlobalVolume);
+        }
+
         if(audioPlayer != null)
             Destroy(audioPlayer, e.SoundClip.length);
     }

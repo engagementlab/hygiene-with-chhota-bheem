@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameEndUI : MonoBehaviour
 {
     public AudioClip StarPopSound;
+    public AudioClip VictoryMusic;
 
     private GameObject _headerContainer;
     private GameObject _boardContainer;
@@ -73,10 +74,13 @@ public class GameEndUI : MonoBehaviour
             _finalContainer.SetActive(true);
             _buttonsContainer.GetComponent<CanvasGroup>().alpha = 0;
             
-        }    
+        }
         if(_finalLevel)
+        {
             _sfxFile += "-end";
-        
+            Events.instance.Raise(SoundEvent.WithClip(VictoryMusic, SoundEvent.SoundType.Music, true));
+        }
+
         Events.instance.Raise(new SoundEvent(_sfxFile, SoundEvent.SoundType.SFX));
         
         _bubbles = GameObject.FindGameObjectsWithTag("GUIBubble");
