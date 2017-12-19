@@ -77,8 +77,12 @@ public class InterstitialUI : MonoBehaviour
 	{
 		if (_animating || _interstitialScreenCount == _interstitialImages.Length - 1)
 			return;
-
+		
 		_animating = true;
+		
+		_nextButton.interactable = false;
+		_playButton.interactable = false;
+		BackButton.interactable = false;
 		
 		_interstitialScreenCount++;
 		iTween.MoveTo(_background, iTween.Hash("position", new Vector3(540, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "InterstitialSwap", "oncompletetarget", gameObject));
@@ -103,6 +107,9 @@ public class InterstitialUI : MonoBehaviour
 	private void EndAnimation()
 	{
 		_animating = false;
+		_nextButton.interactable = true;
+		_playButton.interactable = true;
+		BackButton.interactable = true;
 	}
 	
 }
