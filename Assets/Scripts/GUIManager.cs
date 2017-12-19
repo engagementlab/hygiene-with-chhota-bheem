@@ -17,6 +17,8 @@ public class GUIManager
 	}
 	public GameObject[] SpellBars;
 
+	private GameObject _gameUI;
+
 	private GameObject _gameEndScreen;
 	private Animator _gameEndAnim;
 		
@@ -53,8 +55,11 @@ public class GUIManager
 		
 		SpellBars = GameObject.FindGameObjectsWithTag("SpellBar");
 		
-		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
-		_gameEndScreen.SetActive(false);
+		_gameUI = GameObject.Find("GameUI");
+
+		_gameEndScreen = _gameUI.GetComponentInChildren<GameEndUI>(true).gameObject;
+//		_gameEndScreen = GameObject.Find("GameUI/GameEndScreen");
+//		_gameEndScreen.SetActive(false);
 
 		_pauseUi = GameObject.Find("GameUI/PauseUI");
 		_pauseUi.SetActive(false);
