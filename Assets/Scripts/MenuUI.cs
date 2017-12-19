@@ -312,6 +312,11 @@ public class MenuUI : MonoBehaviour
 		iTween.MoveTo(InterstitialsParent, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "OpenSelectedChapter", "oncompletetarget", gameObject));
 	}
 
+	public void HideButton(GameObject button)
+	{
+		button.SetActive(false);
+	}
+
 
 	public void OpenLevel()
 	{
