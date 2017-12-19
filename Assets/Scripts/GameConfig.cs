@@ -83,6 +83,12 @@ public class GameConfig : MonoBehaviour
 			GlobalVolume = 1f;
 			PlayerPrefs.SetFloat("volume", GlobalVolume);
 		}
+
+		if(PlayerPrefs.HasKey("language"))
+			CurrentLanguage = PlayerPrefs.GetInt("language");
+		else
+			PlayerPrefs.SetInt("language", CurrentLanguage);
+		
 	}
 	
 	public static void UpdatePrefs(string key, int? num = null, float? floater = null, [CanBeNull] string text = null)
