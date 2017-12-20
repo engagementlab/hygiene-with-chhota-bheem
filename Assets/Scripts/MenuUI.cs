@@ -268,6 +268,7 @@ public class MenuUI : MonoBehaviour
 
 		if (_interstitialsOpen)
 		{
+			_chaptersBack.SetActive(true);
 			_chaptersBack.GetComponent<Transform>().localScale = Vector3.zero;
 			iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.2f));
 		}
@@ -279,6 +280,7 @@ public class MenuUI : MonoBehaviour
 	void OpenSelectedChapter()
 	{
 		_interstitialsOpen = true;
+		InterstitialsParent.SetActive(false);
 		OpenLevelSelect(_selectedLevel);
 	}
 	
@@ -319,7 +321,6 @@ public class MenuUI : MonoBehaviour
 	{
 		button.SetActive(false);
 	}
-
 
 	public void OpenLevel()
 	{

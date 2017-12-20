@@ -62,8 +62,11 @@ public class InterstitialUI : MonoBehaviour
 				_interstitialImages = Resources.LoadAll<Sprite>("ChapThreeInterstitials");
 				break;
 		}
+		
 		_thisScreen.sprite = _interstitialImages[_interstitialScreenCount];
 		_nextScreen.sprite = _interstitialImages[_interstitialScreenCount+1];
+		_firstImgParent.GetComponent<CanvasGroup>().alpha = 0;
+		_secondImgParent.GetComponent<CanvasGroup>().alpha = 0;
 
 		gameObject.SetActive(true);
 		iTween.MoveTo(PreviousScreen, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "PreviousFinished", "oncompletetarget", gameObject));
@@ -74,6 +77,8 @@ public class InterstitialUI : MonoBehaviour
 	{
 		
 		_nextButton.gameObject.SetActive(true);
+		_nextButton.transform.localScale = Vector3.one;
+		GetComponent<CanvasGroup>().alpha = 1;
 
 		if(BackButton != null)
 		{
@@ -127,9 +132,9 @@ public class InterstitialUI : MonoBehaviour
 		{
 			// Show play button
 			_playButton.gameObject.SetActive(true);
+			iTween.ScaleTo(_nextButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInBack));
 			iTween.ScaleFrom(_playButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "delay", 1, "easetype", iTween.EaseType.easeOutElastic));
 			
-			_nextButton.gameObject.SetActive(false);
 			return;
 			
 		}
