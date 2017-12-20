@@ -307,9 +307,14 @@ public class MenuUI : MonoBehaviour
 
 	public void CloseInterstitials()
 	{
-		iTween.MoveTo(InterstitialsParent, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "OpenSelectedChapter", "oncompletetarget", gameObject));
+		iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", 1, "onupdate", "FadeInterstitials", "oncomplete", "OpenSelectedChapter", "oncompletetarget", gameObject));
 	}
 
+	private void FadeInterstitials(float alpha)
+	{
+		InterstitialsParent.GetComponent<CanvasGroup>().alpha = alpha;
+	}
+	
 	public void HideButton(GameObject button)
 	{
 		button.SetActive(false);
