@@ -30,7 +30,7 @@ public class GameConfig : MonoBehaviour
 	public static float GameSpeedModifier = 15;
 	public static float BubbleOffset = 1.5f;
 
-	public static int CurrentLanguage;
+	public static int CurrentLanguage = 1;
 	public static int Score;
 	public static int VillagersSaved;
 	public static int Multiplier;
