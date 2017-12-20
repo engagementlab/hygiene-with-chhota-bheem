@@ -8,8 +8,10 @@ public class InterstitialUI : MonoBehaviour
 	public Button BackButton;
 	
 	private GameObject _interstitialsBack;
-	private GameObject _background;
-	private Image _interstitialScreen;
+	private GameObject _firstImgParent;
+	private GameObject _secondImgParent;
+	private Image _thisScreen;
+	private Image _nextScreen;
 	private int _interstitialScreenCount;
 
 	private GameObject _interstitialsParent;
@@ -20,21 +22,28 @@ public class InterstitialUI : MonoBehaviour
 	private Button _playButton;
 
 	private bool _animating;
+	private bool _showBack;
 	
 	private GameObject _oldBack;
 
 	
-	public void OpenLevelInterstitial(int level)
+	public void OpenLevelInterstitial(int level, bool hideBack=false)
 	{
 		GameConfig.CurrentLevel = level;
-		
-		_background = transform.Find("Background").gameObject;
-		_interstitialScreen = _background.transform.Find("Image").gameObject.GetComponent<Image>();
 		_interstitialScreenCount = 0;
+		_showBack = !hideBack;
+		
+		_firstImgParent = transform.Find("FirstImage").gameObject;
+		_secondImgParent= transform.Find("SecondImage").gameObject;
+		_thisScreen = _firstImgParent.transform.Find("Image").gameObject.GetComponent<Image>();
+		_nextScreen = _secondImgParent.transform.Find("Image").gameObject.GetComponent<Image>();
 		
 		_nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
 		_playButton = transform.Find("PlayButton").gameObject.GetComponent<Button>();
-		_nextButton.gameObject.SetActive(true);
+		
+		// Defaults
+		BackButton.gameObject.SetActive(false);
+		_nextButton.gameObject.SetActive(false);
 		_playButton.gameObject.SetActive(false);
 		
 		_oldBack = GameObject.Find("MenuUI/ChaptersLevels/Buttons/Back");
@@ -55,21 +64,37 @@ public class InterstitialUI : MonoBehaviour
 				_interstitialImages = Resources.LoadAll<Sprite>("ChapThreeInterstitials");
 				break;
 		}
-		_interstitialScreen.sprite = _interstitialImages[_interstitialScreenCount];
 		
-		if(BackButton != null)
-			iTween.ScaleTo(BackButton.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeInElastic));
-		
-		iTween.MoveTo(gameObject, iTween.Hash("position", new Vector3(0, 970, 0), "time", .01f, "islocal", true));
+		_thisScreen.sprite = _interstitialImages[_interstitialScreenCount];
+		_nextScreen.sprite = _interstitialImages[_interstitialScreenCount+1];
+		_firstImgParent.GetComponent<CanvasGroup>().alpha = 0;
+		_secondImgParent.GetComponent<CanvasGroup>().alpha = 0;
+
 		gameObject.SetActive(true);
 		iTween.MoveTo(PreviousScreen, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "PreviousFinished", "oncompletetarget", gameObject));
 		
 	}
 
+	public void OpenInterstitial(int level)
+	{
+		OpenLevelInterstitial(level);
+	}
+
 	private void PreviousFinished()
 	{
 		
-		iTween.MoveTo(gameObject, iTween.Hash("position", Vector3.zero, "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+		_nextButton.gameObject.SetActive(true);
+		_nextButton.transform.localScale = Vector3.one;
+		GetComponent<CanvasGroup>().alpha = 1;
+
+		if(BackButton != null)
+		{
+			BackButton.gameObject.SetActive(_showBack);
+			iTween.ScaleFrom(BackButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic));
+		}
+
+		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "onupdate", "FadeFirstImage"));
+		iTween.ScaleFrom(_nextButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "delay", 1, "easetype", iTween.EaseType.easeOutElastic));
 		
 	}
 
@@ -85,23 +110,18 @@ public class InterstitialUI : MonoBehaviour
 		BackButton.interactable = false;
 		
 		_interstitialScreenCount++;
-		iTween.MoveTo(_background, iTween.Hash("position", new Vector3(540, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "InterstitialSwap", "oncompletetarget", gameObject));
+		iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", .7f, "onupdate", "FadeImage", "oncomplete", "EndAnimation", "oncompletetarget", gameObject));
 	}
-
-	private void InterstitialSwap()
+	
+	private void FadeFirstImage(float alpha)
 	{
-		
-		_interstitialScreen.GetComponent<Image>().sprite = _interstitialImages[_interstitialScreenCount];
-
-		if (_interstitialScreenCount == _interstitialImages.Length - 1) // Final screen 
-		{
-			// Show play button
-			_playButton.gameObject.SetActive(true);
-			_nextButton.gameObject.SetActive(false);
-		}
-
-		iTween.MoveTo(_background, iTween.Hash("position", new Vector3(0, 0, 0), "time", .5f, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "EndAnimation", "oncompletetarget", gameObject));
-
+		_firstImgParent.GetComponent<CanvasGroup>().alpha = alpha;
+	}
+	
+	private void FadeImage(float alpha)
+	{
+		_firstImgParent.GetComponent<CanvasGroup>().alpha = alpha;
+		_secondImgParent.GetComponent<CanvasGroup>().alpha = 1-alpha;
 	}
 
 	private void EndAnimation()
@@ -110,6 +130,22 @@ public class InterstitialUI : MonoBehaviour
 		_nextButton.interactable = true;
 		_playButton.interactable = true;
 		BackButton.interactable = true;
+
+		_thisScreen.sprite = _nextScreen.sprite;
+		_firstImgParent.GetComponent<CanvasGroup>().alpha = 1;
+		_secondImgParent.GetComponent<CanvasGroup>().alpha = 0;
+		
+		if (_interstitialScreenCount == _interstitialImages.Length - 1) // Final screen 
+		{
+			// Show play button
+			_playButton.gameObject.SetActive(true);
+			iTween.ScaleTo(_nextButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInBack));
+			iTween.ScaleFrom(_playButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "delay", 1, "easetype", iTween.EaseType.easeOutElastic));
+			
+			return;
+			
+		}
+		_nextScreen.sprite = _interstitialImages[_interstitialScreenCount+1];
 	}
 	
 }

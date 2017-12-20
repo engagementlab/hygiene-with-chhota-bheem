@@ -268,6 +268,7 @@ public class MenuUI : MonoBehaviour
 
 		if (_interstitialsOpen)
 		{
+			_chaptersBack.SetActive(true);
 			_chaptersBack.GetComponent<Transform>().localScale = Vector3.zero;
 			iTween.ScaleTo(_chaptersBack, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 1.2f));
 		}
@@ -279,6 +280,7 @@ public class MenuUI : MonoBehaviour
 	void OpenSelectedChapter()
 	{
 		_interstitialsOpen = true;
+		InterstitialsParent.SetActive(false);
 		OpenLevelSelect(_selectedLevel);
 	}
 	
@@ -307,14 +309,18 @@ public class MenuUI : MonoBehaviour
 
 	public void CloseInterstitials()
 	{
-		iTween.MoveTo(InterstitialsParent, iTween.Hash("position", new Vector3(540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "OpenSelectedChapter", "oncompletetarget", gameObject));
+		iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", 1, "onupdate", "FadeInterstitials", "oncomplete", "OpenSelectedChapter", "oncompletetarget", gameObject));
 	}
 
+	private void FadeInterstitials(float alpha)
+	{
+		InterstitialsParent.GetComponent<CanvasGroup>().alpha = alpha;
+	}
+	
 	public void HideButton(GameObject button)
 	{
 		button.SetActive(false);
 	}
-
 
 	public void OpenLevel()
 	{

@@ -164,29 +164,21 @@ public class GameManager : MonoBehaviour
 
 	public void Pause()
 	{
+		
 		_touching = false;
 		GameConfig.GamePaused = true;
 		
 		GUIManager.Instance.HideSloMo();	
 		GUIManager.Instance.ShowPause();
 		
-		// iTween Not working - leaving for future debugging
-		/* iTween.AudioTo(AudioController.WhichMusicPlayer().gameObject, 
-			iTween.Hash(
-				"audiosource", AudioController.WhichMusicPlayer(), 
-				"volume", AudioController.WhichMusicPlayer().volume/2, 
-				"pitch", AudioController.WhichMusicPlayer().pitch/2,
-				"time", 1f
-			)
-		);*/
-		
-		AudioController.WhichMusicPlayer().volume = AudioController.WhichMusicPlayer().volume/2;
-			
+		AudioController.WhichMusicPlayer().volume = AudioController.WhichMusicPlayer().volume/2;	
 		_paused = true;
+		
 	}
 
 	public IEnumerator UnPause()
 	{
+		
 		_touching = true;
 		
 		GUIManager.Instance.ShowSloMo();

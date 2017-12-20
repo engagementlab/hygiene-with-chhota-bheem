@@ -227,8 +227,8 @@ public class GameEndUI : MonoBehaviour
             GameObject chhotaBheem = _finalContainer.transform.Find("ChhotaBheem").gameObject;
             iTween.MoveTo(chhotaBheem, iTween.Hash("position", new Vector3(0, -260.4f, 0), "time", 1.5f, "delay", 2, "islocal", true, "easetype", iTween.EaseType.easeOutExpo));
             iTween.MoveTo(chhotaBheem, iTween.Hash("position", new Vector3(0, -768.42f, 0), "time", 1, "delay", 4, "islocal", true, "easetype", iTween.EaseType.easeInBack));
+            iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "delay", 6, "onupdate", "FadeButtons"));
         }
-        iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "delay", 6, "onupdate", "FadeButtons"));
 
         for(var b = 0; b < _bubbles.Length; b++)
             iTween.ScaleTo(_bubbles[b], iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", Random.Range(.3f, .5f) * b*.5f));
