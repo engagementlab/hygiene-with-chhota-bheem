@@ -54,7 +54,7 @@ public class GameUI : MonoBehaviour
                     GameConfig.CurrentChapter++;
 
                 Interstitials.PreviousScreen = GameEnd.transform.Find("Wrapper").gameObject;
-                Interstitials.OpenLevelInterstitial(GameConfig.CurrentLevel);
+                Interstitials.OpenLevelInterstitial(GameConfig.CurrentLevel, true);
             }
         }
         else if(!System.String.IsNullOrEmpty(level))

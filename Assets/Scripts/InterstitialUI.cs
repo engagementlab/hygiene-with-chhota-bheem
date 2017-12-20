@@ -22,14 +22,16 @@ public class InterstitialUI : MonoBehaviour
 	private Button _playButton;
 
 	private bool _animating;
+	private bool _showBack;
 	
 	private GameObject _oldBack;
 
 	
-	public void OpenLevelInterstitial(int level)
+	public void OpenLevelInterstitial(int level, bool hideBack=false)
 	{
 		GameConfig.CurrentLevel = level;
 		_interstitialScreenCount = 0;
+		_showBack = !hideBack;
 		
 		_firstImgParent = transform.Find("FirstImage").gameObject;
 		_secondImgParent= transform.Find("SecondImage").gameObject;
@@ -73,6 +75,11 @@ public class InterstitialUI : MonoBehaviour
 		
 	}
 
+	public void OpenInterstitial(int level)
+	{
+		OpenLevelInterstitial(level);
+	}
+
 	private void PreviousFinished()
 	{
 		
@@ -82,7 +89,7 @@ public class InterstitialUI : MonoBehaviour
 
 		if(BackButton != null)
 		{
-			BackButton.gameObject.SetActive(true);
+			BackButton.gameObject.SetActive(_showBack);
 			iTween.ScaleFrom(BackButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic));
 		}
 
