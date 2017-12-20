@@ -113,7 +113,7 @@ public class GUIManager
 	{
 		var spellFill = fill.GetComponent<RectTransform>();
 
-		iTween.MoveTo(particlesObj, iTween.Hash("position", Camera.main.ScreenToWorldPoint(spellFill.transform.position), "time", 3, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
+		iTween.MoveTo(particlesObj, iTween.Hash("position", Camera.main.ScreenToWorldPoint(spellFill.transform.position), "time", 5, "islocal", true, "easetype", iTween.EaseType.easeOutBack));
 		
 		_spellCount++;
 		
