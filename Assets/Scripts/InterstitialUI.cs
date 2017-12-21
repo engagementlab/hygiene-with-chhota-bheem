@@ -94,7 +94,7 @@ public class InterstitialUI : MonoBehaviour
 		}
 
 		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "onupdate", "FadeFirstImage"));
-		iTween.ScaleFrom(_nextButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "delay", 1, "easetype", iTween.EaseType.easeOutElastic));
+		iTween.ScaleFrom(_nextButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic));
 		
 	}
 
@@ -139,8 +139,9 @@ public class InterstitialUI : MonoBehaviour
 		{
 			// Show play button
 			_playButton.gameObject.SetActive(true);
-			iTween.ScaleTo(_nextButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeInBack));
-			iTween.ScaleFrom(_playButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "delay", 1, "easetype", iTween.EaseType.easeOutElastic));
+			_nextButton.gameObject.SetActive(false);
+//			iTween.ScaleTo(_nextButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", .7f, "easetype", iTween.EaseType.easeInBack));
+			iTween.ScaleFrom(_playButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", .7f, "easetype", iTween.EaseType.easeOutElastic));
 			
 			return;
 			
