@@ -325,7 +325,8 @@ public class MenuUI : MonoBehaviour
 	public void OpenLevel()
 	{
 		GameConfig.Reset();
-		GameConfig.LoadLevel();
+//		GameConfig.LoadLevel();
+		Events.instance.Raise(new LoadLevelEvent(""));
 	}
 
 	public void Volume(float volume)
