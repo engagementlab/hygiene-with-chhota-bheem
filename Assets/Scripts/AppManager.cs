@@ -14,8 +14,8 @@ public class AppManager : MonoBehaviour
 
 	private void Awake()
 	{
-		StartCoroutine(LocationTest());
 		
+		StartCoroutine(LocationTest());
 		GameConfig.InitializePrefs();
 				
 	}
@@ -66,7 +66,7 @@ public class AppManager : MonoBehaviour
         Input.location.Stop();
     }
 
-	public void LoadLevel(string level)
+	/*public void LoadLevel(string level)
 	{
 
 		iTween.Stop();
@@ -80,5 +80,5 @@ public class AppManager : MonoBehaviour
 		else 
 			UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
     	
-	}
+	}*/
 }

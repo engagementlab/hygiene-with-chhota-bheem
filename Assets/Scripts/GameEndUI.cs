@@ -132,7 +132,8 @@ public class GameEndUI : MonoBehaviour
 
     public void LoadLevel()
     {
-        GameConfig.LoadLevel();
+//        GameConfig.LoadLevel();
+        Events.instance.Raise(new LoadLevelEvent(""));
     }
 
     public void Restart()

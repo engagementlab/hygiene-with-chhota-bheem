@@ -50,6 +50,7 @@ public class LocalizedSprite : Image
 			sprite = EnglishSprite;
 			return;
 		}
+		
 		sprite = GameConfig.CurrentLanguage == 1 ? TamilSprite : EnglishSprite;
 	}
 }

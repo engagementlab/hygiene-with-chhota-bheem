@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
 public class GameConfig : MonoBehaviour
 {
-
+	
 	public static float NumBubblesSpeedGained = .05f;
   public static float NumBubblesInterval = .5f;
   
@@ -153,38 +154,6 @@ public class GameConfig : MonoBehaviour
 			_stars = 0;
 		
 		return _stars;
-	}
-
-	public static void LoadLevel()
-	{
-		
-		var baseName = "Level";
-		switch(CurrentChapter)
-		{
-			case 0:
-				baseName += "1.";
-				break;
-
-			case 1:
-				baseName += "2.";
-				break;
-
-			case 2:
-				baseName += "3.";
-				break;
-		}
-		
-		baseName += CurrentLevel == 1 ? "2" : "1";
-		CurrentScene = baseName;
-		LevelPlayCount = 1;
-		
-		if(!DictWonCount.ContainsKey(baseName))
-			DictWonCount = new Dictionary<string, int>{{baseName, 0}};
-		
-		if(!DictLostCount.ContainsKey(baseName))
-			DictLostCount = new Dictionary<string, int>{{baseName, 0}};
-		
-		UnityEngine.SceneManagement.SceneManager.LoadScene(baseName);
 	}
 
 }
