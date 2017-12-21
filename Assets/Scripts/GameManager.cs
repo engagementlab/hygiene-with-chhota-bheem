@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
 	public GameObject VillagerPrefab;
 
 	public AudioClip clip;
-//	public AudioClip clipBoss;
 
 	private float _deltaTime;
 	private bool _playerHasTouched;
