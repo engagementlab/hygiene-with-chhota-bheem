@@ -168,7 +168,7 @@ public class ArchetypePlayer : MonoBehaviour {
 				{
 					var projectile = Instantiate(Bubble, projectilePos, Quaternion.identity);
 					projectile.GetComponent<ArchetypeProjectile>().Initialize(_bubbleScale, new Vector2(_dirs[bubIndex], 1).normalized * BubbleSpeed);
-				}	
+				}
 
 			}
 
@@ -297,6 +297,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 		if (die)
 		{
+			
 			Killed = true;
 			GameConfig.GameOver = true;
 
@@ -310,6 +311,7 @@ public class ArchetypePlayer : MonoBehaviour {
 			}
 
 //			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
+			Events.instance.Raise(SoundEvent.WithClip(ObstacleSound));
 
 			yield return new WaitForSeconds(1f);
 
@@ -448,45 +450,11 @@ public class ArchetypePlayer : MonoBehaviour {
 		GameConfig.GamePaused = true;
 		GameConfig.GameSpeedModifier = 0;
 		
-		// TO DO - Spell Steps - When assets are ready
 		StartCoroutine(GUIManager.Instance.ShowSpellActivated());
 		
 		GameConfig.GamePaused = false;
 		GameConfig.GameSpeedModifier = 15;
-		
-		// Send Particles
-//		GlowControl(true, SpellsType);
 
-	}
-
-	private void GlowControl(bool on, Spells type)
-	{
-
-		if (on)
-		{
-			switch (type)
-			{
-				case Spells.BigShoot:
-
-					_glow.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 1f, 0.5f);
-					break;
-					
-				case Spells.SpeedShoot: 
-					_glow.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.5f);
-					break;
-					
-				case Spells.ScatterShoot: 
-					_glow.GetComponent<SpriteRenderer>().color = new Color(1f, 0.92f, 0.016f, 0.5f);
-					break;
-			}
-			
-			_glow.SetActive(true);
-		}
-		else
-		{
-			_glow.SetActive(false);
-		}
-		
 	}
 
 	private void OnDeathEvent(GameEndEvent e)
