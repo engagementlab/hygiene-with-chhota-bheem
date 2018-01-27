@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class InterstitialUI : MonoBehaviour
@@ -29,6 +30,8 @@ public class InterstitialUI : MonoBehaviour
 	
 	public void OpenLevelInterstitial(int level, bool hideBack=false)
 	{
+		string chapterKey = "";
+		
 		GameConfig.CurrentLevel = level;
 		_interstitialScreenCount = 0;
 		_showBack = !hideBack;
@@ -53,17 +56,24 @@ public class InterstitialUI : MonoBehaviour
 		switch (GameConfig.CurrentChapter)
 		{
 			case 0:
-				_interstitialImages = Resources.LoadAll<Sprite>("ChapOneInterstitials");
+				chapterKey = "One";
 				break;
 				
 			case 1:
-				_interstitialImages = Resources.LoadAll<Sprite>("ChapTwoInterstitials");
+				chapterKey = "Two";
 				break;
 				
 			case 2:
-				_interstitialImages = Resources.LoadAll<Sprite>("ChapThreeInterstitials");
+				chapterKey = "Three";
 				break;
-		}
+		}		
+		_interstitialImages = Resources.LoadAll<Sprite>("Chap" + chapterKey + "Interstitials");
+		
+		// Localization switch (NOTE: could be handled much better)
+		if(GameConfig.CurrentLanguage == 1)
+		 _interstitialImages = _interstitialImages.Where(i=> i.name.IndexOf("-en-us") == -1).ToArray();
+		else
+			_interstitialImages = _interstitialImages.Where(i=> i.name.IndexOf("-in-ta") == -1).ToArray();
 		
 		_thisScreen.sprite = _interstitialImages[_interstitialScreenCount];
 		_nextScreen.sprite = _interstitialImages[_interstitialScreenCount+1];
