@@ -153,7 +153,8 @@ public class MenuUI : MonoBehaviour
 	{
 
 		var moveLeft = uiToLoad == "Settings";
-		iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(moveLeft ? 540 : -540, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "Open" + uiToLoad, "oncompletetarget", gameObject));
+		Debug.Log(Screen.width);
+		iTween.MoveTo(MainMenu, iTween.Hash("position", new Vector3(moveLeft ? (Screen.width + (Screen.width/2)) : -Screen.width, 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "Open" + uiToLoad, "oncompletetarget", gameObject));
 
 	}
 
@@ -337,6 +338,8 @@ public class MenuUI : MonoBehaviour
 		
 		GameConfig.GlobalVolume = volume;
 		GameConfig.UpdatePrefs("volume", null, volume);
+
+		Debug.Log("Change volume: " + volume);
 		
 		_audioControl.UpdateVolume(volume);
 		
