@@ -5,7 +5,7 @@ licenseType: Pro
 TrueTypeFontImporter:
   serializedVersion: 4
   fontSize: 16
-  forceTextureCase: -2
+  forceTextureCase: 3
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
@@ -25,9 +25,10 @@ TrueTypeFontImporter:
   - {fileID: 12800000, guid: 4e38198b9ae6a44a1902f989beb713a0, type: 3}
   - {fileID: 12800000, guid: 82cec16db11ae4a06a74fcb66e51e007, type: 3}
   - {fileID: 12800000, guid: 9fe5a89e737844d139aa424e763206df, type: 3}
-  customCharacters: 
+  customCharacters: "\u0BA4\u0BAE\u0BBF\u0BB4\u0BCDABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxy1234567890/.,'\":;@!#$%^&*()`~"
   fontRenderingMode: 0
   ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
