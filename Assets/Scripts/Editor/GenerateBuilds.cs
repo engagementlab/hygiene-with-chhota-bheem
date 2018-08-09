@@ -54,7 +54,7 @@ class GenerateBuilds {
     private static void PerformMacOsxBuild ()
     {
         
-        GenericBuild("Mac", BuildTarget.StandaloneOSX);
+        GenericBuild("Mac", BuildTarget.StandaloneOSXUniversal);
     }
     [MenuItem ("Build/Build PC")]
     private static void PerformPcBuild ()
@@ -84,7 +84,7 @@ class GenerateBuilds {
     [MenuItem ("Build/Set Icons")]
     private static void SetIcons ()
     {
-        SetIcons (BuildTarget.StandaloneOSX);
+        SetIcons (BuildTarget.StandaloneOSXUniversal);
     }
 
     private static void SetIcons(BuildTarget buildTarget)

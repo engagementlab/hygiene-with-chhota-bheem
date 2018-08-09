@@ -1,0 +1,21 @@
+{
+  "name": "analytics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "decompress": "^4.2.0",
+    "download": "^6.2.5",
+    "json-data-ninja": "^0.9.3402",
+    "jsonfile": "^4.0.0",
+    "moment": "^2.22.1",
+    "node-dir": "^0.1.17",
+    "request": "^2.85.0",
+    "underscore": "^1.8.3"
+  }
+}
