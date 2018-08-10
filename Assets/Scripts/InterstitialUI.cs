@@ -33,6 +33,7 @@ public class InterstitialUI : MonoBehaviour
 	
 	public void OpenLevelInterstitial(int level, bool hideBack=false)
 	{
+		
 		string chapterKey = "";
 		
 		GameConfig.CurrentLevel = level;
@@ -85,11 +86,6 @@ public class InterstitialUI : MonoBehaviour
 
 		gameObject.SetActive(true);
 		
-		// Fade in padding
-		paddingLeft.alpha = 0;
-		paddingRight.alpha = 0;
-		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", 1, "onupdate", "FadePadding"));
-		
 		iTween.MoveTo(PreviousScreen, iTween.Hash("position", new Vector3(Screen.width+(Screen.width / 2), 0, 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack, "oncomplete", "PreviousFinished", "oncompletetarget", gameObject));
 		
 	}
@@ -120,6 +116,11 @@ public class InterstitialUI : MonoBehaviour
 
 		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .7f, "onupdate", "FadeFirstImage"));
 		iTween.ScaleFrom(_nextButton.gameObject, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic));
+		
+		// Fade in padding
+		paddingLeft.alpha = 0;
+		paddingRight.alpha = 0;
+		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", 1, "onupdate", "FadePadding"));
 		
 	}
 
