@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using LetterboxCamera;
 using UnityEngine.Analytics;
 
 [RequireComponent(typeof(AudioSource))]
@@ -35,6 +36,10 @@ public class GameManager : MonoBehaviour
 		GameConfig.Reset();
 
 		Instantiate(Resources.Load("EventSystem"));
+		
+		var borderCamera = Resources.Load<Camera>("BorderCamera");
+		var borderCameraObj = Instantiate(borderCamera.gameObject, new Vector3(1000, 1000), Quaternion.identity);
+		GetComponent<ForceCameraRatio>().letterBoxCamera = borderCameraObj.GetComponent<Camera>();
 		
 		// Send Player Data to Analytics
 		Analytics.CustomEvent("levelStart",
@@ -107,29 +112,31 @@ public class GameManager : MonoBehaviour
 		if(!Debug.isDebugBuild) return;
 		#endif
 		
-//		int w = Screen.width, h = Screen.height;
-// 
-//		GUIStyle style = new GUIStyle();
-// 
-//		Rect rect = new Rect(0, 0, w, h * 2 / 100);
-//		style.alignment = TextAnchor.UpperLeft;
-//		style.fontSize = h * 2 / 100;
-//		style.normal.textColor = Color.white;
-//		float msec = _deltaTime * 1000.0f;
-//		float fps = 1.0f / _deltaTime;
-//		string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
-//		
-//		GUI.Label(rect, text, style);
-//		if(GUI.Button(new Rect(0, 40, 100, 50), "Stress Test"))
-//		{
-//			for(var i = 0; i < 45; i++)
-//			{
-//				Instantiate(VillagerPrefab, new Vector3(Random.Range(-2, 2), Random.Range(0, 20), 0), Quaternion.identity);
-//			}
-//		}
-//		
-//		// God mode toggle
-//		GameConfig.GodMode = GUI.Toggle(new Rect(0, 100, 100, 50), GameConfig.GodMode, "God Mode");
+/*
+		int w = Screen.width, h = Screen.height;
+ 
+		GUIStyle style = new GUIStyle();
+ 
+		Rect rect = new Rect(0, 0, w, h * 2 / 100);
+		style.alignment = TextAnchor.UpperLeft;
+		style.fontSize = h * 2 / 100;
+		style.normal.textColor = Color.white;
+		float msec = _deltaTime * 1000.0f;
+		float fps = 1.0f / _deltaTime;
+		string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
+		
+		GUI.Label(rect, text, style);
+		if(GUI.Button(new Rect(0, 40, 100, 50), "Stress Test"))
+		{
+			for(var i = 0; i < 45; i++)
+			{
+				Instantiate(VillagerPrefab, new Vector3(Random.Range(-2, 2), Random.Range(0, 20), 0), Quaternion.identity);
+			}
+		}
+		
+		// God mode toggle
+		GameConfig.GodMode = GUI.Toggle(new Rect(0, 100, 100, 50), GameConfig.GodMode, "God Mode");
+*/
 
 	}
 
