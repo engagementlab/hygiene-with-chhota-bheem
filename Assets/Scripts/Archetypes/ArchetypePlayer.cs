@@ -104,9 +104,6 @@ public class ArchetypePlayer : MonoBehaviour {
 		_playerAnimator = GetComponent<Animator>();
 		_sprite = GetComponent<SpriteRenderer>();
 		_particles = GetComponent<Particles>();
-
-//		_glow = transform.Find("Glow").gameObject;
-//		_glow.SetActive(false);
 		
 		_underlay = Instantiate(Resources.Load<PowerUpUnderlay>("PowerUpUnderlay"), Vector3.zero, Quaternion.identity);
 		_underlay.transform.parent = transform;
@@ -258,7 +255,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	// Calls coroutine for player hit; allows caller to destroy immediately after 
 	public void BeginPlayerHit(bool killed, string killerName=null)
 	{
-		StartCoroutine(PlayerHit(killed));
+		StartCoroutine(PlayerHit(killed, killerName));
 	}
 
 	private IEnumerator PlayerHit(bool killed, string killerName=null)
@@ -272,6 +269,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		LifeLossRunning = true;
 		int times;
 				
+		// Flash player red
 		for (times = 0; times < 4; times++)
 		{
 			_sprite.color = Color.red;
@@ -282,9 +280,11 @@ public class ArchetypePlayer : MonoBehaviour {
 			yield return new WaitForSeconds(0.1f);
 			_sprite.color = Color.white;
 
+			
+			// Kill?
 			if(times == 3)
 			{
-				StartCoroutine(PlayerLifeLoss(killed));
+				StartCoroutine(PlayerLifeLoss(killed, killerName));
 				LifeLossRunning = false;
 			}
 
@@ -295,6 +295,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	private IEnumerator PlayerLifeLoss(bool die, string killerName=null)
 	{
 
+		// Kill player
 		if (die)
 		{
 			
@@ -310,7 +311,6 @@ public class ArchetypePlayer : MonoBehaviour {
 				iTween.MoveTo(transform.parent.gameObject, iTween.Hash("position", toPosition, "time", distance/DieSpeed, "easetype", iTween.EaseType.linear));
 			}
 
-//			Events.instance.Raise(SoundEvent.WithClip(GameEndSound));
 			Events.instance.Raise(SoundEvent.WithClip(ObstacleSound));
 
 			yield return new WaitForSeconds(1f);
@@ -477,7 +477,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		// Send Player Data to Analytics
 		Dictionary<string, object> analyticsData = new Dictionary<string, object>
 		{
-			{"gameState", WonGame},
+			{"finishedLevel", WonGame},
 			{"time", Time.timeSinceLevelLoad},
 			{"level", GameConfig.CurrentScene},
 		};
@@ -490,18 +490,18 @@ public class ArchetypePlayer : MonoBehaviour {
 
 			if(WonGame)
 			{
-				if(GameConfig.DictWonCount.ContainsKey(GameConfig.CurrentScene))
+				if(!GameConfig.DictWonCount.ContainsKey(GameConfig.CurrentScene))
 					GameConfig.DictWonCount[GameConfig.CurrentScene] = 0;
 				else
 					GameConfig.DictWonCount[GameConfig.CurrentScene]++;
 			}
-			else
+			/*else
 			{
 				if(GameConfig.DictLostCount.ContainsKey(GameConfig.CurrentScene))
 					GameConfig.DictLostCount[GameConfig.CurrentScene]++;
 				else
 					GameConfig.DictLostCount[GameConfig.CurrentScene] = 0;
-			}
+			}*/
 			
 			analyticsData["wonCount"] = GameConfig.DictWonCount[GameConfig.CurrentScene];
 			analyticsData["lostCount"] = GameConfig.DictLostCount[GameConfig.CurrentScene];

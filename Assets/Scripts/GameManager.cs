@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using LetterboxCamera;
 using UnityEngine.Analytics;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
@@ -34,8 +35,10 @@ public class GameManager : MonoBehaviour
 		GameConfig.InitializePrefs();
 		GameConfig.GameOver = false;
 		GameConfig.Reset();
-
-		Instantiate(Resources.Load("EventSystem"));
+		
+		var sceneEventSystem = FindObjectOfType<EventSystem>();
+		if(sceneEventSystem == null)
+			Instantiate(Resources.Load("EventSystem"));
 		
 		var borderCamera = Resources.Load<Camera>("BorderCamera");
 		var borderCameraObj = Instantiate(borderCamera.gameObject, new Vector3(1000, 1000), Quaternion.identity);

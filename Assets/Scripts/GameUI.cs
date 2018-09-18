@@ -42,10 +42,8 @@ public class GameUI : MonoBehaviour
         {
             if(GameConfig.CurrentLevel == 0)
             {
-                
                 GameConfig.LevelPlayCount = 1;
                 GameConfig.CurrentLevel = 1;
-//                GameConfig.LoadLevel();
                 Events.instance.Raise(new LoadLevelEvent(""));
             }
             else
