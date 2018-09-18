@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+#if UNITY_ADS
+using UnityEngine.Advertisements;
+#endif
+
 public class MenuUI : MonoBehaviour
 {
 
@@ -245,7 +249,16 @@ public class MenuUI : MonoBehaviour
 					_levelsChapterTitles[i].gameObject.SetActive(false);
 			}
 		}
+		
+#if UNITY_ADS
+        if (!Advertisement.IsReady())
+        {
+            Debug.Log("Ads not ready for default placement");
+            return;
+        }
 
+        Advertisement.Show();
+#endif
 		
 		Levels.SetActive(true);
 		_levelsTitle.SetActive(true);
