@@ -1,13 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-	using UnityEngine.Advertisements;
+using UnityEngine.Advertisements;
+
 public class ShowAd : MonoBehaviour {
 
 	// Use this for initialization
 	void Start ()
 	{
-		Advertisement.Initialize("2805294", true);
+
+		Debug.Log("ADS INIT");
+	
+		#if UNITY_IOS
+			Advertisement.Initialize("2805293", false);
+		Debug.Log("IOS");
+
+		#endif
+	
+		#if UNITY_ANDROID
+			Advertisement.Initialize("2805294", false);	
+		#endif
+	
 		Debug.Log("Unity Ads initialized: " + Advertisement.isInitialized);
 		Debug.Log("Unity Ads is supported: " + Advertisement.isSupported);
 		Debug.Log("Unity Ads test mode enabled: " + Advertisement.debugMode);

@@ -250,16 +250,6 @@ public class MenuUI : MonoBehaviour
 			}
 		}
 		
-#if UNITY_ADS
-        if (!Advertisement.IsReady())
-        {
-            Debug.Log("Ads not ready for default placement");
-            return;
-        }
-
-        Advertisement.Show();
-#endif
-		
 		Levels.SetActive(true);
 		_levelsTitle.SetActive(true);
 		iTween.MoveTo(_chapterSelect, iTween.Hash("position", new Vector3(0, -(Screen.height+100), 0), "time", 1, "islocal", true, "easetype", iTween.EaseType.easeInBack));
