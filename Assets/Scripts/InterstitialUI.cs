@@ -1,15 +1,19 @@
 ﻿using System.Linq;
+using LetterboxCamera;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InterstitialUI : MonoBehaviour
 {
 
+	public RectTransform MenuParent;
 	public GameObject PreviousScreen;
 	public Button BackButton;
 
 	public CanvasGroup paddingLeft;
 	public CanvasGroup paddingRight;
+	public CanvasGroup paddingTop;
+	public CanvasGroup paddingBottom;
 	
 	private GameObject _interstitialsBack;
 	private GameObject _firstImgParent;
@@ -30,9 +34,21 @@ public class InterstitialUI : MonoBehaviour
 	
 	private GameObject _oldBack;
 
-	
 	public void OpenLevelInterstitial(int level, bool hideBack=false)
 	{
+	
+		Vector3[] objectCorners = new Vector3[4];
+		paddingRight.gameObject.GetComponent<RectTransform>().GetWorldCorners(objectCorners);
+		// Show left padding only if right shows in screen width
+		if(objectCorners[1].x > Screen.width)
+			paddingLeft.gameObject.active = false;
+		
+		// Show top padding only if device has iPhoneX dimensions
+		if(Screen.width == 1125 && Screen.height == 2436)
+		{
+			paddingTop.gameObject.active = true;
+			paddingBottom.gameObject.active = true;
+		}
 		
 		string chapterKey = "";
 		
@@ -99,6 +115,8 @@ public class InterstitialUI : MonoBehaviour
 	{	
 		paddingLeft.alpha = alpha;
 		paddingRight.alpha = alpha;
+		paddingBottom.alpha = alpha;
+		paddingTop.alpha = alpha;
 	}
 
 	private void PreviousFinished()
@@ -120,6 +138,8 @@ public class InterstitialUI : MonoBehaviour
 		// Fade in padding
 		paddingLeft.alpha = 0;
 		paddingRight.alpha = 0;
+		paddingBottom.alpha = 0;
+		paddingTop.alpha = 0;
 		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", 1, "onupdate", "FadePadding"));
 		
 	}
