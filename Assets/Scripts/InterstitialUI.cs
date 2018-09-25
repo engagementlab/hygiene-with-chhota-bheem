@@ -43,8 +43,8 @@ public class InterstitialUI : MonoBehaviour
 		if(objectCorners[1].x > Screen.width)
 			paddingLeft.gameObject.active = false;
 		
-		// Show top padding only if device has iPhoneX dimensions
-		if(Screen.width == 1125 && Screen.height == 2436)
+		// Show top padding only if device has iPhoneX+ dimensions
+		if(Screen.width >= 1125 && Screen.height >= 2436)
 		{
 			paddingTop.gameObject.active = true;
 			paddingBottom.gameObject.active = true;
