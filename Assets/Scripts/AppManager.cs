@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Advertisements;
 using UnityEngine.Analytics;
 
 public class AppManager : MonoBehaviour
@@ -17,6 +18,16 @@ public class AppManager : MonoBehaviour
 		
 		StartCoroutine(LocationTest());
 		GameConfig.InitializePrefs();
+		
+		// Initialize ads
+			
+		#if UNITY_IOS
+			Advertisement.Initialize("2805293", false);
+		#endif
+			
+		#if UNITY_ANDROID
+			Advertisement.Initialize("2805294", false);	
+		#endif
 				
 	}
 
