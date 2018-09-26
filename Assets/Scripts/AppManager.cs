@@ -20,13 +20,18 @@ public class AppManager : MonoBehaviour
 		GameConfig.InitializePrefs();
 		
 		// Initialize ads
+		var adsTestMode = false;
+		
+		#if DEVELOPMENT_BUILD
+			adsTestMode = true;
+		#endif
 			
 		#if UNITY_IOS
-			Advertisement.Initialize("2805293", false);
+			Advertisement.Initialize("2805293", adsTestMode);
 		#endif
 			
 		#if UNITY_ANDROID
-			Advertisement.Initialize("2805294", false);	
+			Advertisement.Initialize("2805294", adsTestMode);	
 		#endif
 				
 	}
