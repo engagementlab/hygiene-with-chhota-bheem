@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 
 @Component({
   selector: 'app-footer',
@@ -8,18 +7,8 @@ import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 })
 export class FooterComponent implements OnInit {
 
-  constructor(private _scrollToSvc: ScrollToService) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-  
-  public scrollToTop() {
-    this._scrollToSvc
-      .scrollTo({
-        target: document.getElementById('nav'),
-        offset: 0,
-        easing: 'easeOutQuint',
-        duration: 700
-      });
   }
 }

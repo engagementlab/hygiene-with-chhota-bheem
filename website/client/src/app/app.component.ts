@@ -13,7 +13,7 @@ import { TweenLite, Expo, Back } from "gsap";
 export class AppComponent implements OnInit {
 
   public isQABuild: boolean;
-  title = 'Engagement Lab @ Emerson College';
+  title = 'Hygiene With Chhota Bheem';
 
 
   constructor(private _router: Router, private _titleSvc: Title) {

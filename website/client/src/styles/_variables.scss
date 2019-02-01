@@ -30,6 +30,7 @@ $mq-breakpoints: (
     desktopAd: 810px,
     mobileLandscape: 480px
 );
+@import "~sass-mq/_mq";
 
 // Mixins 
 @import '../../node_modules/@engagementlab/el-scss/bundle';

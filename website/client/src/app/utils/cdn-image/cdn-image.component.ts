@@ -31,7 +31,7 @@ export class CdnImageComponent implements OnInit {
   
   ngOnInit() {
 
-    this.imgId = (this.cloudinaryPrefix ? this.cloudinaryPrefix : 'homepage-2.0/') + this.cloudinaryId;
+    this.imgId = (this.cloudinaryPrefix ? this.cloudinaryPrefix : 'chhota-bheem/') + this.cloudinaryId;
 
     if(this.width)
       this.widthCss = this._sanitizer.bypassSecurityTrustStyle('width:' + this.width + 'px; max-width:' + this.width+'px');

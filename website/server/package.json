@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "source ~/.nvm/nvm.sh; nvm use; node app.js"
+    "start": "source ~/.nvm/nvm.sh; nvm use; nodemon"
   },
   "repository": {
     "type": "git",

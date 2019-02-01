@@ -1,94 +1,13 @@
 <footer class="columns is-mobile is-multiline">
-
-    <div id="logos" class="column is-full-mobile is-5-tablet is-one-quarter-desktop">
-        <cdn-image id="el" cloudinaryId="logos/logo-sm" width="70" alt="Engagement Lab small logo" aria-role="image"></cdn-image>
-        <cdn-image id="emerson" cloudinaryId="logos/emerson-logo" width="168" alt="Emerson College" aria-role="image"></cdn-image> 
-    </div>
-
-    <div id="contact" class="column is-full-mobile">
-        <div id="social" class="columns column is-full is-mobile">
-
-            <a href="https://www.facebook.com/EngagementLab" role="link" class="column">
-                <cdn-image cloudinaryId="logos/fb" width="12" svg="true" alt="Facebook link image"></cdn-image>
+    <section class="container desktop">
+        <div id="logos" class="column is-full-mobile is-5-tablet is-one-quarter-desktop">
+            <a href="https://elab.emerson.edu">
+                <cdn-image cloudinaryPrefix="logos/" cloudinaryId="logo-sm" width="70" alt="Engagement Lab small logo" aria-role="image"></cdn-image>
             </a>
-            <a href="https://twitter.com/engagelab" role="link" class="column">
-                <cdn-image cloudinaryId="logos/tw" width="24" svg="true" alt="Twitter link image"></cdn-image>
-            </a>
-            <a href="https://www.instagram.com/engagelab" role="link" class="column">
-                <cdn-image cloudinaryId="logos/ig" width="24" svg="true" alt="Instagram link image"></cdn-image>
-            </a>
-            <a href="https://medium.com/engagement-lab-emerson-college" role="link" class="column">
-                <cdn-image cloudinaryId="logos/med" width="24" svg="true" alt="Medium link image"></cdn-image>
-            </a>
-            <a href="https://github.com/engagementlab" role="link" class="column">
-                <cdn-image cloudinaryId="logos/gh" width="24" svg="true" alt="Github link image"></cdn-image>
-            </a>
-
         </div>
-        <div id="address" class="is-full-mobile">
-            <span id="email">engagementlab@emerson.edu</span><br />
-            120 Boylston St. Boston, MA <span class="hidden-desktop">02116</span>
-            <span class="hidden-mobile"><br />02116</span>
+
+        <div id="version">
+            v2.1.0
         </div>
-    </div>
-
-    <div id="newsletter" class="column is-full-mobile">
-        <h1 class="uppercase">Newsletter</h1>
-
-        <!-- Begin MailChimp Signup Form -->
-        <div id="mc_embed_signup">
-            <form action="https://engagementgamelab.us6.list-manage.com/subscribe/post?u=8cb16e3042072f11cc0680d36&amp;id=e9f56f4f4d"
-                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank"
-                novalidate>
-                <div id="mc_embed_signup_scroll">
-
-                    <div class="mc-field-group">
-                        <input type="email" placeholder="Your email" name="EMAIL" class="required email" id="mce-EMAIL">
-                        <input type="submit" value="Subscribe to Newsletter" name="subscribe" id="mc-embedded-subscribe"
-                            class="button hidden" aria-hidden="true">
-                    </div>
-
-                    <div id="mce-responses" class="clear">
-                        <div class="response" id="mce-error-response" style="display:none"></div>
-                        <div class="response" id="mce-success-response" style="display:none"></div>
-                    </div>
-                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8cb16e3042072f11cc0680d36_e9f56f4f4d"
-                            tabindex="-1" value=""></div>
-                </div>
-            </form>
-        </div>
-        <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
-        <script type='text/javascript'>
-            (function ($) {
-                window.fnames = new Array();
-                window.ftypes = new Array();
-                fnames[0] = 'EMAIL';
-                ftypes[0] = 'email';
-                fnames[1] = 'FNAME';
-                ftypes[1] = 'text';
-                fnames[2] = 'LNAME';
-                ftypes[2] = 'text';
-                fnames[3] = 'MMERGE3';
-                ftypes[3] = 'text';
-            }(jQuery));
-            var $mcj = jQuery.noConflict(true);
-
-        </script>
-    </div>
-    <!--End mc_embed_signup-->
-
-    <div id="top" (click)="scrollToTop()">
-        <span>&nbsp;</span>
-        <div class="uppercase" role="button">top</div>
-    </div>
-
-    <div class="column is-full">
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-            <cdn-image cloudinaryId="logos/cc" width="130" svg="true" alt="Creative Commons License"></cdn-image>
-        </a>
-    </div>
-
-    <div id="version">
-        v2.1.0
-    </div>
+    </section>
 </footer>
