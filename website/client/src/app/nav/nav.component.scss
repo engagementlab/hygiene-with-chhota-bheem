@@ -1,0 +1,237 @@
+@import "~src/styles/_variables";
+
+nav {
+    position: relative;
+    padding-top: 3%;
+    margin-bottom: 3% !important;
+    z-index: 4;
+
+    @include mobile-only {
+
+        // Ignore if nav is open
+        &:not(.open) {
+            #logo-img {
+
+                // Make logo white outline
+                &.white {
+                    path {
+                        stroke: white;
+                        fill: white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#home {
+
+    #logo-img {
+        max-width: 423px;
+
+    }
+
+    svg {
+
+        @include transform(scale(.4));
+        @include transition(transform, .4s, ease-in-out);
+        transform-origin: left top;
+
+        @include mobile-only {
+            max-width: 200px;
+        }
+
+        #color-lab {
+            @include transition(opacity, 1s, ease-in-out);
+            opacity: 0;
+        }
+
+        #bw-lab {
+            @include transition(opacity, 1s, ease-in-out);
+            opacity: 1;
+        }
+
+        path {
+            @include transition(stroke, 4s, ease-in-out);
+        }
+
+    }
+
+    &.lg {
+
+        svg {
+            @include transform(scale(1));
+
+            #color-lab {
+                opacity: 1;
+            }
+
+            #bw-lab {
+                opacity: 0;
+            }
+        }
+
+    }
+}
+
+#menu-btn {
+
+    display: flex;
+
+    font-family: Overpass;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2.3px;
+    cursor: pointer;
+
+    #lines {
+        position: relative;
+        top: 6px;
+
+        @include mobile-only {
+            padding-left: 40%;
+        }
+
+        span {
+            display: block;
+            height: 2px;
+            width: 50px;
+            background: black;
+            opacity: 1;
+            left: 0;
+
+            @include transform(rotate(0deg));
+            @include transition(all, .7s, ease-in-out);
+
+            &:nth-child(2) {
+                position: relative;
+                top: 10px;
+            }
+
+        }
+
+    }
+
+    #label {
+        display: flex;
+
+        @include mobile-only {
+            display: none;
+        }
+
+        .open {
+            position: absolute;
+        }
+
+        .close {
+            opacity: 0;
+        }
+    }
+
+    &.open {
+
+        #lines {
+            span {
+                &:nth-child(1) {
+                    @include transform(rotate(155deg));
+                }
+
+                &:nth-child(2) {
+                    @include transform(rotate(-155deg) translate(6px, 10px));
+                }
+            }
+        }
+
+    }
+}
+
+#menu {
+    position: absolute;
+    display: none;
+    z-index: 3;
+
+    h3 {
+        font-family: 'LunchtypeMedium';
+        font-size: 2.4em;
+        font-weight: 500;
+        line-height: 1.17;
+        letter-spacing: 1.5px;
+
+        @include mq($until: mobileLg) {
+            font-size: 1.95em;
+        }
+
+        a {
+            color: black;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+
+            &.active {
+                &:before {
+                    visibility: visible!important;
+                    width: 100%;
+                    animation: none;
+                }
+                &:hover:before {
+                    animation: none;
+                }
+            }
+
+            &:visited {
+                color: black;
+            }
+
+            &:before {
+                content: '';
+                position: absolute;
+                width: 0%;
+                height: 4px;
+                background: $tomato;
+                top: 50%;
+                z-index: -1;
+                animation: out 0.8s ease-in-out 1 both;
+                visibility: hidden;
+            }
+
+            &:hover:before {
+                animation: in 0.8s ease-in-out 1 both;
+            }
+
+            &.visible {
+                &:before {
+                    visibility: visible!important;
+                }
+            }
+        }
+
+        // Animations
+        @keyframes in {
+            0% {
+                width: 0;
+                left: 0;
+                right: auto;
+            }
+        
+            100% {
+                left: 0;
+                right: auto;
+                width: 100%;
+            }
+        }
+        @keyframes out {
+            0% {
+                width: 100%;
+                left: auto;
+                right: 0;
+            }
+        
+            100% {
+                width: 0;
+                left: auto;
+                right: 0;
+            }
+        } 
+        
+    }
+}

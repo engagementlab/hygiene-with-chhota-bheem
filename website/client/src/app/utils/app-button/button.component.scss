@@ -1,0 +1,70 @@
+@import "~src/styles/_variables";
+
+a.btn {
+
+	display: inline-block;
+	font-weight: 700;
+  font-size: 1em;
+  color: black;
+  text-decoration: none;
+
+  border: solid 4px black;
+
+  padding-left: 16%;
+  padding-right: 16%;
+  padding-top: 7%;
+  padding-bottom: 7%;
+
+  @include phones {
+    font-size: 1.1em;
+    
+    padding-left: 21%;
+    padding-right: 21%;
+    padding-top: 14%;
+    padding-bottom: 14%;
+  }
+
+  flex: 1 1 auto;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  
+  @include transition(all, 150ms, cubic-bezier(0.64, 0.57, 0.67, 1.53));
+
+  &:hover {
+    cursor: pointer;
+    @include scale(1.05);
+  }
+  &:active {
+    cursor: pointer;
+    @include scale(.9);
+  }
+
+  &.white {
+
+    font-size: 1.2em;
+    font-weight: bold;
+
+    color: white;
+    border-color: white;
+    border-width: 2px;
+
+    padding-left: 38%;
+    padding-right: 38%;
+
+    padding-top: 9%;
+    padding-bottom: 9%;
+
+  }
+
+  &.view {
+
+    @include phones {
+      border-width: 2px;
+      padding-top: 6%;
+      padding-bottom: 6%;
+    }
+
+  }
+
+}

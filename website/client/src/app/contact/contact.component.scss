@@ -1,0 +1,143 @@
+@import "~src/styles/_variables";
+
+h2 {
+
+    font-size: 2.25em;
+
+    @include not-phones {
+        font-size: 3.1em;
+    }
+
+}
+
+h3 {
+
+    font-family: 'LunchtypeRegular';
+    font-size: 1.5em;
+    font-weight: normal;
+
+    margin-top: 5%;
+    margin-bottom: 7%;
+    line-height: 1.17;
+    letter-spacing: 0.5px;
+
+    @include not-phones {
+        font-size: 1.9em;
+        line-height: 1.41;
+    }
+
+}
+
+h4 {
+   
+    font-size: 1em;
+    font-weight: 900;
+    line-height: 1.33;
+    letter-spacing: 1.5px;
+
+    @include not-phones {
+        font-size: 1.35em;
+    }
+
+}
+
+.icon {
+    max-width: 100px;
+
+    &.tomato {
+        @include circular-background($tomato);
+    }
+
+    &.gb {
+        @include circular-background($green-blue);
+    }
+}
+
+#portfolio {
+
+    line-height: 1.29;
+
+    @include not-phones {
+        line-height: 1.44;
+        letter-spacing: 0.3px;
+    }
+
+    .link {
+        margin-top: 3%;
+        font-family: 'Overpass', sans-serif;
+        font-weight: bold;
+
+        // For link w/ no href
+        cursor: pointer;
+    }
+
+    padding-bottom: 5%;
+}
+
+#donate {
+
+    background-color: black;
+    color: white;
+    padding-top: 5%;
+
+    margin-left: -3%;
+    margin-right: -3%;
+    margin-bottom: 5%;
+
+    overflow: hidden;
+
+    #icons {
+        #bg {
+            margin-left: -14%;
+
+            // @include phones {
+            //     ::ng-deep img {
+            //         max-width: 180px!important;
+            //     }
+            // }
+        }
+        #pig {
+            position: absolute;
+            padding-top: 5%;
+            left: 0;
+            width: 140px;
+            @include phones {
+                ::ng-deep img {
+                    width: 100px;
+                }
+            }
+        }
+    }
+
+    #btn {
+        display: grid;
+        text-align: center;
+        align-items: center;
+    }
+    
+    h2 { 
+        color: white;
+
+        @include phones {
+            margin-left: 3%;
+            margin-right: 3%;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
+}
+
+#links {
+    a {
+        &:nth-child(1), &:nth-child(4) {
+            color: $green-blue;
+        }
+        &:nth-child(2) {
+            color: $tomato;
+        }
+        &:nth-child(3) {
+            color: $mango;
+        }
+    }
+}

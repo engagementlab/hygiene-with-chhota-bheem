@@ -1,0 +1,14 @@
+<app-nav></app-nav>
+
+<div id="menu-overlay"></div>
+<router-outlet></router-outlet>
+<app-footer></app-footer>
+
+<!-- QA Build Banner -->
+<div *ngIf="isQABuild === true" id="qa-build"> 
+
+    <img src="https://res.cloudinary.com/engagement-lab-home/image/upload/v1544209738/homepage-2.0/qa-build.svg" style="max-width:50px" alt="QA Build icon"/>
+    <span id="text">QA BUILD</span>
+    <div>Work in progress. Not intended for external use.</div>
+
+</div>

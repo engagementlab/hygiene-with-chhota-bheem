@@ -1,0 +1,8 @@
+<a *ngIf="route !== undefined" id="{{id && id || '' }}" class="app-button btn {{class}}" [class.odd]="odd" role="button"
+  routerLink="{{route}}" routerLinkActive="active" attr.aria-label="{{ariaLabel}}">{{label}}</a>
+
+<a *ngIf="href !== undefined" id="{{id && id || '' }}" class="app-button btn {{class}}" role="button" href="{{href}}"
+  target="{{newWindow && '_blank' || '' }}" attr.aria-label="{{ariaLabel}}">{{label}}</a>
+
+<a *ngIf="clickData !== undefined" id="{{id && id || '' }}" class="app-button btn {{class}}" role="button"
+  attr.aria-label="{{ariaLabel}}" (click)="clickHandler(clickData)">{{label}}</a>

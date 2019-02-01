@@ -1,0 +1,35 @@
+// CDN CONFIG
+$cloudinary-account: 'engagement-lab-home';
+$cdn-product: 'chhota-bheem';
+
+@font-face {
+    font-family: 'AvenirBold';
+    src: url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.woff2') format('woff2'), /* Super modern browsers */
+         url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.woff') format('woff'), /* Modern browsers */
+         url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+// COLORS
+$goldenrod: #fecf0a;
+$brownish-red: #953620;
+$french-blue: #3e5ba8;
+$tomato: #e14826;
+$dark-sky-blue: #4a90e2;
+$greenish-tan: #b4d66e;
+$tomato-two: #ee4824;
+
+$mq-breakpoints: (
+    mobile:  320px,
+    mobileLg:  425px,
+    tablet:  1024px,
+    tabletPortrait:  768px,
+    desktop: 980px,
+    wide:    1300px,
+
+    // Tweakpoints
+    desktopAd: 810px,
+    mobileLandscape: 480px
+);
+
+// Mixins 
+@import '../../node_modules/@engagementlab/el-scss/bundle';
