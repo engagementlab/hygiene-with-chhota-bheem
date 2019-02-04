@@ -1,64 +1,123 @@
-<section id="intro" class="column columns is-full">
+<section id="intro" class="columns is-full no-margin">
 
-    <div class="column is-half center">
+    <div class="column is-6 center" data-aos="fade-up">
+        <div class="subheader">Module 1</div>
+        <h4>Handwashing with soap</h4>
         <cdn-image cloudinaryId="art/module1" width="312" svg="true"></cdn-image>
-    </div>
+        <br />
 
-    <div class="column is-half center">
+        <a href="#" class="view">view module</a>
+    </div>
+    <div class="seperator" data-aos="fade-down" data-aos-delay="100"></div>
+    <div class="column center" data-aos="fade-up" data-aos-delay="200">
+        <div class="subheader">Module 2</div>
+        <h4>Toilet use</h4>
         <cdn-image cloudinaryId="art/module2" width="277" svg="true"></cdn-image>
+        <br />
+
+        <a href="#" class="view">view module</a>
     </div>
 </section>
 
-<section id="manual" class="column columns is-full">
-    <div class="container desktop">
+<section id="manual" class="columns is-multiline is-full no-margin">
+    <h2 class="column is-full center no-pad" data-aos="fade-up"
+    data-aos-anchor-placement="bottom-bottom">Facilitator Manual</h2>
 
-        <div class="column is-half center">
-            <!-- <cdn-image cloudinaryId="art/module1" width="312" svg="true"></cdn-image> -->
-        </div>
+    <div class="column is-6 center">
+        <div id="filler"></div>
+    </div>
 
-        <div class="column is-half center">
-        </div>
+    <div class="column is-4" data-aos="fade-left">
+        <span class="summary">Let's make some happy little clouds in our world. Brown is such a nice color. You can
+            create the world you want to see and be a part of. You have that power. We don't want to set these clouds
+            on fire.</span>
+        <a class="download" href="">Download Manual</a>
     </div>
 
 </section>
 
-<section id="manual" class="column columns is-full">
-        <div class="container desktop">
-    
-            <div class="column is-half center">
-                <!-- <cdn-image cloudinaryId="art/module1" width="312" svg="true"></cdn-image> -->
-            </div>
-    
-            <div class="column is-half center">
-            </div>
+<section id="module1" class="module columns is-multiline is-full no-margin" *ngIf="modules !== undefined">
+    <div class="column is-full center no-pad">
+        <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 1</div>
+        <h1 data-aos="fade-up">Handwashing<br />with soap</h1>
+    </div>
+
+    <div class="column is-6 center" data-aos="fade-right">
+        <cdn-image cloudinaryId="art/module1-lg" width="500" svg="true"></cdn-image>
+    </div>
+
+    <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
+        <span class="summary">{{modules[0].summary}}</span>
+        <a *ngIf="modules[0].pdf" class="download" href="{{modules[0].pdf.href}}">Download Facilitation Guide</a>
+    </div>
+
+</section>
+
+<div class="columns no-margin">
+    <div class="column is-6 no-pad">
+    </div>
+    <div id="module-seperator" class="seperator" data-aos="seperator-fade"></div>
+</div>
+
+<section id="module2" class="module columns is-multiline is-full no-margin" *ngIf="modules !== undefined">
+    <div class="column is-full center no-pad">
+        <div class="subheader">Module 2</div>
+        <h1>Toilet Use</h1>
+    </div>
+
+    <div class="column is-6 center">
+        <cdn-image cloudinaryId="art/module2-lg" width="500" svg="true"></cdn-image>
+    </div>
+
+    <div class="description column is-4">
+        <span class="summary">{{modules[1].summary}}</span>
+        <a *ngIf="modules[1].pdf" class="download" href="{{modules[0].pdf.href}}">Download Facilitation Guide</a>
+    </div>
+
+</section>
+
+<section id="studies" class="columns is-full is-multiline no-margin">
+    <div class="column is-2"></div>
+    <h2 class="column is-9 no-pad">Case Studies</h2>
+
+    <div class="column is-2"></div>
+    <div class="description column is-4 no-pad">
+        <span class="summary"> Let's make some happy little clouds in our world. Brown is such a nice color. You can
+            create the world you want to see and be a part of. You have that power. We don't want to set these clouds
+            on fire.</span>
+        <a class="download" routerLink="/casestudies">Read our Stories from the field</a>
+
+    </div>
+
+</section>
+
+<section id="download">
+    <div class="container desktop columns">
+
+        <div class="column is-half center">
+            <cdn-image cloudinaryId="art/phone" autoFormat="true" width="541"></cdn-image>
         </div>
-    
-    </section>
 
-    <section id="studies" class="column columns is-full">
-            <div class="container desktop">
-        
-                <div class="column is-half center">
-                    <!-- <cdn-image cloudinaryId="art/module1" width="312" svg="true"></cdn-image> -->
-                </div>
-        
-                <div class="column is-half center">
-                </div>
+        <div class="description column">
+            <h2>Download our<br />Game</h2>
+
+            <span class="summary"> Let's make some happy little clouds in our world. Brown is such a nice color. You
+                can
+                create the world you want to see and be a part of. You have that power. We don't want to set these
+                clouds
+                on fire.</span>
+
+            <div id="store" class="columns">
+                <a href="https://itunes.apple.com/us/app/hygiene-with-chhota-bheem/id1423871069?ls=1&mt=8" role="link">
+                    <cdn-image cloudinaryId="icons/appstore" width="241" svg="true" class="column"></cdn-image>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=edu.engagementlab.chhotabheem">
+                    <cdn-image cloudinaryId="icons/play" width="241" svg="true" class="column"></cdn-image>
+                </a>
+
             </div>
-        
-        </section>
-    
 
-        <section id="download" class="column columns is-full">
-                <div class="container desktop">
-            
-                    <div class="column is-half center">
-                        <cdn-image cloudinaryId="art/phone" autoFormat="true" width="541"></cdn-image>
-                    </div>
-            
-                    <div class="column is-half center">
-                    </div>
-                </div>
-            
-            </section>
-        
+        </div>
+    </div>
+
+</section>

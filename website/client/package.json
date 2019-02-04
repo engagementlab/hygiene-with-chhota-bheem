@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "~7.2.3",
     "@angular/router": "~7.2.3",
     "@cloudinary/angular-5.x": "^1.0.2",
-    "@engagementlab/el-scss": "~0.0.3",
+    "@engagementlab/el-scss": "latest",
     "@nicky-lenaers/ngx-scroll-to": "^1.0.0",
     "@types/gsap": "^1.20.0",
     "@types/ismobilejs": "^0.4.1",

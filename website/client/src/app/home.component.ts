@@ -14,6 +14,7 @@ import * as ismobile from 'ismobilejs';
 })
 export class HomeComponent implements OnInit {
 
+  public modules: any[];
   public isPhone: boolean;
 
   private tls: TimelineLite[];
@@ -24,17 +25,22 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-/* 
+
     this._dataSvc.getDataForUrl('homepage/get/').subscribe(response => {
 
-    }); */
+      this.modules = response;
+
+    });
 
   }
 
   ngAfterViewInit() {
+    AOS.init({
+      duration: 700,
+      easing: 'ease-in-out'
+    });
 
     // this.initiativeList.changes.subscribe(t => {
-    //     // AOS.init();
     // });
 
   }

@@ -1,6 +1,6 @@
 'use strict';
 /**
- * Engagement Lab Website v2.x
+ * Hygiene with Chhota Bheem website
  * 
  * About page Model
  * @module about

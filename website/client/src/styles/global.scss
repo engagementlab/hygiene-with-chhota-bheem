@@ -24,6 +24,25 @@ body {
 a {
     text-decoration: none;
 }
+h2 {
+    font-size: 2.55em;
+    line-height: 1;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    color: white;
+}
+h4 {
+
+  font-size: 1.7em;
+  font-weight: bold;
+  line-height: 1.92;
+  letter-spacing: 2px;
+  color: $french-blue;
+
+  text-transform: uppercase;
+
+  margin-top: 1%;
+}
 
 .bold {
     font-weight: 700;
@@ -33,54 +52,39 @@ a {
     font-weight: 500;
 }
 
-.small {
-    font-size: small;
-}
+// Other styles
 
-.xx-large {
-    font-size: xx-large;
-}
-
-.uppercase {
+.download {
+    display: block;
+    font-size: 1.7em;    
     text-transform: uppercase;
+
+    line-height: 1.17;
+    color: $dark-sky-blue;
+
+    margin-top: 7%;
 }
 
-.center {
-    text-align: center;
+.subheader {
+
+  letter-spacing: 4px;
+  color: $tomato;
+  text-transform: uppercase;
+
 }
 
-.no-margin {
-    margin: 0;
-}
 
-.no-pad {
-    padding: 0;
-}
+.seperator {
 
-.hidden {
-    display: none;
-}
+    display: block;
+    background-color: $brownish-red;
+    width: 3px;
+    height: 300px;
+    margin-top: 5%;
 
-.hidden-desktop {
-    @include mq($from: tablet) {
-        display: none;
-    }
-}
-
-.hidden-tablet-plus {
-    @include mq($from: tabletPortrait) {
-        display: none;
-    }
-}
-
-.hidden-mobile {
-    @include mobile-only {
-        display: none;
-    }
-}
-
-.hidden-not-mobile {
-    @include mq($from: mobileLg) {
-        display: none;
-    }
+    // @include not-phones {
+    //     width: 4px;
+    //     height: 100px;
+    //     margin-top: -50px;
+    // }
 }

@@ -16,19 +16,8 @@ mongoose.Promise = require('bluebird');
 
 var buildData = (options, res) => {
 
-    let list = keystone.list('Project').model;
-    let data;
-
-    if (options.id !== undefined)
-        data = list.findOne({
-            key: options.id
-        });
-    else if (options.limit)
-        data = list.find({}, ).sort([
-            ['sortOrder', 'ascending']
-        ]);
-    else
-        data = list.find({});
+    let list = keystone.list('Module').model;
+    let data = list.find({});
 
     Bluebird.props({
             jsonData: data
