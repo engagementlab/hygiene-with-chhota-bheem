@@ -23,6 +23,38 @@ body {
 // GLOBAL STYLING
 a {
     text-decoration: none;
+
+    &.blue {
+        display: block;
+        font-size: 1.7em;    
+        text-transform: uppercase;
+        
+        line-height: 1.17;
+        color: $dark-sky-blue;
+        
+        margin-top: 7%;
+        
+        &.download {
+            &:after {
+                content: "PDF";
+                font-size: .6em;
+                margin-left: 5%;
+                @include border-radius(50%);
+                border: 2px solid $dark-sky-blue;
+                
+                display: inline-flex;
+                width: 50px;
+                height: 50px;
+                
+                justify-content: center;
+                justify-items: center;
+                flex-direction: column;
+                text-align: center;
+                
+                transform: translateY(-8%);
+            }
+        }
+    }
 }
 h2 {
     font-size: 2.55em;
@@ -53,17 +85,6 @@ h4 {
 }
 
 // Other styles
-
-.download {
-    display: block;
-    font-size: 1.7em;    
-    text-transform: uppercase;
-
-    line-height: 1.17;
-    color: $dark-sky-blue;
-
-    margin-top: 7%;
-}
 
 .subheader {
 
