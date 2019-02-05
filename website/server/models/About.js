@@ -28,29 +28,34 @@ var About = new keystone.List('About',
 		nocreate: true
 	});
 
+// Storage adapter for Azure
+var azureFile = new keystone.Storage({
+	adapter: require('keystone-storage-adapter-azure'),
+	azure: {
+		container: 'resources',
+		generateFilename: function (file) {
+			// Cleanup filename
+			return file.originalname.replace(/[\\'\-\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "").replace(/ /g, '_').toLowerCase();
+		}
+	},
+	schema: {
+		path: true,
+		originalname: true,
+		url: true
+	}
+});
+
 /**
  * Model Fields
  * @main About
  */
 About.add({
 	name: { type: String, default: "About Page", hidden: true, required: true, initial: true },
-	missionStatement: { type: String, label: 'Mission Statement', required: true, initial: true },
-	
-	summary1: { type: Types.Textarea, label: "Summary Paragraph 1", required: true, note: 'First (required) paragraph'},
-	summary2: { type: Types.Textarea, label: "Summart Paragraph 2", required: true, note: 'Second (required) paragraph' },
-
-	images: {
-		type: Types.CloudinaryImages,
-		label: 'Summary Images (Requires EXACTLY 2)',
-		folder: 'homepage-2.0/about',
-		autoCleanup: true
-	},
-	
-	research: { type: Types.Textarea, label: "Research Text", required: true },
-	workshops: { type: Types.Textarea, label: "Workshops Text", required: true },
-	tools: { type: Types.Textarea, label: "Tools Text", required: true },
-	teaching: { type: Types.Textarea, label: "Teaching Text", required: true },
-	design: { type: Types.Textarea, label: "Design Text", required: true }
+    pdf: {
+        type: Types.File,
+        label: 'Facilitation Guide PDF',
+        storage: azureFile
+    }
 	
 });
 

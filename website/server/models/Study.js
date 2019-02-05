@@ -21,10 +21,8 @@ var Types = keystone.Field.Types;
  */
 var Study = new keystone.List('Study', 
 	{
-		label: 'Studys',
-		singular: 'Study',
-		nodelete: true,
-		// nocreate: true
+		label: 'Case Studies',
+		singular: 'Case Study'
 	});
 
 // Storage adapter for Azure

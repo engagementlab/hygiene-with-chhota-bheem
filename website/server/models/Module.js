@@ -20,13 +20,12 @@ var Types = keystone.Field.Types;
  * @constructor
  * See: http://keystonejs.com/docs/database/#lists-options
  */
-var Module = new keystone.List('Module', 
-	{
-		label: 'Modules',
-		singular: 'Module',
-		nodelete: true,
-		// nocreate: true
-	});
+var Module = new keystone.List('Module', {
+    label: 'Modules',
+    singular: 'Module',
+    nodelete: true,
+    // nocreate: true
+});
 
 // Storage adapter for Azure
 var azureFile = new keystone.Storage({
@@ -50,12 +49,36 @@ var azureFile = new keystone.Storage({
  * @main Module
  */
 Module.add({
-	name: { type: String, required: true, initial: true },	
-	summary: { type: Types.Textarea, required: true, initial: true},
-	pdf: {
-		type: Types.File,
-		label: 'PDF',
-		storage: azureFile
+    name: {
+        type: String,
+        required: true,
+        initial: true
+    },
+    summary: {
+        type: Types.Textarea,
+        required: true,
+        initial: true
+    },
+    pdf: {
+        type: Types.File,
+        label: 'PDF',
+        storage: azureFile
+    },
+    video1Url: {
+        type: Types.Url,
+        required: true,
+        initial: true
+    },
+    video2Url: {
+        type: Types.Url,
+        required: true,
+        initial: true
+    },
+	videoThumbnailImages: {
+		type: Types.CloudinaryImages,
+		label: 'Thumbnail images for Videos (retina resolution)',
+		folder: 'chhota-bheem',
+		autoCleanup: true
 	},
 
 });

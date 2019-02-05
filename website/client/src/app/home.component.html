@@ -20,8 +20,8 @@
 </section>
 
 <section id="manual" class="columns is-multiline is-full no-margin">
-    <h2 class="column is-full center no-pad" data-aos="fade-up"
-    data-aos-anchor-placement="bottom-bottom">Facilitator Manual</h2>
+    <h2 class="column is-full center no-pad" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom">Facilitator
+        Manual</h2>
 
     <div class="column is-6 center">
         <div id="filler"></div>
@@ -36,19 +36,40 @@
 
 </section>
 
-<section id="module1" class="module columns is-multiline is-full no-margin" *ngIf="modules !== undefined">
-    <div class="column is-full center no-pad">
-        <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 1</div>
-        <h1 data-aos="fade-up">Handwashing<br />with soap</h1>
+<section id="module1" class="module is-full no-margin" *ngIf="modules !== undefined">
+    <div class="columns is-multiline">
+        <div class="column is-full center no-pad">
+            <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 1</div>
+            <h1 data-aos="fade-up">Handwashing<br />with soap</h1>
+        </div>
+
+        <div class="column is-6 center" data-aos="fade-right">
+            <cdn-image cloudinaryId="art/module1-lg" width="500" svg="true"></cdn-image>
+        </div>
+
+        <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
+            <span class="summary">{{modules[0].summary}}</span>
+            <a *ngIf="modules[0].pdf" class="blue download" href="{{modules[0].pdf.href}}">Download Facilitation Guide</a>
+        </div>
     </div>
 
-    <div class="column is-6 center" data-aos="fade-right">
-        <cdn-image cloudinaryId="art/module1-lg" width="500" svg="true"></cdn-image>
-    </div>
+    <!-- Module videos -->
+    <div class="videos columns is-multiline" *ngIf="modules[0].videoThumbnailImages.length > 0">
 
-    <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
-        <span class="summary">{{modules[0].summary}}</span>
-        <a *ngIf="modules[0].pdf" class="blue download" href="{{modules[0].pdf.href}}">Download Facilitation Guide</a>
+        <div class="subheader column is-10 is-offset-1" data-aos="fade-down">Videos</div>
+        <div class="video column is-4 is-offset-1 center" data-aos="zoom-out">
+            <a href="{{modules[0].video1Url}}">
+                <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[0].videoThumbnailImages[0].public_id}}" width="453"
+                    autoFormat="true"></cdn-image>
+            </a>
+        </div>
+        <div class="column is-1"></div>
+        <div class="video column is-4 center" data-aos="zoom-out">
+            <a href="{{modules[0].video2Url}}">
+                <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[0].videoThumbnailImages[1].public_id}}" width="453"
+                    autoFormat="true"></cdn-image>
+            </a>
+        </div>
     </div>
 
 </section>
@@ -59,29 +80,49 @@
     <div id="module-seperator" class="seperator" data-aos="seperator-fade"></div>
 </div>
 
-<section id="module2" class="module columns is-multiline is-full no-margin" *ngIf="modules !== undefined">
-    <div class="column is-full center no-pad">
-        <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 2</div>
-        <h1 data-aos="fade-up">Toilet Use</h1>
+<section id="module2" class="module is-full no-margin" *ngIf="modules !== undefined">
+
+    <div class="columns is-multiline">
+        <div class="column is-full center no-pad">
+            <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 2</div>
+            <h1 data-aos="fade-up">Toilet Use</h1>
+        </div>
+
+        <div class="column is-6 center" data-aos="fade-right">
+            <cdn-image cloudinaryId="art/module2-lg" width="500" svg="true"></cdn-image>
+        </div>
+
+        <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
+            <span class="summary">{{modules[1].summary}}</span>
+            <a *ngIf="modules[1].pdf" class="blue download" href="{{modules[0].pdf.href}}">Download Facilitation Guide</a>
+        </div>
     </div>
 
-    <div class="column is-6 center" data-aos="fade-right">
-        <cdn-image cloudinaryId="art/module2-lg" width="500" svg="true"></cdn-image>
-    </div>
+    <!-- Module videos -->
+    <div class="videos columns is-multiline" *ngIf="modules[1].videoThumbnailImages.length > 0">
 
-    <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
-        <span class="summary">{{modules[1].summary}}</span>
-        <a *ngIf="modules[1].pdf" class="blue download" href="{{modules[0].pdf.href}}">Download Facilitation Guide</a>
+        <div class="subheader column is-10 is-offset-1" data-aos="fade-down">Videos</div>
+        <div class="video column is-4 is-offset-1 center" data-aos="zoom-out">
+            <a href="{{modules[1].video1Url}}">
+                <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[1].videoThumbnailImages[0].public_id}}" width="453"
+                    autoFormat="true"></cdn-image>
+            </a>
+        </div>
+        <div class="column is-1"></div>
+        <div class="video column is-4 center" data-aos="zoom-out">
+            <a href="{{modules[1].video2Url}}">
+                <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[1].videoThumbnailImages[1].public_id}}" width="453"
+                    autoFormat="true"></cdn-image>
+            </a>
+        </div>
     </div>
 
 </section>
 
 <section id="studies" class="columns is-full is-multiline no-margin">
-    <div class="column is-2"></div>
-    <h2 class="column is-9 no-pad" data-aos="fade-up">Case Studies</h2>
+    <h2 class="column is-9 is-offset-2 no-pad" data-aos="fade-up">Case Studies</h2>
 
-    <div class="column is-2"></div>
-    <div class="description column is-4 no-pad" data-aos="fade-right" data-aos-delay="100">
+    <div class="description column is-4 is-offset-2 no-pad" data-aos="fade-right" data-aos-delay="100">
         <span class="summary"> Let's make some happy little clouds in our world. Brown is such a nice color. You can
             create the world you want to see and be a part of. You have that power. We don't want to set these clouds
             on fire.</span>
@@ -101,14 +142,16 @@
         <div class="description column">
             <h2 data-aos="fade-up" data-aos-delay="100">Download our<br />Game</h2>
 
-            <span class="summary" data-aos="fade-left" data-aos-delay="200"> Let's make some happy little clouds in our world. Brown is such a nice color. You
+            <span class="summary" data-aos="fade-left" data-aos-delay="200"> Let's make some happy little clouds in our
+                world. Brown is such a nice color. You
                 can
                 create the world you want to see and be a part of. You have that power. We don't want to set these
                 clouds
                 on fire.</span>
 
             <div id="store" class="columns">
-                <a data-aos="zoom-out" data-aos-delay="300" href="https://itunes.apple.com/us/app/hygiene-with-chhota-bheem/id1423871069?ls=1&mt=8" role="link">
+                <a data-aos="zoom-out" data-aos-delay="300" href="https://itunes.apple.com/us/app/hygiene-with-chhota-bheem/id1423871069?ls=1&mt=8"
+                    role="link">
                     <cdn-image cloudinaryId="icons/appstore" width="241" svg="true" class="column"></cdn-image>
                 </a>
                 <a data-aos="zoom-out" data-aos-delay="400" href="https://play.google.com/store/apps/details?id=edu.engagementlab.chhotabheem">
