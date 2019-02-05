@@ -16,7 +16,7 @@ bash ./toggledowntime.sh start;
 nvm use;
 npm i;
 
-pm2 stop 'engagement-lab-website-client'; 
+pm2 stop 'chhota-bheem-client'; 
 
 if [ "$1" == "prod" ]; then
     npm run build;
@@ -24,13 +24,13 @@ else
     npm run build-qa;
 fi
 
-pm2 start 'engagement-lab-website-client';
+pm2 start 'chhota-bheem-client';
 
 # Server
 cd ../server;
 nvm use;
 npm i;
-pm2 restart 'engagement-lab-website-server';
+pm2 restart 'chhota-bheem-server';
 
 # Stop downtime page
 cd ../client;

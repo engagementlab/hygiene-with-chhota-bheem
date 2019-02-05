@@ -1,9 +1,9 @@
 {
   "apps" : [
     {
-      "name": "engagement-lab-website-server",
+      "name": "chhota-bheem-server",
       "script": "app.js",      
-      "exec_interpreter": "/home/node/.nvm/versions/node/v10.14.0/bin/node",
+      "exec_interpreter": "/home/node/.nvm/versions/node/v10.15.1/bin/node",
       "env_production": {
         "NODE_ENV": "production"
       },
@@ -12,19 +12,19 @@
       }
     },
     {
-      "name": "engagement-lab-website-client",      
-      "exec_interpreter": "/home/node/.nvm/versions/node/v10.14.0/bin/node",
-      "script": "/home/node/.nvm/versions/node/v10.14.0/bin/http-server",
-      "args": "/srv/engagement-lab-website-2.0/source/client/dist -p 8082"
+      "name": "chhota-bheem-client",      
+      "exec_interpreter": "/home/node/.nvm/versions/node/v10.15.1/bin/node",
+      "script": "/home/node/.nvm/versions/node/v10.51.1/bin/http-server",
+      "args": "/srv/hygiene-with-chhota-bheem/source/client/dist -p 8083"
     }],
   "deploy" : {
 
     "staging" : {
       "user": "node",
       "host": "199.94.80.19",
-      "repo": "git@github.com:engagementlab/engagement-lab-website-2.0.git",
+      "repo": "git@github.com:engagementlab/hygiene-with-chhota-bheem.git",
       "ref": "origin/master",
-      "path": "/srv/engagement-lab-website-2.0",
+      "path": "/srv/chhota-bheem",
       "post-deploy" : "bash deploy.sh qa",
       "env": {
         "NODE_ENV": "staging"
@@ -34,9 +34,9 @@
     "production" : {
       "user": "node",
       "host": "199.94.80.32",
-      "repo": "git@github.com:engagementlab/engagement-lab-website-2.0.git",
+      "repo": "git@github.com:engagementlab/hygiene-with-chhota-bheem.git",
       "ref": "origin/production",
-      "path": "/srv/engagement-lab-website-2.0",
+      "path": "/srv/hygiene-with-chhota-bheem",
       "pre-deploy-local" : "echo 'Cloning and building.';",
       "post-deploy" : "bash deploy.sh prod",
       "env": {
