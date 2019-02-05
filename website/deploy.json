@@ -25,7 +25,7 @@
       "repo": "git@github.com:engagementlab/hygiene-with-chhota-bheem.git",
       "ref": "origin/master",
       "path": "/srv/chhota-bheem",
-      "post-deploy" : "bash deploy.sh qa",
+      "post-deploy" : "cd website; bash deploy.sh qa",
       "env": {
         "NODE_ENV": "staging"
       }
@@ -38,7 +38,7 @@
       "ref": "origin/production",
       "path": "/srv/hygiene-with-chhota-bheem",
       "pre-deploy-local" : "echo 'Cloning and building.';",
-      "post-deploy" : "bash deploy.sh prod",
+      "post-deploy" : "cd website; bash deploy.sh prod",
       "env": {
         "NODE_ENV": "staging"
       }
