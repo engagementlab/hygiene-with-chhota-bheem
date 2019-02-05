@@ -137,9 +137,9 @@
 [data-aos="seperator-fade"] {
     transform: scaleY(0);
     transform-origin: top;
-    
+
     transition-property: transform, opacity;
-    transition-duration: .7s;
+    transition-duration: 3s;
     transition-timing-function: ease-in-out;
     
     &.aos-animate {

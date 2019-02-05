@@ -35,5 +35,17 @@ export class AppComponent implements OnInit {
     
       }, 2000);
     }
+
+    this._router.events.subscribe((evt) => {
+
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+
+      // Always go to top of page
+      window.scrollTo(0, 0);
+
+    });
+    
   }
 }

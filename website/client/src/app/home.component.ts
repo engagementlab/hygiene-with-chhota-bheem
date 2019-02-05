@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChildren, QueryList, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from './utils/data.service';
-import { TweenLite, Sine, TimelineLite } from 'gsap';
+import { TweenLite, TimelineLite } from 'gsap';
+
+import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 
 import * as AOS from 'aos';
 import * as _ from 'underscore';
 import * as ismobile from 'ismobilejs';
-
 
 @Component({
   selector: 'app-home',
@@ -20,8 +21,8 @@ export class HomeComponent implements OnInit {
   private tls: TimelineLite[];
   t: TweenLite;
 
-  constructor(private _dataSvc: DataService) {
-    this.isPhone = ismobile.phone;
+  constructor(private _dataSvc: DataService, private _scrollToSvc: ScrollToService) {
+    // this.isPhone = ismobile.phone;
   }
 
   ngOnInit() {
@@ -35,13 +36,23 @@ export class HomeComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    
     AOS.init({
       duration: 700,
       easing: 'ease-in-out'
     });
 
-    // this.initiativeList.changes.subscribe(t => {
-    // });
+  }
+
+  goToModule(moduleNum: number) {
+
+    this._scrollToSvc
+      .scrollTo({
+        target: document.getElementById('module' + moduleNum),
+        offset: 200,
+        easing: 'easeOutQuint',
+        duration: 700
+      });
 
   }
 
