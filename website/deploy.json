@@ -2,7 +2,7 @@
   "apps" : [
     {
       "name": "chhota-bheem-server",
-      "script": "app.js",      
+      "script": "/srv/hygiene-with-chhota-bheem/source/website/server/app.js",      
       "exec_interpreter": "/home/node/.nvm/versions/node/v10.15.1/bin/node",
       "env_production": {
         "NODE_ENV": "production"
@@ -15,7 +15,7 @@
       "name": "chhota-bheem-client",      
       "exec_interpreter": "/home/node/.nvm/versions/node/v10.15.1/bin/node",
       "script": "/home/node/.nvm/versions/node/v10.51.1/bin/http-server",
-      "args": "/srv/hygiene-with-chhota-bheem/source/client/dist -p 8083"
+      "args": "/srv/hygiene-with-chhota-bheem/source/website/client/dist -p 8083"
     }],
   "deploy" : {
 
