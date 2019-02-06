@@ -1,6 +1,6 @@
-<section id="intro" class="columns is-full no-margin">
+<section id="intro" class="columns is-full is-mobile is-multiline-mobile no-margin">
 
-    <div class="column is-6 center" data-aos="fade-up">
+    <div class="column is-full-mobile is-half-tablet center" data-aos="fade-up">
         <div class="subheader">Module 1</div>
         <h4>Handwashing with soap</h4>
         <cdn-image cloudinaryId="art/module1" width="312" svg="true"></cdn-image>
@@ -8,8 +8,8 @@
 
         <a href="#" class="view" (click)="goToModule(1)">view module</a>
     </div>
-    <div class="seperator" data-aos="fade-down" data-aos-delay="100"></div>
-    <div class="column center" data-aos="fade-up" data-aos-delay="200">
+    <div class="seperator hidden-mobile" data-aos="fade-down" data-aos-delay="100"></div>
+    <div class="column center is-full-mobile" data-aos="fade-up" data-aos-delay="200">
         <div class="subheader">Module 2</div>
         <h4>Toilet use</h4>
         <cdn-image cloudinaryId="art/module2" width="277" svg="true"></cdn-image>
@@ -19,11 +19,11 @@
     </div>
 </section>
 
-<section id="manual" class="columns is-multiline is-full no-margin">
+<section id="manual" class="columns is-multiline is-full is-mobile no-margin">
     <h2 class="column is-full center no-pad" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom">Facilitator
         Manual</h2>
 
-    <div class="column is-6 center">
+    <div class="column is-11-mobile is-half-tablet center">
         <div id="filler"></div>
     </div>
 
@@ -36,9 +36,9 @@
 
 </section>
 
-<section id="module1" class="module is-full no-margin" *ngIf="modules !== undefined">
+<section id="module1" class="module is-full is-mobile no-margin" *ngIf="modules !== undefined">
     <div class="columns is-multiline">
-        <div class="column is-full center no-pad">
+        <div class="column is-full is-mobile center no-pad">
             <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 1</div>
             <h1 data-aos="fade-up">Handwashing<br />with soap</h1>
         </div>
@@ -74,16 +74,16 @@
 
 </section>
 
-<div class="columns no-margin">
+<div class="columns no-margin hidden-mobile">
     <div class="column is-6 no-pad">
     </div>
     <div id="module-seperator" class="seperator" data-aos="seperator-fade"></div>
 </div>
 
-<section id="module2" class="module is-full no-margin" *ngIf="modules !== undefined">
+<section id="module2" class="module is-full is-mobile no-margin" *ngIf="modules !== undefined">
 
     <div class="columns is-multiline">
-        <div class="column is-full center no-pad">
+        <div class="column is-full is-mobile center no-pad">
             <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 2</div>
             <h1 data-aos="fade-up">Toilet Use</h1>
         </div>
@@ -119,7 +119,7 @@
 
 </section>
 
-<section id="studies" class="columns is-full is-multiline no-margin">
+<section id="studies" class="columns is-full is-mobile is-multiline no-margin">
     <h2 class="column is-9 is-offset-2 no-pad" data-aos="fade-up">Case Studies</h2>
 
     <div class="description column is-4 is-offset-2 no-pad" data-aos="fade-right" data-aos-delay="100">
