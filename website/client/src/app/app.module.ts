@@ -1,5 +1,5 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http'; 
 
@@ -62,7 +62,8 @@ export const routes: Routes = [
     RedirectService,
     Title
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class AppModule { }

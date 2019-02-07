@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FooterComponent } from './footer.component';
+import { CdnImageComponent } from '../utils/cdn-image/cdn-image.component';
+import { CloudinaryImage, CloudinaryTransformationDirective } from '@cloudinary/angular-5.x';
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -8,7 +10,7 @@ describe('FooterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FooterComponent ]
+      declarations: [ FooterComponent, CdnImageComponent, CloudinaryImage, CloudinaryTransformationDirective ]
     })
     .compileComponents();
   }));

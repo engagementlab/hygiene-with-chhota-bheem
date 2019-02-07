@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AboutComponent } from './about.component';
+import { RedirectService } from '../utils/redirect.service';
+import { CdnImageComponent } from '../utils/cdn-image/cdn-image.component';
+import { CloudinaryImage, CloudinaryTransformationDirective } from '@cloudinary/angular-5.x';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
@@ -8,7 +11,8 @@ describe('AboutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AboutComponent ]
+      declarations: [ AboutComponent, CdnImageComponent, CloudinaryImage, CloudinaryTransformationDirective ],
+      providers: [ RedirectService ]
     })
     .compileComponents();
   }));

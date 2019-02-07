@@ -4,7 +4,8 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 @Component({
   selector: 'cdn-image',
   templateUrl: './cdn-image.component.html',
-  styleUrls: ['./cdn-image.component.scss']
+  styleUrls: ['./cdn-image.component.scss'],
+  exportAs: 'cdn-image'
 })
 export class CdnImageComponent implements OnInit {
 

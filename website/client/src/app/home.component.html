@@ -37,7 +37,7 @@
 </section>
 
 <section id="module1" class="module is-full is-mobile no-margin" *ngIf="modules !== undefined">
-    <div class="columns is-multiline">
+    <div class="columns is-multiline no-margin">
         <div class="column is-full is-mobile center no-pad">
             <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 1</div>
             <h1 data-aos="fade-up">Handwashing<br />with soap</h1>
@@ -54,7 +54,7 @@
     </div>
 
     <!-- Module videos -->
-    <div class="videos columns is-multiline" *ngIf="modules[0].videoThumbnailImages.length > 0">
+    <div class="videos columns is-multiline no-margin" *ngIf="modules[0].videoThumbnailImages.length > 0">
 
         <div class="subheader column is-10 is-offset-1" data-aos="fade-down">Videos</div>
         <div class="video column is-4 is-offset-1 center" data-aos="zoom-out">
@@ -82,7 +82,7 @@
 
 <section id="module2" class="module is-full is-mobile no-margin" *ngIf="modules !== undefined">
 
-    <div class="columns is-multiline">
+    <div class="columns is-multiline no-margin">
         <div class="column is-full is-mobile center no-pad">
             <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 2</div>
             <h1 data-aos="fade-up">Toilet Use</h1>
@@ -99,7 +99,7 @@
     </div>
 
     <!-- Module videos -->
-    <div class="videos columns is-multiline" *ngIf="modules[1].videoThumbnailImages.length > 0">
+    <div class="videos columns is-multiline no-margin" *ngIf="modules[1].videoThumbnailImages.length > 0">
 
         <div class="subheader column is-10 is-offset-1" data-aos="fade-down">Videos</div>
         <div class="video column is-4 is-offset-1 center" data-aos="zoom-out">
@@ -133,7 +133,7 @@
 </section>
 
 <section id="download">
-    <div class="container desktop columns">
+    <div class="container desktop columns no-margin">
 
         <div class="column is-half center" data-aos="zoom-out">
             <cdn-image cloudinaryId="art/phone" autoFormat="true" width="541"></cdn-image>
