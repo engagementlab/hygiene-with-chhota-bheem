@@ -10,7 +10,8 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent, CdnImageComponent ]
+      declarations: [ HomeComponent, CdnImageComponent ],
+      providers: [ DataService ]
     })
     .compileComponents();
   }));
