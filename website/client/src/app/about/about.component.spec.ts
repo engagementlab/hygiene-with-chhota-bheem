@@ -5,7 +5,6 @@ import { RedirectService } from '../utils/redirect.service';
 import { CdnImageComponent } from '../utils/cdn-image/cdn-image.component';
 import { CloudinaryImage, CloudinaryTransformationDirective } from '@cloudinary/angular-5.x';
 import { DataService } from '../utils/data.service';
-import { HttpClient } from '@angular/common/http';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;

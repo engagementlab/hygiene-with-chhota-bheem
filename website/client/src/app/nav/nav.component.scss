@@ -12,10 +12,36 @@ nav {
         letter-spacing: 4px;
         text-transform: uppercase;
         color: $brownish-red;
+
+        @include mobile-only {
+            line-height: 1.43;
+        }
     }
 
     #right {
-        text-align: right;
+        text-align: center;
+
+        @include desktop {
+            text-align: right;
+        }
+    }
+
+    @include mobile-only {
+        a {
+            line-height: 1.43;
+        }
+
+        .column {
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+            text-align: center;
+            display: flex;
+        }
+
+        #home ::ng-deep img {
+            max-width: 100px !important;
+        }
     }
 
 }
