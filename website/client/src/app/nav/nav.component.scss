@@ -13,6 +13,8 @@ nav {
         text-transform: uppercase;
         color: $brownish-red;
 
+        font-size: em(14px);
+
         @include mobile-only {
             line-height: 1.43;
         }

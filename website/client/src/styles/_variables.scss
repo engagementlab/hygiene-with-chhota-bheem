@@ -1,13 +1,4 @@
-// CDN CONFIG
-$cloudinary-account: 'engagement-lab-home';
-$cdn-product: 'chhota-bheem';
 
-@font-face {
-    font-family: 'AvenirBold';
-    src: url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.woff2') format('woff2'), /* Super modern browsers */
-         url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.woff') format('woff'), /* Modern browsers */
-         url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.ttf')  format('truetype'); /* Safari, Android, iOS */
-}
 
 // COLORS
 $goldenrod: #fecf0a;
@@ -18,6 +9,7 @@ $dark-sky-blue: #4a90e2;
 $greenish-tan: #b4d66e;
 $tomato-two: #ee4824;
 
+// MQ config
 $mq-breakpoints: (
     mobile:  320px,
     mobileLg:  425px,
@@ -31,6 +23,23 @@ $mq-breakpoints: (
     mobileLandscape: 480px
 );
 @import "~sass-mq/_mq";
+
+// CDN CONFIG
+$cloudinary-account: 'engagement-lab-home';
+$cdn-product: 'chhota-bheem';
+
+// FONT CONFIG
+$base-font-size: 24px;
+@include mq($until: tabletPortrait) {
+    $base-font-size: 18px;
+}
+
+@font-face {
+    font-family: 'AvenirBold';
+    src: url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.woff2') format('woff2'), /* Super modern browsers */
+         url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.woff') format('woff'), /* Modern browsers */
+         url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
 
 // Mixins 
 @import '../../node_modules/@engagementlab/el-scss/bundle';

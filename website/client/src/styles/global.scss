@@ -1,3 +1,4 @@
+
 // Bulma framework
 $tablet: 768px;
 @import "~bulma/sass/utilities/mixins";
@@ -9,14 +10,14 @@ $tablet: 768px;
 
 body {
     font-family: 'AvenirBold';
-    font-size: 14px;
+    font-size: 24px;
     color: white;
 
     background-color: $goldenrod;
 
-    // @include mobile-only {
-    //     font-size: 16px;
-    // }
+    @include mobile-only {
+        font-size: 18px;
+    }
 
 }
 
@@ -25,8 +26,7 @@ a {
     text-decoration: none;
 
     &.blue {
-        display: block;
-        font-size: 1.7em;    
+        display: block; 
         text-transform: uppercase;
         
         line-height: 1.17;
@@ -57,7 +57,7 @@ a {
     }
 }
 h2 {
-    font-size: 2.55em;
+    font-size: em(36px);
     line-height: 1;
     letter-spacing: 10px;
     text-transform: uppercase;
@@ -65,7 +65,6 @@ h2 {
 }
 h4 {
 
-  font-size: 1.7em;
   font-weight: bold;
   line-height: 1.92;
   letter-spacing: 2px;
@@ -96,6 +95,7 @@ h4 {
 
 .subheader {
 
+  font-size: em(14px);
   letter-spacing: 4px;
   color: $tomato;
   text-transform: uppercase;

@@ -2,7 +2,9 @@
   "name": "hygiene-with-chhota-bheem-website",
   "version": "0.1.0",
   "engineStrict": true,
-  "engines": { "node": "^10.15.1" },
+  "engines": {
+    "node": "^10.15.1"
+  },
   "scripts": {
     "ng": "ng",
     "start": "npm-run-all -l -p start-browser start-api",
