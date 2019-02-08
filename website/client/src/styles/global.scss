@@ -9,6 +9,7 @@ $tablet: 768px;
 @import "./variables";
 
 body {
+
     font-family: 'AvenirBold';
     font-size: 24px;
     color: white;
@@ -37,8 +38,8 @@ a {
         &.download {
             &:after {
                 content: "PDF";
-                font-size: .6em;
-                margin-left: 5%;
+                font-size: 14px;
+                margin-left: 33px;
                 @include border-radius(50%);
                 border: 2px solid $dark-sky-blue;
                 
@@ -57,11 +58,18 @@ a {
     }
 }
 h2 {
-    font-size: em(36px);
+    @include pxtoem(24, 36);    
     line-height: 1;
     letter-spacing: 10px;
     text-transform: uppercase;
     color: white;
+
+    @include mobile-only {
+
+        line-height: 2;
+        letter-spacing: 4px;
+
+    }
 }
 h4 {
 
@@ -73,16 +81,17 @@ h4 {
   text-transform: uppercase;
 
   margin-top: 1%;
+
+  @include mobile-only {
+    font-size: 1em;
+  }
+
 }
 
-.bold {
-    font-weight: 700;
+hr {
+    border: 1px solid $brownish-red;
+    width: 90%;
 }
-
-.medium {
-    font-weight: 500;
-}
-
 // Other styles
 
 .is-multiline-mobile {
@@ -93,12 +102,19 @@ h4 {
 
 }
 
-.subheader {
+.no-pad-mobile {
+    @include mobile-only {
+        padding: 0;
+    }
+}
 
-  font-size: em(14px);
+.subheader {
+        
+@include pxtoem(14, 18);
   letter-spacing: 4px;
   color: $tomato;
   text-transform: uppercase;
+
 
 }
 
@@ -116,3 +132,4 @@ h4 {
     //     margin-top: -50px;
     // }
 }
+

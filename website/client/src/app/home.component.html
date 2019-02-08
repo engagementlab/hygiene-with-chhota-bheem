@@ -1,15 +1,18 @@
 <section id="intro" class="columns is-full is-mobile is-multiline-mobile no-margin">
 
-    <div class="column is-full-mobile is-half-tablet center" data-aos="fade-up">
+    <div class="column is-11-mobile is-half-tablet center" data-aos="fade-up">
         <div class="subheader">Module 1</div>
         <h4>Handwashing with soap</h4>
-        <cdn-image cloudinaryId="art/module1" width="312" svg="true"></cdn-image>
+        <cdn-image cloudinaryId="art/module1" width="312" phoneWidth="201" svg="true"></cdn-image>
         <br />
 
         <a href="#" class="view" (click)="goToModule(1)">view module</a>
     </div>
+    
     <div class="seperator hidden-mobile" data-aos="fade-down" data-aos-delay="100"></div>
-    <div class="column center is-full-mobile" data-aos="fade-up" data-aos-delay="200">
+    <hr class="hidden-tablet-plus" data-aos="fade-up" data-aos-delay="100" />
+
+    <div class="column center is-11-mobile" data-aos="fade-up" data-aos-delay="200">
         <div class="subheader">Module 2</div>
         <h4>Toilet use</h4>
         <cdn-image cloudinaryId="art/module2" width="277" svg="true"></cdn-image>
@@ -27,7 +30,7 @@
         <div id="filler"></div>
     </div>
 
-    <div class="column is-4" data-aos="fade-left">
+    <div class="column is-11-mobile is-4-tablet" data-aos="fade-left">
         <span class="summary">Let's make some happy little clouds in our world. Brown is such a nice color. You can
             create the world you want to see and be a part of. You have that power. We don't want to set these clouds
             on fire.</span>
@@ -44,7 +47,7 @@
         </div>
 
         <div class="column is-6 center" data-aos="fade-right">
-            <cdn-image cloudinaryId="art/module1-lg" width="500" svg="true"></cdn-image>
+            <cdn-image cloudinaryId="art/module1-lg" width="500" phoneWidth="200" svg="true"></cdn-image>
         </div>
 
         <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
@@ -54,23 +57,23 @@
     </div>
 
     <!-- Module videos -->
-    <div class="videos columns is-multiline no-margin" *ngIf="modules[0].videoThumbnailImages.length > 0">
+    <!-- <div class="videos columns is-multiline is-mobile no-margin" *ngIf="modules[0].videoThumbnailImages.length > 0">
 
-        <div class="subheader column is-10 is-offset-1" data-aos="fade-down">Videos</div>
-        <div class="video column is-4 is-offset-1 center" data-aos="zoom-out">
+        <div class="subheader column is-full is-10-tablet is-offset-1-tablet" data-aos="fade-down">Videos</div>
+        <div class="video column is-4-tablet is-offset-1-tablet center" data-aos="zoom-out">
             <a href="{{modules[0].video1Url}}">
                 <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[0].videoThumbnailImages[0].public_id}}" width="453"
                     autoFormat="true"></cdn-image>
             </a>
         </div>
-        <div class="column is-1"></div>
-        <div class="video column is-4 center" data-aos="zoom-out">
+        <div class="column is-1 hidden-mobile"></div>
+        <div class="video column is-4-tablet center" data-aos="zoom-out">
             <a href="{{modules[0].video2Url}}">
                 <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[0].videoThumbnailImages[1].public_id}}" width="453"
                     autoFormat="true"></cdn-image>
             </a>
         </div>
-    </div>
+    </div> -->
 
 </section>
 
@@ -89,7 +92,7 @@
         </div>
 
         <div class="column is-6 center" data-aos="fade-right">
-            <cdn-image cloudinaryId="art/module2-lg" width="500" svg="true"></cdn-image>
+            <cdn-image cloudinaryId="art/module2-lg" width="500" phoneWidth="200" svg="true"></cdn-image>
         </div>
 
         <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
@@ -99,30 +102,29 @@
     </div>
 
     <!-- Module videos -->
-    <div class="videos columns is-multiline no-margin" *ngIf="modules[1].videoThumbnailImages.length > 0">
+    <div class="videos columns is-multiline is-mobile no-margin" *ngIf="modules[1].videoThumbnailImages.length > 0">
 
-        <div class="subheader column is-10 is-offset-1" data-aos="fade-down">Videos</div>
-        <div class="video column is-4 is-offset-1 center" data-aos="zoom-out">
+        <div class="subheader column is-full is-10-tablet is-offset-1-tablet" data-aos="fade-down">Videos</div>
+        <div class="video column is-4-tablet is-offset-1-tablet center" data-aos="zoom-out">
             <a href="{{modules[1].video1Url}}">
                 <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[1].videoThumbnailImages[0].public_id}}" width="453"
                     autoFormat="true"></cdn-image>
             </a>
         </div>
-        <div class="column is-1"></div>
-        <div class="video column is-4 center" data-aos="zoom-out">
+        <div class="column is-1 hidden-mobile"></div>
+        <div class="video column is-4-tablet center" data-aos="zoom-out">
             <a href="{{modules[1].video2Url}}">
                 <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[1].videoThumbnailImages[1].public_id}}" width="453"
                     autoFormat="true"></cdn-image>
             </a>
         </div>
     </div>
-
 </section>
 
 <section id="studies" class="columns is-full is-mobile is-multiline no-margin">
-    <h2 class="column is-9 is-offset-2 no-pad" data-aos="fade-up">Case Studies</h2>
+    <h2 class="column is-9 is-offset-1-mobile is-offset-2-tablet no-pad" data-aos="fade-up">Case Studies</h2>
 
-    <div class="description column is-6-tablet is-4-desktop is-offset-2 no-pad" data-aos="fade-right" data-aos-delay="100">
+    <div class="description column is-10 is-6-tablet is-4-desktop is-offset-1 is-offset-2-tablet no-pad" data-aos="fade-right" data-aos-delay="100">
         <span class="summary"> Let's make some happy little clouds in our world. Brown is such a nice color. You can
             create the world you want to see and be a part of. You have that power. We don't want to set these clouds
             on fire.</span>
@@ -133,14 +135,18 @@
 </section>
 
 <section id="download">
-    <div class="container desktop columns no-margin">
+    <div class="container desktop columns is-mobile no-margin">
 
-        <div class="column is-half center" data-aos="zoom-out">
+        <div class="column is-half center hidden-mobile" data-aos="zoom-out" *ngIf="!isPhone">
             <cdn-image cloudinaryId="art/phone" autoFormat="true" width="541"></cdn-image>
         </div>
 
-        <div class="description column">
+        <div class="description column is-offset-1">
             <h2 data-aos="fade-up" data-aos-delay="100">Download our<br />Game</h2>
+
+            <div class="column is-half center" data-aos="zoom-out" *ngIf="isPhone">
+                <cdn-image cloudinaryId="art/phone" autoFormat="true" width="300"></cdn-image>
+            </div>
 
             <span class="summary" data-aos="fade-left" data-aos-delay="200"> Let's make some happy little clouds in our
                 world. Brown is such a nice color. You
@@ -150,12 +156,12 @@
                 on fire.</span>
 
             <div id="store" class="columns">
-                <a data-aos="zoom-out" data-aos-delay="300" href="https://itunes.apple.com/us/app/hygiene-with-chhota-bheem/id1423871069?ls=1&mt=8"
+                <a class="column is-5-mobile" data-aos="zoom-out" data-aos-delay="300" href="https://itunes.apple.com/us/app/hygiene-with-chhota-bheem/id1423871069?ls=1&mt=8"
                     role="link">
-                    <cdn-image cloudinaryId="icons/appstore" width="241" svg="true" class="column"></cdn-image>
+                    <cdn-image cloudinaryId="icons/appstore" width="241" phoneWidth="240" svg="true"></cdn-image>
                 </a>
-                <a data-aos="zoom-out" data-aos-delay="400" href="https://play.google.com/store/apps/details?id=edu.engagementlab.chhotabheem">
-                    <cdn-image cloudinaryId="icons/play" width="241" svg="true" class="column"></cdn-image>
+                <a class="column is-5-mobile" data-aos="zoom-out" data-aos-delay="400" href="https://play.google.com/store/apps/details?id=edu.engagementlab.chhotabheem">
+                    <cdn-image cloudinaryId="icons/play" width="241" phoneWidth="240" svg="true"></cdn-image>
                 </a>
 
             </div>

@@ -1,5 +1,7 @@
 @import '../styles/_variables';
 
+section {}
+
 .summary {
 
     // font-size: 1.7em;
@@ -10,6 +12,7 @@
 
 .view {
 
+    @include pxtoem(14, 18);
     display: inline-flex;
     color: white;
     line-height: 2.56;
@@ -25,9 +28,13 @@
     width: 293px;
     height: 94px;
 
+    @include mobile-only {
+        width: 200px;
+        height: 60px;
+    }
+
     @include box-shadow(0, 0, 20px, rgba(0, 0, 0, 0.2));
     background-color: $brownish-red;
-
 }
 
 .description {
@@ -40,6 +47,13 @@
 
 #intro {
     padding-bottom: 4%;
+
+    .column,
+    hr {
+        @include mobile-only {
+            margin-bottom: 25%;
+        }
+    }
 }
 
 #manual {
@@ -50,16 +64,25 @@
     h2 {
         margin-top: 7%;
         margin-bottom: 4%;
+        @include pxtoem(18, 36);
     }
 
     #filler {
+
         width: 412px;
         height: 492px;
         box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.4);
         background-image: linear-gradient(to top, #ffffff, #e9e9e9);
 
-        @include mobile-only {
-            width: auto;
+    }
+
+    @include mobile-only {
+        padding-top: 22%;
+        padding-bottom: 22%;
+
+        #filler {
+            width: 150px;
+            height: 179px;
         }
     }
 
@@ -70,8 +93,14 @@
     padding-top: 15%;
     padding-bottom: 12%;
 
+    @include mobile-only {
+        margin-top: 22%;
+        margin-bottom: 22%;
+    }
+
+
     .subheader {
-        font-size: 1.3em;
+        @include pxtoem(14, 18);
     }
 
     .description {
@@ -94,7 +123,9 @@
             -2px 2px 0 $greenish-tan,
             2px 2px 0 $greenish-tan;
         color: $french-blue;
-        font-size: 48px;
+        
+        @include pxtoem(24, 48);
+
         line-height: 1.21;
         letter-spacing: 10px;
         text-transform: uppercase;
@@ -104,8 +135,23 @@
             position: absolute;
             color: $tomato-two;
             -webkit-text-stroke: 2px $tomato-two;
-            transform: translate(-4px, 3px);
+            @include translate(-4px, 3px);
+
             z-index: -2;
+        }
+
+        @include mobile-only {
+            line-height: 1.58;
+            letter-spacing: 4px;
+            text-shadow:
+                -1px -1px 0 $greenish-tan,
+                1px -1px 0 $greenish-tan,
+                -1px 1px 0 $greenish-tan,
+                1px 1px 0 $greenish-tan;
+            &:before {
+                -webkit-text-stroke: 1px $tomato-two;
+                @include translate(-2px, 2px);
+            }
         }
     }
 
@@ -114,15 +160,17 @@
             content: 'Handwashing \A with soap';
         }
     }
+
     &#module2 {
         h1:before {
             content: 'Toilet Use';
         }
     }
-            
+
 }
 
 #studies {
+    
     padding-top: 13%;
     padding-bottom: 14%;
 
@@ -131,19 +179,26 @@
     a {
         margin-top: 10%;
     }
+
 }
 
 #download {
-    background-color: white;
 
+    background-color: white;
     color: $brownish-red;
+
     h2 {
         color: $brownish-red;
 
+        @include mobile-only {
+            line-height: 1.5;    
+        }
     }
+
     #store {
         margin-top: 10%;
     }
+
 }
 
 // Anim
@@ -154,9 +209,9 @@
     transition-property: transform, opacity;
     transition-duration: 3s;
     transition-timing-function: ease-in-out;
-    
+
     &.aos-animate {
         transform: scaleY(1);
-    opacity: 1;
-  }
+        opacity: 1;
+    }
 }

@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   t: TweenLite;
 
   constructor(private _dataSvc: DataService, private _scrollToSvc: ScrollToService) {
-    // this.isPhone = ismobile.phone;
+    this.isPhone = ismobile.phone;
   }
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    
+
     AOS.init({
       duration: 700,
       easing: 'ease-in-out'

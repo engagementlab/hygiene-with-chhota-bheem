@@ -29,9 +29,16 @@ $cloudinary-account: 'engagement-lab-home';
 $cdn-product: 'chhota-bheem';
 
 // FONT CONFIG
-$base-font-size: 24px;
+$base-font-size: 24;
+$base-font-size-mobile: 18;
 @include mq($until: tabletPortrait) {
-    $base-font-size: 18px;
+}
+
+@mixin pxtoem($mobile, $desktop: $base-font-size) {
+    font-size: ($desktop / $base-font-size) + em;
+    @include mq($until: tabletPortrait) {
+        font-size: ($mobile / $base-font-size-mobile) + em;
+    }
 }
 
 @font-face {
