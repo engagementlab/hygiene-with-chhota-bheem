@@ -1,6 +1,6 @@
 @import '../styles/_variables';
 
-section {}
+$videoIconDim: 40px;
 
 .summary {
 
@@ -110,8 +110,29 @@ section {}
     .videos {
         margin-top: 10%;
 
+        a:hover {
+            .icon {
+                @include scale(1.2);
+            }
+            ::ng-deep img {
+                @include filter(brightness, 90%);
+            }
+        }
+    
         ::ng-deep img {
-            @include box-shadow(0, 0, 20px, rgba(0, 0, 0, 0.2));
+            @include transition(filter, .3s, ease-in-out);
+        }
+        .icon {
+            @include transition(transform, .3s, ease-in-out);
+            position: absolute;
+            left: calc(50% - 40px);
+            top: calc(50% - 40px);
+
+
+            @include phones {
+                left: calc(50% - 12px);
+                top: calc(50% - 12px);
+            }
         }
     }
 
@@ -157,7 +178,7 @@ section {}
 
     &#module1 {
         h1:before {
-            content: 'Handwashing \A with soap';
+            content: 'Handwashing\Awith soap';
         }
     }
 

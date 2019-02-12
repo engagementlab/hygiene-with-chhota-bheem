@@ -36,6 +36,7 @@ a {
         margin-top: 7%;
         
         &.download {
+            line-height: .5;
             &:after {
                 content: "PDF";
                 font-size: 14px;
@@ -51,8 +52,15 @@ a {
                 justify-items: center;
                 flex-direction: column;
                 text-align: center;
-                
-                transform: translateY(-8%);
+
+                transform: translate(-8%, -40%);
+            }
+
+            &:hover {
+                &:after {
+                    background-color: $dark-sky-blue;
+                    color: white;
+                }
             }
         }
     }

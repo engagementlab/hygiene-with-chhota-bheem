@@ -33,6 +33,12 @@ nav {
             cursor: default;
             color: $tomato;
         }
+
+        &#home {
+            ::ng-deep img {
+                margin-top: 2%;
+            }
+        }
     }
 
     #right {
