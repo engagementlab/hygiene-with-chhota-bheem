@@ -1,4 +1,5 @@
 {
 	"name": "Hygiene with Chhota Bheem website",
-	"database": "chhota-bheem"
+	"database": "chhota-bheem",
+	"adminPath": "/hygiene/cms"
 }
