@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../utils/data.service';
 
+import * as AOS from 'aos';
 import * as ismobile from 'ismobilejs';
 
 @Component({
@@ -10,24 +11,31 @@ import * as ismobile from 'ismobilejs';
 })
 export class AboutComponent implements OnInit {
 
+  public content: any;
   public isPhone: boolean;
-  public isTablet: boolean;
-  public about: any;
-  public partners: any[];
-  public people: any[];
+  public hasContent: boolean;
 
-  constructor(private _dataSvc: DataService) { 
-    
+  constructor(private _dataSvc: DataService) {
     this.isPhone = ismobile.phone;
-    this.isTablet = ismobile.tablet;
-
-   }
+  }
 
   ngOnInit() {
 
-    // this._dataSvc.getDataForUrl('about/get/').subscribe(response => {
-    // });
+    this._dataSvc.getDataForUrl('about/get/').subscribe(response => {
+
+      this.content = response;
+      this.hasContent = true;
+
+    });
 
   }
 
+  ngAfterViewInit() {
+
+    AOS.init({
+      duration: 700,
+      easing: 'ease-in-out'
+    });
+
+  }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-footer',
@@ -7,7 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  public isHome: boolean;
+
+  constructor(private _router: Router) { 
+  
+    // Get nav route when nav ends
+    _router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(e => {
+      this.isHome = _router.url === '/';
+    });
+  
+  }
 
   ngOnInit() {
   }

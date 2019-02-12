@@ -28,34 +28,16 @@ var About = new keystone.List('About',
 		nocreate: true
 	});
 
-// Storage adapter for Azure
-var azureFile = new keystone.Storage({
-	adapter: require('keystone-storage-adapter-azure'),
-	azure: {
-		container: 'resources',
-		generateFilename: function (file) {
-			// Cleanup filename
-			return file.originalname.replace(/[\\'\-\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "").replace(/ /g, '_').toLowerCase();
-		}
-	},
-	schema: {
-		path: true,
-		originalname: true,
-		url: true
-	}
-});
-
 /**
  * Model Fields
  * @main About
  */
 About.add({
+	
 	name: { type: String, default: "About Page", hidden: true, required: true, initial: true },
-    pdf: {
-        type: Types.File,
-        label: 'Facilitation Guide PDF',
-        storage: azureFile
-    }
+	intro: { type: Types.Textarea, label: 'Intro Text', required: true, initial: true},
+	para1: { type: Types.Textarea, label: 'Paragraph 1 Text', required: true, initial: true},
+	para2: { type: Types.Textarea, label: 'Paragraph 2 Text', required: true, initial: true}
 	
 });
 

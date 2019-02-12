@@ -31,5 +31,6 @@ router.all('/*', function(req, res, next) {
 });
 
 router.get('/api/homepage/get', routeIncludes, routes.api.home.get);
+router.get('/api/about/get', routeIncludes, routes.api.about.get);
 
 module.exports = router;

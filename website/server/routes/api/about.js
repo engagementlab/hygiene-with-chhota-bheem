@@ -9,26 +9,15 @@
  * ==========
  */
 const keystone =  global.keystone,
-    mongoose = global.keystone.get('mongoose'),
+    mongoose = require('mongoose'),
     Bluebird = require('bluebird');
 
 mongoose.Promise = require('bluebird');
 
-var buildData = (options, res) => {
+var buildData = (res) => {
 
-    let list = keystone.list('Project').model;
-    let data;
-
-    if (options.id !== undefined)
-        data = list.findOne({
-            key: options.id
-        });
-    else if (options.limit)
-        data = list.find({}, ).sort([
-            ['sortOrder', 'ascending']
-        ]);
-    else
-        data = list.find({});
+    let list = keystone.list('About').model;
+    let data = list.findOne({});
 
     Bluebird.props({
             jsonData: data
@@ -49,10 +38,6 @@ var buildData = (options, res) => {
  */
 exports.get = function (req, res) {
 
-    let options = {};
-    if (req.params.model)
-        options.model = req.params.model;
-
-    return buildData(options, res);
+    return buildData(res);
 
 }

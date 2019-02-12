@@ -1,31 +1,30 @@
 @import '../../styles/_variables';
 
 footer {
-    background-color: white;
     color: black;
-
-    #logos {
-        cdn-image {
-            &:nth-child(2) {
-                margin-left: 25px;
-            }
-        }
-
+    
+    #logo {
+        
         @include phones {
             margin-top: 10%;
-
-            #el {
-                ::ng-deep img {
-                    max-width: 43px !important;
-                }
+            
+            ::ng-deep img {
+                max-width: 40px !important;
             }
         }
     }
-
+    
     #version {
+        
         position: absolute;
         bottom: 0;
-        right: 0;
-        font-size: .7em;
+        right: 1%;
+        font-size: .5em;
+        font-weight: 100;
+        
+    }
+    
+    &.home {
+        background-color: white;
     }
 }

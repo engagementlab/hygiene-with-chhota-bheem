@@ -1,1 +1,53 @@
 @import "~src/styles/_variables";
+
+section {
+
+    line-height: 1.33;
+    color: $french-blue;
+
+    &#content {
+
+        @include pxtoem(12, 18);
+        font-family: 'Avenir';
+        font-weight: 500;
+
+        ::ng-deep img {
+            margin-top: 11%;
+
+            @include phones {
+                margin-top: 7%;
+            }
+
+        }
+
+        #top {
+            ::ng-deep img {
+                @include not-phones {
+                    margin-top: 0;
+                }
+            }
+        }
+
+        #bottom {
+            ::ng-deep img {
+                @include not-phones {
+                    margin-bottom: 11%;
+                }
+            }
+        }
+
+    }
+
+    &#intro {
+
+        h4 {
+            margin-top: 14%;
+            letter-spacing: 1px;
+            text-transform: none;
+            font-weight: 200;
+        }
+
+    }
+
+
+}

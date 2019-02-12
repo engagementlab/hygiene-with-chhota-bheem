@@ -1,15 +1,15 @@
 <nav class="container desktop columns is-mobile is-multiline-mobile" id="nav">
 
-    <div class="column is-one-third no-pad center">
-        <a routerLink="/about">About</a>
+    <div class="link column is-one-third-mobile is-one-third-desktop is-one-quarter-tablet no-pad">
+        <a routerLink="/about" [class.current]="itemActive('about')">About</a>
     </div>
-    <div class="column is-one-third-tablet center no-pad" style="display:inline-block">
+    <div class="column is-one-third-mobile center no-pad" style="display:inline-block">
         <a id="home" routerLink="/">
             <cdn-image cloudinaryId="logos/logo" width="268" svg="true"></cdn-image>
         </a>
     </div>
 
-    <div id="right" class="column is-one-third no-pad">
-        <a routerLink="/casestudies">Case Studies</a>
+    <div id="right" class="link column is-one-third-mobile is-one-third-tablet no-pad">
+        <a routerLink="/stories" [class.current]="itemActive('stories')">Stories from the field</a>
     </div>
 </nav>

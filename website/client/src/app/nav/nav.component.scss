@@ -7,17 +7,31 @@ nav {
     margin-bottom: 0 !important;
     z-index: 4;
 
+    @include phones {
+        padding-left: 0;
+    }
+    @include desktop {
+        padding-left: 0;
+    }
+    @include not-phones {
+        padding-left: 5%;
+    }
+ 
     a {
-        line-height: 5.43;
+        line-height: 1.14;
         letter-spacing: 4px;
         text-transform: uppercase;
         color: $brownish-red;
-        
-        @include pxtoem(14, 18);
+        @include pxtoem(12, 14);
 
         @include mobile-only {
             line-height: 1.43;
 
+        }
+
+        &.current {
+            cursor: default;
+            color: $tomato;
         }
     }
 
@@ -26,6 +40,14 @@ nav {
 
         @include desktop {
             text-align: right;
+        }
+    }
+
+    .link {
+        padding-top: 4%;
+        
+        @include not-phones {
+            padding-top: 5%;
         }
     }
 
