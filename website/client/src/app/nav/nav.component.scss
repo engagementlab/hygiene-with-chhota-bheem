@@ -4,19 +4,10 @@ nav {
 
     position: relative;
     padding-top: 0;
+    padding-left: 0;
     margin-bottom: 0 !important;
     z-index: 4;
 
-    @include phones {
-        padding-left: 0;
-    }
-    @include desktop {
-        padding-left: 0;
-    }
-    @include not-phones {
-        padding-left: 5%;
-    }
- 
     a {
         line-height: 1.14;
         letter-spacing: 4px;
@@ -42,7 +33,7 @@ nav {
     }
 
     #right {
-        text-align: center;
+        text-align: right;
 
         @include desktop {
             text-align: right;

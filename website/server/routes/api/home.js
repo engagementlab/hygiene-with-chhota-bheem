@@ -14,7 +14,7 @@ const keystone =  global.keystone,
 
 mongoose.Promise = require('bluebird');
 
-var buildData = (options, res) => {
+var buildData = (res) => {
 
     let list = keystone.list('Module').model;
     let data = list.find({});
@@ -37,11 +37,7 @@ var buildData = (options, res) => {
  * Get data
  */
 exports.get = function (req, res) {
-
-    let options = {};
-    if (req.params.id)
-        options.id = req.params.id;
-
-    return buildData(options, res);
+    
+    return buildData(res);
 
 }

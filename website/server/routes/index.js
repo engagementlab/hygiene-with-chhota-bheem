@@ -32,5 +32,6 @@ router.all('/*', function(req, res, next) {
 
 router.get('/api/homepage/get', routeIncludes, routes.api.home.get);
 router.get('/api/about/get', routeIncludes, routes.api.about.get);
+router.get('/api/stories/get/:id?', routeIncludes, routes.api.stories.get);
 
 module.exports = router;

@@ -25,6 +25,8 @@ import { AboutComponent } from './about/about.component';
 
 import { DataService } from './utils/data.service';
 import { RedirectService } from './utils/redirect.service';
+import { StoryIndexComponent } from './stories/index.component';
+import { StoryComponent } from './stories/story.component';
 
 export const cloudinary = {
   Cloudinary: CloudinaryCore
@@ -34,7 +36,9 @@ export const config: CloudinaryConfiguration = cloudinaryConfiguration;
 // App routes
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'about', component: AboutComponent }
+  { path: 'about', component: AboutComponent },
+  { path: 'stories', component: StoryIndexComponent },
+  { path: 'stories/:key', component: StoryComponent }
 ];
 
 @NgModule({
@@ -48,6 +52,8 @@ export const routes: Routes = [
     CdnImageComponent,
     ButtonComponent,
     PrettyUrlPipe,
+    StoryIndexComponent,
+    StoryComponent,
   ],
   imports: [
     AppRoutingModule,

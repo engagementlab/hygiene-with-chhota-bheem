@@ -9,34 +9,6 @@ $videoIconDim: 40px;
     letter-spacing: 1px;
 
 }
-
-.view {
-
-    @include pxtoem(14, 18);
-    display: inline-flex;
-    color: white;
-    line-height: 2.56;
-
-    margin-top: 4.9%;
-
-    justify-content: center;
-    text-transform: uppercase;
-
-    flex-direction: column;
-    text-align: center;
-
-    width: 293px;
-    height: 94px;
-
-    @include mobile-only {
-        width: 200px;
-        height: 60px;
-    }
-
-    @include box-shadow(0, 0, 20px, rgba(0, 0, 0, 0.2));
-    background-color: $brownish-red;
-}
-
 .description {
 
     display: flex;
@@ -132,46 +104,6 @@ $videoIconDim: 40px;
             @include phones {
                 left: calc(50% - 12px);
                 top: calc(50% - 12px);
-            }
-        }
-    }
-
-    h1 {
-
-        text-shadow:
-            -2px -2px 0 $greenish-tan,
-            2px -2px 0 $greenish-tan,
-            -2px 2px 0 $greenish-tan,
-            2px 2px 0 $greenish-tan;
-        color: $french-blue;
-        
-        @include pxtoem(24, 48);
-
-        line-height: 1.21;
-        letter-spacing: 10px;
-        text-transform: uppercase;
-
-        &:before {
-            white-space: pre-line;
-            position: absolute;
-            color: $tomato-two;
-            -webkit-text-stroke: 2px $tomato-two;
-            @include translate(-4px, 3px);
-
-            z-index: -2;
-        }
-
-        @include mobile-only {
-            line-height: 1.58;
-            letter-spacing: 4px;
-            text-shadow:
-                -1px -1px 0 $greenish-tan,
-                1px -1px 0 $greenish-tan,
-                -1px 1px 0 $greenish-tan,
-                1px 1px 0 $greenish-tan;
-            &:before {
-                -webkit-text-stroke: 1px $tomato-two;
-                @include translate(-2px, 2px);
             }
         }
     }

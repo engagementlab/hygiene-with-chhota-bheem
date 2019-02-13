@@ -1,0 +1,70 @@
+@import "~src/styles/_variables";
+
+
+#intro {
+
+    margin-top: 20%;
+
+    .subheader {
+        margin-bottom: 10%;
+    }
+    h4 {
+        margin-top: 0;
+    }
+    
+}
+
+h5 {
+
+    @include pxtoem(24, 48);
+    text-transform: uppercase;
+
+    line-height: 1.17;
+    color: $dark-sky-blue;
+
+    margin-bottom: 0;
+    @include not-phones {
+        margin-top: 0;
+    }
+
+}
+
+.a {
+
+    text-align: center;
+
+}
+
+.subtitle {
+
+    font-family: 'AvenirHeavy';
+    @include pxtoem(24, 42);
+    color: $goldenrod;
+    -webkit-text-stroke-color: $dark-sky-blue;
+    -webkit-text-stroke-width: 1px;
+
+    @include not-phones {
+        -webkit-text-stroke-width: 2px;
+    }
+
+    text-align: right;
+
+}
+
+.person {
+
+    @include not-phones {
+        padding-top: 10%;
+    }
+
+}
+
+#description {
+
+    @include pxtoem(12, 18);
+    font-family: 'Avenir';
+    font-weight: 500;
+    line-height: 1.33;
+    color: $french-blue;
+
+}

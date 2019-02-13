@@ -42,6 +42,12 @@ $base-font-size-mobile: 18;
 }
 
 @font-face {
+    font-family: 'AvenirHeavy';
+    src: url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Heavy.woff2') format('woff2'), /* Super modern browsers */
+         url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Heavy.woff') format('woff'), /* Modern browsers */
+         url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Heavy.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+@font-face {
     font-family: 'AvenirBold';
     src: url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.woff2') format('woff2'), /* Super modern browsers */
          url('https://res.cloudinary.com/engagement-lab-home/raw/upload/fonts/AvenirNext-Bold.woff') format('woff'), /* Modern browsers */

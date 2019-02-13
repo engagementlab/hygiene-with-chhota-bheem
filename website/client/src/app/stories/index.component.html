@@ -1,0 +1,39 @@
+<div class="column is-center is-9-desktop offset no-pad" *ngIf="hasContent">
+    <section id="intro" class="is-10-mobile is-full-desktop column columns is-mobile no-margin is-multiline">
+
+        <div class="subheader column is-full" data-aos="fade-up">Stories from the Field</div>
+
+        <h4 class="column is-full-mobile is-half-tablet" data-aos="fade-left" data-aos-delay="300">Follow the lay of the land.
+            It's most important. Almost
+            everything is going to happen for you automatically - you don't have to spend any time working or worrying.</h4>
+
+        <div id="description" class="column is-full-mobile" data-aos="fade-right" data-aos-delay="400">We'll do
+            another happy little painting. In your world you have total and absolute power. Maybe we got a few little
+            happy bushes here, just covered with snow. Van Dyke Brown is a very nice brown, it's almost like a
+            chocolate brown. All you have to do is let your imagination go wild. We want to use a lot pressure while
+            using no pressure at all.</div>
+
+    </section>
+
+    <section id="content" class="columns column is-mobile is-multiline-mobile is-full" *ngFor="let person of content">
+
+        <div class="column is-5-tablet" *ngIf="!isPhone">
+
+            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{person.photo.public_id}}"
+                width="500" autoFormat="true"></cdn-image>
+
+        </div>
+
+        <div class="person column columns is-full-mobile is-multiline is-offset-1-tablet">
+
+            <h5 class="column is-full" data-aos="fade-left">Meet {{person.name}}</h5>
+            <div class="subtitle column is-10-mobile is-11-tablet" data-aos="fade-up" data-aos-delay="400">{{person.subtitle}}</div>
+
+            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{person.photo.public_id}}"
+                width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
+            <div class="a column is-full" data-aos="fade-up"><a routerLink="/stories/{{person.key}}" class="view">read story</a></div>
+        </div>
+
+
+    </section>
+</div>
