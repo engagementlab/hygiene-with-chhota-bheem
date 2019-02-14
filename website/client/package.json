@@ -10,8 +10,8 @@
     "start": "npm-run-all -l -p start-browser start-api",
     "start-browser": "source ~/.nvm/nvm.sh; nvm use; ng serve",
     "start-api": "cd ../server; source ~/.nvm/nvm.sh; nvm use; nodemon",
-    "build": "ng build --configuration=production --prod --base-href=./",
-    "build-qa": "ng build --configuration=qa --prod --base-href=./",
+    "build": "ng build --configuration=production --prod --base-href=/hygiene/",
+    "build-qa": "ng build --configuration=qa --prod --base-href=/hygiene/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
