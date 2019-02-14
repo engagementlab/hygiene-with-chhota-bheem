@@ -33,14 +33,14 @@
 
     "production" : {
       "user": "node",
-      "host": "199.94.80.32",
+      "host": "209.97.145.13",
       "repo": "git@github.com:engagementlab/hygiene-with-chhota-bheem.git",
       "ref": "origin/production",
       "path": "/srv/hygiene-with-chhota-bheem",
       "pre-deploy-local" : "echo 'Cloning and building.';",
       "post-deploy" : "cd website; bash deploy.sh prod",
       "env": {
-        "NODE_ENV": "staging"
+        "NODE_ENV": "production"
       }
     }
 
