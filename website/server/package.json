@@ -1,14 +1,13 @@
 {
-  "name": "engagement-lab-website-2.0",
-  "description": "The Engagement Lab's home page v2.x server backend.",
-  "version": "2.0.0",
+  "name": "hygiene-with-chhota-bheem-website",
+  "version": "1.0.0",
   "main": "app.js",
   "scripts": {
     "start": "source ~/.nvm/nvm.sh; nvm use; nodemon"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/engagementgamelab/engagement-lab-website-2.0.git"
+    "url": "git+https://github.com/engagementlab/engagement-hygiene-with-chhota-bheem-website.git"
   },
   "dependencies": {
     "bluebird": "^3.5.3",
