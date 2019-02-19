@@ -1,4 +1,5 @@
 <div class="column is-9-desktop offset no-pad" *ngIf="hasContent">
+
     <section id="intro" class="is-10-mobile is-full-desktop column columns is-mobile no-margin is-multiline">
 
         <div class="subheader column is-full center" data-aos="fade-up">{{content.subtitle}}</div>
@@ -7,7 +8,7 @@
 
     </section>
 
-    <section id="content" class="columns column is-mobile is-multiline is-full no-pad">
+    <section id="content" class="columns column is-mobile is-multiline is-full no-pad no-margin">
 
         <div class="column is-5-tablet center" *ngIf="!isPhone">
 
@@ -24,22 +25,23 @@
             <div id="description" data-aos="fade-left" data-aos-offset="250" [innerHtml]="content.description.html"></div>
         </div>
 
-
     </section>
+
 </div>
 
-<section id="next-prev" class="column columns is-8-desktop is-offset-2-desktop is-multiline is-mobile no-pad">
+<section id="next-prev" class="column columns offset is-8-desktop is-offset-2-desktop is-multiline is-mobile no-pad"
+    *ngIf="hasContent">
 
-  <div class="column columns is-full is-centered">
-    <div class="seperator hidden-mobile" data-aos="seperator-fade"></div>
+    <div class="column columns is-full is-centered no-margin">
+        <div class="seperator hidden-mobile" data-aos="seperator-fade"></div>
 
-    <hr class="hidden-tablet-plus" data-aos="fade-up" data-aos-delay="100" />
-  </div>
+        <hr class="hidden-tablet-plus" data-aos="fade-up" data-aos-delay="100" />
+    </div>
     <div id="prev" class="column is-full-mobile is-4-tablet" *ngIf="prev">
 
         <a routerLink="/stories/{{prev.key}}" class="blue">
 
-            <cdn-image data-aos="fade" cloudinaryPrefix="/" cloudinaryId="{{prev.photo.public_id}}" width="300"
+            <cdn-image data-aos="fade-up" cloudinaryPrefix="/" cloudinaryId="{{prev.photo.public_id}}" width="300"
                 autoFormat="true"></cdn-image>
             <div data-aos="fade-up">
                 {{prev.name}} </div>
@@ -51,7 +53,7 @@
     <div id="next" class="column is-full-mobile is-4-tablet" *ngIf="next">
 
         <a routerLink="/stories/{{next.key}}" class="blue">
-            <cdn-image data-aos="fade" cloudinaryPrefix="/" cloudinaryId="{{next.photo.public_id}}" width="300"
+            <cdn-image data-aos="fade-up" cloudinaryPrefix="/" cloudinaryId="{{next.photo.public_id}}" width="300"
                 autoFormat="true"></cdn-image>
             <div data-aos="fade-up">
                 {{next.name}}</div>

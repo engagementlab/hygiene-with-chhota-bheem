@@ -24,14 +24,15 @@
 
         </div>
 
-        <div class="person column columns is-full-mobile is-multiline is-offset-1-tablet">
+        <div class="person column columns is-full-mobile is-multiline">
 
             <h5 class="column is-full" data-aos="fade-left">Meet {{person.name}}</h5>
-            <div class="subtitle column is-10-mobile is-11-tablet" data-aos="fade-up" data-aos-delay="400">{{person.subtitle}}</div>
+            <div class="subtitle column is-10-mobile is-full-tablet is-11-desktop" data-aos="fade-up" data-aos-delay="400">{{person.subtitle}}</div>
 
             <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{person.photo.public_id}}"
                 width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
             <div class="a column is-full" data-aos="fade-up"><a routerLink="/stories/{{person.key}}" class="view">read story</a></div>
+
         </div>
 
 

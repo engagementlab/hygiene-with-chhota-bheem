@@ -9,7 +9,7 @@
 
     <section id="content" class="columns column is-mobile is-multiline-mobile is-full" *ngIf="hasContent">
 
-        <div class="column is-10-mobile is-5-tablet is-half-desktop">
+        <div class="column is-10-mobile is-half-tablet">
 
             <div data-aos="fade" data-aos-delay="400">{{content.para1}}</div>
 
@@ -24,7 +24,7 @@
                 width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
 
         </div>
-        <div class="column is-10-mobile is-5-tablet is-half-desktop">
+        <div class="column is-10-mobile is-half-tablet">
 
             <cdn-image id="top" data-aos="fade" data-aos-delay="400" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_3"
                 width="500" autoFormat="true" class="no-margin" *ngIf="!isPhone"></cdn-image>
