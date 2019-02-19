@@ -29,6 +29,13 @@ export class StoryComponent implements OnInit {
     
 
     this._route.params.subscribe(params => {
+
+      // Force content reset
+      this.content = undefined;
+      this.next = undefined;
+      this.prev = undefined;
+      this.hasContent = false;
+      
       this._dataSvc.getDataForUrl('stories/get/' + params['key']).subscribe(response => {
         
         this.content = response.person;
