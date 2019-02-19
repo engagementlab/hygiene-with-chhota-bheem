@@ -7,11 +7,11 @@
 
     </section>
 
-    <section id="content" class="columns column is-mobile is-multiline is-full">
+    <section id="content" class="columns column is-mobile is-multiline is-full no-pad">
 
         <div class="column is-5-tablet center" *ngIf="!isPhone">
 
-            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{content.photo.public_id}}"
+            <cdn-image data-aos="fade" data-aos-offset="-350" cloudinaryPrefix="/" cloudinaryId="{{content.photo.public_id}}"
                 width="500" autoFormat="true"></cdn-image>
 
         </div>
@@ -21,16 +21,21 @@
             <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{content.photo.public_id}}"
                 width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
 
-            <div id="description" data-aos="fade-left" [innerHtml]="content.description.html"></div>
+            <div id="description" data-aos="fade-left" data-aos-offset="250" [innerHtml]="content.description.html"></div>
         </div>
 
 
     </section>
 </div>
 
-<section class="column columns is-full is-centered">
+<section id="next-prev" class="column columns is-8-desktop is-offset-2-desktop is-multiline is-mobile no-pad">
 
-    <div id="prev" class="column is-full-mobile is-5-tablet" *ngIf="prev">
+  <div class="column columns is-full is-centered">
+    <div class="seperator hidden-mobile" data-aos="seperator-fade"></div>
+
+    <hr class="hidden-tablet-plus" data-aos="fade-up" data-aos-delay="100" />
+  </div>
+    <div id="prev" class="column is-full-mobile is-4-tablet" *ngIf="prev">
 
         <a routerLink="/stories/{{prev.key}}" class="blue">
 
@@ -43,7 +48,7 @@
 
     </div>
 
-    <div id="next" class="column is-full-mobile is-5-tablet" *ngIf="next">
+    <div id="next" class="column is-full-mobile is-4-tablet" *ngIf="next">
 
         <a routerLink="/stories/{{next.key}}" class="blue">
             <cdn-image data-aos="fade" cloudinaryPrefix="/" cloudinaryId="{{next.photo.public_id}}" width="300"
@@ -53,4 +58,5 @@
         </a>
 
     </div>
+    <div class="column is-full-mobile is-4-tablet" *ngIf="!next"></div>
 </section>

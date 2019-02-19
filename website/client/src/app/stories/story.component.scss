@@ -44,3 +44,11 @@ h5 {
     color: $french-blue;
 
 }
+
+#next-prev {
+    justify-content: space-evenly;
+
+    a > div {
+        margin-top: 7%;
+    }
+}

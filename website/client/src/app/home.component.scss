@@ -153,18 +153,3 @@ $videoIconDim: 40px;
     }
 
 }
-
-// Anim
-[data-aos="seperator-fade"] {
-    transform: scaleY(0);
-    transform-origin: top;
-
-    transition-property: transform, opacity;
-    transition-duration: 3s;
-    transition-timing-function: ease-in-out;
-
-    &.aos-animate {
-        transform: scaleY(1);
-        opacity: 1;
-    }
-}
