@@ -39,7 +39,7 @@
     </div>
     <div id="prev" class="column is-full-mobile is-4-tablet" *ngIf="prev">
 
-        <a routerLink="/stories/{{prev.key}}" class="blue">
+        <a routerLink="/stories/{{prev.key}}" queryParamsHandling="merge" class="blue">
 
             <cdn-image data-aos="fade-up" cloudinaryPrefix="/" cloudinaryId="{{prev.photo.public_id}}" width="300"
                 autoFormat="true"></cdn-image>
@@ -52,7 +52,7 @@
 
     <div id="next" class="column is-full-mobile is-4-tablet" *ngIf="next">
 
-        <a routerLink="/stories/{{next.key}}" class="blue">
+        <a routerLink="/stories/{{next.key}}" queryParamsHandling="merge" class="blue">
             <cdn-image data-aos="fade-up" cloudinaryPrefix="/" cloudinaryId="{{next.photo.public_id}}" width="300"
                 autoFormat="true"></cdn-image>
             <div data-aos="fade-up">

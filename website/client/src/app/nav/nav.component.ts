@@ -10,7 +10,6 @@ import { filter } from 'rxjs/operators';
 })
 export class NavComponent {
 
-  private wasLoading: boolean = false;
   private currentUrl: string;
 
   constructor(private _router: Router) {

@@ -38,6 +38,10 @@ var buildData = (res) => {
  */
 exports.get = function (req, res) {
 
+    let lang = null;
+    if (req.params.lang)
+        lang = req.params.lang;
+
     return buildData(res);
 
 }

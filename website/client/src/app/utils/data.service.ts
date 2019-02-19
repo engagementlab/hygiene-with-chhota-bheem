@@ -24,10 +24,14 @@ export class DataService {
   public previousUrl: string;
   public currentUrl: string;
 
+  public currentLang: Subject<string> = new Subject<string>();
+
   private baseUrl: string;
 
   constructor(private http: HttpClient, private _router: Router) { 
 
+    this.currentLang.next('tm');
+    
   	this.baseUrl = environment.dev ? 'http://localhost:3000/api/' : 'api/';
 
     _router.events.subscribe(event => {

@@ -59,6 +59,18 @@ Module.add({
         required: true,
         initial: true
     },
+    nameTm: {
+        type: String,
+        label: 'Name (Tamil)',
+        required: true,
+        initial: true
+    },
+    summaryTm: {
+        type: Types.Textarea,
+        required: true,
+        label: 'Summary (Tamil)',
+        initial: true
+    },
     pdf: {
         type: Types.File,
         label: 'PDF',

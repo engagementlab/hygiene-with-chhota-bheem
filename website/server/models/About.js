@@ -37,7 +37,11 @@ About.add({
 	name: { type: String, default: "About Page", hidden: true, required: true, initial: true },
 	intro: { type: Types.Textarea, label: 'Intro Text', required: true, initial: true},
 	para1: { type: Types.Textarea, label: 'Paragraph 1 Text', required: true, initial: true},
-	para2: { type: Types.Textarea, label: 'Paragraph 2 Text', required: true, initial: true}
+	para2: { type: Types.Textarea, label: 'Paragraph 2 Text', required: true, initial: true},
+
+	introTm: { type: Types.Textarea, label: 'Intro Text (Tamil)', required: true, initial: true},
+	para1Tm: { type: Types.Textarea, label: 'Paragraph 1 Text (Tamil)', required: true, initial: true},
+	para2Tm: { type: Types.Textarea, label: 'Paragraph 2 Text (Tamil)', required: true, initial: true}
 	
 });
 
