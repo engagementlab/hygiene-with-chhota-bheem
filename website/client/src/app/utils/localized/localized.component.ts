@@ -14,17 +14,15 @@ export class LocalizedComponent implements OnInit {
   public showEn: boolean;
   
   constructor(private _dataSvc: DataService) {
-    this.showEn = false;
+    
+    this.showEn = this._dataSvc.currentLang.value === 'en';
     this._dataSvc.currentLang.subscribe((val) => {
-      this.showEn = val === 'en';
-      
-            console.log(this.showEn)
+      this.showEn = val === 'en'; 
     });
+    
    }
 
   ngOnInit() {
-          
-
   }
 
 }

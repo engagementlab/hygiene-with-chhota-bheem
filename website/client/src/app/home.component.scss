@@ -9,6 +9,7 @@ $videoIconDim: 40px;
     letter-spacing: 1px;
 
 }
+
 .description {
 
     display: flex;
@@ -86,14 +87,16 @@ $videoIconDim: 40px;
             .icon {
                 @include scale(1.2);
             }
+
             ::ng-deep img {
                 @include filter(brightness, 90%);
             }
         }
-    
+
         ::ng-deep img {
             @include transition(filter, .3s, ease-in-out);
         }
+
         .icon {
             @include transition(transform, .3s, ease-in-out);
             position: absolute;
@@ -109,21 +112,43 @@ $videoIconDim: 40px;
     }
 
     &#module1 {
-        h1:before {
-            content: 'Handwashing\Awith soap';
+        h1 {
+            &.en {
+                &:before {
+                    content: 'Handwashing\Awith soap';
+                }
+            }
+
+            &.tm {
+                &:before {
+                    content: 'சோப்பை\Aபயன்படுத்தி கைகழுவுதல்';
+                    @include translate(-33%, 3px);
+                }
+            }
         }
     }
 
     &#module2 {
-        h1:before {
-            content: 'Toilet Use';
+        h1 {
+        &.en {
+            &:before {
+                content: 'Toilet Use';
+            }
         }
+
+        &.tm {
+            &:before {
+                content: 'கழிவறை பயன்படுத்துதல்';
+                // @include translate(-33%, 3px);
+            }
+        }
+    }
     }
 
 }
 
 #studies {
-    
+
     padding-top: 13%;
     padding-bottom: 14%;
 
@@ -144,7 +169,7 @@ $videoIconDim: 40px;
         color: $brownish-red;
 
         @include mobile-only {
-            line-height: 1.5;    
+            line-height: 1.5;
         }
     }
 

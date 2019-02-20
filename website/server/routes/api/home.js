@@ -14,10 +14,11 @@ const keystone =  global.keystone,
 
 mongoose.Promise = require('bluebird');
 
-var buildData = (res) => {
+var buildData = (res, lang) => {
 
+    let fields = 'name summaryTm pdf.href -_id';
     let list = keystone.list('Module').model;
-    let data = list.find({});
+    let data = list.find({}, fields);
 
     Bluebird.props({
             jsonData: data
@@ -37,7 +38,11 @@ var buildData = (res) => {
  * Get data
  */
 exports.get = function (req, res) {
+
+    let lang = null;
+    if (req.params.lang)
+        lang = req.params.lang;
     
-    return buildData(res);
+    return buildData(res, lang);
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';
 
@@ -24,7 +24,7 @@ export class DataService {
   public previousUrl: string;
   public currentUrl: string;
 
-  public currentLang: Subject<string> = new Subject<string>();
+  public currentLang: BehaviorSubject<string> = new BehaviorSubject<string>('tm');
 
   private baseUrl: string;
 
