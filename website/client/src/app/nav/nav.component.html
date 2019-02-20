@@ -1,5 +1,9 @@
 <nav class="container desktop columns is-mobile is-multiline-mobile" id="nav">
 
+    <div id="lang">
+        <a href="?en" *ngIf="!showEn">english</a>
+        <a href="" *ngIf="showEn">தமிழ்</a>
+    </div>
     <div class="link column is-one-third no-pad">
         <a routerLink="/about" queryParamsHandling="merge" [class.current]="itemActive('about')"><app-localized en="About" tm="முகப்பு"></app-localized></a>
     </div>

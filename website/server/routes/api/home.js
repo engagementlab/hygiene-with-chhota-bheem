@@ -16,7 +16,9 @@ mongoose.Promise = require('bluebird');
 
 var buildData = (res, lang) => {
 
-    let fields = 'name summaryTm pdf.href -_id';
+    let fields = 'name pdf.href ';
+    fields += (lang === 'en') ? 'summary': 'summaryTm';
+
     let list = keystone.list('Module').model;
     let data = list.find({}, fields);
 

@@ -46,12 +46,17 @@ export class DataService {
     }); 
   }
 	
-  public getDataForUrl(urlParam: string): Observable<any> {
+  public getDataForUrl(urlParam: string, query: string = ''): Observable<any> {
 
       this.isLoading.next(true);
       this.serverProblem.next(false);
 
-      let url = this.baseUrl+urlParam; 
+      let url = this.baseUrl+urlParam;
+      
+      if(this.currentLang.value === 'en')
+        url += 'en'
+
+      url += '?'+query;
       
       return this.http.get(url)
       .map((res:any)=> {

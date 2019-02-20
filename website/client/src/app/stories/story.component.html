@@ -2,9 +2,11 @@
 
     <section id="intro" class="is-10-mobile is-full-desktop column columns is-mobile no-margin is-multiline">
 
-        <div class="subheader column is-full center" data-aos="fade-up">{{content.subtitle}}</div>
+        <div class="subheader column is-full center" data-aos="fade-up" *ngIf="content.subtitle">{{content.subtitle}}</div>
+        <div class="subheader column is-full center" data-aos="fade-up" *ngIf="content.subtitleTm">{{content.subtitleTm}}</div>
 
-        <h1 class="column is-full center" [attr.data-name]="content.name" data-aos="fade-left" data-aos-delay="300">{{content.name}}</h1>
+        <h1 class="column is-full center" [attr.data-name]="content.name" data-aos="fade-left" data-aos-delay="300" *ngIf="content.name">{{content.name}}</h1>
+        <h1 class="column is-full center" [attr.data-name]="content.nameTm" data-aos="fade-left" data-aos-delay="300" *ngIf="content.nameTm">{{content.nameTm}}</h1>
 
     </section>
 
@@ -22,7 +24,8 @@
             <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{content.photo.public_id}}"
                 width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
 
-            <div id="description" data-aos="fade-left" data-aos-offset="250" [innerHtml]="content.description.html"></div>
+            <div id="description" data-aos="fade-left" data-aos-offset="250" [innerHtml]="content.description.html" *ngIf="content.description"></div>
+            <div id="description" data-aos="fade-left" data-aos-offset="250" [innerHtml]="content.descriptionTm.html" *ngIf="content.descriptionTm"></div>
         </div>
 
     </section>
@@ -43,8 +46,10 @@
 
             <cdn-image data-aos="fade-up" cloudinaryPrefix="/" cloudinaryId="{{prev.photo.public_id}}" width="300"
                 autoFormat="true"></cdn-image>
-            <div data-aos="fade-up">
+            <div data-aos="fade-up" *ngIf="prev.name">
                 {{prev.name}} </div>
+            <div data-aos="fade-up" *ngIf="prev.nameTm">
+                {{prev.nameTm}} </div>
         </a>
 
 
@@ -55,8 +60,10 @@
         <a routerLink="/stories/{{next.key}}" queryParamsHandling="merge" class="blue">
             <cdn-image data-aos="fade-up" cloudinaryPrefix="/" cloudinaryId="{{next.photo.public_id}}" width="300"
                 autoFormat="true"></cdn-image>
-            <div data-aos="fade-up">
+            <div data-aos="fade-up" *ngIf="next.name">
                 {{next.name}}</div>
+            <div data-aos="fade-up" *ngIf="next.nameTm">
+                {{next.nameTm}} </div>
         </a>
 
     </div>

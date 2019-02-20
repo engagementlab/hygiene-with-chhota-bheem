@@ -32,6 +32,11 @@ nav {
         }
     }
 
+    #lang { 
+        position: absolute;
+        right: 0;
+    }
+
     #right {
         @include desktop {
             text-align: right;
