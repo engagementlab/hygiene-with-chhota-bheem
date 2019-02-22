@@ -18,6 +18,7 @@ var buildData = (res, lang) => {
 
     let fields = 'name pdf.href ';
     fields += (lang === 'en') ? 'summary': 'summaryTm';
+    fields += ' video1Url video2Url videoThumbnailImages';
 
     let list = keystone.list('Module').model;
     let data = list.find({}, fields);

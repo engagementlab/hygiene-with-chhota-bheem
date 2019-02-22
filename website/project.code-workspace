@@ -4,11 +4,8 @@
 			"path": "."
 		},
 		{
-			"path": "/Users/Johnny/Documents/Projects/el-bootstrapper"
-		},
-		{
-			"path": "/Users/Johnny/Documents/Projects/el-scss"
-		},
+			"path": "/Users/john_richardson/Documents/Projects/el-bootstrapper"
+		}
 	],
 	"sassVariablesHelper.route": "/Users/Johnny/Documents/Projects/hygiene-with-chhota-bheem/website/client/src/styles/_colors.scss"
 }
