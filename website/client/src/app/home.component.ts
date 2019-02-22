@@ -15,6 +15,7 @@ import * as ismobile from 'ismobilejs';
 export class HomeComponent implements OnInit {
 
   public modules: any[];
+  public files: any;
   public isPhone: boolean;
 
   public showEn: boolean;
@@ -32,7 +33,8 @@ export class HomeComponent implements OnInit {
 
     this._dataSvc.getDataForUrl('homepage/get/').subscribe(response => {
 
-      this.modules = response;
+      this.modules = response.content;
+      this.files = response.files;
 
     });
 

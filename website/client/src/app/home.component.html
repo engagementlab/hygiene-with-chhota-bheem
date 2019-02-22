@@ -53,17 +53,13 @@
             habits, and join the ‘Bheem Team’ to help defeat the Germ Wizard in their own communities!"
                 tm="சோட்டா பீம்மும் சுகாதாரமும் என்பது குழந்தைகளுக்கு மத்தியில் சுத்தம் மற்றும் சுகாதாரத்திற்கான சிறந்த விழிப்புணர்வை ஏற்படுத்துவதற்காக வடிவமைக்கப்பட்ட ஒரு விளையாட்டு அடிப்படையிலான பாடத்திட்டமாகும். குழந்தைகள் சுகாதாரத்தை பேணிக்காப்பதற்கு செய்முறை, விளையாட்டுகள் மூலமாகவும் மற்றும் செயலி விளையாட்டுகள் மூலமாகவும் மேலும் அசுத்த மந்திரவாதியை விரட்டியடிப்பது போன்ற கதைகள் மூலமாகவும்  தங்களை தாங்களே சோட்டா பீமின் உலகத்தில் இணைத்துக்கொள்கின்றனர். இதுபோன்ற விளையாட்டுகளை விளையாடி, சவால்களை எதிர்கொள்ளும்போது சுத்தம் மற்றும் சுகாதாரம் பற்றிய விழிப்புணர்வு ஏற்படுகின்றது. மேலும் பீம் அணியுடன் சேர்ந்து அசுத்த மந்திரவாதியை தங்களது ஊர்களில் விரட்டியடிக்கும் வழிகாட்டியாக இக்கதைகள் விளங்குகின்றன."></app-localized>
         </span>
-        <a class="blue download" href="">
-            <app-localized en="Download
-            Complete Guide" tm="முழுமையான கைஏட்டினை 
-            இணையத்திலிருந்து
-            பதிவிறக்கும்
-            செய்து கொள்ளவும்"></app-localized>
-        </a>
-        <a class="blue download" href="">
-            <app-localized en="Download
-            Complete Storybook" tm=""></app-localized>
-        </a>
+        <a class="blue download" href="{{files.guideEn.url}}" *ngIf="showEn">Download<br />Complete Guide</a>
+        <a class="blue download" href="{{files.guideTm.url}}" *ngIf="!showEn"><span>ழுமையான கைஏட்டினை<br />
+        இணையத்திலிருந்து<br />
+        பதிவிறக்கும்<br />
+        செய்து கொள்ளவும்<br /></span></a>
+        <a class="blue download" href="" *ngIf="showEn">STORYBOOK LINK HERE</a>
+        <a class="blue download" href="" *ngIf="!showEn">STORYBOOK LINK HERE</a>
     </div>
 
 </section>

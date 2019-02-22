@@ -18,18 +18,25 @@ var buildData = (res, lang) => {
 
     let fields = 'name pdf.href ';
     fields += (lang === 'en') ? 'summary': 'summaryTm';
-    fields += ' video1Url video2Url videoThumbnailImages';
+    fields += ' video1Url video2Url videoThumbnailImages.secure_url';
+    let fileFields = (lang === 'en') ? 'guideEn.url' : 'guideTm.url';
 
     let list = keystone.list('Module').model;
+    let listFiles = keystone.list('Files').model;
     let data = list.find({}, fields);
-
+    let dataFiles = listFiles.findOne({}, fileFields);
+    
     Bluebird.props({
-            jsonData: data
+            content: data,
+            files: dataFiles
         })
         .then(results => {
             return res.status(200).json({
                 status: 200,
-                data: results.jsonData
+                data: {
+                    content: results.content,
+                    files: results.files
+                }
             });
         }).catch(err => {
             console.log(err);
