@@ -45,8 +45,7 @@ export class CdnImageComponent implements OnInit {
     if(useMobileWidth)
       this.widthCss = this._sanitizer.bypassSecurityTrustStyle('width:' + this.phoneWidth + 'px; max-width:' + this.phoneWidth+'px');
     else if(this.width)
-      this.widthCss = this._sanitizer.bypassSecurityTrustStyle('width:' + this.width + 'px; max-width:' + this.width+'px');
-
+      this.widthCss = this._sanitizer.bypassSecurityTrustStyle('width:' + this.width + 'px; max-width:' + this.width+'px')
   }
 
 }

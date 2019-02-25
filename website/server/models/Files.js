@@ -23,7 +23,7 @@ var Files = new keystone.List('Files',
 	{
 		label: 'Files',
 		singular: 'Files',
-        // nocreate: true,
+        nocreate: true,
         nodelete: true
     });
 

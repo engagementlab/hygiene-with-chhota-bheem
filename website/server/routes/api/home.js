@@ -18,7 +18,7 @@ var buildData = (res, lang) => {
 
     let fields = '';
     fields += (lang === 'en') ? 'name summary pdf.url poster.url': 'nameTm summaryTm pdfTm.url posterTm.url';
-    fields += ' video1Url video2Url videoThumbnailImages.secure_url';
+    fields += ' video1Url video2Url videoThumbnailImages.public_id';
 
     let fileFields = (lang === 'en') ? 'storybookEn.url guideEn.url' : 'storybookTm.url guideTm.url';
 
