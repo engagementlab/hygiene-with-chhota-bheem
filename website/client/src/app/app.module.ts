@@ -27,6 +27,8 @@ import { DataService } from './utils/data.service';
 import { RedirectService } from './utils/redirect.service';
 import { StoryIndexComponent } from './stories/index.component';
 import { StoryComponent } from './stories/story.component';
+import { LocalizedComponent } from './utils/localized/localized.component';
+import { LinebreakPipe } from './utils/linebreak.pipe';
 
 export const cloudinary = {
   Cloudinary: CloudinaryCore
@@ -54,6 +56,8 @@ export const routes: Routes = [
     PrettyUrlPipe,
     StoryIndexComponent,
     StoryComponent,
+    LocalizedComponent,
+    LinebreakPipe,
   ],
   imports: [
     AppRoutingModule,

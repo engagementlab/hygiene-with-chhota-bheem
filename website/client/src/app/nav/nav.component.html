@@ -1,15 +1,19 @@
 <nav class="container desktop columns is-mobile is-multiline-mobile" id="nav">
 
+    <div id="lang">
+        <a href="?en" *ngIf="!showEn">english</a>
+        <a href="" *ngIf="showEn">தமிழ்</a>
+    </div>
     <div class="link column is-one-third no-pad">
-        <a routerLink="/about" [class.current]="itemActive('about')">About</a>
+        <a routerLink="/about" queryParamsHandling="merge" [class.current]="itemActive('about')"><app-localized en="About" tm="முகப்பு"></app-localized></a>
     </div>
     <div class="column is-one-third-mobile center no-pad" style="display:inline-block">
-        <a id="home" routerLink="/">
+        <a id="home" routerLink="/" queryParamsHandling="merge">
             <cdn-image cloudinaryId="logos/logo" width="268" svg="true"></cdn-image>
         </a>
     </div>
 
     <div id="right" class="link column is-one-third-mobile is-one-third-tablet no-pad">
-        <a routerLink="/stories" [class.current]="itemActive('stories')">Stories from the field</a>
+        <a routerLink="/stories" queryParamsHandling="merge" [class.current]="itemActive('stories')"><app-localized en="Stories from the field" tm="உண்மை கதைகள்"></app-localized></a>
     </div>
 </nav>

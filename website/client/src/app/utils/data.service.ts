@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';
 
@@ -24,10 +24,14 @@ export class DataService {
   public previousUrl: string;
   public currentUrl: string;
 
+  public currentLang: BehaviorSubject<string> = new BehaviorSubject<string>('tm');
+
   private baseUrl: string;
 
   constructor(private http: HttpClient, private _router: Router) { 
 
+    this.currentLang.next('tm');
+    
   	this.baseUrl = environment.dev ? 'http://localhost:3000/api/' : 'api/';
 
     _router.events.subscribe(event => {
@@ -42,12 +46,17 @@ export class DataService {
     }); 
   }
 	
-  public getDataForUrl(urlParam: string): Observable<any> {
+  public getDataForUrl(urlParam: string, query: string = ''): Observable<any> {
 
       this.isLoading.next(true);
       this.serverProblem.next(false);
 
-      let url = this.baseUrl+urlParam; 
+      let url = this.baseUrl+urlParam;
+      
+      if(this.currentLang.value === 'en')
+        url += 'en'
+
+      url += '?'+query;
       
       return this.http.get(url)
       .map((res:any)=> {

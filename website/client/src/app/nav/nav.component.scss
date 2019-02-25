@@ -32,9 +32,12 @@ nav {
         }
     }
 
-    #right {
-        text-align: right;
+    #lang { 
+        position: absolute;
+        right: 0;
+    }
 
+    #right {
         @include desktop {
             text-align: right;
         }
@@ -48,13 +51,7 @@ nav {
         }
     }
 
-    @include mobile-only {
-        margin-top: 7.5%;
-        margin-bottom: 24%!important;
-
-        a {
-            line-height: 1.43;
-        }
+    @include not-desktop {
 
         .column {
             flex-direction: column;
@@ -62,6 +59,15 @@ nav {
             justify-content: center;
             text-align: center;
             display: flex;
+        }
+    }
+    
+    @include mobile-only {
+        margin-top: 7.5%;
+        margin-bottom: 24%!important;
+
+        a {
+            line-height: 1.43;
         }
 
         #home ::ng-deep img {

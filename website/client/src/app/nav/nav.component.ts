@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { filter } from 'rxjs/operators';
+import { DataService } from '../utils/data.service';
 
 @Component({
   selector: 'app-nav',
@@ -10,14 +11,19 @@ import { filter } from 'rxjs/operators';
 })
 export class NavComponent {
 
-  private wasLoading: boolean = false;
+  public showEn: boolean;
   private currentUrl: string;
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private _dataSvc: DataService) {
 
     // Get nav route when nav ends
     _router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(e => {
       this.currentUrl = _router.url;
+    });
+    
+    this.showEn = this._dataSvc.currentLang.value === 'en';
+    this._dataSvc.currentLang.subscribe((val) => {
+      this.showEn = val === 'en'; 
     });
   
   }

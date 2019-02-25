@@ -35,7 +35,6 @@ a {
         margin-top: 7%;
 
         &.download {
-            line-height: .5;
 
             &:after {
                 content: "PDF";
@@ -53,8 +52,15 @@ a {
                 flex-direction: column;
                 text-align: center;
 
-                transform: translate(-8%, -40%);
+                transform: translate(-8%, 0);
             }
+
+            // &.tm {
+            //     &:after {
+            //         transform: translate(140%, -111%);
+
+            //     }
+            // }
 
             &:hover {
                 &:after {
@@ -142,7 +148,7 @@ h4 {
 hr {
     border: 1px solid $brownish-red;
     width: 90%;
-}
+}   
 
 // Other styles
 #intro {
@@ -175,6 +181,11 @@ hr {
     margin-left: 180px;
     margin-right: 180px;
 
+    @include until-tablet-wide {
+        margin-left: 90px;
+        margin-right: 90px;
+    }
+
     @include phones {
         margin-left: 10px;
         margin-right: 10px;
@@ -190,7 +201,6 @@ hr {
     color: $tomato;
     text-transform: uppercase;
 
-
 }
 
 .seperator {
@@ -201,11 +211,6 @@ hr {
     height: 300px;
     margin-top: 5%;
 
-    // @include not-phones {
-    //     width: 4px;
-    //     height: 100px;
-    //     margin-top: -50px;
-    // }
 }
 
 .view {

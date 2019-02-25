@@ -16,9 +16,10 @@ const keystone =  global.keystone,
     let list = keystone.list('Story').model;
 
 
-var getAdjacent = (results, res) => {
+var getAdjacent = (results, res, lang) => {
     
-    let fields = 'key name photo.public_id';
+    let fields = 'key photo.public_id ';
+    fields += (lang === 'en') ? 'name' : 'nameTm';
 
     // Get one next/prev person from selected person's sortorder
     let nextPerson = list.findOne({sortOrder: {
@@ -41,13 +42,22 @@ var getAdjacent = (results, res) => {
 
 };
 
-var buildData = (storyId, res) => {
+var buildData = (storyId, res, lang) => {
 
     let data = null;
-    let fields = 'key name subtitle photo.public_id';
-
-    if(storyId)
-        data = list.findOne({ key: storyId }, fields + ' description.html sortOrder -_id');
+    let fields = 'key nameTm subtitleTm photo.public_id';
+    if(lang === 'en')
+        fields = 'key name subtitle photo.public_id';
+        
+        
+        if(storyId) {
+            let subFields = ' descriptionTm.html ';
+            if(lang === 'en')
+            subFields = ' description.html ';
+            
+            console.log(storyId)
+        data = list.findOne({ key: storyId }, fields + subFields + 'sortOrder -_id');
+    }
     else 
         data = list.find({}, fields + ' -_id').sort([['sortOrder', 'descending']]);
 
@@ -57,7 +67,7 @@ var buildData = (storyId, res) => {
         .then(results => {
             // When retrieving one story, also get next/prev ones
             if(storyId)
-                getAdjacent(results, res);
+                getAdjacent(results, res, lang);
             else
             {
                 return res.status(200).json({
@@ -77,9 +87,13 @@ var buildData = (storyId, res) => {
 exports.get = function (req, res) {
 
     let id = null;
-    if (req.params.id)
-        id = req.params.id;
+    if (req.query.id)
+        id = req.query.id;
 
-    return buildData(id, res);
+    let lang = null;
+    if (req.params.lang)
+        lang = req.params.lang;
+
+    return buildData(id, res, lang);
 
 }

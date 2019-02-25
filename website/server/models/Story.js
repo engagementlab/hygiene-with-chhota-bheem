@@ -39,6 +39,11 @@ Story.add({
 	name: { type: String, label: "Person's Name", required: true, initial: true, index: true },	
 	subtitle: { type: String, label: "Story Subtitle", required: true, initial: true},
 	description: { type: Types.Markdown, label: "Story Description", required: true, initial: true},
+
+	nameTm: { type: String, label: "Person's Name (Tamil)", required: true, initial: true, index: true },	
+	subtitleTm: { type: String, label: "Story Subtitle (Tamil)", required: true, initial: true},
+	descriptionTm: { type: Types.Markdown, label: "Story Description (Tamil)", required: true, initial: true},
+
 	photo: { type: Types.CloudinaryImage, required: true, initial: true }
 });
 

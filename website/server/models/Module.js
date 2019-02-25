@@ -59,9 +59,36 @@ Module.add({
         required: true,
         initial: true
     },
+    nameTm: {
+        type: String,
+        label: 'Name (Tamil)',
+        required: true,
+        initial: true
+    },
+    summaryTm: {
+        type: Types.Textarea,
+        required: true,
+        label: 'Summary (Tamil)',
+        initial: true
+    },
     pdf: {
         type: Types.File,
-        label: 'PDF',
+        label: 'Module PDF',
+        storage: azureFile
+    },
+    pdfTm: {
+        type: Types.File,
+        label: 'Module PDF (Tamil)',
+        storage: azureFile
+    },
+    poster: {
+        type: Types.File,
+        label: 'Poster PDF',
+        storage: azureFile
+    },
+    posterTm: {
+        type: Types.File,
+        label: 'Poster PDF (Tamil)',
         storage: azureFile
     },
     video1Url: {

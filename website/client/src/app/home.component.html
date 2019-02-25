@@ -1,41 +1,70 @@
 <section id="intro" class="columns is-full is-mobile is-multiline-mobile no-margin">
 
     <div class="column is-11-mobile is-half-tablet center" data-aos="fade-up">
-        <div class="subheader">Module 1</div>
-        <h4>Handwashing with soap</h4>
+        <div class="subheader">
+            <app-localized en="Module 1" tm="செய்முறை கையேடு 1"></app-localized>
+        </div>
+
+        <h4>
+            <app-localized en="Handwashing with soap" tm="சோப்பை பயன்படுத்தி கைகழுவுதல்"></app-localized>
+        </h4>
         <cdn-image cloudinaryId="art/module1" width="312" phoneWidth="201" svg="true"></cdn-image>
         <br />
 
-        <a href="#" class="view" (click)="goToModule(1)">view module</a>
+        <a href="#" class="view" (click)="goToModule(1)">
+            <app-localized en="view module" tm="செய்முறை கையேடுவை காண்க"></app-localized>
+        </a>
     </div>
-    
+
     <div class="seperator hidden-mobile" data-aos="fade-down" data-aos-delay="100"></div>
     <hr class="hidden-tablet-plus" data-aos="fade-up" data-aos-delay="100" />
 
     <div class="column center is-11-mobile" data-aos="fade-up" data-aos-delay="200">
-        <div class="subheader">Module 2</div>
-        <h4>Toilet use</h4>
+        <div class="subheader">
+            <app-localized en="Module 2" tm="செய்முறை கையேடு 2"></app-localized>
+        </div>
+        <h4>
+            <app-localized en="Toilet use" tm="கழிவறை பயன்படுத்துதல்"></app-localized>
+        </h4>
         <cdn-image cloudinaryId="art/module2" width="277" svg="true"></cdn-image>
         <br />
 
-        <a href="#" class="view" (click)="goToModule(2)">view module</a>
+        <a href="#" class="view" (click)="goToModule(2)">
+            <app-localized en="view module" tm="செய்முறை கையேடுவை காண்க"></app-localized>
+        </a>
     </div>
 </section>
 
 <section id="manual" class="columns is-multiline is-full is-mobile no-margin">
-    <h2 class="column is-full center no-pad" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom">Facilitator
-            Guide</h2>
+    <h2 class="column is-full center no-pad" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom">
+        <app-localized en="Facilitator Guide" tm="ஒருங்கிணைப்பு கையேடு"></app-localized>
+    </h2>
 
     <div class="column is-11-mobile is-half-tablet center">
-        <div id="filler"></div>
+        <!-- <cdn-image cloudinaryId="art/manual" autoFormat="true" width="412"></cdn-image>     -->
+        <img src="https://res.cloudinary.com/engagement-lab-home/image/upload/c_scale,f_auto,w_412/v1551128693/chhota-bheem/art/manual.png" style="max-width:412px">
+
     </div>
 
     <div class="column is-11-mobile is-5-tablet is-4-desktop" data-aos="fade-left">
         <span class="summary">
-                Hygiene with Chhota Bheem is a play-based curriculum designed to raise awareness of and inculcate best practices for health and hygiene among young children. Children immerse themselves in the world of Chhota Bheem and play hygiene games, activities, and even a mobile game based on the stories to defeat the fictional Germ Wizard. By completing activities and challenges children develop awareness and good hygiene habits, and join the ‘Bheem Team’ to help defeat the Germ Wizard in their own communities!
-                <p>The aim of the facilitation guide is not to prescribe, but to inspire, stimulate change, and provide ideas and guidance to educators who want to cultivate good sanitation and hygiene practices among children, and encourage these young change-makers to advocate good hygiene practices among their peers, parents, and their communities at large.</p>
+            <app-localized en="Hygiene with Chhota Bheem is a play-based curriculum designed to raise awareness of and inculcate best
+            practices for health and hygiene among young children. Children immerse themselves in the world of Chhota
+            Bheem and play hygiene games, activities, and even a mobile game based on the stories to defeat the
+            fictional Germ Wizard. By completing activities and challenges children develop awareness and good hygiene
+            habits, and join the ‘Bheem Team’ to help defeat the Germ Wizard in their own communities!"
+                tm="சோட்டா பீம்மும் சுகாதாரமும் என்பது குழந்தைகளுக்கு மத்தியில் சுத்தம் மற்றும் சுகாதாரத்திற்கான சிறந்த விழிப்புணர்வை ஏற்படுத்துவதற்காக வடிவமைக்கப்பட்ட ஒரு விளையாட்டு அடிப்படையிலான பாடத்திட்டமாகும். குழந்தைகள் சுகாதாரத்தை பேணிக்காப்பதற்கு செய்முறை, விளையாட்டுகள் மூலமாகவும் மற்றும் செயலி விளையாட்டுகள் மூலமாகவும் மேலும் அசுத்த மந்திரவாதியை விரட்டியடிப்பது போன்ற கதைகள் மூலமாகவும்  தங்களை தாங்களே சோட்டா பீமின் உலகத்தில் இணைத்துக்கொள்கின்றனர். இதுபோன்ற விளையாட்டுகளை விளையாடி, சவால்களை எதிர்கொள்ளும்போது சுத்தம் மற்றும் சுகாதாரம் பற்றிய விழிப்புணர்வு ஏற்படுகின்றது. மேலும் பீம் அணியுடன் சேர்ந்து அசுத்த மந்திரவாதியை தங்களது ஊர்களில் விரட்டியடிக்கும் வழிகாட்டியாக இக்கதைகள் விளங்குகின்றன."></app-localized>
         </span>
-        <a class="blue download" href="">Download<br />Complete Guide</a>
+<!-- 
+        <a class="blue download en" href="{{files.guideEn.url}}" *ngIf="showEn && files.guideEn">Download Guide</a>
+        <a class="blue download tm" href="{{files.guideTm.url}}" *ngIf="!showEn && files.guideTm">ஒருங்கிணைப்பு கையேடு</a>
+        <a class="blue download" href="{{files.storybookEn.url}}" *ngIf="showEn && files.storybookEn">Download Storybook</a>
+        <a class="blue download" href="{{files.storybookTm.url}}" *ngIf="!showEn && files.storybookTm">கதை பார்க்கவும்</a> -->
+        
+        <a class="blue download en" href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_complete_Eng.pdf" *ngIf="showEn">Download Guide</a>
+        <a class="blue download tm" href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_complete_tamil.pdf" *ngIf="!showEn">ஒருங்கிணைப்பு கையேடு</a>
+        <a class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/cb-storybook-complete-englishcomp.pdf" *ngIf="showEn">Download Storybook</a>
+        <a class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/cb-storybook-complete-tamilcomp.pdf" *ngIf="!showEn">கதை பார்க்கவும்</a>
     </div>
 
 </section>
@@ -43,29 +72,51 @@
 <section id="module1" class="module is-full is-mobile no-margin" *ngIf="modules !== undefined">
     <div class="columns is-multiline no-margin">
         <div class="column is-full is-mobile center no-pad">
-            <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 1</div>
-            <h1 data-aos="fade-up">Handwashing<br />with soap</h1>
+            <div class="subheader" data-aos="fade-down" data-aos-delay="100">
+                <app-localized en="Module 1" tm="கையேடு 1"></app-localized>
+            </div>
+
+            <h1 class="en" data-aos="fade-up" *ngIf="showEn">Handwashing<br />with soap</h1>
+            <h1 class="tm" data-aos="fade-up" *ngIf="!showEn">சோப்பை<br />பயன்படுத்தி கைகழுவுதல்</h1>
         </div>
-        
+
         <div class="column is-6 center" data-aos="fade-right">
-            <cdn-image cloudinaryId="art/module1-lg" width="500" phoneWidth="200" svg="true"></cdn-image>
+            <cdn-image cloudinaryId="art/module1-lg" svg="true"></cdn-image>
         </div>
-        
+
         <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
-            <span class="summary">{{modules[0].summary}}</span>
-            <a *ngIf="modules[0].pdf" class="blue download" href="{{modules[0].pdf.href}}">Download Handwashing with<br />Soap Facilitation Guide</a>
+            <span class="summary" *ngIf="modules[0].summary">{{modules[0].summary}}</span>
+            <span class="summary" *ngIf="modules[0].summaryTm">{{modules[0].summaryTm}}</span>
+            <!-- <a *ngIf="modules[0].pdf && showEn" class="blue download" href="{{modules[0].pdf.url}}">Download Module
+            </a>
+            <a *ngIf="modules[0].pdfTm && !showEn" class="blue download" href="{{modules[0].pdfTm.url}}">கையேடு 1 பார்க்கவும்</a>
+
+            <a *ngIf="modules[0].poster && showEn" class="blue download" href="{{modules[0].poster.url}}">View Poster
+            </a>
+            <a *ngIf="modules[0].posterTm && !showEn" class="blue download" href="{{modules[0].posterTm.url}}">தகவல் அட்டை</a> -->
+            <a *ngIf="showEn" class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_mod1.pdf">Download Module
+            </a>
+            <a *ngIf="!showEn" class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_mod1_tamil.pdf">கையேடு 1 பார்க்கவும்</a>
+
+            <a *ngIf="showEn" class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/Module%201_Poster_Eng.pdf">View Poster
+            </a>
+            <a *ngIf="!showEn" class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/Module%201_Poster_Tamil.pdf">தகவல் அட்டை</a>
         </div>
     </div>
 
     <!-- Module videos -->
-    <div class="videos columns is-multiline is-mobile no-margin" *ngIf="modules[0].videoThumbnailImages.length > 0">
+    <div class="videos columns is-multiline is-mobile no-margin" *ngIf="modules[0].videoThumbnailImages !== undefined && modules[0].videoThumbnailImages.length > 0">
 
-        <div class="subheader column is-full-mobile is-10-tablet is-offset-1-tablet" data-aos="fade-down">Videos</div>
+        <div class="subheader column is-full-mobile is-10-tablet is-offset-1-tablet" data-aos="fade-down">
+            <app-localized en="Videos" tm="ஒளிப்படங்கள்"></app-localized>
+        </div>
         <div class="video column is-4-tablet is-offset-1-tablet center" data-aos="zoom-out">
             <a href="{{modules[0].video1Url}}">
                 <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[0].videoThumbnailImages[0].public_id}}" width="453"
                     autoFormat="true"></cdn-image>
-                    <span class="icon"><cdn-image cloudinaryId="icons/video" width="80" phoneWidth="24" svg="true"></cdn-image></span>
+                <span class="icon">
+                    <cdn-image cloudinaryId="icons/video" width="80" phoneWidth="24" svg="true"></cdn-image>
+                </span>
 
             </a>
         </div>
@@ -74,7 +125,9 @@
             <a href="{{modules[0].video2Url}}">
                 <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[0].videoThumbnailImages[1].public_id}}" width="453"
                     autoFormat="true"></cdn-image>
-                    <span class="icon"><cdn-image cloudinaryId="icons/video" width="80" phoneWidth="24" svg="true"></cdn-image></span>
+                <span class="icon">
+                    <cdn-image cloudinaryId="icons/video" width="80" phoneWidth="24" svg="true"></cdn-image>
+                </span>
             </a>
         </div>
     </div>
@@ -91,29 +144,53 @@
 
     <div class="columns is-multiline no-margin">
         <div class="column is-full is-mobile center no-pad">
-            <div class="subheader" data-aos="fade-down" data-aos-delay="100">Module 2</div>
-            <h1 data-aos="fade-up">Toilet Use</h1>
+            <div class="subheader" data-aos="fade-down" data-aos-delay="100">
+                <app-localized en="Module 2" tm="கையேடு 2"></app-localized>
+            </div>
+
+            <h1 class="en" data-aos="fade-up" *ngIf="showEn">Toilet Use</h1>
+            <h1 class="tm" data-aos="fade-up" *ngIf="!showEn">கழிவறை பயன்படுத்துதல்</h1>
         </div>
 
         <div class="column is-6 center" data-aos="fade-right">
-            <cdn-image cloudinaryId="art/module2-lg" width="500" phoneWidth="200" svg="true"></cdn-image>
+            <cdn-image cloudinaryId="art/module2-lg" svg="true"></cdn-image>
         </div>
 
         <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
-            <span class="summary">{{modules[1].summary}}</span>
-            <a *ngIf="modules[1].pdf" class="blue download" href="{{modules[1].pdf.href}}">Download Toilet Use<br />Facilitation Guide</a>
+            <span class="summary" *ngIf="modules[1].summary">{{modules[1].summary}}</span>
+            <span class="summary" *ngIf="modules[1].summaryTm">{{modules[1].summaryTm}}</span>
+<!-- 
+            <a *ngIf="modules[1].pdf && showEn" class="blue download" href="{{modules[1].pdf.url}}">Download Module
+            </a>
+            <a *ngIf="modules[1].pdfTm && !showEn" class="blue download" href="{{modules[1].pdfTm.url}}">கையேடு 2 பார்க்கவும்</a>
+
+            <a *ngIf="modules[1].poster && showEn" class="blue download" href="{{modules[1].poster.url}}">View Poster
+            </a>
+            <a *ngIf="modules[1].posterTm && !showEn" class="blue download" href="{{modules[1].posterTm.url}}">தகவல் அட்டை</a> -->
+
+            <a *ngIf="showEn" class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_mod2.pdf">Download Module
+            </a>
+            <a *ngIf="!showEn" class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_mod2_tamil.pdf">கையேடு 2 பார்க்கவும்</a>
+
+            <a *ngIf="showEn" class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/Module%202_Poster_Eng.pdf">View Poster
+            </a>
+            <a *ngIf="!showEn" class="blue download" href="https://elabhome.blob.core.windows.net/chhotta-bheem/Module%202_Poster_Tamil.pdf">தகவல் அட்டை</a>
         </div>
     </div>
 
     <!-- Module videos -->
-    <div class="videos columns is-multiline is-mobile no-margin" *ngIf="modules[1].videoThumbnailImages.length > 0">
+    <div class="videos columns is-multiline is-mobile no-margin" *ngIf="modules[1].videoThumbnailImages !== undefined && modules[1].videoThumbnailImages.length > 0">
 
-        <div class="subheader column is-full-mobile is-10-tablet is-offset-1-tablet" data-aos="fade-down">Videos</div>
+        <div class="subheader column is-full-mobile is-10-tablet is-offset-1-tablet" data-aos="fade-down">
+            <app-localized en="Videos" tm="ஒளிப்படங்கள்"></app-localized>
+        </div>
         <div class="video column is-4-tablet is-offset-1-tablet center" data-aos="zoom-out">
             <a href="{{modules[1].video1Url}}">
                 <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[1].videoThumbnailImages[0].public_id}}" width="453"
                     autoFormat="true"></cdn-image>
-                    <span class="icon"><cdn-image cloudinaryId="icons/video" width="80" phoneWidth="24" svg="true"></cdn-image></span>                    
+                <span class="icon">
+                    <cdn-image cloudinaryId="icons/video" width="80" phoneWidth="24" svg="true"></cdn-image>
+                </span>
             </a>
         </div>
         <div class="column is-1 hidden-mobile"></div>
@@ -121,38 +198,60 @@
             <a href="{{modules[1].video2Url}}">
                 <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{modules[1].videoThumbnailImages[1].public_id}}" width="453"
                     autoFormat="true"></cdn-image>
-                    <span class="icon"><cdn-image cloudinaryId="icons/video" width="80" phoneWidth="24" svg="true"></cdn-image></span>
+                <span class="icon">
+                    <cdn-image cloudinaryId="icons/video" width="80" phoneWidth="24" svg="true"></cdn-image>
+                </span>
             </a>
         </div>
     </div>
 </section>
 
 <section id="studies" class="columns is-full is-mobile is-multiline no-margin">
-    <h2 class="column is-9 is-offset-1-mobile is-offset-2-tablet no-pad" data-aos="fade-up">Stories From The Field</h2>
+    <h2 class="column is-9 is-offset-1-mobile is-offset-2-tablet no-pad" data-aos="fade-up">
+        <app-localized en="Stories From The Field" tm="உண்மை கதைகள்"></app-localized>
+    </h2>
 
-    <div class="description column is-10-mobile is-7-tablet is-4-desktop is-offset-1-mobile is-offset-2-tablet no-pad" data-aos="fade-right" data-aos-delay="100">
-        <span class="summary">The Hygiene with Chhota Bheem curriculum has been implemented with proven success across Tamil Nadu, India, and the impact is growing! Children have demonstrated increased awareness and advocacy, parents are learning from their children and spreading the message to their communities, and educators are adapting the curriculum to their needs.</span>
-        <a class="blue" routerLink="/stories">Read the Stories Here</a>
-
+    <div class="description column is-10-mobile is-7-tablet is-4-desktop is-offset-1-mobile is-offset-2-tablet no-pad"
+        data-aos="fade-right" data-aos-delay="100">
+        <span class="summary">
+            <app-localized en="The Hygiene with Chhota Bheem curriculum has been implemented with proven success across
+            Tamil Nadu, India, and the impact is growing! Children have demonstrated increased awareness and advocacy,
+            parents are learning from their children and spreading the message to their communities, and educators are
+            adapting the curriculum to their needs."
+                tm="தமிழ்நாட்டில் சோட்டா பீம்மும் சுகாதாரமும் பாடத்திட்டம் வெற்றிகரமாக நடைமுறைபடுத்தபட்டது. இதன் தாக்கம் மேலும் வளர்ச்சியடைந்துகொண்டிருகின்றது. குழந்தைகள் மத்தியில் பெருமளவில் விழிப்புணர்வு ஏற்பட்டு. பெற்றோர்கள் குழந்தைகளிடமிருந்து கற்று கொண்டனர். இந்த பயனுள்ள தகவலை தங்கள் பகுதிகளில் பரப்பினர். கல்வியாளர்கள் இந்த பாடத்திட்டத்தை அவரவர் தேவைக்கேற்ப தங்கள் பள்ளிகளில் இணைத்து கொண்டனர். "></app-localized>
+        </span>
+        <a class="blue" routerLink="/stories" queryParamsHandling="merge">
+            <app-localized en="Read the Stories Here" tm="கதைகளை இங்கே படிக்கவும்"></app-localized>
+        </a>
+        
     </div>
-
+    
 </section>
 
 <section id="download">
     <div class="container desktop columns is-mobile no-margin">
-
+        
         <div class="column is-4-tablet is-half-desktop center hidden-mobile" data-aos="zoom-out" *ngIf="!isPhone">
             <cdn-image cloudinaryId="art/phone" autoFormat="true" width="541"></cdn-image>
         </div>
-
+        
         <div class="description column is-offset-1">
-            <h2 data-aos="fade-up" data-aos-delay="100">Download our<br />Game</h2>
-
+            <h2 data-aos="fade-up" data-aos-delay="100">
+            <app-localized 
+                en="Download our
+                Game" 
+                tm="ெயலி விளையாட்டை 
+                இங்கே பதிவிறக்கம் செய்யவும்"></app-localized>
+        </h2>
             <div class="column is-half center" data-aos="zoom-out" *ngIf="isPhone">
                 <cdn-image cloudinaryId="art/phone" autoFormat="true" width="300"></cdn-image>
             </div>
 
-            <span class="summary" data-aos="fade-left" data-aos-delay="200">The Hygiene with Chhota Bheem digital game compliments the curriculum. Available on Google Play Store and the Apple app store, the game can be played on smartphones and tablets</span>
+            <span class="summary" data-aos="fade-left" data-aos-delay="200">
+                <app-localized en="The Hygiene with Chhota Bheem digital game
+                compliments the curriculum. Available on Google Play Store and the Apple app store, the game can be
+                played on smartphones and tablets" tm="சோட்டா பீம்மும் சுகாதாரமும் என்னும் செயலி விளையாட்டு இந்த பாடத்திட்டத்தில் அன்பளிப்பாக கொடுக்கப்பட்டுள்ளது. இந்த செயலி Google Play Store மற்றும் Apple app store இல் இருந்து பதிவிறக்கம் செய்து கொள்ளலாம்."></app-localized>
+            </span>
 
             <div id="store" class="columns">
                 <a class="column is-5-mobile" data-aos="zoom-out" data-aos-delay="300" href="https://itunes.apple.com/us/app/hygiene-with-chhota-bheem/id1423871069?ls=1&mt=8"

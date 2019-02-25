@@ -1,9 +1,9 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../utils/data.service';
 
 import * as AOS from 'aos';
 import * as ismobile from 'ismobilejs';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-story',
@@ -36,7 +36,7 @@ export class StoryComponent implements OnInit {
       this.prev = undefined;
       this.hasContent = false;
       
-      this._dataSvc.getDataForUrl('stories/get/' + params['key']).subscribe(response => {
+      this._dataSvc.getDataForUrl('stories/get/', 'id=' + params['key']).subscribe(response => {
         
         this.content = response.person;
         this.next = response.next;

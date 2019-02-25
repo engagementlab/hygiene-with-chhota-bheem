@@ -1,22 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router, NavigationEnd, NavigationStart, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { environment } from '../environments/environment';
 import { TweenLite, Expo, Back } from "gsap";
+import { DataService } from './utils/data.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   public isQABuild: boolean;
   title = 'Hygiene With Chhota Bheem';
 
-
-  constructor(private _router: Router, private _titleSvc: Title) {
+  constructor(private _router: Router, private _route: ActivatedRoute, private _titleSvc: Title, private _dataSvc: DataService) {
 
     this.isQABuild = environment.qa;
     this._titleSvc.setTitle((this.isQABuild ? '(QA) ' : '') + this.title);
@@ -47,5 +47,18 @@ export class AppComponent implements OnInit {
 
     });
     
+  }
+
+  ngAfterViewInit() {
+
+    // Catch language change
+    this._route.queryParams.subscribe(params => {
+      
+      console.log(params['en']  !== undefined)
+      if(params['en'] !== undefined) 
+        this._dataSvc.currentLang.next('en');
+        
+    });
+
   }
 }
