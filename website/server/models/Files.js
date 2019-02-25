@@ -49,7 +49,7 @@ var azureFile = new keystone.Storage({
  * @main Files
  */
 Files.add({
-    
+    name: { type: String, default: 'Files', hidden: true },
     guideEn: { type: Types.File, label: 'Facilitation Guide PDF (English)', storage: azureFile },
     guideTm: { type: Types.File, label: 'Facilitation Guide PDF (Tamil)', storage: azureFile },
     storybookEn: { type: Types.File, label: 'Storybook PDF (English)', storage: azureFile },

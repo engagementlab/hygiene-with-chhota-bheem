@@ -16,10 +16,11 @@ mongoose.Promise = require('bluebird');
 
 var buildData = (res, lang) => {
 
-    let fields = 'name pdf.href ';
-    fields += (lang === 'en') ? 'summary': 'summaryTm';
+    let fields = '';
+    fields += (lang === 'en') ? 'name summary pdf.url poster.url': 'nameTm summaryTm pdfTm.url posterTm.url';
     fields += ' video1Url video2Url videoThumbnailImages.secure_url';
-    let fileFields = (lang === 'en') ? 'guideEn.url' : 'guideTm.url';
+
+    let fileFields = (lang === 'en') ? 'storybookEn.url guideEn.url' : 'storybookTm.url guideTm.url';
 
     let list = keystone.list('Module').model;
     let listFiles = keystone.list('Files').model;

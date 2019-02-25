@@ -110,6 +110,14 @@ $videoIconDim: 40px;
         }
     }
 
+    ::ng-deep img {
+        width: 100%;
+        max-width: 500px;
+        @include phones {
+            max-width: 200px;
+        }
+    }
+
     &#module1 {
         h1 {
             &.en {
@@ -122,6 +130,10 @@ $videoIconDim: 40px;
                 &:before {
                     content: 'சோப்பை\Aபயன்படுத்தி கைகழுவுதல்';
                     @include translate(-33%, 3px);
+                    @include phones {
+                        display: block;
+                        @include translate(8%, 3px);
+                    }
                 }
             }
         }
