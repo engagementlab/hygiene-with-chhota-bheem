@@ -14,7 +14,7 @@
 if(process.env.NODE_ENV !== 'test')
 	require('dotenv').load();
 
-const bootstrap = require('el-bootstrapper'), express = require('express');
+const bootstrap = require('@engagementlab/el-bootstrapper'), express = require('express');
 
 var app = express();
 bootstrap.start(

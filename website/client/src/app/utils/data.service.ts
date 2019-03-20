@@ -24,13 +24,13 @@ export class DataService {
   public previousUrl: string;
   public currentUrl: string;
 
-  public currentLang: BehaviorSubject<string> = new BehaviorSubject<string>('tm');
+  public currentLang: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
 
   private baseUrl: string;
 
   constructor(private http: HttpClient, private _router: Router) { 
 
-    this.currentLang.next('tm');
+    this.currentLang.next(undefined);
     
   	this.baseUrl = environment.dev ? 'http://localhost:3000/api/' : 'api/';
 
@@ -53,7 +53,7 @@ export class DataService {
 
       let url = this.baseUrl+urlParam;
       
-      if(this.currentLang.value === 'en')
+      if(this.currentLang.value === undefined)
         url += 'en'
 
       url += '?'+query;
