@@ -1,20 +1,20 @@
 {
   "name": "hygiene-with-chhota-bheem-website",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "app.js",
   "scripts": {
     "start": "source ~/.nvm/nvm.sh; nvm use; nodemon"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/engagementlab/engagement-hygiene-with-chhota-bheem-website.git"
+    "url": "git+https://github.com/engagementlab/engagement-hygiene-with-chhota-bheem.git"
   },
   "dependencies": {
+    "@engagementlab/el-bootstrapper": "0.0.6",
     "bluebird": "^3.5.3",
     "cloudinary": "^1.13.2",
     "connect-flash": "^0.1.1",
     "dotenv": "^6.1.0",
-    "el-bootstrapper": "git://github.com/engagementlab/el-bootstrapper.git",
     "express": "^4.16.4",
     "i": "^0.3.6",
     "keystone-storage-adapter-azure": "^1.1.0",

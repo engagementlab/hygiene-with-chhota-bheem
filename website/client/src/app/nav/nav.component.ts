@@ -21,9 +21,9 @@ export class NavComponent {
       this.currentUrl = _router.url;
     });
     
-    this.showEn = this._dataSvc.currentLang.value === 'en';
+    this.showEn = this._dataSvc.currentLang.value === undefined;
     this._dataSvc.currentLang.subscribe((val) => {
-      this.showEn = val === 'en'; 
+      this.showEn = val === undefined; 
     });
   
   }
