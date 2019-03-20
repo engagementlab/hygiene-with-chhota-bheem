@@ -18,14 +18,14 @@ export class HomeComponent implements OnInit {
   public files: any;
   public isPhone: boolean;
 
-  public showEn: boolean;
+  public showEn: boolean = true;
   
   constructor(private _dataSvc: DataService, private _scrollToSvc: ScrollToService) {
     this.isPhone = ismobile.phone;
     
-    this.showEn = this._dataSvc.currentLang.value === 'en';
+    this.showEn = this._dataSvc.currentLang.value === undefined;
     this._dataSvc.currentLang.subscribe((val) => {
-      this.showEn = val === 'en'; 
+      this.showEn = val === undefined;
     });
   }
 

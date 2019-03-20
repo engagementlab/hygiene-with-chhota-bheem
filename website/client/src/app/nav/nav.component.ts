@@ -11,7 +11,7 @@ import { DataService } from '../utils/data.service';
 })
 export class NavComponent {
 
-  public showEn: boolean;
+  public showEn: boolean = true;
   private currentUrl: string;
 
   constructor(private _router: Router, private _dataSvc: DataService) {

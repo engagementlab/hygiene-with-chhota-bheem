@@ -11,12 +11,12 @@ export class LocalizedComponent implements OnInit {
 	@Input() en: string;
   @Input() tm: string;
 
-  public showEn: boolean;
+  public showEn: boolean = true;
   
   constructor(private _dataSvc: DataService) {
     
     this.showEn = this._dataSvc.currentLang.value === undefined;
-    console.log(this._dataSvc.currentLang.value)
+    console.log(this.showEn)
     this._dataSvc.currentLang.subscribe((val) => {
       this.showEn = val === undefined; 
     });
