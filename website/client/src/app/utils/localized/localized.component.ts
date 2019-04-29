@@ -16,7 +16,6 @@ export class LocalizedComponent implements OnInit {
   constructor(private _dataSvc: DataService) {
     
     this.showEn = this._dataSvc.currentLang.value === undefined;
-    console.log(this.showEn)
     this._dataSvc.currentLang.subscribe((val) => {
       this.showEn = val === undefined; 
     });
