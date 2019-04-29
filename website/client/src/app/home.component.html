@@ -60,16 +60,16 @@
 
         <a class="blue download en"
             href="{{files.guideEn.url}}"
-            *ngIf="showEn">Download Guide</a>
+            *ngIf="showEn && files">Download Guide</a>
         <a class="blue download tm"
             href="{{files.guideTm.url}}"
-            *ngIf="!showEn">ஒருங்கிணைப்பு கையேடு</a>
+            *ngIf="!showEn && files">ஒருங்கிணைப்பு கையேடு</a>
         <a class="blue download"
             href="{{files.storybookEn.url}}"
-            *ngIf="showEn">Download Storybook</a>
+            *ngIf="showEn && files">Download Storybook</a>
         <a class="blue download"
             href="{{files.storybookTm.url}}"        
-            *ngIf="!showEn">கதை பார்க்கவும்</a>
+            *ngIf="!showEn && files">கதை பார்க்கவும்</a>
     </div>
 
 </section>
@@ -94,18 +94,18 @@
             <span class="summary" *ngIf="modules[0].summaryTm">{{modules[0].summaryTm}}</span>
 
             <a *ngIf="showEn" class="blue download"
-                href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_mod1.pdf">Download
+                href="{{modules[0].pdf.url}}">Download
                 Module
             </a>
             <a *ngIf="!showEn" class="blue download"
-                href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_mod1_tamil.pdf">கையேடு
+                href="{{modules[0].pdfTm.url}}">கையேடு
                 1 பார்க்கவும்</a>
 
             <a *ngIf="showEn" class="blue download"
-                href="https://elabhome.blob.core.windows.net/chhotta-bheem/Module%201_Poster_Eng.pdf">View Poster
+                href="{{modules[0].poster.url}}">View Poster
             </a>
             <a *ngIf="!showEn" class="blue download"
-                href="https://elabhome.blob.core.windows.net/chhotta-bheem/Module%201_Poster_Tamil.pdf">தகவல் அட்டை</a>
+                href="{{modules[0].posterTm.url}}">தகவல் அட்டை</a>
         </div>
     </div>
 
@@ -165,28 +165,20 @@
         <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
             <span class="summary" *ngIf="modules[1].summary">{{modules[1].summary}}</span>
             <span class="summary" *ngIf="modules[1].summaryTm">{{modules[1].summaryTm}}</span>
-            <!-- 
-            <a *ngIf="modules[1].pdf && showEn" class="blue download" href="{{modules[1].pdf.url}}">Download Module
-            </a>
-            <a *ngIf="modules[1].pdfTm && !showEn" class="blue download" href="{{modules[1].pdfTm.url}}">கையேடு 2 பார்க்கவும்</a>
-
-            <a *ngIf="modules[1].poster && showEn" class="blue download" href="{{modules[1].poster.url}}">View Poster
-            </a>
-            <a *ngIf="modules[1].posterTm && !showEn" class="blue download" href="{{modules[1].posterTm.url}}">தகவல் அட்டை</a> -->
-
+            
             <a *ngIf="showEn" class="blue download"
-                href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_mod2.pdf">Download
-                Module
+            href="{{modules[1].pdf.url}}">Download
+            Module
             </a>
             <a *ngIf="!showEn" class="blue download"
-                href="https://elabhome.blob.core.windows.net/chhotta-bheem/bheem_facilitationguide_mod2_tamil.pdf">கையேடு
+                href="{{modules[1].pdfTm.url}}">கையேடு
                 2 பார்க்கவும்</a>
 
             <a *ngIf="showEn" class="blue download"
-                href="https://elabhome.blob.core.windows.net/chhotta-bheem/Module%202_Poster_Eng.pdf">View Poster
+                href="{{modules[1].poster.url}}">View Poster
             </a>
             <a *ngIf="!showEn" class="blue download"
-                href="https://elabhome.blob.core.windows.net/chhotta-bheem/Module%202_Poster_Tamil.pdf">தகவல் அட்டை</a>
+                href="{{modules[1].posterTm.url}}">தகவல் அட்டை</a>
         </div>
     </div>
 
