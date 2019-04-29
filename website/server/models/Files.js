@@ -31,7 +31,7 @@ var Files = new keystone.List('Files',
 var azureFile = new keystone.Storage({
     adapter: require('keystone-storage-adapter-azure'),
     azure: {
-        container: 'resources',
+        container: 'chhota-bheem',
         generateFilename: function (file) {
             // Cleanup filename
             return file.originalname.replace(/[\\'\-\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "").replace(/ /g, '_').toLowerCase();

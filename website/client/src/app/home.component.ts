@@ -36,6 +36,8 @@ export class HomeComponent implements OnInit {
       this.modules = response.content;
       this.files = response.files;
 
+      console.log(this.files)
+
     });
 
   }
