@@ -20,6 +20,7 @@ public class LocalizedSprite : Image
 
 	public Sprite EnglishSprite;
 	public Sprite TamilSprite;
+	public Sprite HindiSprite;
 	
 	// Use this for initialization
 	private void Start ()
@@ -51,6 +52,28 @@ public class LocalizedSprite : Image
 			return;
 		}
 		
-		sprite = GameConfig.CurrentLanguage == 1 ? TamilSprite : EnglishSprite;
+		switch(GameConfig.CurrentLanguage)
+		{
+			
+			case 0:
+
+				sprite = EnglishSprite;
+		
+				break;
+			
+			case 1:
+
+				sprite = TamilSprite;
+		
+				break;
+			
+			case 2:
+
+				sprite = HindiSprite;
+
+				break;
+			
+		}
+		
 	}
 }

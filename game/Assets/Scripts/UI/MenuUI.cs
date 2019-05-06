@@ -81,7 +81,8 @@ public class MenuUI : MonoBehaviour
 		_settingsBoard = Settings.transform.Find("Board").gameObject;
 		_settingsTitle = Settings.transform.Find("Title").gameObject;
 		_settingsBack = Settings.transform.Find("Buttons/Back").gameObject;
-		_settingsLanguages = new[]
+		
+		/*_settingsLanguages = new[]
 		{
 			_settingsBoard.transform.Find("Language/Selector/Mask/English").gameObject,
 			_settingsBoard.transform.Find("Language/Selector/Mask/Tamil").gameObject
@@ -91,7 +92,7 @@ public class MenuUI : MonoBehaviour
 		{
 			iTween.MoveTo(_settingsLanguages[0], iTween.Hash("position", new Vector3(0, 35, 0), "time", .001f, "islocal", true));
 			iTween.MoveTo(_settingsLanguages[1], iTween.Hash("position", new Vector3(0, 0, 0), "time", .001f, "islocal", true));
-		}
+		}*/
 
 		_soundToggle = _settingsBoard.transform.Find("Sound/Toggle").GetComponent<Toggle>();
 		_musicToggle = _settingsBoard.transform.Find("Music/Toggle").GetComponent<Toggle>();
@@ -384,11 +385,11 @@ public class MenuUI : MonoBehaviour
 	{
 		
 		var nextLang = GameConfig.CurrentLanguage == 0 ? 1 : 0;
-		objToFadeOut = _settingsLanguages[GameConfig.CurrentLanguage];
-		objToFadeIn = _settingsLanguages[nextLang];
-		
-		iTween.MoveTo(objToFadeOut, iTween.Hash("position", new Vector3(0, nextLang == 0 ? 35 : -35, 0), "time", .5f, "islocal", true));
-		iTween.MoveTo(objToFadeIn, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true));
+//		objToFadeOut = _settingsLanguages[GameConfig.CurrentLanguage];
+//		objToFadeIn = _settingsLanguages[nextLang];
+//		
+//		iTween.MoveTo(objToFadeOut, iTween.Hash("position", new Vector3(0, nextLang == 0 ? 35 : -35, 0), "time", .5f, "islocal", true));
+//		iTween.MoveTo(objToFadeIn, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true));
 		
 		iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", .2f, "onupdate", "FadeTextOut"));
 		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .2f, "onupdate", "FadeTextIn"));

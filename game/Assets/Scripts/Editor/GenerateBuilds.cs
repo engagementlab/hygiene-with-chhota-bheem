@@ -16,6 +16,7 @@ Created by Engagement Lab @ Emerson College, 2017
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 class GenerateBuilds {
@@ -54,7 +55,7 @@ class GenerateBuilds {
     private static void PerformMacOsxBuild ()
     {
         
-        GenericBuild("Mac", BuildTarget.StandaloneOSXUniversal);
+        GenericBuild("Mac", BuildTarget.StandaloneOSX);
     }
     [MenuItem ("Build/Build PC")]
     private static void PerformPcBuild ()
@@ -84,7 +85,7 @@ class GenerateBuilds {
     [MenuItem ("Build/Set Icons")]
     private static void SetIcons ()
     {
-        SetIcons (BuildTarget.StandaloneOSXUniversal);
+        SetIcons (BuildTarget.StandaloneOSX);
     }
 
     private static void SetIcons(BuildTarget buildTarget)
@@ -150,11 +151,9 @@ class GenerateBuilds {
         else if(platform == "Android")
             name = AppName + ".apk";        
 
-//        SetIcons (buildTarget);
+        BuildReport res = BuildPipeline.BuildPlayer(FindEnabledScenes(platform), TargetDir + "/" + platform + "/" + name, buildTarget, _buildOptions);
 
-        string res = BuildPipeline.BuildPlayer(FindEnabledScenes(platform), TargetDir + "/" + platform + "/" + name, buildTarget, _buildOptions);
-
-        if (res.Length > 0)
+        if (res.summary.totalErrors > 0)
             throw new Exception("BuildPlayer failure: " + res);
 
         // Reset define symbols for all groups
