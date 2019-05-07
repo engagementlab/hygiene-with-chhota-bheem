@@ -329,22 +329,28 @@ public class MenuUI : MonoBehaviour
 	{
 		InterstitialsParent.GetComponent<CanvasGroup>().alpha = alpha;
 	}
+	
+	#if UNITY_ADS
 
-	private void AdEnded(ShowResult result)
+/*	private void AdEnded(ShowResult result)
 	{
 		
 		GameConfig.Reset();
 		Events.instance.Raise(new LoadLevelEvent(""));
 		
-	}
+	}*/
+	
+	#endif
 	
 	public void HideButton(GameObject button)
 	{
 		button.SetActive(false);
 	}
 
+	#if UNITY_ADS
 	public void OpenLevel()
 	{
+/*
 		
 		if (Advertisement.IsReady())
 		{
@@ -353,8 +359,13 @@ public class MenuUI : MonoBehaviour
 		} 
 		else
 			AdEnded(ShowResult.Skipped);
-		
+		*/
+
+		GameConfig.Reset();
+		Events.instance.Raise(new LoadLevelEvent(""));
+
 	}
+	#endif
 
 	public void Volume(float volume)
 	{

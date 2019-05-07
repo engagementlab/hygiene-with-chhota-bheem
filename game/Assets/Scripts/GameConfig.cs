@@ -87,8 +87,8 @@ public class GameConfig : MonoBehaviour
 
 		if(PlayerPrefs.HasKey("language"))
 			CurrentLanguage = PlayerPrefs.GetInt("language");
-		else
-			PlayerPrefs.SetInt("language", CurrentLanguage);
+//		else
+//			PlayerPrefs.SetInt("language", CurrentLanguage);
 		
 	}
 	

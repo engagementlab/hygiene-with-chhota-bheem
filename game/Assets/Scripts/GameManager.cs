@@ -150,7 +150,6 @@ public class GameManager : MonoBehaviour
 		if(archetypeMove != null) archetypeMove.IsInView = true;
 	}
 
-	
 
 	private void SlowMo()
 	{
