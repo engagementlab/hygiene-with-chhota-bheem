@@ -32,7 +32,10 @@ public class MenuUI : MonoBehaviour
 	private GameObject _settingsTitle;
 	private GameObject _settingsBoard;
 	private GameObject _settingsBack;
-	private GameObject[] _settingsLanguages;
+	
+	private HorizontalLayoutGroup _settingsLanguage;
+	private Button _settingsLangBack;
+	private Button _settingsLangFwd;
 
 	private GameObject _infoBoard;
 	private GameObject _infoVersion;
@@ -82,17 +85,9 @@ public class MenuUI : MonoBehaviour
 		_settingsTitle = Settings.transform.Find("Title").gameObject;
 		_settingsBack = Settings.transform.Find("Buttons/Back").gameObject;
 		
-		/*_settingsLanguages = new[]
-		{
-			_settingsBoard.transform.Find("Language/Selector/Mask/English").gameObject,
-			_settingsBoard.transform.Find("Language/Selector/Mask/Tamil").gameObject
-		};
-
-		if(GameConfig.CurrentLanguage == 1)
-		{
-			iTween.MoveTo(_settingsLanguages[0], iTween.Hash("position", new Vector3(0, 35, 0), "time", .001f, "islocal", true));
-			iTween.MoveTo(_settingsLanguages[1], iTween.Hash("position", new Vector3(0, 0, 0), "time", .001f, "islocal", true));
-		}*/
+		_settingsLanguage = _settingsBoard.transform.Find("Language/Selector/Mask/Image").GetComponent<HorizontalLayoutGroup>(); 
+		_settingsLangBack = _settingsBoard.transform.Find("Language/Selector/BtnLeft").GetComponent<Button>(); 
+		_settingsLangFwd = _settingsBoard.transform.Find("Language/Selector/BtnRight").GetComponent<Button>(); 
 
 		_soundToggle = _settingsBoard.transform.Find("Sound/Toggle").GetComponent<Toggle>();
 		_musicToggle = _settingsBoard.transform.Find("Music/Toggle").GetComponent<Toggle>();
@@ -174,6 +169,15 @@ public class MenuUI : MonoBehaviour
 		iTween.ScaleFrom(_settingsBoard, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .2f));
 		iTween.ScaleFrom(_settingsBack, iTween.Hash("scale", Vector3.zero, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", .3f));
 		
+		// Set language
+		var langPadding = GameConfig.CurrentLanguage * -240;
+		RectOffset tempPadding = new RectOffset(
+			langPadding,
+			_settingsLanguage.padding.right,
+			_settingsLanguage.padding.top,
+			_settingsLanguage.padding.bottom);
+
+		_settingsLanguage.padding = tempPadding;	
 	}
 
 	void OpenInfo()
@@ -381,24 +385,35 @@ public class MenuUI : MonoBehaviour
 		_audioControl.MuteMusicOnOff(!GameConfig.MusicOn); 
 	}
 
-	public void ChangeLanguage()
+	public void ChangeLanguage(bool forward)
 	{
+
+		var nextLang = forward ? GameConfig.CurrentLanguage+1 : GameConfig.CurrentLanguage-1;
+		var newPadding = nextLang * -240;
+
+		_settingsLangBack.interactable = nextLang != 0; 
+		_settingsLangFwd.interactable = nextLang != 2; 			
 		
-		var nextLang = GameConfig.CurrentLanguage == 0 ? 1 : 0;
-//		objToFadeOut = _settingsLanguages[GameConfig.CurrentLanguage];
-//		objToFadeIn = _settingsLanguages[nextLang];
-//		
-//		iTween.MoveTo(objToFadeOut, iTween.Hash("position", new Vector3(0, nextLang == 0 ? 35 : -35, 0), "time", .5f, "islocal", true));
-//		iTween.MoveTo(objToFadeIn, iTween.Hash("position", new Vector3(0, 0, 0), "time", 1, "islocal", true));
-		
-		iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", .2f, "onupdate", "FadeTextOut"));
-		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", .2f, "onupdate", "FadeTextIn"));
+		iTween.ValueTo(gameObject, iTween.Hash("from", _settingsLanguage.padding.left, "to", newPadding, "time", .3f, "onupdate", "MoveLanguage"));;
 		
 		GameConfig.CurrentLanguage = nextLang;
 		GameConfig.UpdatePrefs("language", nextLang);
 		
 		Events.instance.Raise (new LanguageChangeEvent());
 		
+	}
+
+	private void MoveLanguage(int paddingLeft)
+	{
+		
+		RectOffset tempPadding = new RectOffset(
+			_settingsLanguage.padding.left,
+			_settingsLanguage.padding.right,
+			_settingsLanguage.padding.top,
+			_settingsLanguage.padding.bottom);
+		tempPadding.left = paddingLeft;
+
+		_settingsLanguage.padding = tempPadding;
 	}
 
 	private void FadeTextOut(float alpha)

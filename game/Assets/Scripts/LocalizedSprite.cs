@@ -19,7 +19,9 @@ public class LocalizedSprite : Image
 {
 
 	public Sprite EnglishSprite;
+	
 	public Sprite TamilSprite;
+	
 	public Sprite HindiSprite;
 	
 	// Use this for initialization
