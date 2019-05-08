@@ -1,7 +1,7 @@
 ﻿/* 
 
 Hygiene With Chhota Bheem
-Created by Engagement Lab @ Emerson College, 2017
+Created by Engagement Lab @ Emerson College, 2017-2019
 
 ==============
 	LocalizedSprite.cs
@@ -17,12 +17,18 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class LocalizedSprite : Image
 {
-
+	public enum Languages
+	{
+		English,
+		Tamil,
+		Hindi
+	}
+	
 	public Sprite EnglishSprite;
-	
 	public Sprite TamilSprite;
-	
 	public Sprite HindiSprite;
+
+	public Languages LanguageShown;
 	
 	// Use this for initialization
 	private void Start ()
@@ -48,6 +54,7 @@ public class LocalizedSprite : Image
 
 	private void UpdateSprite(LanguageChangeEvent e=null)
 	{
+		
 		if(TamilSprite == null)
 		{
 			sprite = EnglishSprite;

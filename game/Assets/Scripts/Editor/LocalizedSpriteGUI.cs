@@ -1,7 +1,7 @@
 ﻿/* 
 
 Hygiene With Chhota Bheem
-Created by Engagement Lab @ Emerson College, 2017
+Created by Engagement Lab @ Emerson College, 2017-2019
 
 ==============
 	LocalizedSpriteGUI.cs
@@ -23,12 +23,25 @@ public class LocalizedSpriteGUI : Editor
 	{
 		
 		LocalizedSprite sprite = (LocalizedSprite)target;
-		
+
+		sprite.LanguageShown = (LocalizedSprite.Languages)EditorGUILayout.EnumPopup("Language in Editor", sprite.LanguageShown);
+
 		sprite.EnglishSprite = (Sprite)EditorGUILayout.ObjectField("English Sprite", sprite.EnglishSprite, typeof(Sprite), false);
 		sprite.TamilSprite = (Sprite)EditorGUILayout.ObjectField("Tamil Sprite", sprite.TamilSprite, typeof(Sprite), false);
+		sprite.HindiSprite = (Sprite)EditorGUILayout.ObjectField("Hindi Sprite", sprite.HindiSprite, typeof(Sprite), false);
+
+
+		if(sprite.LanguageShown == LocalizedSprite.Languages.Tamil)
+			sprite.sprite = sprite.TamilSprite;
+		else if(sprite.LanguageShown == LocalizedSprite.Languages.Hindi)
+			sprite.sprite = sprite.HindiSprite;
+		else
+		{
 		
-		// Use English as default to show in editor
-		sprite.sprite = sprite.EnglishSprite;
+			// Use English as default to show in editor
+			sprite.sprite = sprite.EnglishSprite;
+
+		}
 		
 	}
 }

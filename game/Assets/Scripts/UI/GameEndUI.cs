@@ -192,20 +192,19 @@ public class GameEndUI : MonoBehaviour
 
     private void LanguageSetup()
     {
+        var lang = "English";
         var isTamil = GameConfig.CurrentLanguage == 1;
-        if(isTamil)
-        {
-            _scoreText = _boardContainer.transform.Find("ScoreWrap/Tamil").GetComponent<Text>();
-            _villagers = _boardContainer.transform.Find("VillagersMultiplier/Tamil").GetComponent<Text>();
-        } 
-        else
-        {
-            _scoreText = _boardContainer.transform.Find("ScoreWrap/English").GetComponent<Text>();
-            _villagers = _boardContainer.transform.Find("VillagersMultiplier/English").GetComponent<Text>();
+        var isHindi = GameConfig.CurrentLanguage == 2;
 
-        }
-        
+        if(isTamil)
+            lang = "Tamil";
+        else if(isHindi)
+            lang = "Hindi";
+    
+        _scoreText = _boardContainer.transform.Find("ScoreWrap/"+lang).GetComponent<Text>();
+        _villagers = _boardContainer.transform.Find("VillagersMultiplier/"+lang).GetComponent<Text>();
     }
+    
     private IEnumerator AnimateBubbles()
     {
         System.Random rnd = new System.Random();
