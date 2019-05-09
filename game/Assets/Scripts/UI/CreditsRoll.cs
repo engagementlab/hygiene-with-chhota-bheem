@@ -48,7 +48,7 @@ public class CreditsRoll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
 		// If at bottom, move to top in 2s
 		if(_scroll.verticalNormalizedPosition <= 0)
-			Invoke("MoveToTop", 2);
+			Invoke("MoveToTop", 3);
 
 		// Scroll down
 		if(delayElapsed >= scrollDelay && _scroll.verticalNormalizedPosition > 0)
@@ -58,7 +58,7 @@ public class CreditsRoll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 		else if(_reverse)
 		{
 			if(_scroll.verticalNormalizedPosition < 1)
-				_scroll.verticalNormalizedPosition += Time.deltaTime;
+				_scroll.verticalNormalizedPosition += (Time.deltaTime * .3f);
 			else
 				_reverse = false;
 		}

@@ -348,7 +348,6 @@ public class MenuUI : MonoBehaviour
 		button.SetActive(false);
 	}
 
-	#if UNITY_ADS
 	public void OpenLevel()
 	{
 /*
@@ -366,8 +365,7 @@ public class MenuUI : MonoBehaviour
 		Events.instance.Raise(new LoadLevelEvent(""));
 
 	}
-	#endif
-
+	
 	public void Volume(float volume)
 	{
 		
