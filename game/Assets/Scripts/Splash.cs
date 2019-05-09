@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Splash : MonoBehaviour
@@ -9,7 +8,7 @@ public class Splash : MonoBehaviour
     {
 
         StartCoroutine(LoadMenu());
-
+        
     }
 
     IEnumerator LoadMenu()
