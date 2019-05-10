@@ -30,8 +30,93 @@ nav {
                 margin-top: 2%;
             }
         }
+
+        display: flex;
+    
+        font-family: 'AvenirBold';
+        font-size: 18px;
+        font-weight: 600;
+        
+        letter-spacing: 2.3px;
+        line-height: 4.22;
+        letter-spacing: 4px;
+        
+        cursor: pointer;
     }
 
+    #menu-btn {
+
+        display: flex;
+        align-items: center;
+    
+        #lines {
+            position: relative;
+    
+            display: inline-grid;
+            align-content: center;
+
+            @include mobile-only {
+                padding-left: 40%;
+            }
+    
+            span {
+                display: block;
+                height: 4px;
+                width: 30px;
+                background: $brownish-red;
+                opacity: 1;
+                left: 0;
+    
+                @include transform(rotate(0deg));
+                @include transition(all, .7s, ease-in-out);
+    
+                &:nth-child(2) {
+                    position: relative;
+                    top: 6px;
+                }
+
+                &:nth-child(3) {
+                    position: relative;
+                    top: 12px;
+                }
+    
+            }
+    
+        }
+    
+        #label {
+            display: flex;
+    
+            @include mobile-only {
+                display: none;
+            }
+    
+            .open {
+                position: absolute;
+            }
+    
+            .close {
+                opacity: 0;
+            }
+        }
+    
+        &.open {
+    
+            #lines {
+                span {
+                    &:nth-child(1) {
+                        @include transform(rotate(155deg));
+                    }
+    
+                    &:nth-child(2) {
+                        @include transform(rotate(-155deg) translate(6px, 10px));
+                    }
+                }
+            }
+    
+        }
+    }
+    
     #lang { 
         position: absolute;
         right: 0;

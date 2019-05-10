@@ -1,12 +1,19 @@
-<nav class="container desktop columns is-mobile is-multiline-mobile" id="nav">
+<nav class="container desktop columns is-mobile is-multiline-mobile" id="nav">    
+    
+    <div id="menu-btn" class="column">
+        <a (click)="openCloseNav()" class="columns uppercase">
+            <div id="lines" class="column is-one-quarter">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div id="label" class="column">
+                <div class="open">Menu</div>
+                <div class="close">Close</div>
+            </div>
+        </a>
+    </div>
 
-    <div id="lang">
-        <a href="" *ngIf="!showEn">english</a>
-        <a href="?tm" *ngIf="showEn">தமிழ்</a>
-    </div>
-    <div class="link column is-one-third no-pad">
-        <a routerLink="/about" queryParamsHandling="merge" [class.current]="itemActive('about')"><app-localized en="About" tm="முகப்பு"></app-localized></a>
-    </div>
     <div class="column is-one-third-mobile center no-pad" style="display:inline-block">
         <a id="home" routerLink="/" queryParamsHandling="merge">
             <cdn-image cloudinaryId="logos/logo" width="268" svg="true"></cdn-image>
@@ -14,6 +21,6 @@
     </div>
 
     <div id="right" class="link column is-one-third-mobile is-one-third-tablet no-pad">
-        <a routerLink="/stories" queryParamsHandling="merge" [class.current]="itemActive('stories')"><app-localized en="Stories from the field" tm="உண்மை கதைகள்"></app-localized></a>
     </div>
+
 </nav>
