@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 	private bool _slowMo;
 
 	private GameObject _player;
+	private ArchetypePlayer _playerArchetype;
 	
 	[HideInInspector]
 	public AudioControl AudioController;
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour
 		AudioController.Fade(clip, true, GameConfig.GlobalVolume);
 
 		_player = GameObject.FindWithTag("Player");
+		_playerArchetype = _player.GetComponent<ArchetypePlayer>();
 
 	}
 
@@ -79,7 +81,7 @@ public class GameManager : MonoBehaviour
 			noInput = Input.touches.Length == 0;
 		#endif
 	
-		if(!GameConfig.GameOver && (_player != null && !_player.GetComponent<ArchetypePlayer>().Killed))
+		if(!GameConfig.GameOver && !ReferenceEquals(_player, null) && _playerArchetype.Killed)
 		{
 			// Pause only if player has already touched at some point, and not in slow-mo mode
 			if(!noInput && !_slowMo)
@@ -147,7 +149,7 @@ public class GameManager : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		var archetypeMove = other.GetComponent<ArchetypeMove>();
-		if(archetypeMove != null) archetypeMove.IsInView = true;
+		if(!ReferenceEquals(archetypeMove, null)) archetypeMove.IsInView = true;
 	}
 
 

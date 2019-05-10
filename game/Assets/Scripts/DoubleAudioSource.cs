@@ -141,15 +141,11 @@ public class DoubleAudioSource : MonoBehaviour
         newActiveSource.Play();
         newActiveSource.volume = 0;
  
-        if (_curSourceFadeRoutine != null)
-        {
+        if (!ReferenceEquals(_curSourceFadeRoutine, null))
             StopCoroutine(_curSourceFadeRoutine);
-        }
  
-        if (_newSourceFadeRoutine != null)
-        {
+        if (!ReferenceEquals(_newSourceFadeRoutine, null))
             StopCoroutine(_newSourceFadeRoutine);
-        }
  
         _curSourceFadeRoutine = StartCoroutine(FadeSource(curActiveSource, curActiveSource.volume, 0, fadingTime));
         _newSourceFadeRoutine = StartCoroutine(FadeSource(newActiveSource, newActiveSource.volume, maxVolume, fadingTime));
