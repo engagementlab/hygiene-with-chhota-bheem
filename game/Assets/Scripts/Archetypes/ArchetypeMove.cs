@@ -311,7 +311,7 @@ public class ArchetypeMove : MonoBehaviour
   public void OnTriggerEnter(Collider collider)
   {
 	  
-	  if(collider.tag == "Player")
+	  if(collider.CompareTag("Player"))
 	  {
 		  if (_playerScript.LifeLossRunning)
 			  return;
@@ -357,7 +357,7 @@ public class ArchetypeMove : MonoBehaviour
 	  } 
 	  
 	  if(!PlayerCanKill || _playerScript == null) return;
-	  if (collider.gameObject.tag != "Bubble" || gameObject.tag == "Boss") return;
+	  if (!collider.gameObject.CompareTag("Bubble") || gameObject.CompareTag("Boss")) return;
 
 	  _bubblesHit += _playerScript.Strength;
 	  Destroy(collider.gameObject);
@@ -448,7 +448,7 @@ public class ArchetypeMove : MonoBehaviour
 		waypoint.transform.parent = transform;
 		
 		// Find any current waypoint children
-		var localWaypoints = (from Transform tr in transform where tr.tag == "Waypoint" select tr.position).ToList();
+		var localWaypoints = (from Transform tr in transform where tr.CompareTag("Waypoint") select tr.position).ToList();
 
 		waypoint.name = "Waypoint_" + localWaypoints.Count;
 		waypoint.transform.position = localWaypoints.Count > 1 ? localWaypoints[localWaypoints.Count - 2] : transform.position;
@@ -464,8 +464,8 @@ public class ArchetypeMove : MonoBehaviour
 	// Does this object have any waypoints attached?
 	public bool HasWaypoints()
 	{
-		var length = transform.Cast<Transform>().Count(tr => tr.tag == "Waypoint" && tr.gameObject.activeInHierarchy) + 
-		             (from Transform tr in transform where tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy from Transform wp in tr select wp).Count();
+		var length = transform.Cast<Transform>().Count(tr => tr.CompareTag("Waypoint") && tr.gameObject.activeInHierarchy) + 
+		             (from Transform tr in transform where tr.CompareTag("WaypointsPattern") && tr.gameObject.activeInHierarchy from Transform wp in tr select wp).Count();
 
 		return length > 0;
 	}
@@ -480,7 +480,7 @@ public class ArchetypeMove : MonoBehaviour
 		
 		foreach(Transform tr in transform)
 		{
-			if(tr.tag == "WaypointsPattern" && tr.gameObject.activeInHierarchy)
+			if(tr.CompareTag("WaypointsPattern") && tr.gameObject.activeInHierarchy)
 			{
 				foreach(Transform wp in tr)
 					waypointTransforms.Add(wp);
@@ -492,7 +492,7 @@ public class ArchetypeMove : MonoBehaviour
 		// Iterate through all transform children or waypoint prefab patterns and pull out any waypoints
 		foreach(var tr in waypointTransforms)
 		{
-			if(tr.tag != "Waypoint" || !tr.gameObject.activeInHierarchy) continue;
+			if(!tr.CompareTag("Waypoint") || !tr.gameObject.activeInHierarchy) continue;
 
 			// Assign waypoint to parent
 			tr.parent = _waypointsParent;

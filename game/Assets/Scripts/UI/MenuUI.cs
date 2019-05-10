@@ -1,11 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.Advertisements;
 using UnityEngine.UI;
-
-#if UNITY_ADS
-using UnityEngine.Advertisements;
-#endif
 
 public class MenuUI : MonoBehaviour
 {

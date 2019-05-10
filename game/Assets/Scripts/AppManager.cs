@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Advertisements;
 using UnityEngine.Analytics;
 
 public class AppManager : MonoBehaviour
 {
 
-	private float deltaTime;
+	private float _deltaTime;
 	private bool touching = false;
 	private bool paused = false;
 
@@ -15,23 +14,6 @@ public class AppManager : MonoBehaviour
 
 	private void Awake()
 	{
-		
-		// Initialize ads
-		var adsTestMode = false;
-		
-		#if DEVELOPMENT_BUILD
-			adsTestMode = true;
-		#endif
-			
-		// Disable ads for now
-/*		#if UNITY_IOS
-			Advertisement.Initialize("2805293", adsTestMode);
-		#endif
-			
-		#if UNITY_ANDROID
-			StartCoroutine(LocationTest());
-			Advertisement.Initialize("2805294", adsTestMode);	
-		#endif*/
 		
 		GameConfig.InitializePrefs();
 				
