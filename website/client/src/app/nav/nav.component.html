@@ -9,18 +9,24 @@
             </div>
             <div id="label" class="column">
                 <div class="open">Menu</div>
-                <div class="close">Close</div>
             </div>
         </a>
     </div>
 
-    <div class="column is-one-third-mobile center no-pad" style="display:inline-block">
-        <a id="home" routerLink="/" queryParamsHandling="merge">
+    <div id="home" class="column is-one-third-mobile center no-pad">
+        <a routerLink="/" queryParamsHandling="merge">
             <cdn-image cloudinaryId="logos/logo" width="268" svg="true"></cdn-image>
         </a>
     </div>
 
     <div id="right" class="link column is-one-third-mobile is-one-third-tablet no-pad">
+        <div id="wrap">Language
+        <div>
+            <a href="" [class.current]="currentLang === undefined">en</a>
+            <a href="?tm" [class.current]="currentLang === 'tm'">tm</a>
+            <a href="?hi" [class.current]="currentLang === 'hi'">hi</a>
+        </div>    
+        </div>
     </div>
 
 </nav>

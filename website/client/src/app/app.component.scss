@@ -56,6 +56,15 @@
   line-height: 1.5;
   letter-spacing: 4px;
 		}
+		a, a:visited {
+			color: $french-blue;
+			margin-right: 6%;
+
+			&.current {
+				opacity: .5;
+				cursor: default;
+			}
+		}
 	}
 }
 

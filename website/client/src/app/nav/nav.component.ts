@@ -8,13 +8,13 @@ import { DataService } from '../utils/data.service';
 })
 export class NavComponent {
 
-  public showEn: boolean = true;
+  public currentLang: string;
 
   constructor(private _dataSvc: DataService) {
- 
-    this.showEn = this._dataSvc.currentLang.value === undefined;
+
+    this.currentLang = this._dataSvc.currentLang.value;
     this._dataSvc.currentLang.subscribe((val) => {
-      this.showEn = val === undefined; 
+      this.currentLang = val;
     });
   
   }
@@ -24,6 +24,7 @@ export class NavComponent {
 
     document.getElementById('body').classList.toggle('open');
     document.getElementById('menu').classList.toggle('open');
+    document.getElementById('menu-btn').classList.toggle('open');
     
   }
 

@@ -9,11 +9,7 @@ nav {
     z-index: 4;
 
     a {
-        line-height: 1.14;
-        letter-spacing: 4px;
-        text-transform: uppercase;
         color: $brownish-red;
-        @include pxtoem(12, 14);
 
         @include mobile-only {
             line-height: 1.43;
@@ -30,35 +26,30 @@ nav {
                 margin-top: 2%;
             }
         }
+    }
 
+    #home {
         display: flex;
-    
-        font-family: 'AvenirBold';
-        font-size: 18px;
-        font-weight: 600;
-        
-        letter-spacing: 2.3px;
-        line-height: 4.22;
-        letter-spacing: 4px;
-        
-        cursor: pointer;
+        justify-content: center;
     }
 
     #menu-btn {
 
         display: flex;
         align-items: center;
-    
+        font-family: 'AvenirBold';
+        @include pxtoem(12, 18);
+
         #lines {
             position: relative;
-    
+
             display: inline-grid;
             align-content: center;
 
             @include mobile-only {
                 padding-left: 40%;
             }
-    
+
             span {
                 display: block;
                 height: 4px;
@@ -66,10 +57,12 @@ nav {
                 background: $brownish-red;
                 opacity: 1;
                 left: 0;
-    
+
+                transform-origin: left;
+
                 @include transform(rotate(0deg));
                 @include transition(all, .7s, ease-in-out);
-    
+
                 &:nth-child(2) {
                     position: relative;
                     top: 6px;
@@ -79,58 +72,83 @@ nav {
                     position: relative;
                     top: 12px;
                 }
-    
+
             }
-    
+
         }
-    
+
         #label {
             display: flex;
-    
+            @include transition(color, .7s, ease-in-out);
+
             @include mobile-only {
                 display: none;
             }
-    
-            .open {
-                position: absolute;
-            }
-    
-            .close {
-                opacity: 0;
-            }
         }
-    
+
         &.open {
-    
+
+            #label {
+                color: $tomato;
+            }
+
             #lines {
                 span {
+                    background: $tomato;
+
                     &:nth-child(1) {
-                        @include transform(rotate(155deg));
+                        @include transform(rotate(45deg));
                     }
-    
+
                     &:nth-child(2) {
-                        @include transform(rotate(-155deg) translate(6px, 10px));
+                        opacity: 0;
+                    }
+
+                    &:nth-child(3) {
+                        @include transform(rotate(-45deg));
                     }
                 }
             }
-    
+
         }
-    }
-    
-    #lang { 
-        position: absolute;
-        right: 0;
     }
 
     #right {
+
+        color: $tomato;
+
+        font-family: 'AvenirBold';
+        @include pxtoem(12, 14);
+        font-weight: 600;
+
+        line-height: 1.14;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+
         @include desktop {
             text-align: right;
+        }
+
+        #wrap {
+            margin-left: 70%;
+            text-align: center;
+
+            div {
+                display: flex;
+                justify-content: space-evenly;
+                flex-direction: row;
+            }
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 13px;
         }
     }
 
     .link {
         padding-top: 4%;
-        
+
         @include not-phones {
             padding-top: 5%;
         }
@@ -146,10 +164,10 @@ nav {
             display: flex;
         }
     }
-    
+
     @include mobile-only {
         margin-top: 7.5%;
-        margin-bottom: 24%!important;
+        margin-bottom: 24% !important;
 
         a {
             line-height: 1.43;

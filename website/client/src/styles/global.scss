@@ -15,7 +15,7 @@ body {
 
     background-color: $goldenrod;
 
-	overflow-x: hidden;
+    overflow-x: hidden;
 
     @include mobile-only {
         font-size: 18px;
@@ -24,17 +24,56 @@ body {
 }
 
 // GLOBAL STYLING
-a {
+a,
+a:visited {
+
     text-decoration: none;
 
+    &.link {
+        display: inline-block;
+
+        @include pxtoem(14, 18);
+        color: $brownish-red;
+
+        line-height: 2.56;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+
+
+        margin-top: 5%;
+
+        span {
+            border-bottom: solid 2px $tomato;
+        }
+    }
+
     &.blue {
-        display: block;
+        display: inline-flex;
         text-transform: uppercase;
 
         line-height: 1.17;
-        color: $dark-sky-blue;
 
+        color: white;
+        background-color: $dark-sky-blue;
+
+        padding: 5%;
         margin-top: 7%;
+
+        border: 4px solid $dark-sky-blue;
+
+        @include transition(all, .3s, ease-in-out);
+        @include border-radius(150px);
+        @include box-shadow(0, 0, 20px, rgba(0, 0, 0, 0.2));
+
+        &:hover {
+            border-color: $dark-sky-blue;
+
+            background-color: white;
+            color: $dark-sky-blue;
+
+            @include box-shadow(0, 0, 40px, rgba(0, 0, 0, 0.2));
+        }
 
         &.download {
 
@@ -42,8 +81,9 @@ a {
                 content: "PDF";
                 font-size: 14px;
                 margin-left: 33px;
+
+                border: 2px solid white;
                 @include border-radius(50%);
-                border: 2px solid $dark-sky-blue;
 
                 display: inline-flex;
                 width: 50px;
@@ -57,17 +97,11 @@ a {
                 transform: translate(-8%, 0);
             }
 
-            // &.tm {
-            //     &:after {
-            //         transform: translate(140%, -111%);
-
-            //     }
-            // }
-
             &:hover {
+
                 &:after {
-                    background-color: $dark-sky-blue;
                     color: white;
+                    background-color: $dark-sky-blue;
                 }
             }
         }
@@ -83,7 +117,7 @@ h1 {
         -2px 2px 0 $greenish-tan,
         2px 2px 0 $greenish-tan;
     color: $french-blue;
-    
+
     @include pxtoem(24, 48);
 
     line-height: 1.21;
@@ -108,6 +142,7 @@ h1 {
             1px -1px 0 $greenish-tan,
             -1px 1px 0 $greenish-tan,
             1px 1px 0 $greenish-tan;
+
         &:before {
             -webkit-text-stroke: 1px $tomato-two;
             @include translate(-2px, 2px);
@@ -266,4 +301,3 @@ hr {
         opacity: 1;
     }
 }
-

@@ -11,7 +11,7 @@
         <cdn-image cloudinaryId="art/module1" width="312" phoneWidth="201" svg="true"></cdn-image>
         <br />
 
-        <a href="#" class="view" (click)="goToModule(1)">
+        <a href="#" class="link" (click)="goToModule(1)">
             <app-localized en="view module" tm="செய்முறை கையேடுவை காண்க"></app-localized>
         </a>
     </div>
@@ -29,7 +29,7 @@
         <cdn-image cloudinaryId="art/module2" width="277" svg="true"></cdn-image>
         <br />
 
-        <a href="#" class="view" (click)="goToModule(2)">
+        <a href="#" class="link" (click)="goToModule(2)">
             <app-localized en="view module" tm="செய்முறை கையேடுவை காண்க"></app-localized>
         </a>
     </div>
@@ -41,7 +41,6 @@
     </h2>
 
     <div class="column is-11-mobile is-half-tablet center">
-        <!-- <cdn-image cloudinaryId="art/manual" autoFormat="true" width="412"></cdn-image>     -->
         <img src="https://res.cloudinary.com/engagement-lab-home/image/upload/c_scale,f_auto,w_412/v1551128693/chhota-bheem/art/manual.png"
             style="max-width:412px">
 
@@ -49,27 +48,27 @@
 
     <div class="column is-11-mobile is-5-tablet is-4-desktop" data-aos="fade-left">
         <span class="summary">
-            <app-localized en="Hygiene with Chhota Bheem is a play-based curriculum designed to raise awareness of and inculcate best
-            practices for health and hygiene among young children. Children immerse themselves in the world of Chhota
-            Bheem and play hygiene games, activities, and even a mobile game based on the stories to defeat the
-            fictional Germ Wizard. By completing activities and challenges children develop awareness and good hygiene
-            habits, and join the ‘Bheem Team’ to help defeat the Germ Wizard in their own communities!"
-                tm="சோட்டா பீம்மும் சுகாதாரமும் என்பது குழந்தைகளுக்கு மத்தியில் சுத்தம் மற்றும் சுகாதாரத்திற்கான சிறந்த விழிப்புணர்வை ஏற்படுத்துவதற்காக வடிவமைக்கப்பட்ட ஒரு விளையாட்டு அடிப்படையிலான பாடத்திட்டமாகும். குழந்தைகள் சுகாதாரத்தை பேணிக்காப்பதற்கு செய்முறை, விளையாட்டுகள் மூலமாகவும் மற்றும் செயலி விளையாட்டுகள் மூலமாகவும் மேலும் அசுத்த மந்திரவாதியை விரட்டியடிப்பது போன்ற கதைகள் மூலமாகவும்  தங்களை தாங்களே சோட்டா பீமின் உலகத்தில் இணைத்துக்கொள்கின்றனர். இதுபோன்ற விளையாட்டுகளை விளையாடி, சவால்களை எதிர்கொள்ளும்போது சுத்தம் மற்றும் சுகாதாரம் பற்றிய விழிப்புணர்வு ஏற்படுகின்றது. மேலும் பீம் அணியுடன் சேர்ந்து அசுத்த மந்திரவாதியை தங்களது ஊர்களில் விரட்டியடிக்கும் வழிகாட்டியாக இக்கதைகள் விளங்குகின்றன.">
-            </app-localized>
+            <strong>
+                <app-localized en="Hygiene with Chhota Bheem is a play-based curriculum designed to raise awareness of and inculcate best
+                practices for health and hygiene among young children."
+                    tm="சோட்டா பீம்மும் சுகாதாரமும் என்பது குழந்தைகளுக்கு மத்தியில் சுத்தம் மற்றும் சுகாதாரத்திற்கான சிறந்த விழிப்புணர்வை ஏற்படுத்துவதற்காக வடிவமைக்கப்பட்ட ஒரு விளையாட்டு அடிப்படையிலான பாடத்திட்டமாகும்.">
+                </app-localized>
+            </strong>
+
+            <p>
+                <app-localized
+                    en="Children immerse themselves in the world of Chhota Bheem and play hygiene games, activities, and even a mobile game based on the stories to defeat the fictional Germ Wizard. By completing activities and challenges children develop awareness and good hygiene habits, and join the ‘Bheem Team’ to help defeat the Germ Wizard in their own communities!"
+                    tm="குழந்தைகள் சுகாதாரத்தை பேணிக்காப்பதற்கு செய்முறை, விளையாட்டுகள் மூலமாகவும் மற்றும் செயலி விளையாட்டுகள் மூலமாகவும் மேலும் அசுத்த மந்திரவாதியை விரட்டியடிப்பது போன்ற கதைகள் மூலமாகவும்  தங்களை தாங்களே சோட்டா பீமின் உலகத்தில் இணைத்துக்கொள்கின்றனர். இதுபோன்ற விளையாட்டுகளை விளையாடி, சவால்களை எதிர்கொள்ளும்போது சுத்தம் மற்றும் சுகாதாரம் பற்றிய விழிப்புணர்வு ஏற்படுகின்றது. மேலும் பீம் அணியுடன் சேர்ந்து அசுத்த மந்திரவாதியை தங்களது ஊர்களில் விரட்டியடிக்கும் வழிகாட்டியாக இக்கதைகள் விளங்குகின்றன.">
+                </app-localized>
+            </p>
         </span>
 
-        <a class="blue download en"
-            href="{{files.guideEn.url}}"
-            *ngIf="showEn && files">Download Guide</a>
-        <a class="blue download tm"
-            href="{{files.guideTm.url}}"
-            *ngIf="!showEn && files">ஒருங்கிணைப்பு கையேடு</a>
-        <a class="blue download"
-            href="{{files.storybookEn.url}}"
-            *ngIf="showEn && files">Download Storybook</a>
-        <a class="blue download"
-            href="{{files.storybookTm.url}}"        
-            *ngIf="!showEn && files">கதை பார்க்கவும்</a>
+        <a class="blue download en" href="{{files.guideEn.url}}"
+            *ngIf="currentLang === undefined && files">Download<br />Complete Guide</a>
+        <a class="blue download tm" href="{{files.guideTm.url}}" *ngIf="currentLang === 'tm' && files">ஒருங்கிணைப்பு
+            கையேடு</a>
+        <!-- <a class="blue download" href="{{files.storybookEn.url}}" *ngIf="showEn && files">Download Storybook</a>
+        <a class="blue download" href="{{files.storybookTm.url}}" *ngIf="!showEn && files">கதை பார்க்கவும்</a> -->
     </div>
 
 </section>
@@ -81,8 +80,8 @@
                 <app-localized en="Module 1" tm="கையேடு 1"></app-localized>
             </div>
 
-            <h1 class="en" data-aos="fade-up" *ngIf="showEn">Handwashing<br />with soap</h1>
-            <h1 class="tm" data-aos="fade-up" *ngIf="!showEn">சோப்பை<br />பயன்படுத்தி கைகழுவுதல்</h1>
+            <h1 class="en" data-aos="fade-up" *ngIf="currentLang === undefined">Handwashing<br />with soap</h1>
+            <h1 class="tm" data-aos="fade-up" *ngIf="currentLang === 'tm'">சோப்பை<br />பயன்படுத்தி கைகழுவுதல்</h1>
         </div>
 
         <div class="column is-6 center" data-aos="fade-right">
@@ -93,19 +92,15 @@
             <span class="summary" *ngIf="modules[0].summary">{{modules[0].summary}}</span>
             <span class="summary" *ngIf="modules[0].summaryTm">{{modules[0].summaryTm}}</span>
 
-            <a *ngIf="showEn" class="blue download"
-                href="{{modules[0].pdf.url}}">Download
-                Module
+            <a *ngIf="currentLang === undefined" class="blue download" href="{{modules[0].pdf.url}}">Download
+                Handwashing<br />with Soap Guide
             </a>
-            <a *ngIf="!showEn" class="blue download"
-                href="{{modules[0].pdfTm.url}}">கையேடு
+            <a *ngIf="currentLang === 'tm'" class="blue download" href="{{modules[0].pdfTm.url}}">கையேடு
                 1 பார்க்கவும்</a>
 
-            <a *ngIf="showEn" class="blue download"
-                href="{{modules[0].poster.url}}">View Poster
+            <!-- <a *ngIf="currentLang === undefined" class="blue download" href="{{modules[0].poster.url}}">View Poster
             </a>
-            <a *ngIf="!showEn" class="blue download"
-                href="{{modules[0].posterTm.url}}">தகவல் அட்டை</a>
+            <a *ngIf="currentLang === 'tm'" class="blue download" href="{{modules[0].posterTm.url}}">தகவல் அட்டை</a> -->
         </div>
     </div>
 
@@ -154,8 +149,8 @@
                 <app-localized en="Module 2" tm="கையேடு 2"></app-localized>
             </div>
 
-            <h1 class="en" data-aos="fade-up" *ngIf="showEn">Toilet Use</h1>
-            <h1 class="tm" data-aos="fade-up" *ngIf="!showEn">கழிவறை பயன்படுத்துதல்</h1>
+            <h1 class="en" data-aos="fade-up" *ngIf="currentLang === undefined">Toilet Use</h1>
+            <h1 class="tm" data-aos="fade-up" *ngIf="currentLang === 'tm'">கழிவறை பயன்படுத்துதல்</h1>
         </div>
 
         <div class="column is-6 center" data-aos="fade-right">
@@ -165,20 +160,16 @@
         <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
             <span class="summary" *ngIf="modules[1].summary">{{modules[1].summary}}</span>
             <span class="summary" *ngIf="modules[1].summaryTm">{{modules[1].summaryTm}}</span>
-            
-            <a *ngIf="showEn" class="blue download"
-            href="{{modules[1].pdf.url}}">Download
-            Module
+
+            <a *ngIf="currentLang === undefined" class="blue download" href="{{modules[1].pdf.url}}">Download
+                Toilet<br />Use Guide
             </a>
-            <a *ngIf="!showEn" class="blue download"
-                href="{{modules[1].pdfTm.url}}">கையேடு
+            <a *ngIf="currentLang === 'tm'" class="blue download" href="{{modules[1].pdfTm.url}}">கையேடு
                 2 பார்க்கவும்</a>
 
-            <a *ngIf="showEn" class="blue download"
-                href="{{modules[1].poster.url}}">View Poster
+            <!-- <a *ngIf="currentLang === undefined" class="blue download" href="{{modules[1].poster.url}}">View Poster
             </a>
-            <a *ngIf="!showEn" class="blue download"
-                href="{{modules[1].posterTm.url}}">தகவல் அட்டை</a>
+            <a *ngIf="currentLang === 'tm'" class="blue download" href="{{modules[1].posterTm.url}}">தகவல் அட்டை</a> -->
         </div>
     </div>
 
@@ -226,10 +217,10 @@
                 tm="தமிழ்நாட்டில் சோட்டா பீம்மும் சுகாதாரமும் பாடத்திட்டம் வெற்றிகரமாக நடைமுறைபடுத்தபட்டது. இதன் தாக்கம் மேலும் வளர்ச்சியடைந்துகொண்டிருகின்றது. குழந்தைகள் மத்தியில் பெருமளவில் விழிப்புணர்வு ஏற்பட்டு. பெற்றோர்கள் குழந்தைகளிடமிருந்து கற்று கொண்டனர். இந்த பயனுள்ள தகவலை தங்கள் பகுதிகளில் பரப்பினர். கல்வியாளர்கள் இந்த பாடத்திட்டத்தை அவரவர் தேவைக்கேற்ப தங்கள் பள்ளிகளில் இணைத்து கொண்டனர். ">
             </app-localized>
         </span>
-        <a class="blue" routerLink="/stories" queryParamsHandling="merge">
-            <app-localized en="Read the Stories Here" tm="கதைகளை இங்கே படிக்கவும்"></app-localized>
-        </a>
 
+        <a class="link" routerLink="/stories" queryParamsHandling="merge">
+            <app-localized en="READ THE STORIES" tm="கதைகளை இங்கே படிக்கவும்"></app-localized>
+        </a>
     </div>
 
 </section>

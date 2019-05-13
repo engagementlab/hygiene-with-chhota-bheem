@@ -17,26 +17,23 @@ export class HomeComponent implements OnInit {
   public modules: any[];
   public files: any;
   public isPhone: boolean;
-
-  public showEn: boolean = true;
+  public currentLang: string;
   
   constructor(private _dataSvc: DataService, private _scrollToSvc: ScrollToService) {
-    this.isPhone = ismobile.phone;
-    
-    this.showEn = this._dataSvc.currentLang.value === undefined;
-    this._dataSvc.currentLang.subscribe((val) => {
-      this.showEn = val === undefined;
-    });
+    this.isPhone = ismobile.phone;    
   }
 
   ngOnInit() {
+
+    this.currentLang = this._dataSvc.currentLang.value;
+    this._dataSvc.currentLang.subscribe((val) => {
+      this.currentLang = val;
+    });
 
     this._dataSvc.getDataForUrl('homepage/get/').subscribe(response => {
 
       this.modules = response.content;
       this.files = response.files;
-
-      console.log(this.files)
 
     });
 
