@@ -2,11 +2,11 @@
     <section id="intro" class="is-10-mobile is-5-desktop column is-mobile no-margin" *ngIf="hasContent">
 
         <div class="subheader" data-aos="fade-up">
-            <app-localized en="About" tm="முகப்பு"></app-localized>
+            <app-localized en="About" tm="முகப்பு" hi="ds ckjs esa"></app-localized>
         </div>
 
         <h4 data-aos="fade-left" data-aos-delay="200">
-            <app-localized en="{{content.intro}}" tm="{{content.introTm}}"></app-localized>            
+            <app-localized en="{{content.intro}}" tm="{{content.introTm}}" hi="{{content.introHi}}"></app-localized>            
         </h4>
 
     </section>
@@ -17,6 +17,7 @@
 
             <div data-aos="fade" data-aos-delay="400" *ngIf="content.para1">{{content.para1}}</div>
             <div data-aos="fade" data-aos-delay="400" *ngIf="content.para1Tm">{{content.para1Tm}}</div>
+            <div data-aos="fade" data-aos-delay="400" *ngIf="content.para1Hi">{{content.para1Hi}}</div>
 
             <cdn-image data-aos="fade" data-aos-delay="400" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_1"
                 width="500" autoFormat="true" *ngIf="!isPhone"></cdn-image>
@@ -38,6 +39,7 @@
  
             <div data-aos="fade" data-aos-delay="400" *ngIf="content.para2">{{content.para2}}</div>
             <div data-aos="fade" data-aos-delay="400" *ngIf="content.para2Tm">{{content.para2Tm}}</div>
+            <div data-aos="fade" data-aos-delay="400" *ngIf="content.para2Hi">{{content.para2Hi}}</div>
 
             <cdn-image data-aos="fade" data-aos-delay="400" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_1"
                 width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
