@@ -55,6 +55,10 @@ export class DataService {
       
       if(this.currentLang.value === undefined)
         url += 'en'
+      else if(this.currentLang.value === 'tm')
+        url += 'tm'
+      else if(this.currentLang.value === 'hi')
+        url += 'hi'
 
       url += '?'+query;
       

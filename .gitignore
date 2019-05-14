@@ -448,3 +448,5 @@ Assets/EffectExamples
 website/db
 
 Icon*
+website/server/node_modules/
+website/server/.env

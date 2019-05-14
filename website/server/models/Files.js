@@ -50,11 +50,14 @@ var azureFile = new keystone.Storage({
  */
 Files.add({
     name: { type: String, default: 'Files', hidden: true },
+    
     guideEn: { type: Types.File, label: 'Facilitation Guide PDF (English)', storage: azureFile },
     guideTm: { type: Types.File, label: 'Facilitation Guide PDF (Tamil)', storage: azureFile },
+    guideHi: { type: Types.File, label: 'Facilitation Guide PDF (Hindi)', storage: azureFile },
+    
     storybookEn: { type: Types.File, label: 'Storybook PDF (English)', storage: azureFile },
     storybookTm: { type: Types.File, label: 'Storybook PDF (Tamil)', storage: azureFile },
-	// photo: { type: Types.CloudinaryImage, required: true, initial: true }
+    storybookHi: { type: Types.File, label: 'Storybook PDF (Hindi)', storage: azureFile }
 });
 
 /**

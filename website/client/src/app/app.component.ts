@@ -60,6 +60,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     
       if(params['tm'] !== undefined) 
         this._dataSvc.currentLang.next('tm');
+      else if(params['hi'] !== undefined) 
+          this._dataSvc.currentLang.next('hi');
         
     });
 

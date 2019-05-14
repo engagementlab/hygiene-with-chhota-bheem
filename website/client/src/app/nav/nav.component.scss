@@ -40,15 +40,13 @@ nav {
         font-family: 'AvenirBold';
         @include pxtoem(12, 18);
 
+        cursor: pointer;
+
         #lines {
             position: relative;
 
             display: inline-grid;
             align-content: center;
-
-            @include mobile-only {
-                padding-left: 40%;
-            }
 
             span {
                 display: block;
@@ -132,6 +130,10 @@ nav {
         #wrap {
             margin-left: 70%;
             text-align: center;
+
+            @include phones {
+                margin-left: 0;
+            }
 
             div {
                 display: flex;

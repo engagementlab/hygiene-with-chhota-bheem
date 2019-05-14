@@ -65,10 +65,22 @@ Module.add({
         required: true,
         initial: true
     },
+    nameHi: {
+        type: String,
+        label: 'Name (Hindi)',
+        required: true,
+        initial: true
+    },
     summaryTm: {
         type: Types.Textarea,
         required: true,
         label: 'Summary (Tamil)',
+        initial: true
+    },
+    summaryHi: {
+        type: Types.Textarea,
+        required: true,
+        label: 'Summary (Hindi)',
         initial: true
     },
     pdf: {
@@ -81,6 +93,11 @@ Module.add({
         label: 'Module PDF (Tamil)',
         storage: azureFile
     },
+    pdfHi: {
+        type: Types.File,
+        label: 'Module PDF (Hindi)',
+        storage: azureFile
+    },
     poster: {
         type: Types.File,
         label: 'Poster PDF',
@@ -89,6 +106,11 @@ Module.add({
     posterTm: {
         type: Types.File,
         label: 'Poster PDF (Tamil)',
+        storage: azureFile
+    },
+    posterHi: {
+        type: Types.File,
+        label: 'Poster PDF (Hindi)',
         storage: azureFile
     },
     video1Url: {
