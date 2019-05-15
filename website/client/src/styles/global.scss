@@ -239,7 +239,7 @@ hr {
 .subheader {
 
     @include pxtoem(14, 18);
-    letter-spacing: 4px;
+    letter-spacing: 10px;
     color: $tomato;
     text-transform: uppercase;
 

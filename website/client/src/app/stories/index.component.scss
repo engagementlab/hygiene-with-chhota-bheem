@@ -37,21 +37,15 @@ h5 {
 
 .subtitle {
 
-    font-family: 'AvenirHeavy';
+    font-family: 'AvenirDemi';
     @include pxtoem(24, 42);
-    color: $goldenrod;
-    -webkit-text-stroke-color: $dark-sky-blue;
-    -webkit-text-stroke-width: 1px;
-
-    @include not-phones {
-        -webkit-text-stroke-width: 2px;
-    }
-
-    text-align: right;
+    color: $dark-sky-blue;
 
 }
 
 .person {
+
+    text-align: center;
 
     @include not-phones {
         padding-top: 10%;

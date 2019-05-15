@@ -79,10 +79,6 @@ $videoIconDim: 40px;
     .videos {
         margin-top: 10%;
 
-        .subheader {
-            letter-spacing: 10px;
-        }
-
         a:hover {
             .icon {
                 @include scale(1.2);

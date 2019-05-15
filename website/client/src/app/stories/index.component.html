@@ -35,9 +35,12 @@
 
             <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{person.photo.public_id}}"
                 width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
-            <div class="a column is-full" data-aos="fade-up"><a routerLink="/stories/{{person.key}}" queryParamsHandling="merge" class="view">
-            <app-localized en="read story" tm="கதை வாசிக்கவும்"></app-localized>
-            </a></div>
+            <div class="a column is-full" data-aos="fade-up">
+
+            <a routerLink="/stories/{{person.key}}" queryParamsHandling="merge" class="link">
+                <app-localized en="read story" tm="கதை வாசிக்கவும்"></app-localized>
+                </a>
+        </div>
 
         </div>
 
