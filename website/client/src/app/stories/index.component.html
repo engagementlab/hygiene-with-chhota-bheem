@@ -6,10 +6,9 @@
         </div>
 
         <h4 class="column is-full-mobile is-half-tablet" data-aos="fade-left" data-aos-delay="300">
-            <app-localized 
-            en="Read about the young change makers, power parents, and inspiring teachers who are using our curriculum to spread best practices in health and hygiene to their communities!"
-            tm=""
-            hi=""></app-localized>
+            <app-localized
+                en="Read about the young change makers, power parents, and inspiring teachers who are using our curriculum to spread best practices in health and hygiene to their communities!"
+                tm="" hi=""></app-localized>
         </h4>
 
     </section>
@@ -18,8 +17,8 @@
 
         <div class="column is-5-tablet" *ngIf="!isPhone">
 
-            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{person.photo.public_id}}"
-                width="500" autoFormat="true"></cdn-image>
+            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/"
+                cloudinaryId="{{person.photo.public_id}}" width="500" autoFormat="true"></cdn-image>
 
         </div>
 
@@ -29,18 +28,21 @@
             <h5 class="column is-full" data-aos="fade-left" *ngIf="person.nameTm">சந்திக்க {{person.nameTm}}</h5>
             <h5 class="column is-full hi" data-aos="fade-left" *ngIf="person.nameHi">சந்திக்க {{person.nameHi}}</h5>
 
-            <div class="subtitle column is-10-mobile is-full-tablet is-11-desktop" data-aos="fade-up" data-aos-delay="400" *ngIf="person.subtitle">{{person.subtitle}}</div>
-            <div class="subtitle column is-10-mobile is-full-tablet is-11-desktop" data-aos="fade-up" data-aos-delay="400" *ngIf="person.subtitleTm">{{person.subtitleTm}}</div>
-            <div class="subtitle column is-10-mobile is-full-tablet is-11-desktop hi" data-aos="fade-up" data-aos-delay="400" *ngIf="person.subtitleHi">{{person.subtitleHi}}</div>
+            <div class="subtitle column is-10-mobile is-full-tablet is-11-desktop" data-aos="fade-up"
+                data-aos-delay="400" *ngIf="person.subtitle">{{person.subtitle}}</div>
+            <div class="subtitle column is-10-mobile is-full-tablet is-11-desktop" data-aos="fade-up"
+                data-aos-delay="400" *ngIf="person.subtitleTm">{{person.subtitleTm}}</div>
+            <div class="subtitle column is-10-mobile is-full-tablet is-11-desktop hi" data-aos="fade-up"
+                data-aos-delay="400" *ngIf="person.subtitleHi">{{person.subtitleHi}}</div>
 
-            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{person.photo.public_id}}"
-                width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
+            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/"
+                cloudinaryId="{{person.photo.public_id}}" width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
             <div class="a column is-full" data-aos="fade-up">
 
-            <a routerLink="/stories/{{person.key}}" queryParamsHandling="merge" class="link">
-                <app-localized en="read story" tm="கதை வாசிக்கவும்"></app-localized>
+                <a routerLink="/stories/{{person.key}}" queryParamsHandling="merge" class="link">
+                    <app-localized en="read story" tm="கதை வாசிக்கவும்"></app-localized>
                 </a>
-        </div>
+            </div>
 
         </div>
 

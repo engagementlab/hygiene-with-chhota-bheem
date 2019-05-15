@@ -1,5 +1,12 @@
 {
 	"name": "Hygiene with Chhota Bheem website",
 	"database": "chhota-bheem",
-	"adminPath": "cms"
+	"adminPath": "cms",
+	"admin_nav": { 
+		"about": ["About"],
+		"modules": ["Module"],
+		"stories": ["Story"],
+		"workshops": ["Workshops"],
+		"files/resources": ["Files"]
+	}
 }

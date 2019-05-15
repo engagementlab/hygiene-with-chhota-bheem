@@ -31,8 +31,6 @@ $cdn-product: 'chhota-bheem';
 // FONT CONFIG
 $base-font-size: 24;
 $base-font-size-mobile: 18;
-@include mq($until: tabletPortrait) {
-}
 
 @mixin pxtoem($mobile, $desktop: $base-font-size) {
     font-size: ($desktop / $base-font-size) + em;

@@ -1,0 +1,81 @@
+<div class="column is-center is-9-desktop offset no-pad" *ngIf="hasContent">
+    <section id="intro" class="is-10-mobile is-full-tablet column columns is-mobile no-margin">
+
+        <div class="subheader is-full" data-aos="fade-up">
+            <app-localized en="Workshops" tm="Need translation" hi="dk;Z”kkyk"></app-localized>
+        </div>
+
+    </section>
+
+    <section id="content" class="columns column is-mobile is-multiline is-full">
+
+        <div class="column is-full-mobile is-half-tablet" data-aos="fade-left" data-aos-delay="200">
+            <app-localized en="{{content.introEn}}" tm="{{content.introTm}}" hi="{{content.introHi}}"></app-localized>            
+        </div>
+        <div class="column is-full-mobile" data-aos="fade-left" data-aos-delay="200">
+            <app-localized en="{{content.intro2En}}" tm="{{content.intro2Tm}}" hi="{{content.intro2Hi}}"></app-localized>            
+        </div>
+
+        <h3 class="column is-full">
+            <app-localized en="One-Day Workshop" tm="need translation" hi="need translation"></app-localized>
+            <p>
+                <app-localized en="For Educators & Community workers" tm="need translation" hi="need translation"></app-localized>            
+            </p>
+        </h3>
+
+        <div class="column is-full-mobile is-5-tablet">
+            <h5>Introduction</h5>
+        </div>
+        <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
+            <span *ngIf="content.oneDayIntroEn">{{content.oneDayIntroEn}}</span>
+            <span *ngIf="content.oneDayIntroTm">{{content.oneDayIntroTm}}</span>
+            <span *ngIf="content.oneDayIntroHi">{{content.oneDayIntroHi}}</span>
+        </div>
+
+        <hr />
+
+        <div class="column is-full-mobile is-5-tablet">
+            <h5>Objectives</h5>
+        </div>
+        <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
+            <span *ngIf="content.oneDayIntroEn">{{content.oneDayObjEn}}</span>
+            <span *ngIf="content.oneDayIntroTm">{{content.oneDayObjTm}}</span>
+            <span *ngIf="content.oneDayIntroHi">{{content.oneDayObjHi}}</span>
+        </div>
+
+        <div class="column is-full center">
+
+            <a href="" class="link">
+                <app-localized en="View the Facilitation Plan" tm="need translation"></app-localized>
+            </a>
+            
+        </div>
+
+        <h3 class="column is-full">
+            <app-localized en="Four-Day Workshop" tm="need translation" hi="need translation"></app-localized>
+            <p>
+                <app-localized en="For Educators & Community workers" tm="need translation" hi="need translation"></app-localized>            
+            </p>
+        </h3>
+
+        <div class="column is-full-mobile is-5-tablet">
+            <h5>Introduction</h5>
+        </div>
+        <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
+            <span *ngIf="content.oneDayIntroEn">{{content.oneDayIntroEn}}</span>
+            <span *ngIf="content.oneDayIntroTm">{{content.oneDayIntroTm}}</span>
+            <span *ngIf="content.oneDayIntroHi">{{content.oneDayIntroHi}}</span>
+        </div>
+
+        <hr />
+
+        <div class="column is-full-mobile is-5-tablet">
+            <h5>Objectives</h5>
+        </div>
+        <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
+            <span *ngIf="content.oneDayIntroEn">{{content.oneDayObjEn}}</span>
+            <span *ngIf="content.oneDayIntroTm">{{content.oneDayObjTm}}</span>
+            <span *ngIf="content.oneDayIntroHi">{{content.oneDayObjHi}}</span>
+        </div>
+    </section>
+</div>
