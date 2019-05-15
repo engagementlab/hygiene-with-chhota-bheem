@@ -173,6 +173,10 @@ public class MenuUI : MonoBehaviour
 			_settingsLanguage.padding.bottom);
 
 		_settingsLanguage.padding = tempPadding;	
+		
+		
+		_settingsLangBack.interactable = GameConfig.CurrentLanguage != 0; 
+		_settingsLangFwd.interactable = GameConfig.CurrentLanguage != 2; 
 	}
 
 	void OpenInfo()

@@ -46,7 +46,7 @@
 
     </div>
 
-    <div class="column is-11-mobile is-5-tablet is-4-desktop" data-aos="fade-left">
+    <div class="column is-11-mobile is-5-tablet is-4-desktop" data-aos="fade-left" *ngIf="files">
         <span class="summary">
             <strong>
                 <app-localized en="Hygiene with Chhota Bheem is a play-based curriculum designed to raise awareness of and inculcate best
@@ -67,9 +67,9 @@
 
         <a class="blue download en" href="{{files.guideEn.url}}"
             *ngIf="currentLang === undefined && files">Download<br />Complete Guide</a>
-        <a class="blue download tm" href="{{files.guideTm.url}}" *ngIf="currentLang === 'tm' && files">ஒருங்கிணைப்பு
+        <a class="blue download tm" href="{{files.guideTm.url}}" *ngIf="currentLang === 'tm' && files.guideTm">ஒருங்கிணைப்பு
             கையேடு</a>
-        <a class="blue download hi" href="{{files.guideHi.url}}" *ngIf="currentLang === 'hi' && files">iwjh xkbM MkmuyksM djsa</a>
+        <a class="blue download hi" href="{{files.guideHi.url}}" *ngIf="currentLang === 'hi' && files.guideHi">iwjh xkbM MkmuyksM djsa</a>
     </div>
 
 </section>

@@ -89,11 +89,19 @@ public class InterstitialUI : MonoBehaviour
 		}		
 		_interstitialImages = Resources.LoadAll<Sprite>("Chap" + chapterKey + "Interstitials");
 		
-		// Localization switch (NOTE: could be handled much better)
-		if(GameConfig.CurrentLanguage == 1)
-		 _interstitialImages = _interstitialImages.Where(i=> i.name.IndexOf("-en-us") == -1).ToArray();
-		else
-			_interstitialImages = _interstitialImages.Where(i=> i.name.IndexOf("-in-ta") == -1).ToArray();
+	
+		var langAffix = "en-us";
+		switch(GameConfig.CurrentLanguage)
+		{
+			case 1:
+				langAffix = "in-ta";
+				break;
+			case 2:
+				langAffix = "in-hi";
+				break;
+		}
+		
+		_interstitialImages = _interstitialImages.Where(i=> (i.name.IndexOf("-" + langAffix) != -1 || i.name.Length == 9)).ToArray();
 		
 		_thisScreen.sprite = _interstitialImages[_interstitialScreenCount];
 		_nextScreen.sprite = _interstitialImages[_interstitialScreenCount+1];
