@@ -7,47 +7,53 @@ section {
     &#intro {
         margin-top: 5%;
     }
-    
+
     &#content {
         color: $french-blue;
         margin-top: 3%;
 
-        // @include pxtoem(12, 18);
         font-family: 'Avenir';
         font-weight: 500;
-                
+
         line-height: 1.33;
         letter-spacing: 1px;
+
+        padding-top: 3%;
+        padding-bottom: 12%;
 
         h3 {
             font-family: 'AvenirBold';
             font-weight: bold;
-            
+
             font-size: 2.7em;
-            
+
             line-height: 1.06;
-            color: $dark-sky-blue; 
-            text-transform: uppercase; 
-            
+            color: $dark-sky-blue;
+            text-transform: uppercase;
+
+            &.push {
+                margin-top: 8%;
+            }
+
             p {
                 font-size: .75em;
                 text-transform: capitalize;
-            }      
+            }
         }
-        
+
         h5 {
             font-family: 'AvenirDemi';
             font-size: 2.3em;
-            
-  line-height: 1.24;
-  letter-spacing: 1px;
 
-  margin-top: 0;
+            line-height: 1.24;
+            letter-spacing: 1px;
+
+            margin-top: 0;
         }
 
         hr {
             border-bottom: solid 2px $brownish-red;
-            width: 100%;
+            // width: 100%;
 
             margin-top: 5%;
             margin-bottom: 5%;
@@ -55,5 +61,37 @@ section {
 
     }
 
+    &#stories {
+        background-color: $greenish-tan;
+        padding-top: 8%;
+        padding-bottom: 8%;
+
+        h3 {
+
+            @include pxtoem(24, 36);
+            font-weight: bold;
+            line-height: 1;
+            letter-spacing: 10px;
+
+            text-transform: uppercase;
+        }
+
+        ::ng-deep p {
+            font-family: 'Avenir';
+            @include pxtoem(14, 18);
+            line-height: 1.33;
+            letter-spacing: 1px;
+
+            margin: 0 0 0 4%;
+
+            strong {
+                display: block;
+                font-family: 'AvenirBold';
+                margin-top: 6%;
+
+                font-size: 1.35em;
+            }
+        }
+    }
 
 }

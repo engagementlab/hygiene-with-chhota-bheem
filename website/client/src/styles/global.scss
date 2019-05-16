@@ -307,3 +307,14 @@ hr {
         opacity: 1;
     }
 }
+
+
+// Horizontal seperator Aaim
+[data-aos="seperator-width"] {
+    width: 0;
+    @include transition(all, 1s, ease-in-out);
+
+    &.aos-animate {
+        width: 100%;
+    }
+}

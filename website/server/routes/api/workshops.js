@@ -18,11 +18,15 @@ mongoose.Promise = require('bluebird');
 var buildData = (res, lang) => {
 
     let list = keystone.list('Workshops').model;
-    let fields = ['intro', 'intro2', 'oneDayIntro', 'oneDayObj', 'oneDayfacGuide', 'fourDayIntro', 'fourDayObj', 'fourDayfacGuide'];
+    let fields = ['intro', 'intro2', 'oneDayIntro', 'oneDayObj', 'oneDayfacGuide', 'fourDayIntro', 'fourDayObj', 'fourDayfacGuide', 'story1', 'story2'];
     
     fields = _.map(fields, (f) => {
        return f += lang.slice(0, 1).toUpperCase() + lang.slice(1);
     });
+    fields[4] += '.url';
+    fields[7] += '.url';
+    fields[8] += '.html';
+    fields[9] += '.html';
     
     let data = list.findOne({}, fields);
 

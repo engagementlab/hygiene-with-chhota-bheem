@@ -84,6 +84,15 @@ Workshops.add({
         fourDayfacGuideEn: { type: Types.File, label: 'Facilitation Plan (English)', storage: azureFile },
         fourDayfacGuideTm: { type: Types.File, label: 'Facilitation Plan (Tamil)', storage: azureFile },
         fourDayfacGuideHi: { type: Types.File, label: 'Facilitation Plan (Hindi)', storage: azureFile }
+    },
+
+    'Our Trainers’ Stories', {
+        story1En: { type: Types.Markdown, label: 'Story 1 (English)', required: true, initial: true},
+        story2En: { type: Types.Markdown, label: 'Story 2 (English)', required: true, initial: true},
+        story1Tm: { type: Types.Markdown, label: 'Story 1 (Tamil)', required: true, initial: true},        
+        story2Tm: { type: Types.Markdown, label: 'Story 2 (Tamil)', required: true, initial: true},        
+        story1Hi: { type: Types.Markdown, label: 'Story 1 (Hindi)', required: true, initial: true},
+        story2Hi: { type: Types.Markdown, label: 'Story 2 (Hindi)', required: true, initial: true}
     }
 );
 
