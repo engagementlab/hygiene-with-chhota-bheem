@@ -1,3 +1,34 @@
-<p>
-  resources works!
-</p>
+<div class="column is-full no-pad" *ngIf="hasContent">
+  <section id="intro" class="column is-9-desktop offset no-pad">
+
+      <div class="subheader is-full" data-aos="fade-up">
+          <app-localized en="Resources" tm="Need translation" hi="lk/ku"></app-localized>
+      </div>
+
+  </section>
+
+  <section id="content" class="columns is-multiline is-mobile is-centered is-9-desktop offset">
+
+      <div class="all column is-full-mobile is-3-tablet">
+          <strong><app-localized en="English" tm="English" hi="English"></app-localized></strong>
+          <p><app-localized en="Download all English resources in a .zip file."></app-localized></p>
+
+          <a class="blue download zip" href="{{content.zipEn.url}}">Download</a>
+        </div>
+
+      <div class="guide column is-full-mobile is-4-tablet is-offset-1-tablet no-pad">
+        <h3 class="column is-full no-pad no-margin">
+          <app-localized en="Facilitation Guide" tm="need translation" hi="izf'k{kdekxZnÆ'kdk"></app-localized>
+          
+        </h3>
+        <a href="{{content.guideEn.url}}">
+          <div class="hover"><cdn-image cloudinaryPrefix="/" cloudinaryId="{{content.guideImgEn.public_id}}"
+                    width="400" autoFormat="true"></cdn-image></div>
+        
+                  </a>
+
+      </div>
+
+  </section>
+
+</div>

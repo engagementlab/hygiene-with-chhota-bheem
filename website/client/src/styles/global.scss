@@ -51,8 +51,11 @@ a:visited {
     }
 
     &.blue {
+        @include pxtoem(14, 18);
+
         display: inline-flex;
         text-transform: uppercase;
+        align-items: center;
 
         line-height: 1.17;
 
@@ -78,6 +81,12 @@ a:visited {
         }
 
         &.download {
+                
+                &.zip {
+            &:after {
+                content: "ZIP";
+            }
+                }
 
             &:after {
                 content: "PDF";

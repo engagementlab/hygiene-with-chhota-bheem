@@ -83,36 +83,6 @@ Module.add({
         label: 'Summary (Hindi)',
         initial: true
     },
-    pdf: {
-        type: Types.File,
-        label: 'Module PDF',
-        storage: azureFile
-    },
-    pdfTm: {
-        type: Types.File,
-        label: 'Module PDF (Tamil)',
-        storage: azureFile
-    },
-    pdfHi: {
-        type: Types.File,
-        label: 'Module PDF (Hindi)',
-        storage: azureFile
-    },
-    poster: {
-        type: Types.File,
-        label: 'Poster PDF',
-        storage: azureFile
-    },
-    posterTm: {
-        type: Types.File,
-        label: 'Poster PDF (Tamil)',
-        storage: azureFile
-    },
-    posterHi: {
-        type: Types.File,
-        label: 'Poster PDF (Hindi)',
-        storage: azureFile
-    },
     video1Url: {
         type: Types.Url,
         required: true,
