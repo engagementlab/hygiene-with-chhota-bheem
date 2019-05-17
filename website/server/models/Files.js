@@ -68,25 +68,41 @@ Files.add({
             label: 'Zip File (Hindi)',
             storage: azureFile
         },
-        
+
         guideEn: {
             type: Types.File,
             label: 'Facilitation Guide PDF (English)',
             storage: azureFile
         },
-	    guideImgEn: { type: Types.CloudinaryImage, label: 'Guide Image (English)', folder: 'chhota-bheem',
-            autoCleanup: true },
+        guideImgEn: {
+            type: Types.CloudinaryImage,
+            label: 'Guide Image (English)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
 
         guideTm: {
             type: Types.File,
             label: 'Facilitation Guide PDF (Tamil)',
             storage: azureFile
         },
+        guideImgTm: {
+            type: Types.CloudinaryImage,
+            label: 'Guide Image (Tamil)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
         guideHi: {
             type: Types.File,
             label: 'Facilitation Guide PDF (Hindi)',
             storage: azureFile
-        }
+        },
+        guideImgHi: {
+            type: Types.CloudinaryImage,
+            label: 'Guide Image (Hindi)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
     },
 
     'Storybooks', {
@@ -95,20 +111,44 @@ Files.add({
             label: 'Storybook 1 PDF (English)',
             storage: azureFile
         },
+        storybook1ImgEn: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 1 Image (English)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
         storybook2En: {
             type: Types.File,
-            label: 'Storybook 1 PDF (English)',
+            label: 'Storybook 2 PDF (English)',
             storage: azureFile
+        },
+        storybook2ImgEn: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 2 Image (English)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
         },
         storybook3En: {
             type: Types.File,
-            label: 'Storybook 1 PDF (English)',
+            label: 'Storybook 3 PDF (English)',
             storage: azureFile
+        },
+        storybook3ImgEn: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 3 Image (English)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
         },
         storybook4En: {
             type: Types.File,
-            label: 'Storybook 1 PDF (English)',
+            label: 'Storybook 4 PDF (English)',
             storage: azureFile
+        },
+        storybook4ImgEn: {
+            label: 'Storybook 4 Image (English)',
+            folder: 'chhota-bheem',
+            type: Types.CloudinaryImage,
+            autoCleanup: true
         },
 
         storybook1Tm: {
@@ -116,20 +156,44 @@ Files.add({
             label: 'Storybook 1 PDF (Tamil)',
             storage: azureFile
         },
+        storybook1ImgTm: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 1 Image (Tamil)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
         storybook2Tm: {
             type: Types.File,
             label: 'Storybook 2 PDF (Tamil)',
             storage: azureFile
+        },
+        storybook2ImgTm: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 2 Image (Tamil)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
         },
         storybook3Tm: {
             type: Types.File,
             label: 'Storybook 3 PDF (Tamil)',
             storage: azureFile
         },
+        storybook3ImgTm: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 3 Image (Tamil)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
         storybook4Tm: {
             type: Types.File,
             label: 'Storybook 4 PDF (Tamil)',
             storage: azureFile
+        },
+        storybook4ImgTm: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 4 Image (Tamil)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
         },
 
         storybook1Hi: {
@@ -137,21 +201,45 @@ Files.add({
             label: 'Storybook 1 PDF (Hindi)',
             storage: azureFile
         },
+        storybook1ImgHi: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 1 Image (Hindi)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
         storybook2Hi: {
             type: Types.File,
             label: 'Storybook 2 PDF (Hindi)',
             storage: azureFile
         },
+        storybook2ImgHi: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 2 Image (Hindi)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
         storybook3Hi: {
             type: Types.File,
-            label: 'Storybook 3 DF (Hindi)',
+            label: 'Storybook 3 PDF (Hindi)',
             storage: azureFile
+        },
+        storybook3ImgHi: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 3 Image (Hindi)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
         },
         storybook4Hi: {
             type: Types.File,
             label: 'Storybook 4 PDF (Hindi)',
             storage: azureFile
         },
+        storybook4ImgHi: {
+            type: Types.CloudinaryImage,
+            label: 'Storybook 4 Image (Hindi)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        }
     },
 
     'Posters', {
@@ -161,30 +249,66 @@ Files.add({
             label: 'Poster 1 PDF (English)',
             storage: azureFile
         },
+        poster1ImgEn: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 1 Image (English)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
         poster1Tm: {
             type: Types.File,
             label: 'Poster 1 PDF (Tamil)',
             storage: azureFile
+        },
+        poster1ImgTm: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 1 Image (Tamil)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
         },
         poster1Hi: {
             type: Types.File,
             label: 'Poster 1 PDF (Hindi)',
             storage: azureFile
         },
+        poster1ImgHi: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 1 Image (Hindi)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
         poster2En: {
             type: Types.File,
             label: 'Poster 2 PDF (English)',
             storage: azureFile
+        },
+        poster2ImgEn: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 2 Image (English)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
         },
         poster2Tm: {
             type: Types.File,
             label: 'Poster 2 PDF (Tamil)',
             storage: azureFile
         },
+        poster2ImgTm: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 2 Image (Tamil)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
         poster2Hi: {
             type: Types.File,
             label: 'Poster 2 PDF (Hindi)',
             storage: azureFile
+        },
+        poster2ImgHi: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 2 Image (Hindi)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
         }
     }
 );

@@ -20,20 +20,19 @@ var buildData = (res) => {
     let list = keystone.list('Files').model;
     let allFields = [];
     let fields = ['guide', 'zip', 'storybook1', 'storybook2', 'storybook3', 'storybook4', 'poster1', 'poster2'];
-    let imgFields = ['guideImg'];
+    let imgFields = ['guideImg', 'storybook1Img', 'storybook2Img', 'storybook3Img', 'storybook4Img', 'poster1Img', 'poster2Img'];
 
     _.each(fields, (f) => {
        allFields.push(f + 'En.url');
        allFields.push(f + 'Tm.url');
-       allFields.push(f + 'In.url');
+       allFields.push(f + 'Hi.url');
     });
     _.each(imgFields, (f) => {
        allFields.push(f + 'En.public_id');
        allFields.push(f + 'Tm.public_id');
-       allFields.push(f + 'In.public_id');
+       allFields.push(f + 'Hi.public_id');
     });
-    
-    
+        
     let data = list.findOne({}, allFields);
 
     Bluebird.props({

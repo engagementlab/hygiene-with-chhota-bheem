@@ -81,12 +81,12 @@ a:visited {
         }
 
         &.download {
-                
-                &.zip {
-            &:after {
-                content: "ZIP";
-            }
+
+            &.zip {
+                &:after {
+                    content: "ZIP";
                 }
+            }
 
             &:after {
                 content: "PDF";

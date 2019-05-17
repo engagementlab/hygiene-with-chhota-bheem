@@ -11,6 +11,25 @@ section {
 
     &#content {
 
+        h3 {
+            @include pxtoem(24, 36);
+
+            line-height: 1.06;
+            color: $dark-sky-blue;
+
+            margin-bottom: 40px;
+        }
+
+        h4 {
+            text-transform: capitalize;
+            line-height: 1.42;
+            letter-spacing: 1px;          
+        }
+
+        .push {
+            margin-top: 9%;
+        }
+
         .all {
             display: flex;
 
@@ -28,32 +47,82 @@ section {
                 @include pxtoem(36, 48);
                 text-transform: uppercase;
             }
+
             a {
                 max-width: 280px;
             }
         }
 
-        .guide {
-            h3 {
-                @include pxtoem(24, 36);
-                
-            line-height: 1.06;
-            color: $dark-sky-blue;
-
-            margin-bottom: 40px;
-            }
+        .file {
             a {
                 display: block;
+                position: relative;
 
-                ::ng-deep img {
-
-                }
                 &:hover {
-
+                    .hover {
+                        opacity: 1;
+                        &:before {
+                        @include scale(1);
+                        }
+                        &:after {
+                        @include scale(1);
+                        }
+                    }
                 }
+
                 .hover {
-                
+
+                    position: absolute;
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+
                     background-color: rgba(74, 144, 226, 0.5);
+                    @include transition(all, .4s, ease-in-out);
+                    opacity: 0;
+
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+
+                            &:before {
+                        content: "";
+                        left: calc(50% - 50px);
+                        position: absolute;
+                        background-color: $dark-sky-blue;
+
+                        @include border-radius(50%);
+                        @include transition(transform, .4s, cubic-bezier(0.680, -0.550, 0.265, 1.550));
+                        @include scale(0);
+
+                        display: block;
+                        width: 100px;
+                        height: 100px;
+                    }
+
+                    &:after {
+                        left: calc(50% - 25px);
+                        position: absolute;
+
+                        content: "PDF";
+                        font-size: 14px;
+
+                        color: white;
+                        background-color: $dark-sky-blue;
+
+                        border: 2px solid white;
+                        @include border-radius(50%);
+
+                        @include transition(transform, .6s, ease-out);
+                        @include scale(0);
+
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        width: 50px;
+                        height: 50px;
+                    }
 
 
                 }

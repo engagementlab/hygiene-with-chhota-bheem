@@ -1,34 +1,127 @@
-<div class="column is-full no-pad" *ngIf="hasContent">
-  <section id="intro" class="column is-9-desktop offset no-pad">
+<div *ngIf="hasContent">
+    <section id="intro" class="column is-9-desktop offset no-pad">
 
-      <div class="subheader is-full" data-aos="fade-up">
-          <app-localized en="Resources" tm="Need translation" hi="lk/ku"></app-localized>
-      </div>
-
-  </section>
-
-  <section id="content" class="columns is-multiline is-mobile is-centered is-9-desktop offset">
-
-      <div class="all column is-full-mobile is-3-tablet">
-          <strong><app-localized en="English" tm="English" hi="English"></app-localized></strong>
-          <p><app-localized en="Download all English resources in a .zip file."></app-localized></p>
-
-          <a class="blue download zip" href="{{content.zipEn.url}}">Download</a>
+        <div class="subheader is-full" data-aos="fade-up">
+            <app-localized en="Resources" tm="Need translation" hi="lk/ku"></app-localized>
         </div>
 
-      <div class="guide column is-full-mobile is-4-tablet is-offset-1-tablet no-pad">
-        <h3 class="column is-full no-pad no-margin">
-          <app-localized en="Facilitation Guide" tm="need translation" hi="izf'k{kdekxZnÆ'kdk"></app-localized>
-          
-        </h3>
-        <a href="{{content.guideEn.url}}">
-          <div class="hover"><cdn-image cloudinaryPrefix="/" cloudinaryId="{{content.guideImgEn.public_id}}"
-                    width="400" autoFormat="true"></cdn-image></div>
-        
-                  </a>
+    </section>
 
-      </div>
+    <section id="content">
+        <div class="push language columns is-multiline is-mobile is-9-desktop offset"
+            *ngFor="let lang of languages; let i = index;">
+            <div class="all column is-10-mobile is-4-tablet">
+                <strong>
+                    <app-localized en="English" tm="English" hi="English" *ngIf="i === 0"></app-localized>
+                    <app-localized en="Tamil" tm="Tamil" hi="Tamil" *ngIf="i === 1"></app-localized>
+                    <app-localized en="Hindi" tm="Hindi" hi="Hindi" *ngIf="i === 2"></app-localized>
+                </strong>
+                <p>
+                    <app-localized en="Download all English resources in a .zip file." *ngIf="i === 0"></app-localized>
+                    <app-localized en="Download all Tamil resources in a .zip file." *ngIf="i === 2"></app-localized>
+                    <app-localized en="Download all Hindi resources in a .zip file." *ngIf="i === 1"></app-localized>
+                </p>
 
-  </section>
+                <a class="blue download zip" href="{{lang.zip.url}}">Download</a>
+            </div>
+
+            <!-- Guide -->
+            <div class="file column is-full-mobile is-4-tablet is-offset-1-tablet no-pad">
+                <h3 class="push column is-full no-pad no-margin">
+                    <app-localized en="Facilitation Guide" tm="need translation" hi="izf'k{kdekxZnÆ'kdk">
+                    </app-localized>
+                </h3>
+
+                <a href="{{lang.guide.url}}">
+                    <div class="hover"></div>
+                    <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.guideImg.public_id}}" width="400"
+                        autoFormat="true"></cdn-image>
+                </a>
+            </div>
+
+            <!-- Books -->
+            <div class="push columns column is-full is-mobile is-multiline">
+
+                <h3 class="column is-full no-pad no-margin">
+                    <app-localized en="Storybooks" tm="need translation" hi="dgkuh dh fdrkcsa"></app-localized>
+                </h3>
+                <div class="file column is-full-mobile is-5-tablet">
+                    <h4>
+                        <app-localized en="Storybook" tm="need translation" hi="dgkuh dh fdrkcsa"></app-localized> 1
+                    </h4>
+                    <a href="{{lang.storybook1.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.storybook1Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-full-mobile is-5-tablet is-offset-1-tablet">
+                    <h4>
+                        <app-localized en="Storybook" tm="need translation" hi="dgkuh dh fdrkcsa"></app-localized> 2
+                    </h4>
+                    <a href="{{lang.storybook2.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.storybook2Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-full-mobile is-5-tablet">
+                    <h4>
+                        <app-localized en="Storybook" tm="need translation" hi="dgkuh dh fdrkcsa"></app-localized> 3
+                    </h4>
+                    <a href="{{lang.storybook3.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.storybook3Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-full-mobile is-5-tablet is-offset-1-tablet">
+                    <h4>
+                        <app-localized en="Storybook" tm="need translation" hi="dgkuh dh fdrkcsa"></app-localized> 4
+                    </h4>
+                    <a href="{{lang.storybook4.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.storybook4Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Posters -->
+            <div class="push columns column is-full is-centered is-mobile is-multiline">
+
+                <h3 class="column is-full no-pad no-margin">
+                    <app-localized en="Posters" tm="need translation" hi="iksLVj"></app-localized>
+                </h3>
+
+                <div class="file column is-full-mobile is-5-tablet">
+                    <h4>
+                        <app-localized en="Poster" tm="need translation" hi="iksLVj"></app-localized> 1
+                    </h4>
+                    <a href="{{lang.poster1.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.poster1Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-full-mobile is-5-tablet is-offset-1-tablet">
+                    <h4>
+                        <app-localized en="Poster" tm="need translation" hi="iksLVj"></app-localized> 2
+                    </h4>
+                    <a href="{{lang.poster2.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.poster2Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </section>
 
 </div>
