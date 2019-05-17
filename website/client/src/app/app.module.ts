@@ -45,7 +45,7 @@ export const routes: Routes = [
   { path: 'stories', component: StoryIndexComponent },
   { path: 'stories/:key', component: StoryComponent },
   { path: 'workshops', component: WorkshopsComponent },
-  { path: 'resources', component: ResourcesComponent }
+  { path: 'resources/:lang', component: ResourcesComponent }
 ];
 
 @NgModule({

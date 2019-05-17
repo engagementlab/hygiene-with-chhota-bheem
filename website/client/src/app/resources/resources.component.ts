@@ -3,6 +3,8 @@ import { DataService } from '../utils/data.service';
 
 import * as _ from 'underscore';
 import * as AOS from 'aos';
+import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-resources',
@@ -17,7 +19,7 @@ export class ResourcesComponent implements OnInit {
 
   public languages: any[] = new Array();
 
-  constructor(private _dataSvc: DataService) { }
+  constructor(private _dataSvc: DataService, private _scrollToService: ScrollToService, private _route: ActivatedRoute) { }
 
   ngOnInit() {
  
@@ -40,12 +42,32 @@ export class ResourcesComponent implements OnInit {
     
   }
 
-ngAfterViewInit() {
+  ngAfterViewInit() {
 
-  AOS.init({
-    duration: 700,
-    easing: 'ease-in-out'
-  });
+    AOS.init({
+      duration: 700,
+      easing: 'ease-in-out'
+    });
+    
 
-}
+    this._route.params.subscribe(params => {
+      this.goToForm(params['lang']);
+    });
+
+  }
+
+  goToForm(lang: string) {
+
+    setTimeout(() => {
+        this._scrollToService
+            .scrollTo({
+                target: document.getElementById(lang),
+                offset: 100,
+                easing: 'easeOutQuint',
+                duration: 1000
+            })
+    }, 100);
+
+  }
+  
 }

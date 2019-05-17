@@ -36,6 +36,7 @@
 </section>
 
 <section id="manual" class="columns is-multiline is-full is-mobile no-margin">
+
     <h2 class="column is-full center no-pad" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom">
         <app-localized en="Facilitator Guide" tm="ஒருங்கிணைப்பு கையேடு"></app-localized>
     </h2>
@@ -65,11 +66,11 @@
             </p>
         </span>
 
-        <a class="blue download en" href="{{files.guideEn.url}}"
+        <a class="blue download en" routerLink="/resources/en" queryParamsHandling="merge"
             *ngIf="currentLang === undefined && files">Download<br />Complete Guide</a>
-        <a class="blue download tm" href="{{files.guideTm.url}}" *ngIf="currentLang === 'tm' && files.guideTm">ஒருங்கிணைப்பு
+        <a class="blue download tm" routerLink="/resources/tm" queryParamsHandling="merge" *ngIf="currentLang === 'tm' && files.guideTm">ஒருங்கிணைப்பு
             கையேடு</a>
-        <a class="blue download hi" href="{{files.guideHi.url}}" *ngIf="currentLang === 'hi' && files.guideHi">iwjh xkbM MkmuyksM djsa</a>
+        <a class="blue download hi" routerLink="/resources/hi" queryParamsHandling="merge" *ngIf="currentLang === 'hi' && files.guideHi">iwjh xkbM MkmuyksM djsa</a>
     </div>
 
 </section>

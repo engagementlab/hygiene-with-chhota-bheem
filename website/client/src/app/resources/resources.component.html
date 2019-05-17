@@ -11,15 +11,19 @@
         <div class="push language columns is-multiline is-mobile is-9-desktop offset"
             *ngFor="let lang of languages; let i = index;">
             <div class="all column is-10-mobile is-4-tablet">
-                <strong>
-                    <app-localized en="English" tm="English" hi="English" *ngIf="i === 0"></app-localized>
-                    <app-localized en="Tamil" tm="Tamil" hi="Tamil" *ngIf="i === 1"></app-localized>
-                    <app-localized en="Hindi" tm="Hindi" hi="Hindi" *ngIf="i === 2"></app-localized>
+                <strong id="en" *ngIf="i === 0">
+                    <app-localized en="English" tm="English" hi="English"></app-localized>
+                  </strong>
+                  <strong id="tm" *ngIf="i === 1">
+                    <app-localized en="Tamil" tm="Tamil" hi="Tamil"></app-localized>
+                  </strong>
+                  <strong id="hi" *ngIf="i === 2">
+                    <app-localized en="Hindi" tm="Hindi" hi="Hindi"></app-localized>
                 </strong>
                 <p>
                     <app-localized en="Download all English resources in a .zip file." *ngIf="i === 0"></app-localized>
-                    <app-localized en="Download all Tamil resources in a .zip file." *ngIf="i === 2"></app-localized>
-                    <app-localized en="Download all Hindi resources in a .zip file." *ngIf="i === 1"></app-localized>
+                    <app-localized en="Download all Tamil resources in a .zip file." *ngIf="i === 1"></app-localized>
+                    <app-localized en="Download all Hindi resources in a .zip file." *ngIf="i === 2"></app-localized>
                 </p>
 
                 <a class="blue download zip" href="{{lang.zip.url}}">Download</a>
