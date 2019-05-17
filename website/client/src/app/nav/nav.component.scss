@@ -77,6 +77,12 @@ nav {
 
         #label {
             display: flex;
+            line-height: 4.22;
+            letter-spacing: 4px;
+
+            padding-top: 15%;
+            padding-left: 0;
+
             @include transition(color, .7s, ease-in-out);
 
             @include mobile-only {
@@ -133,6 +139,9 @@ nav {
 
             @include phones {
                 margin-left: 0;
+            }
+            @include not-desktop {
+                margin-left: 47%;
             }
 
             div {

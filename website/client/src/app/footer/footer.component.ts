@@ -15,7 +15,7 @@ export class FooterComponent implements OnInit {
   
     // Get nav route when nav ends
     _router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(e => {
-      this.isHome = _router.url === '/';
+      this.isHome = _router.url.split('?')[0] === '/';
     });
   
   }
