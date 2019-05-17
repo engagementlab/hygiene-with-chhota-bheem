@@ -51,7 +51,8 @@ export class ResourcesComponent implements OnInit {
     
 
     this._route.params.subscribe(params => {
-      this.goToForm(params['lang']);
+      if(params['lang']) 
+        this.goToForm(params['lang']);
     });
 
   }
