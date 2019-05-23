@@ -204,9 +204,12 @@ hr {
 
 .hi {
     font-family: Kruti;
-
+    text-transform: none;
+    letter-spacing: 0;
     ::ng-deep p, span, strong { 
         font-family: Kruti;
+        text-transform: none;
+        letter-spacing: 0;
     }
 }
 
