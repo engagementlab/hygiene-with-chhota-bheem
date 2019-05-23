@@ -76,6 +76,13 @@ section {
             text-transform: uppercase;
         }
 
+        .hi {
+            ::ng-deep p {
+                font-family: Kruti;
+
+            }
+        }
+
         ::ng-deep p {
             font-family: 'Avenir';
             @include pxtoem(14, 18);
@@ -86,7 +93,7 @@ section {
 
             strong {
                 display: block;
-                font-family: 'AvenirBold';
+                // font-family: 'AvenirBold';
                 margin-top: 6%;
 
                 font-size: 1.35em;

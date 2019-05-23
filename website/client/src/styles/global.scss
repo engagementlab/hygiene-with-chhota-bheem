@@ -204,6 +204,10 @@ hr {
 
 .hi {
     font-family: Kruti;
+
+    ::ng-deep p, span, strong { 
+        font-family: Kruti;
+    }
 }
 
 // Other styles

@@ -2,7 +2,7 @@
     <section id="intro" class="column is-center is-9-desktop offset no-pad">
 
         <div class="subheader is-full" data-aos="fade-up">
-            <app-localized en="Workshops" tm="Need translation" hi="dk;Z”kkyk"></app-localized>
+            <app-localized en="Workshops" hi="dk;Z”kkyk"></app-localized>
         </div>
 
     </section>
@@ -18,20 +18,20 @@
         </div>
 
         <h3 class="column is-full push" data-aos="fade-left">
-            <app-localized en="One-Day Workshop" tm="need translation" hi="need translation"></app-localized>
+            <app-localized en="One-Day Workshop"></app-localized>
             <p>
-                <app-localized en="For Educators & Community workers" tm="need translation" hi="need translation">
+                <app-localized en="For Educators & Community workers">
                 </app-localized>
             </p>
         </h3>
 
         <div class="column is-full-mobile is-full-tablet is-5-desktop" data-aos="fade-right">
-            <h5>Introduction</h5>
+            <h5><app-localized en="Introduction"></app-localized></h5>
         </div>
         <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
             <span *ngIf="content.oneDayIntroEn">{{content.oneDayIntroEn}}</span>
             <span *ngIf="content.oneDayIntroTm">{{content.oneDayIntroTm}}</span>
-            <span *ngIf="content.oneDayIntroHi">{{content.oneDayIntroHi}}</span>
+            <span *ngIf="content.oneDayIntroHi" class="hi">{{content.oneDayIntroHi}}</span>
         </div>
         
         <div class="column is-full">
@@ -39,38 +39,38 @@
         </div>
 
         <div class="column is-full-mobile is-full-tablet is-5-desktop" data-aos="fade-left">
-            <h5>Objectives</h5>
+            <h5><app-localized en="Objectives"></app-localized></h5>
         </div>
         <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
             <span *ngIf="content.oneDayIntroEn">{{content.oneDayObjEn}}</span>
             <span *ngIf="content.oneDayIntroTm">{{content.oneDayObjTm}}</span>
-            <span *ngIf="content.oneDayIntroHi">{{content.oneDayObjHi}}</span>
+            <span *ngIf="content.oneDayIntroHi" class="hi">{{content.oneDayObjHi}}</span>
         </div>
 
         <div class="column is-full center" data-aos="fade-up">
 
             <a href="{{content.oneDayfacGuide.url}}" class="link">
-                <app-localized en="View the Facilitation Plan" tm="need translation" hi="need translation">
+                <app-localized en="View the Facilitation Plan">
                 </app-localized>
             </a>
 
         </div>
 
         <h3 class="column is-full" data-aos="fade-left">
-            <app-localized en="Four-Day Workshop" tm="need translation" hi="need translation"></app-localized>
+            <app-localized en="Four-Day Workshop" ></app-localized>
             <p>
-                <app-localized en="For Educators & Community workers" tm="need translation" hi="need translation">
+                <app-localized en="For Educators & Community workers" >
                 </app-localized>
             </p>
         </h3>
 
         <div class="column is-full-mobile is-full-tablet is-5-desktop" data-aos="fade-right">
-            <h5>Introduction</h5>
+            <h5><app-localized en="Introduction"></app-localized></h5>
         </div>
         <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
             <span *ngIf="content.oneDayIntroEn">{{content.fourDayIntroEn}}</span>
             <span *ngIf="content.oneDayIntroTm">{{content.fourDayIntroTm}}</span>
-            <span *ngIf="content.oneDayIntroHi">{{content.fourDayIntroHi}}</span>
+            <span *ngIf="content.oneDayIntroHi" class="hi">{{content.fourDayIntroHi}}</span>
         </div>
 
         <div class="column is-full">
@@ -78,18 +78,18 @@
         </div>
 
         <div class="column is-full-mobile is-full-tablet is-5-desktop" data-aos="fade-left">
-            <h5>Objectives</h5>
+            <h5><app-localized en="Objectives"></app-localized></h5>
         </div>
         <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
             <span *ngIf="content.oneDayIntroEn">{{content.fourDayObjEn}}</span>
             <span *ngIf="content.oneDayIntroTm">{{content.fourDayObjTm}}</span>
-            <span *ngIf="content.oneDayIntroHi">{{content.fourDayObjHi}}</span>
+            <span *ngIf="content.oneDayIntroHi" class="hi">{{content.fourDayObjHi}}</span>
         </div>
 
         <div class="column is-full center">
 
             <a href="{{content.fourDayfacGuide.url}}" class="link">
-                <app-localized en="View the Facilitation Plan" tm="need translation" hi="need translation">
+                <app-localized en="View the Facilitation Plan">
                 </app-localized>
             </a>
 
@@ -100,32 +100,30 @@
 
         <div class="columns is-multiline is-mobile is-center is-9-desktop offset no-pad">
             <h3 class="center column is-full" data-aos="fade-left">
-                <app-localized en="Our Trainers’ Stories" tm="Our Trainers’ Stories" hi="Our Trainers’ Stories">
+                <app-localized en="Our Trainers’ Stories">
                 </app-localized>
             </h3>
             <div class="column columns is-mobile is-full-mobile is-full-tablet is-5-desktop" data-aos="fade-up" data-aos-delay="100">
                 <div class="column is-2 no-pad">
-                    <!doctype html>
                     <svg viewBox="0 0 99 100" width="100%" height="100">
                         <image id="Layer_0" data-name="Layer 0" width="99" height="100"
                             xlink:href="data:img/png;base64,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">
                         </image>
                     </svg>
                 </div>
-                <div class="column story no-pad" [innerHtml]="content.story1.html"></div>
+                <div class="column story no-pad" [class.hi]="useHindi" [innerHtml]="content.story1.html"></div>
             </div>
 
             <div class="column columns is-mobile is-full-mobile is-full-tablet is-5-desktop is-offset-1-desktop" data-aos="fade-up" data-aos-delay="300">
 
                 <div class="column is-2 no-pad">
-                    <!doctype html>
                     <svg viewBox="0 0 99 100" width="100%" height="100">
                         <image id="Layer_0" data-name="Layer 0" width="99" height="100"
                             xlink:href="data:img/png;base64,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">
                         </image>
                     </svg>
                 </div>
-                <div class="column story no-pad" [innerHtml]="content.story2.html"></div>
+                <div class="column story no-pad" [class.hi]="useHindi" [innerHtml]="content.story2.html"></div>
             </div>
         </div>
     </section>
