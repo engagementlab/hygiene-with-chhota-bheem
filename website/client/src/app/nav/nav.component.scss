@@ -10,6 +10,7 @@ nav {
 
     a {
         color: $brownish-red;
+        // width: 100%;
 
         @include mobile-only {
             line-height: 1.43;
@@ -41,6 +42,13 @@ nav {
         @include pxtoem(12, 18);
 
         cursor: pointer;
+
+        @include phones {
+            a {
+                display: flex;
+                // width: 100%;
+            }
+        }
 
         #lines {
             position: relative;
@@ -76,6 +84,7 @@ nav {
         }
 
         #label {
+
             display: flex;
             line-height: 4.22;
             letter-spacing: 4px;
@@ -85,8 +94,8 @@ nav {
 
             @include transition(color, .7s, ease-in-out);
 
-            @include mobile-only {
-                display: none;
+            ::ng-deep .hi {
+                font-size: 2em;
             }
         }
 
@@ -119,6 +128,8 @@ nav {
 
     #right {
 
+        display: none;
+
         color: $tomato;
 
         font-family: 'AvenirBold';
@@ -133,6 +144,10 @@ nav {
             text-align: right;
         }
 
+        @include not-phones {
+            display: flex;
+        }
+
         #wrap {
             margin-left: 70%;
             text-align: center;
@@ -140,6 +155,7 @@ nav {
             @include phones {
                 margin-left: 0;
             }
+
             @include not-desktop {
                 margin-left: 47%;
             }
@@ -155,6 +171,7 @@ nav {
             display: inline-block;
             margin-top: 13px;
         }
+
     }
 
     .link {
@@ -174,6 +191,7 @@ nav {
             text-align: center;
             display: flex;
         }
+
     }
 
     @include mobile-only {

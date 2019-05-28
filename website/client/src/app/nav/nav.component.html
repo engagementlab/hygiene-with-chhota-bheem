@@ -1,7 +1,7 @@
 <nav class="container desktop columns is-mobile is-multiline-mobile" id="nav">    
     
-    <div id="menu-btn" class="column">
-        <a (click)="openCloseNav()" class="columns uppercase">
+    <div id="menu-btn" class="column is-5-mobile">
+    <a (click)="openCloseNav()" class="columns uppercase">
             <div id="lines" class="column is-one-quarter">
                 <span></span>
                 <span></span>
@@ -13,7 +13,7 @@
         </a>
     </div>
 
-    <div id="home" class="column is-one-third-mobile center no-pad">
+    <div id="home" class="column center no-pad">
         <a routerLink="/" queryParamsHandling="merge">
             <cdn-image cloudinaryId="logos/logo" width="268" svg="true"></cdn-image>
         </a>

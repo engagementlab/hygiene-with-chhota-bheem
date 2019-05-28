@@ -42,16 +42,18 @@ export class AppComponent implements OnInit, AfterViewInit {
     
     this._router.events.subscribe((evt) => {
 
-      if (!(evt instanceof NavigationEnd)) {
-        return;
+      if(evt instanceof NavigationEnd) {
+
+        // Close menu
+        document.getElementById('body').classList.remove('open');
+        document.getElementById('menu').classList.remove('open');
+        document.getElementById('menu-btn').classList.remove('open');
+        
       }
 
-      // Close menu
-      document.getElementById('body').classList.remove('open');
-      document.getElementById('menu').classList.remove('open');
-      document.getElementById('menu-btn').classList.remove('open');
-      
-
+      if (!(evt instanceof NavigationEnd))
+        return;
+    
       // Always go to top of page
       window.scrollTo(0, 0);
 
