@@ -11,7 +11,6 @@ public class LanguageSelect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-//        _langButtons = transform.Find("Buttons").GetComponentsInChildren<Button>();
         
         #if !UNITY_EDITOR
             if(PlayerPrefs.HasKey("language"))
@@ -20,6 +19,8 @@ public class LanguageSelect : MonoBehaviour
     
                 mainMenu.alpha = 1;
                 mainMenu.interactable = true;
+        
+            mainMenu.GetComponent<MainMenu>().Animate();
             }
         #endif
 
@@ -36,5 +37,7 @@ public class LanguageSelect : MonoBehaviour
 
         mainMenu.alpha = 1;
         mainMenu.interactable = true;
+        
+        mainMenu.GetComponent<MainMenu>().Animate();
     }
 }

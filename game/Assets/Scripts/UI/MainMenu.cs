@@ -26,22 +26,6 @@ public class MainMenu : MonoBehaviour
 		
 	}
 	
-	// Use this for initialization
-	void Start()
-	{
-		
-		iTween.ScaleTo(SignObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeInOutElastic));
-		iTween.RotateFrom(SignObject.gameObject, iTween.Hash("z", 190, "time", 2, "easetype", iTween.EaseType.easeOutElastic, "delay", .5f));
-		iTween.ScaleTo(LogoObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 2, "easetype", iTween.EaseType.easeOutElastic, "delay", .7f));
-
-		iTween.ScaleTo(PlayObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.1f));
-		iTween.ScaleTo(SettingsObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.7f));
-		iTween.ScaleTo(InfoObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.9f));
-
-		StartCoroutine(AnimateBubbles());
-		
-	}
-	
 	private IEnumerator AnimateBubbles()
 	{
 		
@@ -56,5 +40,20 @@ public class MainMenu : MonoBehaviour
 		for(var b = 0; b < _bubbles.Length; b++)
 			iTween.ScaleTo(_bubbles[b], iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", Random.Range(.3f, .5f) * b*.5f)); 
 		
+	}
+	
+	public void Animate()
+	{
+		
+		
+		iTween.ScaleTo(SignObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeInOutElastic));
+		iTween.RotateFrom(SignObject.gameObject, iTween.Hash("z", 190, "time", 2, "easetype", iTween.EaseType.easeOutElastic, "delay", .5f));
+		iTween.ScaleTo(LogoObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 2, "easetype", iTween.EaseType.easeOutElastic, "delay", .7f));
+
+		iTween.ScaleTo(PlayObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.1f));
+		iTween.ScaleTo(SettingsObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.7f));
+		iTween.ScaleTo(InfoObject.gameObject, iTween.Hash("scale", Vector3.one, "time", 1, "easetype", iTween.EaseType.easeOutElastic, "delay", 2.9f));
+
+		StartCoroutine(AnimateBubbles());
 	}
 }
