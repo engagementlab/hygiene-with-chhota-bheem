@@ -41,7 +41,7 @@
         <app-localized en="Facilitator Guide" tm="ஒருங்கிணைப்பு கையேடு"></app-localized>
     </h2>
 
-    <div class="column is-11-mobile is-half-tablet center">
+    <div class="column is-11-mobile is-half-tablet center" data-aos="fade">
         <img src="https://res.cloudinary.com/engagement-lab-home/image/upload/c_scale,f_auto,w_412/v1551128693/chhota-bheem/art/manual.png"
             style="max-width:412px">
 
@@ -87,11 +87,11 @@
             <h1 class="hi" data-aos="fade-up" *ngIf="currentLang === 'hi'">lkcqu ls gkFk /kksuk</h1>
         </div>
 
-        <div class="column is-6 center" data-aos="fade-right">
+        <div class="column is-full-tablet is-6-desktop center" data-aos="fade-right">
             <cdn-image cloudinaryId="art/module1-lg" svg="true"></cdn-image>
         </div>
 
-        <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
+        <div class="description column is-11-tablet is-4-desktop" data-aos="fade-left" data-aos-delay="250">
             <span class="summary" *ngIf="modules[0].summary">{{modules[0].summary}}</span>
             <span class="summary" *ngIf="modules[0].summaryTm">{{modules[0].summaryTm}}</span>
             <span class="summary hi" *ngIf="modules[0].summaryHi">{{modules[0].summaryHi}}</span>
@@ -155,11 +155,11 @@
             <h1 class="hi" data-aos="fade-up" *ngIf="currentLang === 'hi'">'kkSpky; dk iz;ksx</h1>
         </div>
 
-        <div class="column is-6 center" data-aos="fade-right">
+        <div class="column is-full-tablet is-6-desktop center" data-aos="fade-right">
             <cdn-image cloudinaryId="art/module2-lg" svg="true"></cdn-image>
         </div>
 
-        <div class="description column is-4" data-aos="fade-left" data-aos-delay="250">
+        <div class="description column is-11-tablet is-4-desktop" data-aos="fade-left" data-aos-delay="250">
             <span class="summary" *ngIf="modules[1].summary">{{modules[1].summary}}</span>
             <span class="summary" *ngIf="modules[1].summaryTm">{{modules[1].summaryTm}}</span>
             <span class="summary hi" *ngIf="modules[1].summaryHi">{{modules[1].summaryHi}}</span>
@@ -240,7 +240,7 @@
             <cdn-image cloudinaryId="art/phone" autoFormat="true" width="541"></cdn-image>
         </div>
 
-        <div class="description column is-offset-1">
+        <div class="description column is-offset-1 is-5-tablet">
             <h2 data-aos="fade-up" data-aos-delay="100">
                 <app-localized en="Download our Game" tm="ெயலி விளையாட்டை இங்கே பதிவிறக்கம் செய்யவும்" hi="gekjs [ksy dks MkmuyksM djsa"></app-localized>
             </h2>
@@ -255,12 +255,12 @@
                 </app-localized>
             </span>
 
-            <div id="store" class="columns">
-                <a class="column is-5-mobile" data-aos="zoom-out" data-aos-delay="300"
+            <div id="store" class="columns is-mobile is-multiline">
+                <a class="column is-full-mobile is-full-tablet" data-aos="zoom-out" data-aos-delay="300"
                     href="https://itunes.apple.com/us/app/hygiene-with-chhota-bheem/id1423871069?ls=1&mt=8" role="link">
                     <cdn-image cloudinaryId="icons/appstore" width="241" phoneWidth="240" svg="true"></cdn-image>
                 </a>
-                <a class="column is-5-mobile" data-aos="zoom-out" data-aos-delay="400"
+                <a class="column is-full-mobile is-full-tablet" data-aos="zoom-out" data-aos-delay="400"
                     href="https://play.google.com/store/apps/details?id=edu.engagementlab.chhotabheem">
                     <cdn-image cloudinaryId="icons/play" width="241" phoneWidth="240" svg="true"></cdn-image>
                 </a>
