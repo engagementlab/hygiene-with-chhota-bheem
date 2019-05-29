@@ -102,3 +102,9 @@ section {
     }
 
 }
+
+.subheader {
+    ::ng-deep .hi {
+        @include enlarge();        
+    }
+}

@@ -41,6 +41,10 @@ h5 {
     @include pxtoem(24, 42);
     color: $dark-sky-blue;
 
+    &.hi {
+        font-family: 'Kruti';
+    }
+
 }
 
 .person {
@@ -61,4 +65,10 @@ h5 {
     line-height: 1.33;
     color: $french-blue;
 
+}
+
+.subheader {
+    ::ng-deep .hi {
+        @include enlarge();        
+    }
 }

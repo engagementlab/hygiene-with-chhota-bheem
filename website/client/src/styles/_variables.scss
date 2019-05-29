@@ -22,7 +22,7 @@ $mq-breakpoints: (
     // Tweakpoints
     desktopAd: 810px,
 );
-$mq-show-breakpoints: (mobile, mobileLg, tabletPortrait, tablet, desktop, wide);
+// $mq-show-breakpoints: (mobile, mobileLg, tabletPortrait, tablet, desktop, wide);
 
 @import "~sass-mq/_mq";
 
@@ -39,6 +39,10 @@ $base-font-size-mobile: 18;
     @include mq($until: tabletPortrait) {
         font-size: ($mobile / $base-font-size-mobile) + em;
     }
+}
+
+@mixin enlarge {
+    @include pxtoem(28, 32);
 }
 
 @font-face {

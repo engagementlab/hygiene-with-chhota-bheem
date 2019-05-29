@@ -12,18 +12,18 @@
             *ngFor="let lang of languages; let i = index;">
             <div class="all column is-10-mobile is-4-tablet">
                 <strong id="en" *ngIf="i === 0">
-                    <app-localized en="English" tm="English" hi="English"></app-localized>
+                    <app-localized en="English" tm="ஆங்கிலம்" hi="vaxzst+h"></app-localized>
                   </strong>
                   <strong id="tm" *ngIf="i === 1">
-                    <app-localized en="Tamil" tm="Tamil" hi="Tamil"></app-localized>
+                    <app-localized en="Tamil" tm="தமிழ்" hi="rfey"></app-localized>
                   </strong>
                   <strong id="hi" *ngIf="i === 2">
-                    <app-localized en="Hindi" tm="Hindi" hi="Hindi"></app-localized>
+                    <app-localized en="Hindi" tm="ஹிந்தி" hi="fganh"></app-localized>
                 </strong>
                 <p>
-                    <app-localized en="Download all English resources in a .zip file." *ngIf="i === 0"></app-localized>
-                    <app-localized en="Download all Tamil resources in a .zip file." *ngIf="i === 1"></app-localized>
-                    <app-localized en="Download all Hindi resources in a .zip file." *ngIf="i === 2"></app-localized>
+                    <app-localized en="Download all English resources in a .zip file." hi="lHkh vaxzst+h lk/kuksa dks ,dlkFk MkmuyksM djsaA" *ngIf="i === 0"></app-localized>
+                    <app-localized en="Download all Tamil resources in a .zip file." hi="lHkh rfey lk/kuksa dks ,dlkFk MkmuyksM djsaA" *ngIf="i === 1"></app-localized>
+                    <app-localized en="Download all Hindi resources in a .zip file." hi="lHkh fganh lk/kuksa dks ,dlkFk MkmuyksM djsaA" *ngIf="i === 2"></app-localized>
                 </p>
 
                 <a class="blue download zip" href="{{lang.zip.url}}">Download</a>
@@ -32,7 +32,7 @@
             <!-- Guide -->
             <div class="file column is-full-mobile is-4-tablet is-offset-1-tablet no-pad">
                 <h3 class="push column is-full no-pad no-margin">
-                    <app-localized en="Facilitation Guide" hi="izf'k{kdekxZnÆ'kdk">
+                    <app-localized en="Facilitation Guide" tm="வழி நடத்துதளுக்கான கையேடு" hi="izf'k{kd ekxZnÆ'kdk">
                     </app-localized>
                 </h3>
 
@@ -47,11 +47,11 @@
             <div class="push columns column is-full is-mobile is-multiline">
 
                 <h3 class="column is-full no-pad no-margin">
-                    <app-localized en="Storybooks" hi="dgkuh dh fdrkcsa"></app-localized>
+                    <app-localized en="Storybooks" hi="fdrkc"></app-localized>
                 </h3>
-                <div class="file column is-full-mobile is-5-tablet">
+                <div class="file column is-11-mobile is-5-tablet">
                     <h4>
-                        <app-localized en="Storybook" hi="dgkuh dh fdrkcsa"></app-localized> 1
+                        <app-localized en="Storybook" hi="fdrkc"></app-localized> 1
                     </h4>
                     <a href="{{lang.storybook1.url}}">
                         <div class="hover"></div>
@@ -60,9 +60,9 @@
                     </a>
                 </div>
 
-                <div class="file column is-full-mobile is-5-tablet is-offset-1-tablet">
+                <div class="file column is-11-mobile is-5-tablet is-offset-1-tablet">
                     <h4>
-                        <app-localized en="Storybook" hi="dgkuh dh fdrkcsa"></app-localized> 2
+                        <app-localized en="Storybook" hi="fdrkc"></app-localized> 2
                     </h4>
                     <a href="{{lang.storybook2.url}}">
                         <div class="hover"></div>
@@ -71,9 +71,9 @@
                     </a>
                 </div>
 
-                <div class="file column is-full-mobile is-5-tablet">
+                <div class="file column is-11-mobile is-5-tablet">
                     <h4>
-                        <app-localized en="Storybook" hi="dgkuh dh fdrkcsa"></app-localized> 3
+                        <app-localized en="Storybook" hi="fdrkc"></app-localized> 3
                     </h4>
                     <a href="{{lang.storybook3.url}}">
                         <div class="hover"></div>
@@ -82,9 +82,9 @@
                     </a>
                 </div>
 
-                <div class="file column is-full-mobile is-5-tablet is-offset-1-tablet">
+                <div class="file column is-11-mobile is-5-tablet is-offset-1-tablet">
                     <h4>
-                        <app-localized en="Storybook" hi="dgkuh dh fdrkcsa"></app-localized> 4
+                        <app-localized en="Storybook" hi="fdrkc"></app-localized> 4
                     </h4>
                     <a href="{{lang.storybook4.url}}">
                         <div class="hover"></div>
