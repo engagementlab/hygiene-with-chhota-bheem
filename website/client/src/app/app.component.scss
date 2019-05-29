@@ -8,11 +8,11 @@
         @include translate(28%, 0);
 
         @include not-desktop {
-            @include translate(50%, 0);
+            @include translate(80%, 0);
         }
 
         @include phones {
-            @include translate(70%, 0);
+            @include translate(75%, 0);
         }
     }
 }
@@ -30,11 +30,11 @@
     @include translate(-100%, 0);
 
     @include not-desktop {
-        width: 50%;
+        width: 70%;
     }
 
     @include phones {
-        width: 60%;
+        width: 80%;
     }
 
 
@@ -58,6 +58,10 @@
             a:visited {
                 color: white;
             }
+        }
+
+        @include phones {
+            padding-left: 7%;
         }
     }
 

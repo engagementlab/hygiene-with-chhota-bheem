@@ -8,7 +8,7 @@
                 <span></span>
             </div>
             <div id="label" class="column">
-                <div class="open"><app-localized en="Menu" tm="Menu" hi="esuw"></app-localized></div>
+                <div class="open"><app-localized en="Menu" tm="பட்டியல்" hi="esuw"></app-localized></div>
             </div>
         </a>
     </div>
@@ -20,7 +20,8 @@
     </div>
 
     <div id="right" class="link column is-one-third-mobile is-one-third-tablet no-pad">
-        <div id="wrap">Language
+        <div id="wrap">
+                <app-localized en="Language" tm="மொழி" hi="Hkk’kk"></app-localized>            
         <div>
             <a href="" [class.current]="currentLang === undefined">en</a>
             <a href="?tm" [class.current]="currentLang === 'tm'">tm</a>

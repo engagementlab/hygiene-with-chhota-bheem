@@ -149,6 +149,8 @@ nav {
         }
 
         #wrap {
+
+            min-width: 113px;
             margin-left: 70%;
             text-align: center;
 
@@ -165,6 +167,7 @@ nav {
                 justify-content: space-evenly;
                 flex-direction: row;
             }
+            
         }
 
         a {

@@ -1,34 +1,44 @@
 <div id="menu">
-<ul>
-    <li>
-        <a routerLink="/about" queryParamsHandling="merge" [class.current]="itemActive('about')"><app-localized en="About" tm="முகப்பு" hi="ds ckjs esa            "></app-localized></a>
-    </li>
-    <li>
-        <a routerLink="/stories" queryParamsHandling="merge" [class.current]="itemActive('stories')">
-            <app-localized en="Stories from the field" tm="உண்மை கதைகள்" hi="{ks=ksa ls dgkfu;ka"></app-localized>
-        </a>
-    </li>
-    <li>
-        <a routerLink="/workshops" queryParamsHandling="merge" [class.current]="itemActive('workshops')">
-            <app-localized en="Workshops" tm="" hi="dk;Z”kkyk"></app-localized>
-        </a>
-    </li>
-    <li>
-        <a routerLink="/resources" queryParamsHandling="merge" [class.current]="itemActive('resources')">
-            <app-localized en="Resources" tm="" hi="lk/ku"></app-localized>
-        </a>
-    </li>
-</ul>
+    <ul>
+        <li>
+            <a routerLink="/about" queryParamsHandling="merge" [class.current]="itemActive('about')">
+                <app-localized en="About" tm="முகப்பு" hi="ds ckjs esa"></app-localized>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/stories" queryParamsHandling="merge" [class.current]="itemActive('stories')">
+                <app-localized en="Stories from the field" tm="உண்மை கதைகள்" hi="{ks=ksa ls dgkfu;ka"></app-localized>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/workshops" queryParamsHandling="merge" [class.current]="itemActive('workshops')">
+                <app-localized en="Workshops" tm="பட்டறைகள்" hi="dk;Z”kkyk"></app-localized>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/resources" queryParamsHandling="merge" [class.current]="itemActive('resources')">
+                <app-localized en="Resources" tm="வளங்கள்" hi="lk/ku"></app-localized>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <app-localized en="What's New" tm="" hi=""></app-localized>
+            </a>
+        </li>
+    </ul>
 
-<section id="language">
+    <section id="language">
 
-    <h3>Language</h3>
-    <div>
-        <a href="" [class.current]="currentLang === undefined">english</a>
-        <a href="?tm" [class.current]="currentLang === 'tm'">தமிழ்</a>
-        <a href="?hi" class="hi" [class.current]="currentLang === 'hi'">fganh</a>
-    </div>
-</section>
+        <h3>
+            <app-localized en="Language" tm="மொழி" hi="Hkk’kk"></app-localized>
+        </h3>
+        <div>
+            <a href="" [class.current]="currentLang === undefined"><app-localized en="english" tm="ஆங்கிலம்" hi="hi"></app-localized></a>
+            <a href="?tm" [class.current]="currentLang === 'tm'"><app-localized en="tamil" tm="தமிழ்" hi="rfey"></app-localized></a>
+            <a href="?hi" [class.hi]="currentLang === 'hi'" [class.current]="currentLang === 'hi'"><app-localized en="hindi" tm="ஹிந்தி" hi="fganh"></app-localized></a>
+        </div>
+
+    </section>
 
 
 </div>
