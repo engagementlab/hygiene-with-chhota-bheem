@@ -309,7 +309,73 @@ Files.add({
             label: 'Poster 2 Image (Hindi)',
             folder: 'chhota-bheem',
             autoCleanup: true
-        }
+        },
+        poster3En: {
+            type: Types.File,
+            label: 'Poster 3 PDF (English)',
+            storage: azureFile
+        },
+        poster3ImgEn: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 3 Image (English)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
+        poster3Tm: {
+            type: Types.File,
+            label: 'Poster 3 PDF (Tamil)',
+            storage: azureFile
+        },
+        poster3ImgTm: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 3 Image (Tamil)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
+        poster3Hi: {
+            type: Types.File,
+            label: 'Poster 3 PDF (Hindi)',
+            storage: azureFile
+        },
+        poster3ImgHi: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 3 Image (Hindi)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
+        poster4En: {
+            type: Types.File,
+            label: 'Poster 4 PDF (English)',
+            storage: azureFile
+        },
+        poster4ImgEn: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 4 Image (English)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
+        poster4Tm: {
+            type: Types.File,
+            label: 'Poster 4 PDF (Tamil)',
+            storage: azureFile
+        },
+        poster4ImgTm: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 4 Image (Tamil)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
+        poster4Hi: {
+            type: Types.File,
+            label: 'Poster 4 PDF (Hindi)',
+            storage: azureFile
+        },
+        poster4ImgHi: {
+            type: Types.CloudinaryImage,
+            label: 'Poster 4 Image (Hindi)',
+            folder: 'chhota-bheem',
+            autoCleanup: true
+        },
     }
 );
 

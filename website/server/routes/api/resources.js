@@ -19,8 +19,8 @@ var buildData = (res) => {
 
     let list = keystone.list('Files').model;
     let allFields = [];
-    let fields = ['guide', 'zip', 'storybook1', 'storybook2', 'storybook3', 'storybook4', 'poster1', 'poster2'];
-    let imgFields = ['guideImg', 'storybook1Img', 'storybook2Img', 'storybook3Img', 'storybook4Img', 'poster1Img', 'poster2Img'];
+    let fields = ['guide', 'zip', 'storybook1', 'storybook2', 'storybook3', 'storybook4', 'poster1', 'poster2', 'poster3', 'poster4'];
+    let imgFields = ['guideImg', 'storybook1Img', 'storybook2Img', 'storybook3Img', 'storybook4Img', 'poster1Img', 'poster2Img', 'poster3Img', 'poster4Img'];
 
     _.each(fields, (f) => {
        allFields.push(f + 'En.url');

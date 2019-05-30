@@ -96,12 +96,12 @@
             <span class="summary" *ngIf="modules[0].summaryTm">{{modules[0].summaryTm}}</span>
             <span class="summary hi" *ngIf="modules[0].summaryHi">{{modules[0].summaryHi}}</span>
 
-            <a *ngIf="currentLang === undefined && modules[0].pdf" class="blue download" href="{{modules[0].pdf.url}}">Download
+            <a *ngIf="currentLang === undefined" class="blue download zip" routerLink="/resources" queryParamsHandling="merge">Download
                 Handwashing<br />with Soap Guide
             </a>
-            <a *ngIf="currentLang === 'tm' && modules[0].pdfTm" class="blue download" href="{{modules[0].pdfTm.url}}">கையேடு
+            <a *ngIf="currentLang === 'tm'" class="blue download zip" routerLink="/resources/tm" queryParamsHandling="merge">கையேடு
                 1 பார்க்கவும்</a>
-            <a *ngIf="currentLang === 'hi' && modules[0].pdfHi" class="blue download" href="{{modules[0].pdfHi.url}}">iwjh xkbM MkmuyksM djsa</a>
+            <a *ngIf="currentLang === 'hi'" class="hi blue download zip" routerLink="/resources/hi" queryParamsHandling="merge">iwjh xkbM MkmuyksM djsa</a>
         </div>
     </div>
 
@@ -164,12 +164,12 @@
             <span class="summary" *ngIf="modules[1].summaryTm">{{modules[1].summaryTm}}</span>
             <span class="summary hi" *ngIf="modules[1].summaryHi">{{modules[1].summaryHi}}</span>
 
-            <a *ngIf="currentLang === undefined && modules[1].pdf" class="blue download" href="{{modules[1].pdf.url}}">Download
+            <a *ngIf="currentLang === undefined" class="blue download zip" routerLink="/resources" queryParamsHandling="merge">Download
                 Toilet<br />Use Guide
             </a>
-            <a *ngIf="currentLang === 'tm' && modules[1].pdfTm" class="blue download" href="{{modules[1].pdfTm.url}}">கையேடு
+            <a *ngIf="currentLang === 'tm'" class="blue download zip" routerLink="/resources/tm" queryParamsHandling="merge">கையேடு
                 2 பார்க்கவும்</a>
-            <a *ngIf="currentLang === 'hi' && modules[1].pdfHi" class="blue download" href="{{modules[1].pdfHi.url}}">'kkSpky; iz;ksx dk xkbM MkmuyksM djsa</a>
+            <a *ngIf="currentLang === 'hi'" class="hi blue download zip" routerLink="/resources/hi" queryParamsHandling="merge">'kkSpky; iz;ksx dk xkbM MkmuyksM djsa</a>
         </div>
     </div>
 

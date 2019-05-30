@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
 
     this._dataSvc.getDataForUrl('homepage/get/').subscribe(response => {
 
-      this.modules = response.content;
+      this.modules = response.content.reverse();
       this.files = response.files;
 
     });
