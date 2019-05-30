@@ -82,6 +82,10 @@ a:visited {
 
         &.download {
 
+            &.hi {
+                text-transform: none;            
+            }
+
             &.zip {
                 &:after {
                     content: "ZIP";
@@ -90,6 +94,8 @@ a:visited {
 
             &:after {
                 content: "PDF";
+                font-family: 'AvenirBold';
+                
                 font-size: 14px;
                 margin-left: 33px;
 
