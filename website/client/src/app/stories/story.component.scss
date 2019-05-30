@@ -75,10 +75,11 @@ h5 {
 
 .subheader {
     ::ng-deep .hi {
-        @include enlarge();        
+        @include enlarge();     
     }
 
     &.hi {
+        text-transform: none;
         @include enlarge();
     }
 }
