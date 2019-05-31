@@ -52,22 +52,21 @@ export class ResourcesComponent implements OnInit {
 
     this._route.params.subscribe(params => {
       if(params['lang']) 
-        this.goToForm(params['lang']);
+        this.goToLang(params['lang']);
     });
 
   }
 
-  goToForm(lang: string) {
+  goToLang(lang: string) {
 
     setTimeout(() => {
         this._scrollToService
             .scrollTo({
                 target: document.getElementById(lang),
-                offset: 100,
                 easing: 'easeOutQuint',
-                duration: 1000
+                duration: 2500
             })
-    }, 100);
+    }, 1000);
 
   }
   
