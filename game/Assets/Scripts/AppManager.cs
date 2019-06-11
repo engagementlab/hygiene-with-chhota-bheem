@@ -19,6 +19,7 @@ public class AppManager : MonoBehaviour
 				
 	}
 
+	// CURRENTLY UNUSED
 	IEnumerator LocationTest()
     {
         // First, check if user has location service enabled
@@ -65,19 +66,4 @@ public class AppManager : MonoBehaviour
         Input.location.Stop();
     }
 
-	/*public void LoadLevel(string level)
-	{
-
-		iTween.Stop();
-		
-		if (level == "next")
-		{
-			var next = Application.loadedLevel + 1;
-			UnityEngine.SceneManagement.SceneManager.LoadScene(next);
-		} else if (!System.String.IsNullOrEmpty(level)) 
-			UnityEngine.SceneManagement.SceneManager.LoadScene(level);
-		else 
-			UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
-    	
-	}*/
 }

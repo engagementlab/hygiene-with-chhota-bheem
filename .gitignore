@@ -449,3 +449,5 @@ website/db
 Icon*
 website/server/node_modules/
 website/server/.env
+game/bin
+game/_certs
