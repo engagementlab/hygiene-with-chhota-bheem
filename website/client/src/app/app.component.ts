@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+
+import { filter } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 import { DataService } from './utils/data.service';
@@ -13,34 +15,41 @@ import { DataService } from './utils/data.service';
 export class AppComponent implements OnInit, AfterViewInit {
 
   public isQABuild: boolean;
+  public currentLang: string;
+
   title = 'Hygiene With Chhota Bheem';
+
+  private currentUrl: string;
 
   constructor(private _router: Router, private _route: ActivatedRoute, private _titleSvc: Title, private _dataSvc: DataService) {
 
     this.isQABuild = environment.qa;
     this._titleSvc.setTitle((this.isQABuild ? '(QA) ' : '') + this.title);
 
+    // Get nav route when nav ends
+    _router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(e => {
+      this.currentUrl = _router.url;
+    });
+
+    this.currentLang = this._dataSvc.currentLang.value;
+    this._dataSvc.currentLang.subscribe((val) => {
+      this.currentLang = val;
+    });
+   
    }
  
   ngOnInit() {
     
-    if(this.isQABuild) {
-      setTimeout(() => {
-
-        // TweenLite.fromTo(document.getElementById('qa-build'), .7, {autoAlpha:0, bottom:'-100%'}, {autoAlpha:1, bottom:0, ease:Expo.easeOut});
-        // TweenLite.fromTo(document.querySelector('#qa-build img'), .7, {autoAlpha:0, scale:0}, {autoAlpha:1, scale:1, delay:.7, ease:Back.easeOut});
-        // TweenLite.fromTo(document.querySelector('#qa-build #text'), .7, {autoAlpha:0, left:'-100%'}, {autoAlpha:1, left:0, delay:.9, ease:Back.easeOut});
-        // TweenLite.fromTo(document.getElementById('qa-build'), .7, {autoAlpha:1, bottom:0}, {autoAlpha:0, bottom:'-100%', display:'none', delay:4, ease:Expo.easeIn});
-    
-      }, 2000);
-    }
-
     this._router.events.subscribe((evt) => {
 
-      if (!(evt instanceof NavigationEnd)) {
+      if (!(evt instanceof NavigationEnd))
         return;
-      }
-
+    
+      // Close menu
+      document.getElementById('body').classList.remove('open');
+      document.getElementById('menu').classList.remove('open');
+      document.getElementById('menu-btn').classList.remove('open');
+        
       // Always go to top of page
       window.scrollTo(0, 0);
 
@@ -55,8 +64,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     
       if(params['tm'] !== undefined) 
         this._dataSvc.currentLang.next('tm');
+      else if(params['hi'] !== undefined) 
+          this._dataSvc.currentLang.next('hi');
         
     });
+
+  }
+
+  // Is passed route active?
+  itemActive(route: string) {
+
+    return '/'+route == this.currentUrl;
 
   }
 }

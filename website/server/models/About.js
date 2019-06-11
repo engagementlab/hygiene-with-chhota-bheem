@@ -41,7 +41,11 @@ About.add({
 
 	introTm: { type: Types.Textarea, label: 'Intro Text (Tamil)', required: true, initial: true},
 	para1Tm: { type: Types.Textarea, label: 'Paragraph 1 Text (Tamil)', required: true, initial: true},
-	para2Tm: { type: Types.Textarea, label: 'Paragraph 2 Text (Tamil)', required: true, initial: true}
+	para2Tm: { type: Types.Textarea, label: 'Paragraph 2 Text (Tamil)', required: true, initial: true},
+
+	introHi: { type: Types.Textarea, label: 'Intro Text (Hindi)', required: true, initial: true},
+	para1Hi: { type: Types.Textarea, label: 'Paragraph 1 Text (Hindi)', required: true, initial: true},
+	para2Hi: { type: Types.Textarea, label: 'Paragraph 2 Text (Hindi)', required: true, initial: true}
 	
 });
 

@@ -44,6 +44,10 @@ Story.add({
 	subtitleTm: { type: String, label: "Story Subtitle (Tamil)", required: true, initial: true},
 	descriptionTm: { type: Types.Markdown, label: "Story Description (Tamil)", required: true, initial: true},
 
+	nameHi: { type: String, label: "Person's Name (Hindi)", required: true, initial: true, index: true },	
+	subtitleHi: { type: String, label: "Story Subtitle (Hindi)", required: true, initial: true},
+	descriptionHi: { type: Types.Markdown, label: "Story Description (Hindi)", required: true, initial: true},
+
 	photo: { type: Types.CloudinaryImage, required: true, initial: true }
 });
 

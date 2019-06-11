@@ -17,11 +17,13 @@ mongoose.Promise = require('bluebird');
 var buildData = (res, lang) => {
 
     let list = keystone.list('About').model;
-    let fields = 'introTm para1Tm para2Tm';
-    if(lang === 'en')
-        fields = 'intro para1 para2';
-
-        console.log(lang)
+    let fields = 'intro para1 para2';
+    
+    if(lang === 'tm')
+        fields = 'introTm para1Tm para2Tm';
+    else if(lang === 'hi')
+        fields = 'introHi para1Hi para2Hi';
+    
     let data = list.findOne({}, fields);
 
     Bluebird.props({

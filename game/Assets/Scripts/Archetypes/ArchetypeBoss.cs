@@ -1,7 +1,7 @@
 ﻿﻿/* 
 
 Hygiene With Chhota Bheem
-Created by Engagement Lab @ Emerson College, 2017
+Created by Engagement Lab @ Emerson College, 2017-2019
 
 ==============
 	ArchetypeBoss.cs
@@ -186,7 +186,7 @@ public class ArchetypeBoss : ArchetypeMove
 		if(_wait) return;
 		
 		base.OnTriggerEnter(collider);
-		if(collider.gameObject.tag != "Bubble") return;
+		if(!collider.gameObject.CompareTag("Bubble")) return;
 		
 		collider.gameObject.GetComponent<SphereCollider>().enabled = false;
 

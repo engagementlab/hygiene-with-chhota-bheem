@@ -33,5 +33,7 @@ router.all('/*', function(req, res, next) {
 router.get('/api/homepage/get/:lang?', routeIncludes, routes.api.home.get);
 router.get('/api/about/get/:lang?', routeIncludes, routes.api.about.get);
 router.get('/api/stories/get/:lang?', routeIncludes, routes.api.stories.get);
+router.get('/api/workshops/get/:lang?', routeIncludes, routes.api.workshops.get);
+router.get('/api/resources/get/:lang?', routeIncludes, routes.api.resources.get);
 
 module.exports = router;

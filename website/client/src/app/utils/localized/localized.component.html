@@ -1,2 +1,3 @@
-<span *ngIf="showEn" [innerHtml]="en | linebreak"></span>
-<span *ngIf="!showEn" [innerHtml]="tm | linebreak"></span>
+<span *ngIf="currentLang === undefined" [innerHtml]="en | linebreak"></span>
+<span *ngIf="currentLang === 'tm'" [innerHtml]="tm | linebreak"></span>
+<span *ngIf="currentLang === 'hi'" [innerHtml]="hi | linebreak" [class.hi]="hi !== '[Need translation]'"></span>

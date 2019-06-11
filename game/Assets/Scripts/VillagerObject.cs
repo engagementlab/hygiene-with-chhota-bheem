@@ -72,9 +72,9 @@ public class VillagerObject : ArchetypeMove
 		_mainCamera = Camera.main;
 		_villagerRenderer = GetComponent<SpriteRenderer>();
 
-		_particleReady = GetComponent<Particles>() != null;
+		_particleReady = !ReferenceEquals(GetComponent<Particles>(), null);
 
-		if (GetComponent<ParticleSystem>() != null)
+		if (!ReferenceEquals(GetComponent<ParticleSystem>(), null))
 		{
 			_particleSystem = GetComponent<ParticleSystem>();
 			_main = _particleSystem.main;
@@ -96,7 +96,7 @@ public class VillagerObject : ArchetypeMove
 		_villagerRenderer.sprite = _spriteFrames[0];
 		_frame = _spriteFrames.Length / HitPoints;
 
-		if (_particleSystem != null && _particleReady)
+		if (!ReferenceEquals(_particleSystem, null) && _particleReady)
 			_particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 		
 		// Check if this was spawned, if not, add it to total count

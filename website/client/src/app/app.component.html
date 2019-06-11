@@ -1,14 +1,67 @@
-<app-nav></app-nav>
+<div id="menu">
+    <ul>
+        <li>
+            <a routerLink="/about" queryParamsHandling="merge" [class.current]="itemActive('about')">
+                <app-localized en="About" tm="முகப்பு" hi="ds ckjs esa"></app-localized>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/stories" queryParamsHandling="merge" [class.current]="itemActive('stories')">
+                <app-localized en="Stories from the field" tm="உண்மை கதைகள்" hi="{ks=ksa ls dgkfu;ka"></app-localized>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/workshops" queryParamsHandling="merge" [class.current]="itemActive('workshops')">
+                <app-localized en="Workshops" tm="பட்டறைகள்" hi="dk;Z”kkyk"></app-localized>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/resources" queryParamsHandling="merge" [class.current]="itemActive('resources')">
+                <app-localized en="Resources" tm="வளங்கள்" hi="lk/ku"></app-localized>
+            </a>
+        </li>
+        <li>
+            <a href="https://medium.com/engagement-lab-emerson-college/chhotabheem/">
+                <app-localized en="What's New" tm="புதிய செய்திகள்" hi="ubZ [kcjsa"></app-localized>
+            </a>
+        </li>
+    </ul>
 
-<div id="menu-overlay"></div>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+    <section id="language">
 
-<!-- QA Build Banner -->
-<div *ngIf="isQABuild === true" id="qa-build"> 
+        <h3>
+            <app-localized en="Language" tm="மொழி" hi="Hkk’kk"></app-localized>
+        </h3>
+        <div>
+            <a href="" [class.current]="currentLang === undefined">
+                <app-localized en="english" tm="ஆங்கிலம்" hi="vaxzst+h"></app-localized>
+            </a>
+            <a href="?tm" [class.current]="currentLang === 'tm'">
+                <app-localized en="tamil" tm="தமிழ்" hi="rfey"></app-localized>
+            </a>
+            <a href="?hi" [class.hi]="currentLang === 'hi'" [class.current]="currentLang === 'hi'">
+                <app-localized en="hindi" tm="ஹிந்தி" hi="fganh"></app-localized>
+            </a>
+        </div>
 
-    <img src="https://res.cloudinary.com/engagement-lab-home/image/upload/v1544209738/homepage-2.0/qa-build.svg" style="max-width:50px" alt="QA Build icon"/>
-    <span id="text">QA BUILD</span>
-    <div>Work in progress. Not intended for external use.</div>
+    </section>
 
+
+</div>
+
+<div id="body">
+    <app-nav></app-nav>
+
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+
+    <!-- QA Build Banner -->
+    <div *ngIf="isQABuild === true" id="qa-build">
+
+        <img src="https://res.cloudinary.com/engagement-lab-home/image/upload/v1544209738/homepage-2.0/qa-build.svg"
+            style="max-width:50px" alt="QA Build icon" />
+        <span id="text">QA BUILD</span>
+        <div>Work in progress. Not intended for external use.</div>
+
+    </div>
 </div>

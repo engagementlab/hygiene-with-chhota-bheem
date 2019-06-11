@@ -58,7 +58,7 @@ public class ArchetypeSpellJuice : MonoBehaviour
 
 	private void OnTriggerEnter(Collider collider) {
 		
-		if(collider.gameObject.tag != "Player" || _triggered || _playerScript.LifeLossRunning) return;
+		if(collider.gameObject.tag != "Player" || _triggered) return;
 		
 		var currentSpellObject = GameObject.FindGameObjectWithTag("SpellBar");
 		

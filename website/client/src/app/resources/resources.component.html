@@ -1,0 +1,153 @@
+<div *ngIf="hasContent">
+    <section id="intro" class="column is-9-desktop offset no-pad">
+
+        <div class="subheader is-full" data-aos="fade-up">
+            <app-localized en="Resources" tm="வளங்கள்" hi="lk/ku"></app-localized>
+        </div>
+
+    </section>
+
+    <section id="content">
+        <div class="push language columns is-multiline is-mobile is-9-desktop offset"
+            *ngFor="let lang of languages; let i = index;">
+            <div class="all column is-10-mobile is-4-tablet">
+                <strong id="en" *ngIf="i === 0">
+                    <app-localized en="English" tm="ஆங்கிலம்" hi="vaxzst+h"></app-localized>
+                  </strong>
+                  <strong id="tm" *ngIf="i === 1">
+                    <app-localized en="Tamil" tm="தமிழ்" hi="rfey"></app-localized>
+                  </strong>
+                  <strong id="hi" *ngIf="i === 2">
+                    <app-localized en="Hindi" tm="ஹிந்தி" hi="fganh"></app-localized>
+                </strong>
+                <p>
+                    <app-localized en="Download all English resources in a .zip file." tm="அனைத்து ஆங்கில வளங்களையும் ஒரு .zip கோப்பில் பதிவிறக்கம் செய்க" hi="lHkh vaxzst+h lk/kuksa dks ,dlkFk MkmuyksM djsaA" *ngIf="i === 0"></app-localized>
+                    <app-localized en="Download all Tamil resources in a .zip file." tm="அனைத்து தமிழ் ஒரு .zip கோப்பில் பதிவிறக்கம் செய்க" hi="lHkh rfey lk/kuksa dks ,dlkFk MkmuyksM djsaA" *ngIf="i === 1"></app-localized>
+                    <app-localized en="Download all Hindi resources in a .zip file." tm="எல்லா ஹிந்தி வளங்களையும் ஒரு .zip கோப்பில் பதிவிறக்கம் செய்க" hi="lHkh fganh lk/kuksa dks ,dlkFk MkmuyksM djsaA" *ngIf="i === 2"></app-localized>
+                </p>
+
+                <a class="blue download zip" href="{{lang.zip.url}}">Download</a>
+            </div>
+
+            <!-- Guide -->
+            <div class="file column is-full-mobile is-4-tablet is-offset-1-tablet no-pad">
+                <h3 class="push column is-full no-pad no-margin">
+                    <app-localized en="Facilitation Guide" tm="வழி நடத்துதளுக்கான கையேடு" hi="izf'k{kd ekxZnÆ'kdk">
+                    </app-localized>
+                </h3>
+
+                <a href="{{lang.guide.url}}">
+                    <div class="hover"></div>
+                    <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.guideImg.public_id}}" width="400"
+                        autoFormat="true"></cdn-image>
+                </a>
+            </div>
+
+            <!-- Books -->
+            <div class="push columns column is-full is-mobile is-multiline">
+
+                <h3 class="column is-full no-pad no-margin">
+                    <app-localized en="Storybooks" tm="கதை புத்தகம்" hi="fdrkc"></app-localized>
+                </h3>
+                <div class="file column is-11-mobile is-5-tablet">
+                    <h4>
+                        <app-localized en="Storybook" tm="புத்தகம்" hi="fdrkc"></app-localized> 1
+                    </h4>
+                    <a href="{{lang.storybook1.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.storybook1Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-11-mobile is-5-tablet is-offset-1-tablet">
+                    <h4>
+                        <app-localized en="Storybook" tm="புத்தகம்" hi="fdrkc"></app-localized> 2
+                    </h4>
+                    <a href="{{lang.storybook2.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.storybook2Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-11-mobile is-5-tablet">
+                    <h4>
+                        <app-localized en="Storybook" tm="புத்தகம்" hi="fdrkc"></app-localized> 3
+                    </h4>
+                    <a href="{{lang.storybook3.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.storybook3Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-11-mobile is-5-tablet is-offset-1-tablet">
+                    <h4>
+                        <app-localized en="Storybook" tm="புத்தகம்" hi="fdrkc"></app-localized> 4
+                    </h4>
+                    <a href="{{lang.storybook4.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.storybook4Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Posters -->
+            <div class="push columns column is-full is-mobile is-multiline">
+
+                <h3 class="column is-full no-pad no-margin">
+                    <app-localized en="Posters" tm="சுவரொட்டிகள்" hi="iksLVj"></app-localized>
+                </h3>
+
+                <div class="file column is-11-mobile is-5-tablet">
+                    <h4>
+                        <app-localized en="Poster" tm="சுவரரகாடங்டி" hi="iksLVj"></app-localized> 1
+                    </h4>
+                    <a href="{{lang.poster1.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.poster1Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-11-mobile is-5-tablet is-offset-1-tablet">
+                    <h4>
+                        <app-localized en="Poster" tm="சுவரரகாடங்டி" hi="iksLVj"></app-localized> 2
+                    </h4>
+                    <a href="{{lang.poster2.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.poster2Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-11-mobile is-5-tablet">
+                    <h4>
+                        <app-localized en="Poster" tm="சுவரரகாடங்டி" hi="iksLVj"></app-localized> 3
+                    </h4>
+                    <a href="{{lang.poster3.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.poster3Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+
+                <div class="file column is-11-mobile is-5-tablet is-offset-1-tablet">
+                    <h4>
+                        <app-localized en="Poster" tm="சுவரரகாடங்டி" hi="iksLVj"></app-localized> 4
+                    </h4>
+                    <a href="{{lang.poster4.url}}">
+                        <div class="hover"></div>
+                        <cdn-image cloudinaryPrefix="/" cloudinaryId="{{lang.poster4Img.public_id}}" width="480"
+                            autoFormat="true"></cdn-image>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>

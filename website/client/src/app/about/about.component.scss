@@ -6,8 +6,8 @@ section {
     color: $french-blue;
 
     &#intro {
-        
-        margin-top: 20%;
+
+        margin-top: 10%;
 
     }
 
@@ -45,4 +45,10 @@ section {
     }
 
 
+}
+
+.subheader {
+    ::ng-deep .hi {
+        @include enlarge();        
+    }
 }

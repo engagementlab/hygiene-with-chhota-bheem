@@ -33,7 +33,6 @@ ExportedObj/
 sysinfo.txt
 
 # Builds
-*.apk
 *.unitypackage
 
 ./idea/
@@ -446,3 +445,7 @@ Assets/PostProcessing/Textures/Spectral LUTs/SpectralLut_RedBlue.tga
 Assets/PostProcessing/Textures/Spectral LUTs/SpectralLut_RedBlue.tga.meta
 Assets/EffectExamples
 website/db
+
+Icon*
+website/server/node_modules/
+website/server/.env

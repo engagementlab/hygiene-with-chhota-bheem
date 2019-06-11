@@ -1,23 +1,122 @@
-
 @import '../styles/_variables';
 
-#qa-build {
-	position: fixed;
-	bottom: 100%;
-	left: 0;
-	right: 0;
-	color: white;
-	background-color: $tomato;
-	text-align: center;
-	font-weight: bold;
-	font-size: large;
-	z-index: 100;
+#body {
 
-	#text {
-		font-size: xx-large;
-	}
-	span {
-		vertical-align: top;
-	}
-	
+    @include transition(transform, 1s, ease-in-out);
+
+    &.open {
+        @include translate(28%, 0);
+
+        @include not-desktop {
+            @include translate(80%, 0);
+        }
+
+        @include phones {
+            @include translate(75%, 0);
+        }
+    }
+
+}
+
+#menu {
+
+    position: fixed;
+    display: inline-table;
+
+    z-index: 10;
+    background-color: $dark-sky-blue;
+    top: 0;
+    left: 0;
+    width: 32%;
+    height: 100%;
+
+    @include transition(all, 1.1s, ease-in-out);
+    @include translate(-100%, 0);
+
+    @include not-desktop {
+        width: 70%;
+    }
+
+    @include phones {
+        width: 80%;
+    }
+
+    &.open {
+        @include translate(0, 0);
+    }
+
+    ul {
+        li {
+            @include pxtoem(18, 36);
+            list-style: none;
+
+            line-height: 1.33;
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            margin-top: 15%;
+
+            a,
+            a:visited {
+                color: white;
+            }
+
+            a.current {
+                opacity: .5;
+                cursor: default;
+            }
+        }
+
+        @include phones {
+            padding-left: 7%;
+        }
+    }
+
+    #language {
+        margin-top: 8%;
+        padding-left: 8%;
+
+        color: $french-blue;
+        text-transform: uppercase;
+
+        h3 {
+            @include pxtoem(18, 24);
+            line-height: 1.5;
+            letter-spacing: 4px;
+        }
+
+        a,
+        a:visited {
+            color: $french-blue;
+            margin-right: 6%;
+
+            &.current {
+                opacity: .5;
+                cursor: default;
+            }
+        }
+    }
+}
+
+#qa-build {
+    position: fixed;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    color: white;
+    background-color: $tomato;
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    z-index: 100;
+
+    #text {
+        font-size: xx-large;
+    }
+
+    span {
+        vertical-align: top;
+    }
+
 }

@@ -27,6 +27,9 @@ h5 {
         margin-top: 0;
     }
 
+    &.hi {
+        text-transform: none;            
+    }
 }
 
 .a {
@@ -38,17 +41,46 @@ h5 {
 #description {
 
     @include pxtoem(12, 18);
-    font-family: 'Avenir';
     font-weight: 500;
     line-height: 1.33;
     color: $french-blue;
-
+    
+    &:not(.hi) {
+        font-family: 'Avenir';
+    }
+    
 }
 
 #next-prev {
     justify-content: space-evenly;
-
+    
     a > div {
         margin-top: 7%;
+    }
+    
+    a {
+        
+        @include pxtoem(18, 24);
+        font-weight: bold;
+        line-height: 1.17;
+        text-transform: uppercase;
+        
+        color: $dark-sky-blue;
+
+        .hi {
+            @include enlarge();
+        }
+    }
+}
+
+.subheader {
+    ::ng-deep .hi {
+        @include enlarge();     
+    }
+
+    &.hi {
+        text-transform: none;
+        letter-spacing: 0;
+        @include enlarge();
     }
 }

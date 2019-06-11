@@ -176,7 +176,7 @@ namespace LetterboxCamera
                 letterBoxCamera.depth = -100;
                 letterBoxCamera.farClipPlane = 1;
                 letterBoxCamera.useOcclusionCulling = false;
-                letterBoxCamera.hdr = false;
+                letterBoxCamera.allowHDR = false;
                 letterBoxCamera.clearFlags = CameraClearFlags.Color;
                 letterBoxCamera.name = "Letter Box Camera";
 

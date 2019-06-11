@@ -37,10 +37,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	[HideInInspector]
 	public Spells SpellsType;
 
-	public bool PoweredUp
-	{
-		get { return _powerUpState > 0; }
-	}
+	public bool PoweredUp => _powerUpState > 0;
 
 	private GameObject _lastBubble;
 	private Camera _mainCamera;
@@ -110,6 +107,7 @@ public class ArchetypePlayer : MonoBehaviour {
 		_underlay.transform.localPosition = Vector3.zero;
 
 		_gameManager = Camera.main.GetComponent<GameManager>();
+		
 	}
 
 	private void Update()
@@ -177,6 +175,7 @@ public class ArchetypePlayer : MonoBehaviour {
 
 	private void ScatterDirs(float n)
 	{
+		
 		float p = (2 * n) + 1; // number of breaks (bubbles)
 		float c = 1 / (n + 1); // find the decimal breaks
 		
@@ -241,6 +240,7 @@ public class ArchetypePlayer : MonoBehaviour {
 	// For resetting at new level
 	public void ResetLevel()
 	{
+		
 		// Reset Spell counts
 		_bigShoot = 0;
 		_speedShoot = 0;
@@ -294,7 +294,10 @@ public class ArchetypePlayer : MonoBehaviour {
 	
 	private IEnumerator PlayerLifeLoss(bool die, string killerName=null)
 	{
-
+		
+		// Do nothing if already dead
+		if(Killed) yield return null;
+		
 		// Kill player
 		if (die)
 		{
@@ -302,7 +305,7 @@ public class ArchetypePlayer : MonoBehaviour {
 			Killed = true;
 			GameConfig.GameOver = true;
 
-			if (transform.parent != null)
+			if (!ReferenceEquals(transform.parent, null))
 			{
 				var toPosition = new Vector3(transform.position.x, transform.position.y - 500, 0);
 				var distance = Vector3.Distance(toPosition, transform.position);

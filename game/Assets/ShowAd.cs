@@ -8,6 +8,8 @@ public class ShowAd : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+#if UNITY_ADS
+
 
 		Debug.Log("ADS INIT");
 	
@@ -18,33 +20,31 @@ public class ShowAd : MonoBehaviour {
 		#endif
 	
 		#if UNITY_ANDROID
-			Advertisement.Initialize("2805294", false);	
+//			Advertisement.Initialize("2805294", false);	
 		#endif
 	
-		Debug.Log("Unity Ads initialized: " + Advertisement.isInitialized);
+/*		Debug.Log("Unity Ads initialized: " + Advertisement.isInitialized);
 		Debug.Log("Unity Ads is supported: " + Advertisement.isSupported);
-		Debug.Log("Unity Ads test mode enabled: " + Advertisement.debugMode);
+		Debug.Log("Unity Ads test mode enabled: " + Advertisement.debugMode);*/
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
+#endif
 		
 	}
-	
+#if UNITY_ADS
+
 		public void ShowRewardedAd()
 		{
-			if (Advertisement.IsReady())
+/*			if (Advertisement.IsReady())
 			{
 				var options = new ShowOptions { resultCallback = HandleShowResult };
 				Advertisement.Show();
 			} else
 			{
 				Debug.LogError("Ads not ready: " + Advertisement.version);
-			}
+			}*/
 		}
 
-		private void HandleShowResult(ShowResult result)
+/*		private void HandleShowResult(ShowResult result)
 		{
 			switch (result)
 			{
@@ -61,6 +61,7 @@ public class ShowAd : MonoBehaviour {
 					Debug.LogError("The ad failed to be shown.");
 					break;
 			}
-		}
-	
+		}*/
+
+		#endif
 }

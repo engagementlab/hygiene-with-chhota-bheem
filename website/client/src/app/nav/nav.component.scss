@@ -9,11 +9,8 @@ nav {
     z-index: 4;
 
     a {
-        line-height: 1.14;
-        letter-spacing: 4px;
-        text-transform: uppercase;
         color: $brownish-red;
-        @include pxtoem(12, 14);
+        // width: 100%;
 
         @include mobile-only {
             line-height: 1.43;
@@ -32,20 +29,157 @@ nav {
         }
     }
 
-    #lang { 
-        position: absolute;
-        right: 0;
+    #home {
+        display: flex;
+        justify-content: center;
+    }
+
+    #menu-btn {
+
+        display: flex;
+        align-items: center;
+        font-family: 'AvenirBold';
+        @include pxtoem(12, 18);
+
+        cursor: pointer;
+
+        @include phones {
+            a {
+                display: flex;
+                // width: 100%;
+            }
+        }
+
+        #lines {
+            position: relative;
+
+            display: inline-grid;
+            align-content: center;
+
+            span {
+                display: block;
+                height: 4px;
+                width: 30px;
+                background: $brownish-red;
+                opacity: 1;
+                left: 0;
+
+                transform-origin: left;
+
+                @include transform(rotate(0deg));
+                @include transition(all, .7s, ease-in-out);
+
+                &:nth-child(2) {
+                    position: relative;
+                    top: 6px;
+                }
+
+                &:nth-child(3) {
+                    position: relative;
+                    top: 12px;
+                }
+
+            }
+
+        }
+
+        #label {
+
+            display: flex;
+            line-height: 4.22;
+            letter-spacing: 4px;
+
+            padding-top: 15%;
+            padding-left: 0;
+
+            @include transition(color, .7s, ease-in-out);
+
+            ::ng-deep .hi {
+                font-size: 2em;
+            }
+        }
+
+        &.open {
+
+            #label {
+                color: $tomato;
+            }
+
+            #lines {
+                span {
+                    background: $tomato;
+
+                    &:nth-child(1) {
+                        @include transform(rotate(45deg));
+                    }
+
+                    &:nth-child(2) {
+                        opacity: 0;
+                    }
+
+                    &:nth-child(3) {
+                        @include transform(rotate(-45deg));
+                    }
+                }
+            }
+
+        }
     }
 
     #right {
+
+        display: none;
+
+        color: $tomato;
+
+        font-family: 'AvenirBold';
+        @include pxtoem(12, 14);
+        font-weight: 600;
+
+        line-height: 1.14;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+
         @include desktop {
             text-align: right;
         }
+
+        @include not-phones {
+            display: flex;
+        }
+
+        #wrap {
+
+            min-width: 113px;
+            margin-left: 70%;
+            text-align: center;
+
+            @include phones {
+                margin-left: 0;
+            }
+
+            @include not-desktop {
+                margin-left: 47%;
+            }
+
+            div {
+                display: flex;
+                justify-content: space-evenly;
+                flex-direction: row;
+            }
+            
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 13px;
+        }
+
     }
 
     .link {
         padding-top: 4%;
-        
+
         @include not-phones {
             padding-top: 5%;
         }
@@ -60,11 +194,12 @@ nav {
             text-align: center;
             display: flex;
         }
+
     }
-    
+
     @include mobile-only {
         margin-top: 7.5%;
-        margin-bottom: 24%!important;
+        margin-bottom: 24% !important;
 
         a {
             line-height: 1.43;

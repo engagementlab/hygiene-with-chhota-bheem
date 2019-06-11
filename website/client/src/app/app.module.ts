@@ -27,6 +27,9 @@ import { DataService } from './utils/data.service';
 import { RedirectService } from './utils/redirect.service';
 import { StoryIndexComponent } from './stories/index.component';
 import { StoryComponent } from './stories/story.component';
+import { WorkshopsComponent } from './workshops/workshops.component';
+import { ResourcesComponent } from './resources/resources.component';
+
 import { LocalizedComponent } from './utils/localized/localized.component';
 import { LinebreakPipe } from './utils/linebreak.pipe';
 
@@ -40,7 +43,10 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'stories', component: StoryIndexComponent },
-  { path: 'stories/:key', component: StoryComponent }
+  { path: 'stories/:key', component: StoryComponent },
+  { path: 'workshops', component: WorkshopsComponent },
+  { path: 'resources', component: ResourcesComponent },
+  { path: 'resources/:lang', component: ResourcesComponent }
 ];
 
 @NgModule({
@@ -58,6 +64,8 @@ export const routes: Routes = [
     StoryComponent,
     LocalizedComponent,
     LinebreakPipe,
+    WorkshopsComponent,
+    ResourcesComponent,
   ],
   imports: [
     AppRoutingModule,

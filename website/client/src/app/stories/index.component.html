@@ -2,13 +2,14 @@
     <section id="intro" class="is-10-mobile is-full-desktop column columns is-mobile no-margin is-multiline">
 
         <div class="subheader column is-full" data-aos="fade-up">
-            <app-localized en="Stories from the Field" tm="உண்மை கதைகள்"></app-localized>
+            <app-localized en="Stories from the Field" tm="உண்மை கதைகள்" hi="{ks=ksa ls dgkfu;ka"></app-localized>
         </div>
 
-        <h4 class="column is-full-mobile is-half-tablet" data-aos="fade-left" data-aos-delay="300">
-            <app-localized 
-            en="Read about the young change makers, power parents, and inspiring teachers who are using our curriculum to spread best practices in health and hygiene to their communities!"
-            tm=""></app-localized>
+        <h4 class="column is-full" data-aos="fade-left" data-aos-delay="300">
+            <app-localized
+                en="Read about the young change makers, power parents, and inspiring teachers who are using our curriculum to spread best practices in health and hygiene to their communities!"
+                tm="எங்கள் பாடத்திட்டமான சுத்தம் மற்றும் சுகாதாரதின்  மூலமாக சிறந்த நடைமுறைகளை சமூகத்திற்கு எடுத்துச் சென்று மாற்றத்தை உருவாக்கும் இளைஞர்கள், ஆற்றல்வாய்ந்த பெற்றோர்கள், மற்றும் எழுச்சியூட்டும் ஆசிரியர்களைப் பற்றி படித்து தெரிந்துகொள்ள!" 
+                hi="bu dgkfu;ksa esa cnyko ykus okys NksVs cPpksa] tkx:d ekrk&firk vkSj çsfjr djus okys f'k{kdksa ds ckjs esa i<+sa] tks gekjs ikBîØe dk mi;ksx djds vius leqnk;ksa esa LokLF; vkSj LoPNrk esa vPNha vknrksa dk çpkj&çlkj dj jgs gSa!"></app-localized>
         </h4>
 
     </section>
@@ -17,8 +18,8 @@
 
         <div class="column is-5-tablet" *ngIf="!isPhone">
 
-            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{person.photo.public_id}}"
-                width="500" autoFormat="true"></cdn-image>
+            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/"
+                cloudinaryId="{{person.photo.public_id}}" width="500" autoFormat="true"></cdn-image>
 
         </div>
 
@@ -26,15 +27,23 @@
 
             <h5 class="column is-full" data-aos="fade-left" *ngIf="person.name">Meet {{person.name}}</h5>
             <h5 class="column is-full" data-aos="fade-left" *ngIf="person.nameTm">சந்திக்க {{person.nameTm}}</h5>
+            <h5 class="column is-full hi" data-aos="fade-left" *ngIf="person.nameHi">{{person.nameHi}} ls feysa</h5>
 
-            <div class="subtitle column is-10-mobile is-full-tablet is-11-desktop" data-aos="fade-up" data-aos-delay="400" *ngIf="person.subtitle">{{person.subtitle}}</div>
-            <div class="subtitle column is-10-mobile is-full-tablet is-11-desktop" data-aos="fade-up" data-aos-delay="400" *ngIf="person.subtitleTm">{{person.subtitleTm}}</div>
+            <div class="subtitle column is-10-mobile is-full-tablet" data-aos="fade-up"
+                data-aos-delay="400" *ngIf="person.subtitle">{{person.subtitle}}</div>
+            <div class="subtitle column is-10-mobile is-full-tablet" data-aos="fade-up"
+                data-aos-delay="400" *ngIf="person.subtitleTm">{{person.subtitleTm}}</div>
+            <div class="subtitle column is-10-mobile is-full-tablet hi" data-aos="fade-up"
+                data-aos-delay="400" *ngIf="person.subtitleHi">{{person.subtitleHi}}</div>
 
-            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/" cloudinaryId="{{person.photo.public_id}}"
-                width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
-            <div class="a column is-full" data-aos="fade-up"><a routerLink="/stories/{{person.key}}" queryParamsHandling="merge" class="view">
-            <app-localized en="read story" tm="கதை வாசிக்கவும்"></app-localized>
-            </a></div>
+            <cdn-image data-aos="fade" data-aos-offset="-100" cloudinaryPrefix="/"
+                cloudinaryId="{{person.photo.public_id}}" width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
+            <div class="a column is-full" data-aos="fade-up">
+
+                <a routerLink="/stories/{{person.key}}" queryParamsHandling="merge" class="link">
+                    <app-localized en="read story" tm="கதை வாசிக்கவும்" hi="dgkuh i<+sa"></app-localized>
+                </a>
+            </div>
 
         </div>
 

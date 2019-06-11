@@ -31,7 +31,7 @@ public class GameConfig : MonoBehaviour
 	public static float GameSpeedModifier = 15;
 	public static float BubbleOffset = 1.5f;
 
-	public static int CurrentLanguage = 1;
+	public static int CurrentLanguage = 0;
 	public static int Score;
 	public static int VillagersSaved;
 	public static int Multiplier;
@@ -87,8 +87,8 @@ public class GameConfig : MonoBehaviour
 
 		if(PlayerPrefs.HasKey("language"))
 			CurrentLanguage = PlayerPrefs.GetInt("language");
-		else
-			PlayerPrefs.SetInt("language", CurrentLanguage);
+//		else
+//			PlayerPrefs.SetInt("language", CurrentLanguage);
 		
 	}
 	

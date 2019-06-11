@@ -27,6 +27,9 @@ h5 {
         margin-top: 0;
     }
 
+    &.hi {
+        text-transform: none;            
+    }
 }
 
 .a {
@@ -37,21 +40,19 @@ h5 {
 
 .subtitle {
 
-    font-family: 'AvenirHeavy';
+    font-family: 'AvenirDemi';
     @include pxtoem(24, 42);
-    color: $goldenrod;
-    -webkit-text-stroke-color: $dark-sky-blue;
-    -webkit-text-stroke-width: 1px;
+    color: $dark-sky-blue;
 
-    @include not-phones {
-        -webkit-text-stroke-width: 2px;
+    &.hi {
+        font-family: 'Kruti';
     }
-
-    text-align: right;
 
 }
 
 .person {
+
+    text-align: center;
 
     @include not-phones {
         padding-top: 10%;
@@ -67,4 +68,10 @@ h5 {
     line-height: 1.33;
     color: $french-blue;
 
+}
+
+.subheader {
+    ::ng-deep .hi {
+        @include enlarge();        
+    }
 }

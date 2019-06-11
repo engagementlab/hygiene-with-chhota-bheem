@@ -1,7 +1,7 @@
 ﻿/*
 
 Hygiene With Chhota Bheem
-Created by Engagement Lab @ Emerson College, 2017
+Created by Engagement Lab @ Emerson College, 2017-2019
 
 ==============
 	ImportTextures.cs
@@ -15,6 +15,7 @@ Created by Engagement Lab @ Emerson College, 2017
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
+using TextureCompressionQuality = UnityEditor.TextureCompressionQuality;
 
 public class TexturePostProcessor : AssetPostprocessor {
 
