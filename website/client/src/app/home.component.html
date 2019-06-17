@@ -160,9 +160,9 @@
         </div>
 
         <div class="description column is-11-tablet is-4-desktop" data-aos="fade-left" data-aos-delay="250">
-            <span class="summary" *ngIf="modules[1].summary">{{modules[1].summary}}</span>
-            <span class="summary" *ngIf="modules[1].summaryTm">{{modules[1].summaryTm}}</span>
-            <span class="summary hi" *ngIf="modules[1].summaryHi">{{modules[1].summaryHi}}</span>
+            <div class="summary" *ngIf="modules[1].summary">{{modules[1].summary}}</div>
+            <div class="summary" *ngIf="modules[1].summaryTm">{{modules[1].summaryTm}}</div>
+            <div class="summary hi" *ngIf="modules[1].summaryHi">{{modules[1].summaryHi}}</div>
 
             <a *ngIf="currentLang === undefined" class="blue download zip" routerLink="/resources" queryParamsHandling="merge">Download
                 Toilet<br />Use Guide
