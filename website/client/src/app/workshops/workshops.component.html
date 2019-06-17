@@ -32,9 +32,9 @@
             </h5>
         </div>
         <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
-            <span *ngIf="content.oneDayIntroEn">{{content.oneDayIntroEn}}</span>
-            <span *ngIf="content.oneDayIntroTm">{{content.oneDayIntroTm}}</span>
-            <span *ngIf="content.oneDayIntroHi" class="hi">{{content.oneDayIntroHi}}</span>
+            <span *ngIf="content.oneDayIntroEn" [innerHtml]="content.oneDayIntroEn | linebreak"></span>
+            <span *ngIf="content.oneDayIntroTm" [innerHtml]="content.oneDayIntroTm | linebreak"></span>
+            <span *ngIf="content.oneDayIntroHi" class="hi" [innerHtml]="content.oneDayIntroHi | linebreak"></span>
         </div>
 
         <div class="column is-full">
@@ -47,9 +47,9 @@
             </h5>
         </div>
         <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
-            <span *ngIf="content.oneDayIntroEn">{{content.oneDayObjEn}}</span>
-            <span *ngIf="content.oneDayIntroTm">{{content.oneDayObjTm}}</span>
-            <span *ngIf="content.oneDayIntroHi" class="hi">{{content.oneDayObjHi}}</span>
+            <span *ngIf="content.oneDayIntroEn" [innerHtml]="content.oneDayObjEn | linebreak"></span>
+            <span *ngIf="content.oneDayIntroTm" [innerHtml]="content.oneDayObjTm | linebreak"></span>
+            <span *ngIf="content.oneDayIntroHi" class="hi" [innerHtml]="content.oneDayObjHi | linebreak"></span>
         </div>
 
         <div class="column is-full center" data-aos="fade-up">
@@ -79,9 +79,9 @@
             </h5>
         </div>
         <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
-            <span *ngIf="content.oneDayIntroEn">{{content.fourDayIntroEn}}</span>
-            <span *ngIf="content.oneDayIntroTm">{{content.fourDayIntroTm}}</span>
-            <span *ngIf="content.oneDayIntroHi" class="hi">{{content.fourDayIntroHi}}</span>
+            <span *ngIf="content.oneDayIntroEn" [innerHtml]="content.fourDayIntroEn | linebreak"></span>
+            <span *ngIf="content.oneDayIntroTm" [innerHtml]="content.fourDayIntroTm | linebreak"></span>
+            <span *ngIf="content.oneDayIntroHi" class="hi" [innerHtml]="content.fourDayIntroHi | linebreak"></span>
         </div>
 
         <div class="column is-full">
@@ -94,9 +94,9 @@
             </h5>
         </div>
         <div class="column is-full-mobile" data-aos="fade" data-aos-delay="400">
-            <span *ngIf="content.oneDayIntroEn">{{content.fourDayObjEn}}</span>
-            <span *ngIf="content.oneDayIntroTm">{{content.fourDayObjTm}}</span>
-            <span *ngIf="content.oneDayIntroHi" class="hi">{{content.fourDayObjHi}}</span>
+            <span *ngIf="content.oneDayIntroEn" [innerHtml]="content.fourDayObjEn | linebreak"></span>
+            <span *ngIf="content.oneDayIntroTm" [innerHtml]="content.fourDayObjTm | linebreak"></span>
+            <span *ngIf="content.oneDayIntroHi" class="hi" [innerHtml]="content.fourDayObjHi | linebreak"></span>
         </div>
 
         <div class="column is-full center">

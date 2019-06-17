@@ -124,15 +124,9 @@ $videoIconDim: 40px;
                 }
             }
 
-            &.tm {
+            &.hi {
                 &:before {
-                    content: 'சோப்பை\Aபயன்படுத்தி கைகழுவுதல்';
-                    @include translate(-33%, 3px);
-
-                    @include phones {
-                        display: block;
-                        @include translate(8%, 3px);
-                    }
+                    content: 'lkcqu ls gkFk /kksuk';
                 }
             }
         }
@@ -146,9 +140,9 @@ $videoIconDim: 40px;
                 }
             }
 
-            &.tm {
+            &.hi {
                 &:before {
-                    content: 'கழிவறை பயன்படுத்துதல்';
+                    content: "'kkSpky; dk iz;ksx";
                 }
             }
         }

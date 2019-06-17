@@ -76,6 +76,10 @@ section {
             text-transform: uppercase;
         }
 
+        svg {
+            max-width: 90px;
+        }
+
         .hi {
             ::ng-deep p {
                 font-family: Kruti;

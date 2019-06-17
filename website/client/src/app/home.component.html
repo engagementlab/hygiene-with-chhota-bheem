@@ -6,13 +6,14 @@
         </div>
 
         <h4>
-            <app-localized en="Handwashing with soap" tm="சோப்பை பயன்படுத்தி கைகழுவுதல்" hi="lkcqu ls gkFk /kksuk"></app-localized>
+            <app-localized en="Handwashing with soap" tm="சோப்பை பயன்படுத்தி கைகழுவுதல்" hi="lkcqu ls gkFk /kksuk">
+            </app-localized>
         </h4>
         <cdn-image cloudinaryId="art/module1" width="312" phoneWidth="201" svg="true"></cdn-image>
         <br />
 
         <a class="link" (click)="goToModule(1)">
-            <app-localized en="view module" tm="செய்முறை கையேடுவை காண்க" hi="e‚Mîwy ns[ksa"></app-localized>
+            <app-localized en="view module" tm="செய்முறை கையேட்டை காண்க" hi="e‚Mîwy ns[ksa"></app-localized>
         </a>
     </div>
 
@@ -30,7 +31,7 @@
         <br />
 
         <a class="link" (click)="goToModule(2)">
-            <app-localized en="view module" tm="செய்முறை கையேடுவை காண்க" hi="e‚Mîwy ns[ksa"></app-localized>
+            <app-localized en="view module" tm="செய்முறை கையேட்டை காண்க" hi="e‚Mîwy ns[ksa"></app-localized>
         </a>
     </div>
 </section>
@@ -68,9 +69,11 @@
 
         <a class="blue download en" routerLink="/resources/en" queryParamsHandling="merge"
             *ngIf="currentLang === undefined && files">Download<br />Complete Guide</a>
-        <a class="blue download tm" routerLink="/resources/tm" queryParamsHandling="merge" *ngIf="currentLang === 'tm' && files.guideTm">ஒருங்கிணைப்பு
+        <a class="blue download tm" routerLink="/resources/tm" queryParamsHandling="merge"
+            *ngIf="currentLang === 'tm' && files.guideTm">ஒருங்கிணைப்பு
             கையேடு</a>
-        <a class="blue download hi" routerLink="/resources/hi" queryParamsHandling="merge" *ngIf="currentLang === 'hi' && files.guideHi">iwjh xkbM MkmuyksM djsa</a>
+        <a class="blue download hi" routerLink="/resources/hi" queryParamsHandling="merge"
+            *ngIf="currentLang === 'hi' && files.guideHi">iwjh xkbM MkmuyksM djsa</a>
     </div>
 
 </section>
@@ -96,12 +99,15 @@
             <span class="summary" *ngIf="modules[0].summaryTm">{{modules[0].summaryTm}}</span>
             <span class="summary hi" *ngIf="modules[0].summaryHi">{{modules[0].summaryHi}}</span>
 
-            <a *ngIf="currentLang === undefined" class="blue download zip" routerLink="/resources" queryParamsHandling="merge">Download
+            <a *ngIf="currentLang === undefined" class="blue download zip" routerLink="/resources"
+                queryParamsHandling="merge">Download
                 Handwashing<br />with Soap Guide
             </a>
-            <a *ngIf="currentLang === 'tm'" class="blue download zip" routerLink="/resources/tm" queryParamsHandling="merge">கையேடு
+            <a *ngIf="currentLang === 'tm'" class="blue download zip" routerLink="/resources/tm"
+                queryParamsHandling="merge">கையேடு
                 1 பார்க்கவும்</a>
-            <a *ngIf="currentLang === 'hi'" class="hi blue download zip" routerLink="/resources/hi" queryParamsHandling="merge">iwjh xkbM MkmuyksM djsa</a>
+            <a *ngIf="currentLang === 'hi'" class="hi blue download zip" routerLink="/resources/hi"
+                queryParamsHandling="merge">iwjh xkbM MkmuyksM djsa</a>
         </div>
     </div>
 
@@ -160,16 +166,19 @@
         </div>
 
         <div class="description column is-11-tablet is-4-desktop" data-aos="fade-left" data-aos-delay="250">
-            <span class="summary" *ngIf="modules[1].summary">{{modules[1].summary}}</span>
-            <span class="summary" *ngIf="modules[1].summaryTm">{{modules[1].summaryTm}}</span>
-            <span class="summary hi" *ngIf="modules[1].summaryHi">{{modules[1].summaryHi}}</span>
+            <div class="summary" *ngIf="modules[1].summary">{{modules[1].summary}}</div>
+            <div class="summary" *ngIf="modules[1].summaryTm">{{modules[1].summaryTm}}</div>
+            <div class="summary hi" *ngIf="modules[1].summaryHi">{{modules[1].summaryHi}}</div>
 
-            <a *ngIf="currentLang === undefined" class="blue download zip" routerLink="/resources" queryParamsHandling="merge">Download
+            <a *ngIf="currentLang === undefined" class="blue download zip" routerLink="/resources"
+                queryParamsHandling="merge">Download
                 Toilet<br />Use Guide
             </a>
-            <a *ngIf="currentLang === 'tm'" class="blue download zip" routerLink="/resources/tm" queryParamsHandling="merge">கையேடு
+            <a *ngIf="currentLang === 'tm'" class="blue download zip" routerLink="/resources/tm"
+                queryParamsHandling="merge">கையேடு
                 2 பார்க்கவும்</a>
-            <a *ngIf="currentLang === 'hi'" class="hi blue download zip" routerLink="/resources/hi" queryParamsHandling="merge">'kkSpky; iz;ksx dk xkbM MkmuyksM djsa</a>
+            <a *ngIf="currentLang === 'hi'" class="hi blue download zip" routerLink="/resources/hi"
+                queryParamsHandling="merge">'kkSpky; iz;ksx dk xkbM MkmuyksM djsa</a>
         </div>
     </div>
 
@@ -211,17 +220,19 @@
         data-aos="fade-right" data-aos-delay="100">
         <span class="summary">
             <strong>
-                <app-localized en="The Hygiene with Chhota Bheem curriculum has been implemented with proven success across Tamil Nadu, India, and the impact is growing!"
-                    tm="தமிழ்நாட்டில் சோட்டா பீம்மும் சுகாதாரமும் பாடத்திட்டம் வெற்றிகரமாக நடைமுறைபடுத்தபட்டது. இதன் தாக்கம் மேலும் வளர்ச்சியடைந்துகொண்டிருகின்றது. குழந்தைகள் மத்தியில் பெருமளவில் விழிப்புணர்வு ஏற்பட்டு."
+                <app-localized
+                    en="The Hygiene with Chhota Bheem curriculum has been implemented with proven success across Tamil Nadu, India, and the impact is growing!"
+                    tm="தமிழ்நாட்டில் சோட்டா பீம்மும் சுகாதாரமும் பாடத்திட்டம் வெற்றிகரமாக நடைமுறைபடுத்தபட்டது. இதன் தாக்கம் மேலும் வளர்ச்சியடைந்துகொண்டிருகின்றது. குழந்தைகள் மத்தியில் பெருமளவில் விழிப்புணர்வு ஏற்பட்டுள்ளது."
                     hi="NksVk Hkhe vkSj LoPNrk ikBîØe dks Hkkjr ds rfeyukMq 'kgj esa iwjh lQyrk ds lkFk ykxw fd;k x;k gS] vkSj bldk çHkko c<+ jgk gS!">
                 </app-localized>
             </strong>
             <p>
-                <app-localized en="Children have demonstrated increased awareness and advocacy, parents are learning from their children and spreading the message to their communities, and educators are adapting the curriculum to their needs."
+                <app-localized
+                    en="Children have demonstrated increased awareness and advocacy, parents are learning from their children and spreading the message to their communities, and educators are adapting the curriculum to their needs."
                     tm="பெற்றோர்கள் குழந்தைகளிடமிருந்து கற்று கொண்டனர். இந்த பயனுள்ள தகவலை தங்கள் பகுதிகளில் பரப்பினர். கல்வியாளர்கள் இந்த பாடத்திட்டத்தை அவரவர் தேவைக்கேற்ப தங்கள் பள்ளிகளில் இணைத்து கொண்டனர்."
                     hi="cPpksa esa dkQh tkx:drk vkbZ gS vkSj mUgksaus fgnk;rksa dk ikyu fd;k gS] ekrk&firk vius cPpksa ls lh[k jgs gSa] os vius leqnk;ksa esa LoPNrk dk lans'k QSyk jgs gSa] vkSj f'k{kd viuh vko';drkvksa ds vuqlkj ikBîØe dks viuk jgs gSaA">
                 </app-localized>
-                    
+
             </p>
         </span>
 
@@ -241,14 +252,16 @@
 
         <div class="description column is-offset-1 is-5-tablet">
             <h2 data-aos="fade-up" data-aos-delay="100">
-                <app-localized en="Download our Game" tm="ெயலி விளையாட்டை இங்கே பதிவிறக்கம் செய்யவும்" hi="gekjs [ksy dks MkmuyksM djsa"></app-localized>
+                <app-localized en="Download our Game" tm="செயலி விளையாட்டை இங்கே பதிவிறக்கம் செய்யவும்"
+                    hi="gekjs [ksy dks MkmuyksM djsa"></app-localized>
             </h2>
             <div class="column is-half center" data-aos="zoom-out" *ngIf="isPhone">
                 <cdn-image cloudinaryId="art/phone" autoFormat="true" width="300"></cdn-image>
             </div>
 
             <span class="summary" data-aos="fade-left" data-aos-delay="200">
-                <app-localized en="The Hygiene with Chhota Bheem digital game compliments the curriculum. Available on Google Play Store and the Apple app store, the game can be played on smartphones and tablets"
+                <app-localized
+                    en="The Hygiene with Chhota Bheem digital game compliments the curriculum. Available on Google Play Store and the Apple app store, the game can be played on smartphones and tablets"
                     tm="சோட்டா பீம்மும் சுகாதாரமும் என்னும் செயலி விளையாட்டு இந்த பாடத்திட்டத்தில் அன்பளிப்பாக கொடுக்கப்பட்டுள்ளது. இந்த செயலி Google Play Store மற்றும் Apple app store இல் இருந்து பதிவிறக்கம் செய்து கொள்ளலாம்."
                     hi="fMftVy xse NksVk Hkhe vkSj LoPNrk ikBîØe dks csgrj rjhds ls ykxw djus esa enn djrh gSA xqxy Iys LVksj vkSj ,Iiy ,si LVksj ij miyC/k bl [ksy dks LekVZQksu vkSj VScysV ij Hkh [ksyk tk ldrk gSA">
                 </app-localized>
