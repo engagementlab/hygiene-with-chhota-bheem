@@ -22,6 +22,16 @@ $videoIconDim: 40px;
 
         line-height: 1.28;
         letter-spacing: 1px;
+        
+        padding-top: 200px;
+        padding-bottom: 200px;
+
+    @include mobile-only {
+   
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+    }
     }
 
     h4 {
