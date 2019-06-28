@@ -26,12 +26,12 @@ $videoIconDim: 40px;
         padding-top: 200px;
         padding-bottom: 200px;
 
-    @include mobile-only {
-   
-        padding-top: 10px;
-        padding-bottom: 10px;
+        @include mobile-only {
+    
+            padding-top: 10px;
+            padding-bottom: 10px;
 
-    }
+        }
     }
 
     h4 {
