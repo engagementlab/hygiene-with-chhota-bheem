@@ -1,38 +1,48 @@
-<section id="intro" class="columns is-full is-mobile is-multiline-mobile no-margin">
+<section id="intro" class="columns is-centered is-full is-mobile is-multiline">
 
-    <div class="column is-11-mobile is-half-tablet center" data-aos="fade-up">
-        <div class="subheader">
-            <app-localized en="Module 1" tm="செய்முறை கையேடு 1" hi="e‚Mîwy 1"></app-localized>
+    <h3 class="column is-11-mobile is-10-tablet is-7-desktop center" data-aos="fade">
+        <app-localized en="Hygiene with Chhota Bheem is a play-based curriculum designed to raise awareness of and inculcate best practices for health and hygiene among young children."
+            tm="சோட்டா பீம்மும் சுகாதாரமும் என்பது குழந்தைகளுக்கு மத்தியில் சுத்தம் மற்றும் சுகாதாரத்திற்கான சிறந்த விழிப்புணர்வை ஏற்படுத்துவதற்காக வடிவமைக்கப்பட்ட ஒரு விளையாட்டு அடிப்படையிலான பாடத்திட்டமாகும்."
+            hi="NksVk Hkhe vkSj LoPNrk ,d [ksy vk/kkfjr ikBîØe gS] ftldh :ijs[kk NksVs cPpksa esa LokLF; vkSj LoPNrk ds ckjs esa tkx:drk iSnk djus vkSj vPNh vknrsa fodflr djus ds fy, cukbZ xbZ gSA">
+        </app-localized>
+    </h3>
+
+    <div class="columns column is-full is-mobile is-multiline-mobile no-margin center">
+
+        <div class="column is-11-mobile is-half-tablet" data-aos="fade-up">
+            <div class="subheader">
+                <app-localized en="Module 1" tm="செய்முறை கையேடு 1" hi="e‚Mîwy 1"></app-localized>
+            </div>
+            
+            <h4>
+                <app-localized en="Handwashing with soap" tm="சோப்பை பயன்படுத்தி கைகழுவுதல்" hi="lkcqu ls gkFk /kksuk">
+                </app-localized>
+            </h4>
+            <cdn-image cloudinaryId="art/module1" width="312" phoneWidth="201" svg="true"></cdn-image>
+            <br />
+            
+            <a class="link" (click)="goToModule(1)">
+                <app-localized en="view module" tm="செய்முறை கையேட்டை காண்க" hi="e‚Mîwy ns[ksa"></app-localized>
+            </a>
         </div>
 
-        <h4>
-            <app-localized en="Handwashing with soap" tm="சோப்பை பயன்படுத்தி கைகழுவுதல்" hi="lkcqu ls gkFk /kksuk">
-            </app-localized>
-        </h4>
-        <cdn-image cloudinaryId="art/module1" width="312" phoneWidth="201" svg="true"></cdn-image>
-        <br />
-
-        <a class="link" (click)="goToModule(1)">
-            <app-localized en="view module" tm="செய்முறை கையேட்டை காண்க" hi="e‚Mîwy ns[ksa"></app-localized>
-        </a>
-    </div>
-
-    <div class="seperator hidden-mobile" data-aos="fade-down" data-aos-delay="100"></div>
-    <hr class="hidden-tablet-plus" data-aos="fade-up" data-aos-delay="100" />
-
-    <div class="column center is-11-mobile" data-aos="fade-up" data-aos-delay="200">
-        <div class="subheader">
-            <app-localized en="Module 2" tm="செய்முறை கையேடு 2" hi="e‚Mîwy 2"></app-localized>
+        <div class="seperator hidden-mobile" data-aos="fade-down" data-aos-delay="100"></div>
+        <hr class="hidden-tablet-plus" data-aos="fade-up" data-aos-delay="100" />
+    
+        <div class="column center is-11-mobile" data-aos="fade-up" data-aos-delay="200">
+            <div class="subheader">
+                <app-localized en="Module 2" tm="செய்முறை கையேடு 2" hi="e‚Mîwy 2"></app-localized>
+            </div>
+            <h4>
+                <app-localized en="Toilet use" tm="கழிவறை பயன்படுத்துதல்" hi="'kkSpky; dk iz;ksx"></app-localized>
+            </h4>
+            <cdn-image cloudinaryId="art/module2" width="277" svg="true"></cdn-image>
+            <br />
+    
+            <a class="link" (click)="goToModule(2)">
+                <app-localized en="view module" tm="செய்முறை கையேட்டை காண்க" hi="e‚Mîwy ns[ksa"></app-localized>
+            </a>
         </div>
-        <h4>
-            <app-localized en="Toilet use" tm="கழிவறை பயன்படுத்துதல்" hi="'kkSpky; dk iz;ksx"></app-localized>
-        </h4>
-        <cdn-image cloudinaryId="art/module2" width="277" svg="true"></cdn-image>
-        <br />
-
-        <a class="link" (click)="goToModule(2)">
-            <app-localized en="view module" tm="செய்முறை கையேட்டை காண்க" hi="e‚Mîwy ns[ksa"></app-localized>
-        </a>
     </div>
 </section>
 
@@ -51,20 +61,12 @@
     <div class="column is-11-mobile is-5-tablet is-4-desktop" data-aos="fade-left" *ngIf="files">
         <span class="summary">
             <strong>
-                <app-localized en="Hygiene with Chhota Bheem is a play-based curriculum designed to raise awareness of and inculcate best
-                practices for health and hygiene among young children."
-                    tm="சோட்டா பீம்மும் சுகாதாரமும் என்பது குழந்தைகளுக்கு மத்தியில் சுத்தம் மற்றும் சுகாதாரத்திற்கான சிறந்த விழிப்புணர்வை ஏற்படுத்துவதற்காக வடிவமைக்கப்பட்ட ஒரு விளையாட்டு அடிப்படையிலான பாடத்திட்டமாகும்."
-                    hi="NksVk Hkhe vkSj LoPNrk ,d [ksy vk/kkfjr ikBîØe gS] ftldh :ijs[kk NksVs cPpksa esa LokLF; vkSj LoPNrk ds ckjs esa tkx:drk iSnk djus vkSj vPNh vknrsa fodflr djus ds fy, cukbZ xbZ gSA">
-                </app-localized>
-            </strong>
-
-            <p>
                 <app-localized
                     en="Children immerse themselves in the world of Chhota Bheem and play hygiene games, activities, and even a mobile game based on the stories to defeat the fictional Germ Wizard. By completing activities and challenges children develop awareness and good hygiene habits, and join the ‘Bheem Team’ to help defeat the Germ Wizard in their own communities!"
                     tm="குழந்தைகள் சுகாதாரத்தை பேணிக்காப்பதற்கு செய்முறை, விளையாட்டுகள் மூலமாகவும் மற்றும் செயலி விளையாட்டுகள் மூலமாகவும் மேலும் அசுத்த மந்திரவாதியை விரட்டியடிப்பது போன்ற கதைகள் மூலமாகவும்  தங்களை தாங்களே சோட்டா பீமின் உலகத்தில் இணைத்துக்கொள்கின்றனர். இதுபோன்ற விளையாட்டுகளை விளையாடி, சவால்களை எதிர்கொள்ளும்போது சுத்தம் மற்றும் சுகாதாரம் பற்றிய விழிப்புணர்வு ஏற்படுகின்றது. மேலும் பீம் அணியுடன் சேர்ந்து அசுத்த மந்திரவாதியை தங்களது ஊர்களில் விரட்டியடிக்கும் வழிகாட்டியாக இக்கதைகள் விளங்குகின்றன."
                     hi="cPps NksVk Hkhe dh nqfu;k esa [kks tkrs gSa vkSj ,d dkYifud dhVk.kq QSykus okys tknwxj dks ijkftr djus ds fy, dgkfu;ksa ij vk/kkfjr LoPNrk [ksy [ksyrs gSa] xfrfof/k;ka djrs gSa vkSj ;gka rd fd ,d eksckby xse Hkh [ksyrs gSaA xfrfof/k;ksa vkSj pqukSfr;ksa dks iwjk djds cPps tkx:d gksrs gSa] LoPNrk dh vPNh vknrksa dks viukrs gSa] rFkk vius leqnk;ksa esa dhVk.kq QSykus okys tknwxj dks ijkftr djus esa enn djus ds fy, ^Hkhe Vhe^ esa 'kkfey gks tkrs gSa!">
                 </app-localized>
-            </p>
+            </strong>
         </span>
 
         <a class="blue download en" routerLink="/resources/en" queryParamsHandling="merge"

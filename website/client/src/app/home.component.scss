@@ -16,6 +16,14 @@ $videoIconDim: 40px;
         @include pxtoem(12, 14);
     }
 
+    h3 {
+        color: $brownish-red;
+        @include pxtoem(18, 36);
+
+        line-height: 1.28;
+        letter-spacing: 1px;
+    }
+
     h4 {
         margin-top: 1%;
         text-transform: uppercase;
