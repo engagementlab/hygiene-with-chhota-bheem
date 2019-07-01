@@ -5,8 +5,11 @@ footer {
     padding-left: 4%;
     padding-top: 5%;
     
-    #logo {
-        
+    #logos {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
         @include phones {
             margin-top: 10%;
             
