@@ -3,6 +3,7 @@ import { DataService } from '../utils/data.service';
 
 import * as AOS from 'aos';
 import * as ismobile from 'ismobilejs';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-about',
@@ -13,9 +14,12 @@ export class AboutComponent implements OnInit {
 
   public content: any;
   public isPhone: boolean;
+  public videoPlay: boolean;
   public hasContent: boolean;
 
-  constructor(private _dataSvc: DataService) {
+  public videoUrl: SafeResourceUrl;
+
+  constructor(private _dataSvc: DataService, private _santizer: DomSanitizer) {
     this.isPhone = ismobile.phone;
   }
 
@@ -36,6 +40,13 @@ export class AboutComponent implements OnInit {
       duration: 700,
       easing: 'ease-in-out'
     });
+
+  }
+
+  public showVideo() {
+
+   this.videoUrl = this._santizer.bypassSecurityTrustResourceUrl('https://player.vimeo.com/video/' + this.content.videoId + '?color=4a90e2&byline=0&portrait=0');
+   this.videoPlay = true;
 
   }
 }
