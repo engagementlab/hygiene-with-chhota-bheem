@@ -17,12 +17,14 @@ mongoose.Promise = require('bluebird');
 var buildData = (res, lang) => {
 
     let list = keystone.list('About').model;
-    let fields = 'intro para1 para2';
+    let fields = 'intro para1 para2 contact';
     
     if(lang === 'tm')
-        fields = 'introTm para1Tm para2Tm';
+        fields = 'introTm para1Tm para2Tm contactTm';
     else if(lang === 'hi')
-        fields = 'introHi para1Hi para2Hi';
+        fields = 'introHi para1Hi para2Hi contactHi';
+
+    fields += ' image.public_id email videoId videoThumbnail.public_id -_id';
     
     let data = list.findOne({}, fields);
 

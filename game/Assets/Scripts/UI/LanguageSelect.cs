@@ -31,6 +31,8 @@ public class LanguageSelect : MonoBehaviour
         GameConfig.CurrentLanguage = language;
         PlayerPrefs.SetInt("language", language);
         
+        Debug.Log(language);
+        
         Events.instance.Raise (new LanguageChangeEvent());
         
         gameObject.SetActive(false);

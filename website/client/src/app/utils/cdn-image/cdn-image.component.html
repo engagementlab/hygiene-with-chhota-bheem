@@ -28,7 +28,7 @@
         secure="true" [public-id]="imgId" attr.width="auto:breakpoints:{{width}}" 
         sizes="100vw" client_hints="true" attr.alt="{{alt}}" [style]="widthCss" class="cdn-image">
       
-  <cl-transformation crop="scale" dpr="auto" crop="fill"></cl-transformation>
+  <cl-transformation crop="scale" dpr="auto" crop="fill" attr.effect="{{effect}}"></cl-transformation>
 </cl-image>
 
 <!-- Load svg w/ no changes -->

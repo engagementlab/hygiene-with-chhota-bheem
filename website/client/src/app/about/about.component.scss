@@ -9,9 +9,81 @@ section {
 
         margin-top: 10%;
 
+        .subheader {
+            margin-bottom: 6%;
+        }
+
     }
 
-    &#content {
+    #video {
+
+        position: relative;
+        margin: auto;
+
+        cursor: pointer;
+
+        width: 100%;
+
+        
+        span {
+            position: absolute;
+            
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 150px;
+            
+            border-radius: 50%;
+            
+            @include translate(-50%, -50%);
+            @include box-shadow(0, 0, 20px, rgba(0, 0, 0, 0.2));
+
+            @include transition(background-color, .3s, ease-in-out);
+            transform-origin: center;
+            
+            background-color: $dark-sky-blue;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            @include phones {
+                width: 75px;
+                height: 75px;
+                
+                svg {
+                    @include scale(.5);
+                }
+            }
+            svg path {
+                @include transition(stroke, .3s, ease-in-out);
+            }
+        }
+
+        ::ng-deep img {
+            @include transition(filter, .3s, ease-in-out);
+        }        
+        &:hover {
+            ::ng-deep img {
+                @include filter(brightness, 70%);
+            }
+            span {
+            background-color: white;
+            svg path {
+                stroke: $dark-sky-blue;
+            }
+            }
+        }
+    }
+
+    &#contact {
+        a {
+            font-family: 'AvenirBold';
+            color: $french-blue;
+        }
+    }
+
+    &.content {
 
         @include pxtoem(12, 18);
         font-family: 'Avenir';
@@ -49,6 +121,10 @@ section {
 
 .subheader {
     ::ng-deep .hi {
-        @include enlarge();        
+        @include enlarge();
+    }
+
+    &.contact {
+        margin-top: 6%;
     }
 }

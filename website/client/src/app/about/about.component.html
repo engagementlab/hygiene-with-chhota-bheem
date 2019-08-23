@@ -1,17 +1,36 @@
 <div class="column is-center is-9-desktop offset no-pad" *ngIf="hasContent">
-    <section id="intro" class="is-10-mobile is-5-desktop column is-mobile no-margin">
+    <section id="intro" class="is-full columns column is-mobile no-margin is-multiline">
 
-        <div class="subheader" data-aos="fade-up">
+        <div class="is-full column subheader" data-aos="fade-up">
             <app-localized en="About" tm="முகப்பு" hi="ds ckjs esa"></app-localized>
         </div>
 
-        <h4 data-aos="fade-left" data-aos-delay="200">
-            <app-localized en="{{content.intro}}" tm="{{content.introTm}}" hi="{{content.introHi}}"></app-localized>            
-        </h4>
+        <div id="video" class="is-full column" data-aos="fade" data-aos-delay="800" (click)="showVideo()" *ngIf="content.videoId">
 
+            <div id="embed" *ngIf="videoPlay">
+                <div style="padding:56.25% 0 0 0;position:relative;"><iframe [src]="videoUrl"
+                        style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0"
+                        allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+                <script src="https://player.vimeo.com/api/player.js"></script>
+            </div>
+
+            <cdn-image cloudinaryPrefix="/"  cloudinaryId="{{content.videoThumbnail.public_id}}" width="1081"
+                [responsive]="true" autoFormat="true" effect="colorize:50,co_rgb:4a90e2" *ngIf="!videoPlay"></cdn-image>
+            <span class="icon" *ngIf="!videoPlay">
+                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="63" fill="none" viewBox="0 0 56 63">
+                    <path stroke="#fff" stroke-width="2"
+                        d="M53.482 28.744c2.022 1.152 2.022 4.067 0 5.219L5.491 61.306c-2.002 1.14-4.49-.305-4.49-2.61V4.01c0-2.304 2.488-3.75 4.49-2.61l47.991 27.344z" />
+                </svg>
+            </span>
+
+        </div>
+
+        <h4 data-aos="fade-left" data-aos-delay="200" class="is-full-mobile is-9-tablet is-half-desktop column">
+            <app-localized en="{{content.intro}}" tm="{{content.introTm}}" hi="{{content.introHi}}"></app-localized>
+        </h4>
     </section>
 
-    <section id="content" class="columns column is-mobile is-multiline-mobile is-full">
+    <section id="content" class="content columns column is-mobile is-multiline is-full">
 
         <div class="column is-10-mobile is-half-tablet">
 
@@ -19,32 +38,47 @@
             <div data-aos="fade" data-aos-delay="400" *ngIf="content.para1Tm">{{content.para1Tm}}</div>
             <div class="hi" data-aos="fade" data-aos-delay="400" *ngIf="content.para1Hi">{{content.para1Hi}}</div>
 
-            <cdn-image data-aos="fade" data-aos-delay="400" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_1"
-                width="500" autoFormat="true" *ngIf="!isPhone"></cdn-image>
-            <cdn-image data-aos="fade" data-aos-delay="600" data-aos-offset="-200" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_2"
-                width="500" autoFormat="true" *ngIf="!isPhone"></cdn-image>
+        </div>
 
-            <cdn-image data-aos="fade" data-aos-delay="400" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_3"
-                width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
-            <cdn-image data-aos="fade" data-aos-delay="600" data-aos-offset="-200" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_4"
-                width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
+        <div class="column is-10-mobile">
+
+            <div data-aos="fade" data-aos-delay="600" *ngIf="content.para2">{{content.para2}}</div>
+            <div data-aos="fade" data-aos-delay="600" *ngIf="content.para2Tm">{{content.para2Tm}}</div>
+            <div class="hi" data-aos="fade" data-aos-delay="600" *ngIf="content.para2Hi">{{content.para2Hi}}</div>
 
         </div>
-        <div class="column is-10-mobile is-half-tablet">
+        <div class="column is-10-mobile is-full-tablet">
 
-            <cdn-image id="top" data-aos="fade" data-aos-delay="400" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_3"
-                width="500" autoFormat="true" class="no-margin" *ngIf="!isPhone"></cdn-image>
-            <cdn-image id="bottom" data-aos="fade" data-aos-delay="600" data-aos-offset="-200" cloudinaryPrefix="/"
-                cloudinaryId="chhota-bheem/photos/about_4" width="500" autoFormat="true" *ngIf="!isPhone"></cdn-image>
- 
-            <div data-aos="fade" data-aos-delay="400" *ngIf="content.para2">{{content.para2}}</div>
-            <div data-aos="fade" data-aos-delay="400" *ngIf="content.para2Tm">{{content.para2Tm}}</div>
-            <div class="hi" data-aos="fade" data-aos-delay="400" *ngIf="content.para2Hi">{{content.para2Hi}}</div>
+            <cdn-image data-aos="fade" data-aos-offset="-300" cloudinaryPrefix="/"
+                cloudinaryId="{{content.image.public_id}}" width="1080" autoFormat="true" [responsive]="true">
+            </cdn-image>
 
-            <cdn-image data-aos="fade" data-aos-delay="400" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_1"
-                width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
-            <cdn-image data-aos="fade" data-aos-delay="600" cloudinaryPrefix="/" cloudinaryId="chhota-bheem/photos/about_2"
-                width="300" autoFormat="true" *ngIf="isPhone"></cdn-image>
         </div>
+
+    </section>
+
+    <section class="columns column">
+
+        <div class="is-full column subheader contact" data-aos="fade-up">
+            <app-localized en="Contact Us" tm="எங்களை தொடர்பு கொள்ள" hi="laidZ djsa"></app-localized>
+        </div>
+
+    </section>
+
+    <section id="contact" class="content is-full columns is-mobile no-margin is-multiline" data-aos="fade"
+        data-aos-delay="400">
+
+        <div class="column is-full-mobile is-half-tablet">
+
+            <div *ngIf="content.para1">{{content.contact}}</div>
+            <div *ngIf="content.para1Tm">{{content.contactTm}}</div>
+            <div class="hi" *ngIf="content.para1Hi">{{content.contactHi}}</div>
+
+        </div>
+
+        <div class="column is-full">
+            <a href="mailto:{{content.email}}">{{content.email}}</a>
+        </div>
+
     </section>
 </div>
