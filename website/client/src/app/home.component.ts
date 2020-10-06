@@ -5,7 +5,8 @@ import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 
 import * as AOS from 'aos';
 import * as _ from 'underscore';
-import * as ismobile from 'ismobilejs';
+
+import isMobile from 'ismobilejs';
 
 @Component({
   selector: 'app-home',
@@ -20,22 +21,20 @@ export class HomeComponent implements OnInit {
   public currentLang: string;
   
   constructor(private _dataSvc: DataService, private _scrollToSvc: ScrollToService) {
-    this.isPhone = ismobile.phone;    
+    this.isPhone = isMobile(window.navigator.userAgent).phone;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.currentLang = this._dataSvc.currentLang.value;
     this._dataSvc.currentLang.subscribe((val) => {
       this.currentLang = val;
     });
 
-    this._dataSvc.getDataForUrl('homepage/get/').subscribe(response => {
+    const response = await this._dataSvc.getDataForUrl('homepage/get/');
 
-      this.modules = response.content;
-      this.files = response.files;
-
-    });
+      this.modules = response['content'];
+      this.files = response['files'];
 
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../utils/data.service';
 
 import * as AOS from 'aos';
-import * as ismobile from 'ismobilejs';
+import isMobile from 'ismobilejs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -20,17 +20,14 @@ export class AboutComponent implements OnInit {
   public videoUrl: SafeResourceUrl;
 
   constructor(private _dataSvc: DataService, private _santizer: DomSanitizer) {
-    this.isPhone = ismobile.phone;
+    this.isPhone = isMobile(window.navigator.userAgent).phone;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
-    this._dataSvc.getDataForUrl('about/get/').subscribe(response => {
-
+    const response = await this._dataSvc.getDataForUrl('about/get/');
       this.content = response;
       this.hasContent = true;
-
-    });
 
   }
 

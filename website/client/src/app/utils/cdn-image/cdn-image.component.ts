@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
-import * as ismobile from 'ismobilejs';
+import isMobile from 'ismobilejs';
 
 @Component({
   selector: 'cdn-image',
@@ -33,7 +33,7 @@ export class CdnImageComponent implements OnInit {
 
   constructor(private _sanitizer: DomSanitizer) {
 
-    this.isPhone = ismobile.phone;
+    this.isPhone = isMobile(window.navigator.userAgent).phone;
 
   }
   

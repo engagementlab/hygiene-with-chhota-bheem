@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../utils/data.service';
 
 import * as AOS from 'aos';
-import * as ismobile from 'ismobilejs';
+import isMobile from 'ismobilejs';
 
 @Component({
   selector: 'app-stories-index',
@@ -11,24 +11,23 @@ import * as ismobile from 'ismobilejs';
 })
 export class StoryIndexComponent implements OnInit {
   
-  public content: any[];
+  public content: unknown;
   public hasContent: boolean;
   public isPhone: boolean;
   
   constructor(private _dataSvc: DataService) {
     
-    this.isPhone = ismobile.phone;
+    this.isPhone = isMobile(window.navigator.userAgent).phone;
     
   }
   
-  ngOnInit() {
+  async ngOnInit() {
     
-    this._dataSvc.getDataForUrl('stories/get/').subscribe(response => {
+    const response = await this._dataSvc.getDataForUrl('stories/get/');
       
       this.content = response;
       this.hasContent = true;
-      
-    });
+    
 
   }
 

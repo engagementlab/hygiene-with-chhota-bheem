@@ -32,6 +32,7 @@ import { ResourcesComponent } from './resources/resources.component';
 
 import { LocalizedComponent } from './utils/localized/localized.component';
 import { LinebreakPipe } from './utils/linebreak.pipe';
+import { ScullyLibModule } from '@scullyio/ng-lib';
 
 export const cloudinary = {
   Cloudinary: CloudinaryCore
@@ -73,7 +74,8 @@ export const routes: Routes = [
     CloudinaryModule.forRoot(cloudinary, config),
     HttpClientModule,
     RouterModule.forRoot(routes),
-    ScrollToModule.forRoot()
+    ScrollToModule.forRoot(),
+    ScullyLibModule
   ],
   providers: [
     DataService,

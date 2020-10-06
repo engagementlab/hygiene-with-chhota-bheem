@@ -61,6 +61,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     // Catch language change
     this._route.queryParams.subscribe(params => {
+
+      console.log('params',params)
     
       if(params['tm'] !== undefined) 
         this._dataSvc.currentLang.next('tm');
