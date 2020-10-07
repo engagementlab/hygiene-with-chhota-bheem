@@ -18,14 +18,14 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
 
   constructor(private _dataSvc: DataService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
   
     this.useHindi = this._dataSvc.currentLang.value === 'hi';
     this._dataSvc.currentLang.subscribe((val) => {
       this.useHindi = val === 'hi';
     });
 
-    this._dataSvc.getDataForUrl('workshops/get/').subscribe(response => {
+    const response = await this._dataSvc.getDataForUrl('workshops/get/');
 
       this.content = response;
       this.hasContent = true;
@@ -35,8 +35,6 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
       
       this.content['story1'] = this.content['story1En'] || this.content['story1Tm'] || this.content['story1Hi'];
       this.content['story2'] = this.content['story2En'] || this.content['story2Tm'] || this.content['story2Hi'];
-
-    });
 
   }
 

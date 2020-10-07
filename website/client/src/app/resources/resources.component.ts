@@ -20,10 +20,9 @@ export class ResourcesComponent implements OnInit {
   public languages: any[] = new Array();
 
   constructor(private _dataSvc: DataService, private _scrollToService: ScrollToService, private _route: ActivatedRoute) { }
+  async ngOnInit() {
 
-  ngOnInit() {
- 
-  this._dataSvc.getDataForUrl('resources/get/').subscribe(response => {
+    const response = await this._dataSvc.getDataForUrl('resources/get/');
     
     this.languages[0] = {};
     this.languages[1] = {};
@@ -37,8 +36,7 @@ export class ResourcesComponent implements OnInit {
     _.each(tm, (v, k) => { this.languages[1][k.replace('Tm', '')] = v; })
     _.each(hi, (v, k) => { this.languages[2][k.replace('Hi', '')] = v; })
     
-      this.hasContent = true;
-    });
+    this.hasContent = true;
     
   }
 

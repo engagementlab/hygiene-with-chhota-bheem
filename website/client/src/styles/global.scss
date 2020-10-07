@@ -1,5 +1,8 @@
 // Bulma framework
 $tablet: 768px;
+@import "~bulma/sass/utilities/functions";
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/derived-variables";
 @import "~bulma/sass/utilities/mixins";
 @import "~bulma/sass/grid/columns";
 @import "~bulma/sass/elements/container";
@@ -208,17 +211,19 @@ hr {
     text-align: center;
 }
 
+/* clean-css ignore:start */
 .hi {
     font-family: Kruti;
     text-transform: none;
     letter-spacing: 0;
     
-    ::ng-deep p, span, strong { 
+    p, span, strong { 
         font-family: Kruti;
         text-transform: none;
         letter-spacing: 0;
     }
 }
+/* clean-css ignore:end */
 
 // Other styles
 #intro {

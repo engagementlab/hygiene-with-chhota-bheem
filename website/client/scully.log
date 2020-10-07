@@ -1,0 +1,267 @@
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/stories/:key[39m" found. SkippingNo configuration for route "[33m/resources/:lang[39m" found. Skipping
+
+Cleaned up ./dist/static folder.
+ The router plugin "[33mstories[39m has thrown the below error,
+              while trying to render route "[33munknown[39m"
+              Scully will exitTypeError: Cannot read property 'key' of undefined
+
+Cleaned up ./dist/static folder.
+ The router plugin "[33mstories[39m has thrown the below error,
+              while trying to render route "[33munknown[39m"
+              Scully will exitTypeError: Cannot read property 'key' of undefined
+
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+ The router plugin "[33mstories[39m has thrown the below error,
+              while trying to render route "[33munknown[39m"
+              Scully will exitTypeError: Cannot read property 'forEach' of undefined
+
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+The route "[33m/stories/whatsapp-group?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group[39m"The route "[33m/stories/kamakshi?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi[39m"The route "[33m/stories/kamakshi?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi[39m"The route "[33m/stories/students-from-adwps?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps[39m"The route "[33m/stories/panchayat-union-primary-school?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school[39m"The route "[33m/stories/adidravidar-welfare-primary-school?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school[39m"The route "[33m/stories/adidravidar-welfare-primary-school?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school[39m"The route "[33m/stories/j-revathi?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi[39m"The route "[33m/stories/j-revathi?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi[39m"The route "[33m/stories/j-selvarani?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani[39m"The route "[33m/stories/j-selvarani?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani[39m"The route "[33m/stories/santhoshini?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini[39m"The route "[33m/stories/santhoshini?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini[39m"The route "[33m/stories/femi?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi[39m"The route "[33m/stories/femi?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi[39m"The route "[33m/stories/suman?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman[39m"The route "[33m/stories/suman?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman[39m"No configuration for route "[33m/resources/:lang[39m" found. SkippingThe route "[33m/stories/students-from-adwps?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps[39m"The route "[33m/stories/panchayat-union-primary-school?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school[39m"The route "[33m/stories/whatsapp-group?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group[39m"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/stories/:key[39m" found. SkippingNo configuration for route "[33m/resources/:lang[39m" found. Skipping
+
+Cleaned up ./dist/static folder.
+The route "[33m/stories/whatsapp-group/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group/[39m"The route "[33m/stories/kamakshi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi/[39m"The route "[33m/stories/students-from-adwps/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps/[39m"The route "[33m/stories/panchayat-union-primary-school/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school/[39m"The route "[33m/stories/panchayat-union-primary-school/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school/[39m"The route "[33m/stories/adidravidar-welfare-primary-school/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school/[39m"The route "[33m/stories/adidravidar-welfare-primary-school/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school/[39m"The route "[33m/stories/j-revathi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi/[39m"The route "[33m/stories/j-revathi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi/[39m"The route "[33m/stories/j-selvarani/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani/[39m"The route "[33m/stories/j-selvarani/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani/[39m"The route "[33m/stories/santhoshini/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini/[39m"The route "[33m/stories/santhoshini/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini/[39m"The route "[33m/stories/femi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi/[39m"The route "[33m/stories/femi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi/[39m"The route "[33m/stories/suman/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman/[39m"The route "[33m/stories/suman/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman/[39m"No configuration for route "[33m/resources/:lang[39m" found. SkippingThe route "[33m/stories/whatsapp-group/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group/[39m"The route "[33m/stories/students-from-adwps/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps/[39m"The route "[33m/stories/kamakshi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi/[39m"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cleaned up ./dist/static folder.
+The route "[33m/stories/whatsapp-group/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group/[39m"The route "[33m/stories/whatsapp-group/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group/[39m"The route "[33m/stories/students-from-adwps/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps/[39m"The route "[33m/stories/panchayat-union-primary-school/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school/[39m"The route "[33m/stories/panchayat-union-primary-school/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school/[39m"The route "[33m/stories/adidravidar-welfare-primary-school/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school/[39m"The route "[33m/stories/adidravidar-welfare-primary-school/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school/[39m"The route "[33m/stories/j-revathi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi/[39m"The route "[33m/stories/j-revathi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi/[39m"The route "[33m/stories/j-selvarani/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani/[39m"The route "[33m/stories/j-selvarani/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani/[39m"The route "[33m/stories/santhoshini/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini/[39m"The route "[33m/stories/santhoshini/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini/[39m"The route "[33m/stories/femi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi/[39m"The route "[33m/stories/femi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi/[39m"The route "[33m/stories/kamakshi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi/[39m"The route "[33m/stories/suman/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman/[39m"No configuration for route "[33m/resources/:lang[39m" found. SkippingThe route "[33m/stories/kamakshi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi/[39m"The route "[33m/stories/students-from-adwps/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps/[39m"The route "[33m/stories/suman/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman/[39m"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cleaned up ./dist/static folder.
+The route "[33m/stories/whatsapp-group/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group/[39m"The route "[33m/stories/whatsapp-group/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group/[39m"The route "[33m/stories/kamakshi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi/[39m"The route "[33m/stories/kamakshi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi/[39m"The route "[33m/stories/students-from-adwps/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps/[39m"The route "[33m/stories/students-from-adwps/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps/[39m"The route "[33m/stories/panchayat-union-primary-school/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school/[39m"The route "[33m/stories/panchayat-union-primary-school/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school/[39m"The route "[33m/stories/adidravidar-welfare-primary-school/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school/[39m"The route "[33m/stories/adidravidar-welfare-primary-school/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school/[39m"The route "[33m/stories/j-revathi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi/[39m"The route "[33m/stories/j-revathi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi/[39m"The route "[33m/stories/j-selvarani/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani/[39m"The route "[33m/stories/j-selvarani/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani/[39m"The route "[33m/stories/santhoshini/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini/[39m"The route "[33m/stories/suman/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman/[39m"The route "[33m/stories/suman/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman/[39m"The route "[33m/stories/femi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi/[39m"The route "[33m/stories/santhoshini/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini/[39m"No configuration for route "[33m/resources/:lang[39m" found. SkippingThe route "[33m/stories/femi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi/[39m"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+The route "[33m/stories/whatsapp-group/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group/[39m"The route "[33m/stories/whatsapp-group/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/whatsapp-group/[39m"The route "[33m/stories/students-from-adwps/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps/[39m"The route "[33m/stories/panchayat-union-primary-school/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school/[39m"The route "[33m/stories/panchayat-union-primary-school/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/panchayat-union-primary-school/[39m"The route "[33m/stories/adidravidar-welfare-primary-school/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school/[39m"The route "[33m/stories/adidravidar-welfare-primary-school/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/adidravidar-welfare-primary-school/[39m"The route "[33m/stories/j-revathi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi/[39m"The route "[33m/stories/j-revathi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-revathi/[39m"The route "[33m/stories/j-selvarani/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani/[39m"The route "[33m/stories/j-selvarani/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/j-selvarani/[39m"The route "[33m/stories/santhoshini/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini/[39m"The route "[33m/stories/santhoshini/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/santhoshini/[39m"The route "[33m/stories/femi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi/[39m"The route "[33m/stories/femi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/femi/[39m"The route "[33m/stories/suman/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman/[39m"The route "[33m/stories/suman/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/suman/[39m"No configuration for route "[33m/resources/:lang[39m" found. SkippingThe route "[33m/stories/kamakshi/?hi=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi/[39m"The route "[33m/stories/students-from-adwps/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/students-from-adwps/[39m"The route "[33m/stories/kamakshi/?tm=[39m" contains a search param, this will be ignored during rendering. it will be truncated to:
+  "[33m/stories/kamakshi/[39m"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/stories/:key[39m" found. SkippingNo configuration for route "[33m/resources/:lang[39m" found. Skipping
+
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+No configuration for route "[33m/resources/:lang[39m" found. Skipping
+Cleaned up ./dist/static folder.
+Cleaned up ./dist/static folder.

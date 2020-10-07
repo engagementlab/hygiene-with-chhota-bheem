@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../utils/data.service';
 
 import * as AOS from 'aos';
-import * as ismobile from 'ismobilejs';
+import isMobile from 'ismobilejs';
 
 @Component({
   selector: 'app-story',
@@ -21,14 +21,13 @@ export class StoryComponent implements OnInit {
   
   constructor(private _dataSvc: DataService, private _route: ActivatedRoute) {
     
-    this.isPhone = ismobile.phone;
+    this.isPhone = isMobile(window.navigator.userAgent).phone;
     
   }
   
   ngOnInit() {
-    
 
-    this._route.params.subscribe(params => {
+    this._route.params.subscribe(async params => {
 
       // Force content reset
       this.content = undefined;
@@ -36,14 +35,11 @@ export class StoryComponent implements OnInit {
       this.prev = undefined;
       this.hasContent = false;
       
-      this._dataSvc.getDataForUrl('stories/get/', 'id=' + params['key']).subscribe(response => {
-        
-        this.content = response.person;
-        this.next = response.next;
-        this.prev = response.prev;
+    const response = await this._dataSvc.getDataForUrl('stories/get/', `id=${params['key']}`);
+        this.content = response['person'];
+        this.next = response['next'];
+        this.prev = response['prev'];
         this.hasContent = true;
-        
-      });
     });
 
   }
