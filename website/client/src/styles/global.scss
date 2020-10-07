@@ -211,17 +211,19 @@ hr {
     text-align: center;
 }
 
+/* clean-css ignore:start */
 .hi {
     font-family: Kruti;
     text-transform: none;
     letter-spacing: 0;
     
-    ::ng-deep p, span, strong { 
+    p, span, strong { 
         font-family: Kruti;
         text-transform: none;
         letter-spacing: 0;
     }
 }
+/* clean-css ignore:end */
 
 // Other styles
 #intro {

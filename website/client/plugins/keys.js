@@ -28,15 +28,15 @@ const stories = async (route, config) => {
 };
 
 const validator = async (config) => [];
-registerPlugin('router', 'home',  async (route, config) => {
-    return Promise.resolve({
-        route: '/'
+registerPlugin('router', 'resources',  async (route, config) => {
+    return Promise.resolve([{
+        route: '/resources/'
     },
     {
-        route: '/?tm='
+        route: '/resources/tm'
     },
     {
-        route: '/?hi='
-    });
+        route: '/resources/hi'
+    }]);
 }, validator);
 registerPlugin('router', 'stories', stories, validator);

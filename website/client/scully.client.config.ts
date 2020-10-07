@@ -6,8 +6,12 @@ export const config: ScullyConfig = {
   projectName: "client",
   outDir: './dist/static',
   routes: {
-      '/stories/:key/:lang': {
+      '/stories/:key': {
           type: 'stories',
       },
+      '/resources/:lang': {
+          type: 'resources',
+      },
   },
+  inlineStateOnly: true,
 };

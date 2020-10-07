@@ -55,20 +55,10 @@ export class DataService {
     this.serverProblem.next(false);
 
     let url = this.baseUrl + urlParam;
-      
-  //   if(this.currentLang.value === undefined)
-  //   url += 'en'
-  // else if(this.currentLang.value === 'tm')
-  //   url += 'tm'
-  // else if(this.currentLang.value === 'hi')
-  //   url += 'hi'
-
-    //  url += '?'+query;
 
     // If scully is building or dev build, cache data from content API in transferstate
     if (!isScullyGenerated()) {
         const content = new Promise < unknown > ((resolve, reject) => {
-
 
             this.http.get(`${url}hi?${query}`).toPromise().then(res => {
                 // Cache hindi result in state
@@ -78,9 +68,9 @@ export class DataService {
                     // Cache tamil result in state
                     this.transferState.setState(`${urlParam}tm?${query}`, res);
 
-                    return this.http.get(url).toPromise().then(resEn => {
+                    return this.http.get(`${url}en?${query}`).toPromise().then(resEn => {
                             // Cache result in state
-                            this.transferState.setState(urlParam + query + this.currentLang.value, resEn);
+                            this.transferState.setState(urlParam + 'en?' + query, resEn);
                             resolve(resEn['data']);
                             return resEn['data'];
                         })
@@ -96,17 +86,21 @@ export class DataService {
         return content;
     } else {
       
-      console.log('get state', `${urlParam}${this.currentLang.value}${query}`)
+      let lang = this.currentLang.value;
+      if(lang === undefined)
+        lang = 'en';
+      
+      console.log('get state', `${urlParam}${lang}?${query}`)
       // Get cached state for this key
       const state = new Promise<unknown[]>((resolve, reject) => {
         try {
           this.transferState
-          .getState < unknown[] > (`${urlParam}${this.currentLang.value}?${query}`)
+          .getState < unknown[] > (`${urlParam}${lang}?${query}`)
           .subscribe(res => {
-            console.log('res',res)
+            if(res) {
             resolve(res['data'])
-              return res['data'];
-            });
+            return res['data'];
+          }});
         } catch (error) {
           this.isLoading.next(false);
         }
