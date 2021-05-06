@@ -51,7 +51,7 @@
     "rxjs-compat": "^6.6.3",
     "tiny-slider": "^2.9.3",
     "tslib": "^2.0.1",
-    "underscore": "^1.11.0",
+    "underscore": "^1.12.1",
     "zone.js": "~0.11.1"
   },
   "devDependencies": {
