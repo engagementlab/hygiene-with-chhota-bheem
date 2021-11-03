@@ -19,7 +19,7 @@
     "i": "^0.3.6",
     "keystone-storage-adapter-azure": "^1.1.0",
     "mongoose": "^5.4.7",
-    "validator": "^10.9.0",
+    "validator": "^13.7.0",
     "underscore": "^1.9.1"
   }
 }
