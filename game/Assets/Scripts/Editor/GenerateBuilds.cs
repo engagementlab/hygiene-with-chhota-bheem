@@ -1,7 +1,7 @@
 ﻿/* 
 
 Hygiene With Chhota Bheem
-Created by Engagement Lab @ Emerson College, 2017-2019
+Created by Engagement Lab @ Emerson College, 2017
 
 ==============
 	GenerateBuilds.cs
@@ -151,10 +151,12 @@ class GenerateBuilds {
         else if(platform == "Android")
             name = AppName + ".apk";        
 
+//        SetIcons (buildTarget);
+
         BuildReport res = BuildPipeline.BuildPlayer(FindEnabledScenes(platform), TargetDir + "/" + platform + "/" + name, buildTarget, _buildOptions);
 
         if (res.summary.totalErrors > 0)
-            throw new Exception("BuildPlayer failure: " + res);
+            throw new Exception("BuildPlayer failure: ");
 
         // Reset define symbols for all groups
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, null);

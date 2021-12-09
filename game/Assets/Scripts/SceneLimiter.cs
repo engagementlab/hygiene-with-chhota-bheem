@@ -6,6 +6,7 @@ public class SceneLimiter : MonoBehaviour {
 	private void OnTriggerExit(Collider other)
 	{
 		var archetypeMove = other.GetComponent<ArchetypeMove>();
-		archetypeMove?.DestroyObject();
+		if(archetypeMove != null)
+			archetypeMove.DestroyObject();
 	}
 }

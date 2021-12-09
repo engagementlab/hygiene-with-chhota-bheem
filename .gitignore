@@ -451,3 +451,5 @@ website/server/node_modules/
 website/server/.env
 game/bin
 game/_certs
+game/Library
+game/Temp
