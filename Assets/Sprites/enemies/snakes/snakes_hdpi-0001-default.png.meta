@@ -1,0 +1,277 @@
+fileFormatVersion: 2
+guid: a1ef565ef4b4141b7856ff0c6fa5a9d8
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: snakes_hdpi-0001-default_0
+    21300002: snakes_hdpi-0001-default_1
+    21300004: snakes_hdpi-0001-default_2
+    21300006: snakes_hdpi-0001-default_3
+    21300008: snakes_hdpi-0001-default_4
+    21300010: snakes_hdpi-0001-default_5
+    21300012: snakes_hdpi-0001-default_6
+    21300014: snakes_hdpi-0001-default_7
+    21300016: snakes_hdpi-0001-default_8
+    21300018: snakes_hdpi-0001-default_9
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 1
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 2
+    aniso: 0
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: 12
+    textureCompression: 1
+    compressionQuality: 100
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 24
+        width: 96
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_1
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 24
+        width: 83
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_2
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 24
+        width: 70
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_3
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 24
+        width: 70
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_4
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 24
+        width: 85
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_5
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 24
+        width: 96
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_6
+      rect:
+        serializedVersion: 2
+        x: 618
+        y: 24
+        width: 85
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_7
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 24
+        width: 70
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_8
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 24
+        width: 70
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: snakes_hdpi-0001-default_9
+      rect:
+        serializedVersion: 2
+        x: 916
+        y: 24
+        width: 83
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline:
+    - - {x: 0, y: 218}
+      - {x: -146.49333, y: 208.31487}
+      - {x: -279.9701, y: 180.12004}
+      - {x: -388.57025, y: 135.92078}
+      - {x: -462.64426, y: 79.64433}
+      - {x: -495.6103, y: 16.29114}
+      - {x: -484.53915, y: -48.509594}
+      - {x: -430.4146, y: -109.000015}
+      - {x: -338.04584, y: -159.80533}
+      - {x: -215.64015, y: -196.41122}
+      - {x: -74.07391, y: -215.56512}
+      - {x: 74.07412, y: -215.56511}
+      - {x: 215.64035, y: -196.41118}
+      - {x: 338.04596, y: -159.80527}
+      - {x: 430.41464, y: -108.99998}
+      - {x: 484.53915, y: -48.50958}
+      - {x: 495.6103, y: 16.291101}
+      - {x: 462.64435, y: 79.64425}
+      - {x: 388.57047, y: 135.92065}
+      - {x: 279.97043, y: 180.11995}
+      - {x: 146.49382, y: 208.3148}
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
