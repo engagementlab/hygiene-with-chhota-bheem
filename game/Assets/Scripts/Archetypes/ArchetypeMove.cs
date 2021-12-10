@@ -340,13 +340,17 @@ public class ArchetypeMove : MonoBehaviour
 			  _playerScript.Killed = killed;
 			  _playerScript.BeginPlayerHit(false);
 			  
+				#if UNITY_IOS || UNITY_ANDROID
 			  Handheld.Vibrate();
+				#endif
 			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.ObstacleSound));
 		  }
 		  // Obstacle does not kill
 		  else
 		  {
+			  #if UNITY_IOS || UNITY_ANDROID
 			  Handheld.Vibrate();
+				#endif
 			  Events.instance.Raise(SoundEvent.WithClip(_playerScript.ObstacleSound));
 		  }
 

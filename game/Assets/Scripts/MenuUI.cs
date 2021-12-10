@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Advertisements;
 using UnityEngine.UI;
 
 #if UNITY_ADS
@@ -323,6 +324,14 @@ public class MenuUI : MonoBehaviour
 	{
 		InterstitialsParent.GetComponent<CanvasGroup>().alpha = alpha;
 	}
+
+	private void AdEnded(ShowResult result)
+	{
+		
+		GameConfig.Reset();
+		Events.instance.Raise(new LoadLevelEvent(""));
+		
+	}
 	
 	public void HideButton(GameObject button)
 	{
@@ -331,8 +340,11 @@ public class MenuUI : MonoBehaviour
 
 	public void OpenLevel()
 	{
-		GameConfig.Reset();
-		Events.instance.Raise(new LoadLevelEvent(""));
+		if (Advertisement.IsReady())
+		{
+			var options = new ShowOptions { resultCallback = AdEnded };
+			Advertisement.Show(options);
+		}
 	}
 
 	public void Volume(float volume)
