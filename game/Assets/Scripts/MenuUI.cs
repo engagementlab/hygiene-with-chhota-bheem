@@ -111,7 +111,7 @@ public class MenuUI : MonoBehaviour
 		_levelsChapterTitles = _levelsTitle.GetComponentsInChildren<Image>(true);
 		_levelButtons = Levels.transform.Find("Select").GetComponentsInChildren<Button>();
 		_interstitialsBack = InterstitialsParent.transform.Find("BackButton").gameObject;
-		
+
 		// Set toggles and sliders to player pref settings
 		_soundToggle.isOn = PlayerPrefs.GetInt("sound") == 1;
 		_musicToggle.isOn = PlayerPrefs.GetInt("music") == 1;
@@ -120,7 +120,6 @@ public class MenuUI : MonoBehaviour
 		_buttonsDisabled = false;		
 		_chaptersBack.GetComponent<Transform>().localScale = Vector3.zero;
 
-		
 		// Reset		
 		GameConfig.Score = 0;
 		GameConfig.Reset();
@@ -351,6 +350,7 @@ public class MenuUI : MonoBehaviour
 
 	public void Sound()
 	{
+	
 		GameConfig.SoundOn = _soundToggle.isOn;
 		GameConfig.UpdatePrefs("sound", GameConfig.SoundOn ? 1 : 0);
 		GameSound.mute = !GameConfig.SoundOn;
