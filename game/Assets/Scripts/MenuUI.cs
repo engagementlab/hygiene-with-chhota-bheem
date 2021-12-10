@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+#if UNITY_ADS
+using UnityEngine.Advertisements;
+#endif
+
 public class MenuUI : MonoBehaviour
 {
 
@@ -245,7 +249,6 @@ public class MenuUI : MonoBehaviour
 					_levelsChapterTitles[i].gameObject.SetActive(false);
 			}
 		}
-
 		
 		Levels.SetActive(true);
 		_levelsTitle.SetActive(true);
@@ -330,7 +333,6 @@ public class MenuUI : MonoBehaviour
 	public void OpenLevel()
 	{
 		GameConfig.Reset();
-//		GameConfig.LoadLevel();
 		Events.instance.Raise(new LoadLevelEvent(""));
 	}
 
@@ -343,8 +345,6 @@ public class MenuUI : MonoBehaviour
 		GameConfig.GlobalVolume = volume;
 		GameConfig.UpdatePrefs("volume", null, volume);
 
-		Debug.Log("Change volume: " + volume);
-		
 		_audioControl.UpdateVolume(volume);
 		
 	}
